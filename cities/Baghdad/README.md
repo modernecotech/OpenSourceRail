@@ -2,13 +2,13 @@
 
 ## Current metropolitan rail network
 
-This is one connected planning network for Baghdad. It joins the Airport and central routes to the lines serving the outer districts. Every displayed rail line has an end-to-end path. Transfers are shown at proposed interchange stations. The map also shows where the network leaves residents more than a 1,200 m walk from a station.
+This is one connected planning network for Baghdad. It joins the Airport and central routes to the lines serving the outer districts. The bold routes run directly across gaps in the earlier network. They connect to other lines at both termini, with intermediate interchanges where station locations permit them. The map also shows where residents remain more than a 1.2 km street walk from a station.
 
 [![One connected map of Baghdad’s railway, station interchanges and walking-access gaps](maps/baghdad-network.png)](maps/baghdad-network.png)
 
 [Full-size network map](maps/baghdad-network.png) · [Route, station and transfer GIS](maps/baghdad-network.geojson) · [Network logic, coverage and line termini](NETWORK.md)
 
-The map uses a deterministic route and station check. The underlying cost, train and construction studies below retain the earlier geometry they priced. The connected network needs its own timetable and estimate.
+The generator checks the new alignments and ranks them by how many more people can reach a station within 1.2 km per kilometre of added route. The underlying cost, train and construction studies below retain the earlier geometry they priced. The connected network needs its own timetable and estimate.
 
 For civil budgeting and supplier enquiries, start with the **20 m shared-pier
 delivery programme**. It recalculates the standard girders, foundations,

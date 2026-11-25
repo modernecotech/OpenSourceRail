@@ -102,14 +102,16 @@ def opportunities(network, population, existing, graph, step_m, spacing_m, conte
     return result
 
 
-def rank_stations(candidates, population_counts, existing, spacing_m, max_infill):
+def rank_stations(candidates, population_counts, existing, spacing_m, max_infill, *, primary_m=800):
     """Greedy marginal population gain with deterministic tie breaks and spacing."""
+    primary = WALK_M.index(primary_m)
     included = {}
     covered = [existing <= limit for limit in WALK_M]
 
     def value(candidate):
-        return tuple(round(float(population_counts[pixels[~current[pixels]]].sum()), 6)
+        gains = tuple(round(float(population_counts[pixels[~current[pixels]]].sum()), 6)
                      for pixels, current in zip((candidate.within_800, candidate.within_1200), covered, strict=True))
+        return gains if primary == 0 else gains[::-1]
 
     queue = []
     for i, candidate in enumerate(candidates):
@@ -131,11 +133,12 @@ def rank_stations(candidates, population_counts, existing, spacing_m, max_infill
             continue
         for pixels, current in zip((candidate.within_800, candidate.within_1200), covered, strict=True):
             current[pixels] = True
+        short_gain, long_gain = gain if primary == 0 else gain[::-1]
         included.setdefault(line, []).append(chainage)
         added.append(dict(line_id=line, chainage_km=chainage, id=f"{line}-infill-{round(chainage*1000):05d}",
                           name=f"{line} infill · km {chainage:g}",
                           basis="Population-ranked street-access infill on this alignment",
-                          newly_covered_worldpop_800=round(gain[0], 2), newly_covered_worldpop_1200=round(gain[1], 2)))
+                          newly_covered_worldpop_800=round(short_gain, 2), newly_covered_worldpop_1200=round(long_gain, 2)))
     return added
 
 
@@ -169,7 +172,8 @@ def coverage_cells(population, distances, cell_m=1000):
             for x, y, total, served in zip(lon, lat, count, within, strict=True) if round(total) > 0]
 
 
-def evaluate(network, insert_stations, historic_stops, *, graph=None, context=None, step_m=300, spacing_m=650, max_infill=None):
+def evaluate(network, insert_stations, historic_stops, *, graph=None, context=None, step_m=300, spacing_m=650,
+             max_infill=None, add_through_routes=None):
     if not 0 < step_m <= spacing_m or spacing_m < INTERCHANGE_SPACING_M or max_infill is not None and max_infill < 0:
         raise ValueError(f"Use at least {INTERCHANGE_SPACING_M} m spacing, a positive step no larger than that spacing, "
                          "and an optional nonnegative cap")
@@ -180,8 +184,16 @@ def evaluate(network, insert_stations, historic_stops, *, graph=None, context=No
     worldpop = datasets["worldpop-2026"]
     existing, _ = walk_to_station(original, graph, worldpop)
     options = opportunities(network, worldpop, existing, graph, step_m, spacing_m, context) if max_infill != 0 else []
-    additions = rank_stations(options, worldpop.counts, existing, spacing_m, max_infill)
+    previous_additions = rank_stations(options, worldpop.counts, existing, spacing_m, max_infill)
+    previous_network = insert_stations(network, previous_additions)
+    previous = {label: location["coordinates"] for label, location in previous_network["stations"].items()}
+    additions = rank_stations(options, worldpop.counts, existing, spacing_m, max_infill, primary_m=1200)
     revised = insert_stations(network, additions)
+    infill = {label: location["coordinates"] for label, location in revised["stations"].items()}
+    infill_walk, _ = walk_to_station(infill, graph, worldpop)
+    through = None
+    if add_through_routes is not None:
+        revised, through = add_through_routes(revised, worldpop, infill_walk, graph, context)
     stops = {label: location["coordinates"] for label, location in revised["stations"].items()}
     offsets, _ = graph[3].query(_points(list(stops.values())))
     unmatched = sorted(label for label, offset in zip(stops, offsets, strict=True) if offset > SNAP_M)
@@ -189,13 +201,19 @@ def evaluate(network, insert_stations, historic_stops, *, graph=None, context=No
     for name, population in datasets.items():
         without = existing if population is worldpop else walk_to_station(original, graph, population)[0]
         historical, _ = walk_to_station(historic_stops, graph, population)
+        earlier, _ = walk_to_station(previous, graph, population)
+        after_infill = infill_walk if population is worldpop else walk_to_station(infill, graph, population)[0]
         final, _ = walk_to_station(stops, graph, population)
         scopes[name] = summarize(population, {"earlier_clockface": historical,
-                                              "connected_before_infill": without, "connected_network": final})
+                                              "connected_before_infill": without,
+                                              "previous_network": earlier,
+                                              "infill_1200_priority": after_infill,
+                                              "connected_network": final})
         if name == "worldpop-2026":
             cells = coverage_cells(population, final)
     return revised, {"walk_m": WALK_M, "station_and_population_snap_m": SNAP_M, "walk_graph": graph[4],
                      "candidate_step_m": step_m, "minimum_infill_spacing_m": spacing_m,
+                     "primary_walk_m": 1200, "through_route_selection": through,
                      "max_infill": max_infill, "candidate_opportunities": len(options), "infill": additions,
                      "proposed_stops_without_a_street_snap": unmatched,
                      "population": scopes}, cells

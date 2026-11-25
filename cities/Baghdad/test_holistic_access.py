@@ -28,6 +28,13 @@ def test_tie_break_uses_longer_access_then_line_and_chainage():
         assert [(row["line_id"], row["chainage_km"]) for row in additions] == [("M1", 1.)]
 
 
+def test_primary_1200_m_objective_changes_infill_choice():
+    sites = [candidate("short", 1., [0], [0]), candidate("long", 1., [], [0, 1])]
+    result = access.rank_stations(sites, np.array([10, 20]), np.full(2, np.inf), 650, 1, primary_m=1200)
+    assert result[0]["line_id"] == "long"
+    assert result[0]["newly_covered_worldpop_1200"] == 30
+
+
 def test_ring_infill_reserves_spacing_on_both_sides_of_first_stop():
     geometry = (np.array([[0, 0], [1000, 0], [1000, 1000], [0, 1000], [0, 0]]) / LOCAL_METRES).tolist()
     line = {"geometry": geometry, "station_chainage_km": {"first": 0, "opposite": 2}, "loop": True}

@@ -4,6 +4,7 @@ from copy import deepcopy
 import unittest
 
 import numpy as np
+from scipy.spatial import cKDTree
 
 from . import holistic_network as network
 
@@ -96,3 +97,111 @@ class BaghdadNetworkTests(unittest.TestCase):
         ]}}]}}
         self.assertEqual(network.dry_points([[.5, .5], [2.5, 2.5], [5., 5.]], water).tolist(), [False, True, True])
         self.assertEqual(network.dry_points([], water).tolist(), [])
+
+
+class ThroughLineTests(unittest.TestCase):
+    def setUp(self):
+        points = {"a0": [44., 33.], "a1": [44., 33.06], "b0": [44.06, 33.],
+                  "b1": [44.06, 33.06], "x": [44., 33.03], "y": [44.06, 33.03]}
+        orders = {"A": ["a0", "x", "a1"], "B": ["b0", "y", "b1"], "C": ["x", "y"]}
+        stations = {stop: {"name": stop, "coordinates": point, "basis": "fixture",
+                           "lines": [code for code, stops in orders.items() if stop in stops]}
+                    for stop, point in points.items()}
+        lines = {code: network._physical_line([points[stops[0]], points[stops[-1]]],
+                                               stops, stations, ["fixture"], "fixture")
+                 for code, stops in orders.items()}
+        self.record = {"stations": stations, "lines": lines, "transfers": [
+            {"id": stop, "station_ids": [stop], "lines": stations[stop]["lines"]} for stop in ("x", "y")
+        ]}
+        self.line = {"id": "D", "name": "Diagonal", "terminal_ids": ["a0", "b1"],
+                     "geometry": [points["a0"], points["b1"]],
+                     "required_interchanges": [{"line_id": "C", "point": [44.03, 33.03]}],
+                     "stops": [{"id": "d0", "name": "Local", "chainage_m": 800}]}
+        self.other = {"id": "E", "name": "Cross-town", "terminal_ids": ["a1", "b0"],
+                      "geometry": [points["a1"], [44.02, 33.03], [44.048, 33.041], points["b0"]],
+                      "required_interchanges": [{"line_id": "C", "point": [44.02, 33.03]}]}
+        track_d, track_e = (network.Track(row["geometry"]) for row in (self.line, self.other))
+        street_points = [*points.values(), [44.03, 33.03], [44.02, 33.03], track_d.at(.8),
+                         *network._crossings(track_d, track_e)]
+        self.graph = (None, None, None, cKDTree(np.asarray(street_points) * network.LOCAL_METRES), None)
+        self.context = {"layers": {"water": []}}
+
+    def insert(self, *lines, **options):
+        return network.insert_through_lines(
+            self.record, lines, **({"graph": self.graph, "context": self.context} | options))
+
+    def test_through_line_adds_two_endpoint_links_and_exact_intermediate_transfer(self):
+        revised = self.insert(self.line)
+        summary = revised["through_lines"]["D"]
+        crossing, = summary["required_intermediate_transfer_ids"]
+        self.assertEqual(summary["transfer_ids"], ["a0", crossing, "b1"])
+        self.assertEqual(summary["transfer_count"], 3)
+        self.assertEqual(revised["stations"][crossing]["coordinates"], [44.03, 33.03])
+        self.assertEqual(revised["stations"][crossing]["lines"], ["C", "D"])
+        self.assertEqual(revised["lines"]["D"]["station_chainage_km"]["d0"], .8)
+        self.assertEqual(revised["topology"]["connected_components"], 1)
+        self.assertEqual(revised["candidate_id"], self.insert(self.line)["candidate_id"])
+        self.assertNotIn("D", self.record["lines"])
+        self.assertNotIn(crossing, self.record["stations"])
+        self.assertEqual(self.record["stations"]["a0"]["lines"], ["A"])
+
+    def test_exact_existing_intermediate_station_keeps_its_identity(self):
+        point = [44.03, 33.03]
+        self.record["stations"]["existing"] = {
+            "name": "Existing", "coordinates": point, "basis": "fixture", "lines": ["C"],
+        }
+        line = self.record["lines"]["C"]
+        network._add(line, "existing", network.Track(line["geometry"]).locate(point)[0])
+        revised = self.insert(self.line)
+        self.assertEqual(revised["through_lines"]["D"]["required_intermediate_transfer_ids"], ["existing"])
+        self.assertEqual(revised["stations"]["existing"]["lines"], ["C", "D"])
+        self.assertEqual(revised["stations"]["existing"]["coordinates"], point)
+
+    def test_selected_through_lines_can_gain_a_shared_transfer(self):
+        revised = self.insert(self.line, self.other, connect_through_lines=True)
+        joint, = set(revised["through_lines"]["D"]["transfer_ids"]) & set(revised["through_lines"]["E"]["transfer_ids"])
+        self.assertEqual(revised["stations"][joint]["lines"], ["D", "E"])
+        self.assertEqual(revised["through_lines"]["E"]["transfer_count"], 4)
+        self.assertEqual(revised["evaluation_id"], self.insert(self.line, self.other,
+                                                               connect_through_lines=True)["evaluation_id"])
+
+    def test_short_terminal_link_requires_disjoint_routes_and_no_claimed_middle_connection(self):
+        points = {stop: self.record["stations"][stop]["coordinates"] for stop in ("a0", "b1", "x", "y")}
+        connector = self.line | {"terminal_link_only": True, "terminal_ids": ["a0", "y"],
+                                 "geometry": [points["a0"], points["y"]], "stops": [],
+                                 "required_interchanges": []}
+        summary = self.insert(connector)["through_lines"]["D"]
+        self.assertTrue(summary["terminal_link_only"])
+        self.assertEqual(summary["transfer_ids"], ["a0", "y"])
+        self.assertEqual(summary["required_intermediate_transfer_ids"], [])
+        for changes in ({"terminal_ids": ["a0", "b1"], "geometry": [points["a0"], points["b1"]]},
+                        {"terminal_ids": ["x", "y"], "geometry": [points["x"], points["y"]]},
+                        {"required_interchanges": self.line["required_interchanges"]}):
+            with self.subTest(changes=changes), self.assertRaisesRegex(ValueError, "terminal-only connector"):
+                self.insert(connector | changes)
+
+    def test_invalid_through_line_inputs_are_rejected(self):
+        interchanges = self.line["required_interchanges"]
+        invalid = [
+            ({"terminal_ids": ["a0", "unknown"]}, "two distinct existing terminal"),
+            ({"terminal_ids": ["a0", "a1"]}, "terminal connections to distinct existing routes"),
+            ({"geometry": [[43.99, 33.], *self.line["geometry"]]}, "stray path"),
+            ({"required_interchanges": []}, "requires an intermediate interchange"),
+            ({"required_interchanges": [{"line_id": "C", "point": [44.03, 33.031]}]}, "exact alignment crossing"),
+            ({"required_interchanges": interchanges * 2}, "Duplicate shared station"),
+            ({"stops": [{"id": "bad", "name": "Bad", "chainage_km": float("nan")}]}, "chainage or spacing"),
+            ({"stops": [{"id": "bad", "name": "Bad", "chainage_m": 100}]}, "chainage or spacing"),
+        ]
+        for changes, expected in invalid:
+            with self.subTest(changes=changes), self.assertRaisesRegex(ValueError, expected):
+                self.insert(self.line | changes)
+
+    def test_water_and_street_access_are_checked_at_the_crossing(self):
+        ring = [[44.029, 33.029], [44.031, 33.029], [44.031, 33.031],
+                [44.029, 33.031], [44.029, 33.029]]
+        water = {"layers": {"water": [{"geometry": {"type": "Polygon", "coordinates": [ring]}}]}}
+        with self.assertRaisesRegex(ValueError, "inside mapped water"):
+            self.insert(self.line, context=water)
+        graph = (None, None, None, cKDTree(np.asarray([[44., 33.]]) * network.LOCAL_METRES), None)
+        with self.assertRaisesRegex(ValueError, "mapped street access limit"):
+            self.insert(self.line, graph=graph)

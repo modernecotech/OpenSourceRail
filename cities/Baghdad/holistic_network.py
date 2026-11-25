@@ -23,6 +23,8 @@ STREETS = MAPPING / "walking-streets.geojson.gz"
 TRANSFER_SNAP_M = 100
 SOURCE_STOP_SNAP_M = 25
 INTERCHANGE_SPACING_M = 350
+EXACT_CROSSING_M = 0.25
+MAX_TERMINAL_LINK_KM = 8
 ROAD_JOIN_MAX_M = 400
 MAJOR_ROADS = {"motorway": 1.0, "trunk": 1.0, "primary": 1.0,
                "secondary": 1.10, "tertiary": 1.15}
@@ -507,6 +509,195 @@ def insert_stations(record, additions):
                                         "lines": [code], "basis": addition["basis"]}
         _add(line, station, chainage)
     revised["topology"] = validate(revised)
+    return _identity(revised)
+
+
+def _through_crossing(line_id, request, tracks):
+    other_id = request["line_id"]
+    if other_id == line_id or other_id not in tracks:
+        raise ValueError(f"{line_id} interchange refers to an unknown connecting line: {other_id}")
+    point = np.asarray(request["point"], dtype=float)
+    if point.shape != (2,) or not np.isfinite(point).all():
+        raise ValueError(f"Invalid {line_id}–{other_id} interchange point")
+    crossings = _crossings(tracks[line_id], tracks[other_id])
+    matches = [(coordinates, chainages) for coordinates, chainages in crossings.items()
+               if np.linalg.norm((coordinates - point) * LOCAL_METRES) <= EXACT_CROSSING_M]
+    if len(matches) != 1:
+        raise ValueError(f"{line_id}–{other_id} requires one exact alignment crossing at the proposed interchange")
+    return matches[0]
+
+
+def _through_station_spacing(line_id, station_id, chainage, lines):
+    line = lines[line_id]
+    if (not isfinite(chainage) or not 0 < chainage < line["one_way_km"]
+            or _terminal_margin(line, chainage) < INTERCHANGE_SPACING_M - 1e-6):
+        raise ValueError(f"Invalid station insertion {station_id} on {line_id}: chainage or spacing")
+
+
+def _stations_at_crossing(stations, point):
+    return [station_id for station_id, row in stations.items()
+            if np.linalg.norm((np.asarray(row["coordinates"]) - point) * LOCAL_METRES) <= EXACT_CROSSING_M]
+
+
+def _through_interchange(line_id, request, crossing, lines, stations, *, require_intermediate=True):
+    other_id = request["line_id"]
+    point, (chainage, other_chainage) = crossing
+    nearby = _stations_at_crossing(stations, point)
+    memberships = stations[nearby[0]]["lines"] if nearby else []
+    if len(nearby) > 1 or (line_id in memberships and (require_intermediate or other_id in memberships)):
+        raise ValueError(f"Duplicate shared station at the {line_id}–{other_id} crossing")
+    station_id = nearby[0] if nearby else request.get("id") or (
+        f"X-{line_id}-{other_id}-" + sha256(encode(point)).hexdigest()[:10])
+    approaches = [(code, km) for code, km in ((line_id, chainage), (other_id, other_chainage))
+                  if code not in memberships]
+    for code, km in approaches:
+        _through_station_spacing(code, station_id, km, lines)
+    if not nearby:
+        if station_id in stations:
+            raise ValueError(f"Duplicate shared station ID: {station_id}")
+        stations[station_id] = {
+            "name": request.get("name") or f"{line_id}–{other_id} interchange",
+            "coordinates": list(point), "lines": [], "basis": "GIS crossing on a proposed through line",
+        }
+    station = stations[station_id]
+    for code, km in approaches:
+        _add(lines[code], station_id, km)
+        station["lines"].append(code)
+    station["lines"].sort()
+    return station_id
+
+
+def _connect_through_lines(codes, tracks, lines, stations, street_tree, context):
+    candidates = []
+    for first, second in combinations(sorted(codes), 2):
+        if set(lines[first]["station_ids"]) & set(lines[second]["station_ids"]):
+            continue
+        for point, chainages in _crossings(tracks[first], tracks[second]).items():
+            nearby = _stations_at_crossing(stations, point)
+            site = stations[nearby[0]]["coordinates"] if nearby else point
+            distance, _ = street_tree.query(np.asarray(site) * LOCAL_METRES)
+            if distance <= TRANSFER_SNAP_M:
+                candidates.append((float(distance), first, second, point, chainages, site))
+    candidates.sort()
+    dry = dry_points([row[5] for row in candidates], context)
+    for row, keep in zip(candidates, dry, strict=True):
+        distance, first, second, point, chainages, _ = row
+        if not keep or set(lines[first]["station_ids"]) & set(lines[second]["station_ids"]):
+            continue
+        try:
+            stop = _through_interchange(first, {"line_id": second}, (point, chainages), lines, stations,
+                                        require_intermediate=False)
+        except ValueError:
+            continue
+        stations[stop].setdefault("street_offset_m", round(distance, 1))
+
+
+def insert_through_lines(record, additions, *, graph=None, context=None, connect_through_lines=False):
+    """Add open through routes with registered endpoints and exact intermediate interchanges.
+
+    Additions use `id`, `name`, `geometry` and two ordered `terminal_ids`.
+    Each required interchange gives the existing `line_id` and crossing `point`.
+    Each ordinary stop gives an `id`, `name`, and exactly one of `chainage_km`
+    or `chainage_m`. Route order permits interchange requests on earlier lines.
+    A `terminal_link_only` connector up to 8 km may use distinct onward routes
+    at its terminals as its sole required links.
+    Set `connect_through_lines` after selection to add eligible crossings among
+    the proposed through lines with priority by mapped street offset.
+    """
+    validate(record)
+    revised = deepcopy(record)
+    lines, stations = revised["lines"], revised["stations"]
+    summaries = revised.setdefault("through_lines", {})
+    tracks = {code: Track(row["geometry"]) for code, row in lines.items()}
+    context = read(INPUTS[-1]) if context is None else context
+    graph = walking_graph() if graph is None else graph
+    street_tree = graph[3]
+    for addition in additions:
+        code = addition["id"]
+        terminals = list(addition["terminal_ids"])
+        if code in lines:
+            raise ValueError(f"Duplicate line ID: {code}")
+        if (len(terminals) != 2 or terminals[0] == terminals[1]
+                or not all(stop in stations for stop in terminals)):
+            raise ValueError(f"{code} requires two distinct existing terminal stations")
+        route_sets = [set(stations[stop]["lines"]) for stop in terminals]
+        if len(set.union(*route_sets)) < 2:
+            raise ValueError(f"{code} requires terminal connections to distinct existing routes")
+        geometry = np.array(addition["geometry"], dtype=float)
+        if geometry.ndim != 2 or geometry.shape[1] != 2 or len(geometry) < 2 or not np.isfinite(geometry).all():
+            raise ValueError(f"{code} requires a continuous longitude and latitude alignment")
+        terminal_points = np.asarray([stations[stop]["coordinates"] for stop in terminals])
+        if np.linalg.norm((terminal_points[0] - terminal_points[1]) * LOCAL_METRES) <= EXACT_CROSSING_M:
+            raise ValueError(f"{code} requires two physically distinct terminal stations")
+        if np.any(np.linalg.norm((geometry[[0, -1]] - terminal_points) * LOCAL_METRES,
+                                 axis=1) > EXACT_CROSSING_M):
+            raise ValueError(f"{code} must start and end at its terminal stations with no stray path")
+        geometry[[0, -1]] = terminal_points
+        tracks[code] = track = Track(geometry)
+        required = addition.get("required_interchanges", [])
+        terminal_link_only = addition.get("terminal_link_only") is True
+        if terminal_link_only and (track.km > MAX_TERMINAL_LINK_KM or set.intersection(*route_sets) or required):
+            raise ValueError(f"{code} terminal-only connector requires at most {MAX_TERMINAL_LINK_KM} km, "
+                             "disjoint terminal routes and no required intermediate interchange")
+        if not terminal_link_only and not required:
+            raise ValueError(f"{code} requires an intermediate interchange")
+        lines[code] = {
+            "name": addition["name"], "geometry": geometry.tolist(), "loop": False,
+            "source_sections": addition.get("source_sections", []),
+            "basis": addition.get("basis", "Proposed cross-city planning alignment"),
+            "station_ids": terminals.copy(), "station_chainage_km": dict(zip(terminals, (0., track.km), strict=True)),
+            "one_way_km": track.km,
+        }
+        for stop in terminals:
+            stations[stop]["lines"] = sorted([*stations[stop]["lines"], code])
+        interchanges = [_through_interchange(code, row, _through_crossing(code, row, tracks), lines, stations)
+                        for row in required]
+        ordinary = []
+        for row in addition.get("stops", []):
+            stop = row["id"]
+            fields = {"chainage_km", "chainage_m"} & row.keys()
+            if stop in stations or len(fields) != 1:
+                raise ValueError(f"Invalid station insertion {stop} on {code}: duplicate ID or missing chainage unit")
+            unit = fields.pop()
+            try:
+                chainage = float(row[unit]) / (1000 if unit == "chainage_m" else 1)
+            except (TypeError, ValueError) as error:
+                raise ValueError(f"Invalid station insertion {stop} on {code}: chainage") from error
+            _through_station_spacing(code, stop, chainage, lines)
+            stations[stop] = {
+                "name": row["name"], "coordinates": track.at(chainage), "lines": [code],
+                "basis": row.get("basis", "Proposed through-line station"),
+            }
+            _add(lines[code], stop, chainage)
+            ordinary.append(stop)
+        sites = [*terminals, *interchanges, *ordinary]
+        for stop, dry in zip(sites, dry_points([stations[stop]["coordinates"] for stop in sites], context),
+                             strict=True):
+            if not dry:
+                raise ValueError(f"{stop} on {code} is inside mapped water")
+        for stop in [*interchanges, *ordinary]:
+            distance, _ = street_tree.query(np.asarray(stations[stop]["coordinates"]) * LOCAL_METRES)
+            if distance > TRANSFER_SNAP_M:
+                raise ValueError(f"{stop} on {code} is outside the mapped street access limit")
+            stations[stop].setdefault("street_offset_m", round(float(distance), 1))
+        summaries[code] = {"terminal_ids": terminals, "required_intermediate_transfer_ids": interchanges,
+                           "terminal_link_only": terminal_link_only}
+
+    if connect_through_lines:
+        _connect_through_lines(summaries, tracks, lines, stations, street_tree, context)
+    for code, summary in summaries.items():
+        transfer_ids = [stop for stop in lines[code]["station_ids"] if len(stations[stop]["lines"]) > 1]
+        summary["transfer_ids"] = transfer_ids
+        summary["transfer_count"] = len(transfer_ids)
+    prior_transfers = {row["id"]: row for row in revised["transfers"]}
+    revised["transfers"] = [
+        prior_transfers.get(stop, {"id": stop, "name": row["name"], "station_ids": [stop],
+                                   "walking_m": None, "basis": row["basis"]}) | {"lines": sorted(row["lines"])}
+        for stop, row in sorted(stations.items()) if len(row["lines"]) > 1
+    ]
+    revised["topology"] = validate(revised)
+    revised["physical_accepted"] = False
+    revised["operating_timetable_validated"] = False
     return _identity(revised)
 
 

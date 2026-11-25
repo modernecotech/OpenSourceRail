@@ -55,7 +55,7 @@ For a different planning question, compare how Amman’s terrain and Karachi’s
 
 A planning team can export route, stop, service and origin–destination edits, then compile and verify the proposal against its input revision. A separate city calculation carries the revised plan into fleet, section capacity, civil quantities and cost. Compare propulsion or construction assumptions while keeping demand and service fixed, or change the service and compare the fleet and capacity it requires. [Proposal and recalculation commands](docs/workbench/planning/README.md) · [City atlas and source data](docs/design-engine/city-atlas/README.md)
 
-The Baghdad network map brings the Airport approach, central routes and outer corridors into one connected passenger network. The generator checks end-to-end routing and interchanges, ranks station sites by additional residents reached over mapped streets, and marks the remaining coverage gaps. [Baghdad network and coverage calculation](cities/Baghdad/NETWORK.md)
+The Baghdad network brings the Airport approach, central routes, outer corridors and new direct cross-city links together. The generator checks connections at both ends and looks for intermediate transfers. It ranks the links by the additional population within a 1.2 km street walk per route-kilometre and shows the gaps that remain. [Baghdad network and coverage calculation](cities/Baghdad/NETWORK.md)
 
 [![One connected Baghdad railway map with proposed station interchanges and walking-access gaps](cities/Baghdad/maps/baghdad-network.png)](cities/Baghdad/NETWORK.md)
 
