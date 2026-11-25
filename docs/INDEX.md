@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **248**.
+Indexed Markdown files: **249**.
 
 ## Sections
 
@@ -23,7 +23,7 @@ Indexed Markdown files: **248**.
 | [cities](#cities) | 76 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 139 |
+| [docs](#docs) | 140 |
 | [engineering](#engineering) | 16 |
 | [tools](#tools) | 4 |
 
@@ -160,7 +160,8 @@ Indexed Markdown files: **248**.
 | [`docs/README.md`](../docs/README.md) | Technical documentation |
 | [`docs/RELEASE-v0.7.md`](../docs/RELEASE-v0.7.md) | OpenSourceRail v0.7 digital engineering release |
 | [`docs/ROADMAP.md`](../docs/ROADMAP.md) | OpenSourceRail delivery roadmap |
-| [`docs/assets/assembly-animations/GUIDE.md`](../docs/assets/assembly-animations/GUIDE.md) | Construction and assembly in CAD |
+| [`docs/assets/assembly-animations/GUIDE.md`](../docs/assets/assembly-animations/GUIDE.md) | Baghdad construction and train assembly |
+| [`docs/assets/assembly-animations/workplan/summary.md`](../docs/assets/assembly-animations/workplan/summary.md) | Costed workforce and shift workplan |
 | [`docs/book/01-purpose.md`](../docs/book/01-purpose.md) | Why build an open railway |
 | [`docs/book/02-passenger.md`](../docs/book/02-passenger.md) | The passenger journey |
 | [`docs/book/03-architecture.md`](../docs/book/03-architecture.md) | A reference, with room to explore |

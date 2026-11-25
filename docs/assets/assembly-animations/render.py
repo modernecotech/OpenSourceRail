@@ -1,11 +1,13 @@
 """Render the staged CAD films with NumPy, Pillow and FFmpeg."""
 
 import argparse
+from concurrent.futures import ProcessPoolExecutor
 from functools import lru_cache
 from hashlib import file_digest
 import importlib
 import json
 from math import cos, radians, sin
+from multiprocessing import get_context
 from pathlib import Path
 import subprocess
 
@@ -14,7 +16,7 @@ from PIL import Image, ImageColor, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[3]
 WIDTH, HEIGHT = 1280, 720
-FPS = 20
+FPS = 16
 LIMIT_BYTES = 20_000_000
 FILMS = ("viaduct", "train")
 INK = "#eaf4fa"
@@ -156,19 +158,38 @@ def valid_chapters(module):
         raise ValueError(f"Invalid chapter times for {module.TITLE}")
 
 
-def encode(module, target):
+def raw_frame(job):
+    name, index = job
+    return raster(importlib.import_module(name), index / FPS).tobytes()
+
+
+def frames(module, workers):
+    count = round(module.DURATION * FPS)
+    if workers == 1:
+        for index in range(count):
+            yield raw_frame((module.__name__, index))
+        return
+    with ProcessPoolExecutor(workers, mp_context=get_context("fork")) as pool:
+        batch = workers * 4
+        for start in range(0, count, batch):
+            yield from pool.map(raw_frame, ((module.__name__, i) for i in range(start, min(start + batch, count))))
+
+
+def encode(module, target, workers):
     partial = target.with_suffix(".tmp.mp4")
+    # Reserve headroom for MP4 indexing and the encoder's buffer.
+    peak_kbps = min(1600, int(LIMIT_BYTES * 8 / module.DURATION / 1000 * .89))
     cmd = [
         "ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-f", "rawvideo",
         "-pix_fmt", "rgb24", "-s", f"{WIDTH}x{HEIGHT}", "-r", str(FPS), "-i", "-",
-        "-an", "-c:v", "libx264", "-threads", "4", "-preset", "fast", "-crf", "22",
-        "-maxrate", "1500k", "-bufsize", "3000k", "-pix_fmt", "yuv420p",
+        "-an", "-c:v", "libx264", "-threads", "2", "-preset", "fast", "-crf", "21",
+        "-maxrate", f"{peak_kbps}k", "-bufsize", f"{peak_kbps * 2}k", "-pix_fmt", "yuv420p",
         "-movflags", "+faststart", str(partial),
     ]
     try:
         with subprocess.Popen(cmd, stdin=subprocess.PIPE) as ffmpeg:
-            for index in range(round(module.DURATION * FPS)):
-                ffmpeg.stdin.write(raster(module, index / FPS).tobytes())
+            for frame in frames(module, workers):
+                ffmpeg.stdin.write(frame)
             ffmpeg.stdin.close()
             if ffmpeg.wait():
                 raise RuntimeError(f"Encoding failed for {target.name}")
@@ -189,6 +210,7 @@ def main():
     parser.add_argument("--output", type=Path, default=ROOT / "build/assembly-animations")
     parser.add_argument("--clip", choices=FILMS)
     parser.add_argument("--still", type=float, action="append", help="Render selected frames only")
+    parser.add_argument("--workers", type=int, choices=range(1, 9), default=1)
     args = parser.parse_args()
     args.output.mkdir(exist_ok=True, parents=True)
     videos = {}
@@ -203,7 +225,7 @@ def main():
             continue
         video = args.output / f"{name}.mp4"
         poster = args.output / f"{name}.webp"
-        encode(module, video)
+        encode(module, video, args.workers)
         raster(module, module.POSTER_TIME).save(poster, quality=86)
         sources = (*module.SOURCES, *(
             str(Path(__file__).with_name(file).relative_to(ROOT))

@@ -17,6 +17,8 @@ and independent citywide alternatives. Open main lines use two inward
 deck-fed gantries, subject to temporary works and access. [Current costs and
 delivery programme](engineering/mechanical/civil/rail-fed/network-delivery.md)
 
+The assembly films follow both launch fronts and show the fitted train with its cab ends, gangways, passenger saloon and service connections. The part and shift schedules identify which geometry, masses, prices and labour allowances support the illustrations. [Assembly films, renders and workplans](../../docs/assets/assembly-animations/GUIDE.md) · [Illustrated proposal](Baghdad-Metro-Proposal.pdf)
+
 Use the **17.46 km Airport alignment study** to review the proposed route, service, power options and partial construction costs together. The 30-minute paired-supply trial completes all 72 booked trips. Survey, complete prices and physical acceptance remain open. The 605.652 km citywide plan is a comparison. The [central access review](CENTRAL-ACCESS.md) identifies missing connections and tests a new alignment serving central Baghdad.
 
 | Decision | Open |

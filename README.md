@@ -94,7 +94,7 @@ Open the digital twin, choose an assembly and select a part. A station reviewer 
 | Identify the parts to fabricate | Inspect the boarding interface |
 |---|---|
 | [![Braced steel carbody and two bogie frames shown as identifiable stock members](docs/operator-review/twins/baghdad-steel-frame.png)](docs/operator-review/twins/baghdad-steel-frame.png) | [![Station model looking along the train doors and platform boarding edge](docs/operator-review/twins/baghdad-boarding.png)](docs/operator-review/twins/baghdad-boarding.png) |
-| This quotation model contains 128 pieces and about 5.2 tonnes of cut stock. Wheelsets, drives, connections and fitout have their own take-offs. | The model locates the train at a typical straight island. Installed clearances require the vehicle movement and platform tolerances for the actual site. |
+| This earlier quotation model contains 128 pieces. The assembly film below uses the later lined-jamb revision with 144 frame pieces per car and nominal gross stock of 5.27 t. | The model locates the train at a typical straight island. Installed clearances require the vehicle movement and platform tolerances for the actual site. |
 
 The fitted-train exercise connects seating, wheelchair places, door approaches and installed mass allocations to axle loads, traction and stopping. The civil comparison follows a change of span through beams, bearings, foundations, transport, lifting at working radius and upkeep. A price advantage can tell a precaster which option is worth quoting. A lift still needs the equipment chart and ground support for the proposed site. [Fitted-train exercise](cities/Baghdad/engineering/simulation/ASSUMPTION-AUDIT.md#compare-a-fitted-train-on-the-same-railway) · [Span and erection alternatives](cities/Baghdad/engineering/mechanical/civil/SPAN-FAMILIES.md) · [Design decision register](docs/DESIGN-DECISIONS.md)
 
@@ -109,6 +109,10 @@ In this study the longer standard span needs fewer placements and a higher hook 
 [![Play the CAD animation of the Baghdad viaduct construction and launching gantry](docs/assets/assembly-animations/viaduct.webp)](https://raw.githubusercontent.com/modernecotech/OpenSourceRail/main/docs/assets/assembly-animations/viaduct.mp4)
 
 **[Watch the viaduct construction animation](https://raw.githubusercontent.com/modernecotech/OpenSourceRail/main/docs/assets/assembly-animations/viaduct.mp4)** · [Geometry and chapter guide](docs/assets/assembly-animations/GUIDE.md)
+
+[![A rail-mounted launcher and flatbed position a precast U-girder over a shared pier](docs/assets/assembly-animations/viaduct-placement.jpg)](docs/assets/assembly-animations/viaduct-placement.jpg)
+
+See the footing and pier cages, bearing stack, mould and prestressing components, flatbed running gear, gantry and lifting gear, and the final track and access installation. The [assembly bill of materials and workplans](docs/assets/assembly-animations/GUIDE.md#parts-cost-and-shifts) distinguish one repeatable bay from the shared production and erection plant. [Completed viaduct render](docs/assets/assembly-animations/viaduct-completed.jpg)
 
 The current Baghdad delivery plan uses **20 m U-girders on shared piers** for
 standard bays. Two terminal precast yards feed two inward-moving gantries on
@@ -155,9 +159,17 @@ The counted parts catalogue records stock, assembly and draft business data. The
 
 ### Produce car and bogie frames in flexible workcells
 
-[![Play the exploded CAD assembly of the Baghdad steel carbody and bogie frames](docs/assets/assembly-animations/train.webp)](https://raw.githubusercontent.com/modernecotech/OpenSourceRail/main/docs/assets/assembly-animations/train.mp4)
+[![Play the exploded CAD assembly of the Baghdad train from steel frame to fitted car](docs/assets/assembly-animations/train.webp)](https://raw.githubusercontent.com/modernecotech/OpenSourceRail/main/docs/assets/assembly-animations/train.mp4)
 
-**[Watch the train body fabrication and assembly animation](https://raw.githubusercontent.com/modernecotech/OpenSourceRail/main/docs/assets/assembly-animations/train.mp4)** · [Geometry and chapter guide](docs/assets/assembly-animations/GUIDE.md)
+**[Watch the train fabrication and assembly animation](https://raw.githubusercontent.com/modernecotech/OpenSourceRail/main/docs/assets/assembly-animations/train.mp4)** · [Geometry and chapter guide](docs/assets/assembly-animations/GUIDE.md)
+
+[![Finished concept render of the Baghdad six-car train, showing the cab front, saloon glazing and door pairs](docs/assets/assembly-animations/train-exterior.jpg)](docs/assets/assembly-animations/train-exterior.jpg)
+
+| Fit out the passenger car | Connect two cars | Assemble the rear cab |
+|---|---|---|
+| [![Passenger saloon with seats, grab poles, overhead services and doorway approaches](docs/assets/assembly-animations/train-saloon.jpg)](docs/assets/assembly-animations/train-saloon.jpg) | [![Two inner ends show the gangway, floor bridge, draw gear and service connections](docs/assets/assembly-animations/train-connector.jpg)](docs/assets/assembly-animations/train-connector.jpg) | [![Rear cab assembly with bulkhead, console position and service access](docs/assets/assembly-animations/train-144.png)](docs/assets/assembly-animations/train-144.png) |
+
+The concept adds both outer cab ends, five inner connections and the passenger fitout to the source-bound steel frames. Use the parts register to review geometry, mass and purchasing allowances alongside the installation work. Supplier interface dimensions and installed weights remain separate evidence fields. [Assembly BOM, geometry and costed shifts](docs/assets/assembly-animations/GUIDE.md#parts-cost-and-shifts)
 
 Group the steel frame into cutting, keyed fit-up, welding, finishing and
 inspection work. A shared CNC cell and reusable jigs can feed multiple manual

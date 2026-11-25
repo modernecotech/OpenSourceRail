@@ -116,9 +116,9 @@ The passenger offer includes step-free entry, wheelchair spaces, clear door sign
 
 *One 17 m Baghdad car. Four openings on each side serve a high-turnover urban service. The operator can use the drawing to rehearse boarding with luggage, mobility devices and passengers waiting to alight.*
 
-### Following the first Airport train
+### Timetable from the earlier Airport comparison
 
-Airport-001 departs at 06:00, reaches Al Amiriya at 06:03:19 and leaves 35 seconds later. It reaches Al Qadisiya at 06:18:57 and starts its return at 06:21:57. A five-minute accessible walk at Al Amiriya would leave 5 minutes 48 seconds before the 06:14:07 White-line departure. The connection is a specific walking-time test for the station team. At peak, a single signalling block between successive stations cannot accommodate the proposed 150-second interval in this timetable. The signalling designer and operator need to resolve separation, dwell and terminal occupation together.
+In the earlier schematic study, Airport-001 departs at 06:00, reaches Al Amiriya at 06:03:19 and leaves 35 seconds later. It reaches Al Qadisiya at 06:18:57 and starts its return at 06:21:57. A five-minute accessible walk at Al Amiriya would leave 5 minutes 48 seconds before the 06:14:07 White-line departure. The connection is a specific walking-time test for the station team. At peak, a single signalling block between successive stations cannot accommodate the proposed 150-second interval in this timetable. The corrected alignment needs its own timetable, separation and transfer calculations. [Current Airport simulation and pricing](engineering/simulation/AUDIT-RESULTS.md)
 
 ![Airport train working showing calls, turnaround and the peak interval check](../../docs/operator-review/screens/baghdad-service.png)
 
@@ -126,25 +126,55 @@ Airport-001 departs at 06:00, reaches Al Amiriya at 06:03:19 and leaves 35 secon
 
 ### The train an Iraqi workshop can price
 
-The braced first-article candidate has 128 steel pieces in one body and two bogie frames, totalling 5,196 kg of nominal cut stock. The shop needs to quote the welded frames, distortion control, machining, coatings, joint inspection and scrap. Equipment suppliers then add the wheelsets, suspension, drives, brakes, doors, wiring, cooling and interior. The complete loaded train budget is 201.092 t. Procurement needs both the stock return and the complete installed weight because the latter sets axle loads and traction duty.
+The lined-jamb first article uses 120 body parts and 24 parts across two powered-bogie frames, with about 5.27 t of gross cut stock per car set. The shop needs to quote welding, distortion control, machining, coatings, joint inspection and scrap. Equipment suppliers then add the wheelsets, suspension, drives, brakes, doors, wiring, cooling and interior. Procurement needs both the stock return and a separately reconciled installed weight for axle loads and traction duty. [Installed general arrangement and mass evidence](engineering/prototype/vehicle-factory/INSTALLED-GA.md)
 
 ![Baghdad train twin with the braced steel carbody and bogie-frame members exposed](../../docs/operator-review/twins/baghdad-steel-frame.png)
 
-*First-article steel geometry for a Baghdad car. Bracing reduced the idealised gravity-case deflection from 61.44 mm to 8.61 mm. Torsion, joint fatigue and the shape of a loaded doorway still need physical verification.*
+*An earlier braced frame comparison. Bracing reduced the idealised gravity-case deflection from 61.44 mm to 8.61 mm. The newer frame and the fitted concept require their own torsion, joint fatigue and doorway checks.*
 
 ![Dimensioned interface drawing of a powered bogie under the Baghdad car](engineering/mechanical/bogie-interface.svg)
 
 *The bogie supplier and body builder share the spring and mounting datums. A depot trial must establish where a technician disconnects the harness and brake interfaces and how the bogie clears the body during replacement.*
 
+### The finished train and its connections
+
+The fitted concept carries the steel frame datums into a six-car formation with a cab end at each extremity and five walk-through inner connections. The images show the proposed glazing, passenger door modules, seats, wheelchair spaces, handrails and onboard services. The connector view exposes the draft gear and the air and electrical jumpers under the gangway. For automatic operation the outer cab space represents a supervised recovery and service interface. Supplier returns need to define the actual coupling envelope, articulation, stopping and rescue loads, electrical isolation, fire performance and replacement access. [Train assembly film, geometry, weight and workplans](../../docs/assets/assembly-animations/GUIDE.md)
+
+For one set, the frame schedule carries 31.64 t of gross stock and a $181,000 base stock and fabrication allowance. The modeled running equipment and fitout carry a separate 55.58 t and $1.949m at base. These are scope allowances for supplier comparison. The parts and shift schedules record the prices and labour overlap for each package. [Train and civil assembly cost schedule](../../docs/assets/assembly-animations/GUIDE.md#parts-cost-and-shifts)
+
+![Baghdad train concept with the finished cab end, side doors and connected cars](../../docs/assets/assembly-animations/train-exterior.jpg)
+
+*The fitted concept at the scale of its 17 m car modules. The illustration uses the first-article frame datums and concept body finishes.*
+
+![Rear cab assembly showing the terminal bulkhead and service door](../../docs/assets/assembly-animations/train-144.png)
+
+*Rear-facing cab and equipment access, shown before closing the outer envelope. Both train ends have provision for recovery and towing.*
+
+![Inside the concept passenger saloon with seats, wheelchair and door areas, poles and overhead services](../../docs/assets/assembly-animations/train-saloon.jpg)
+
+*Saloon fitout study. The model provides 20 seats and two wheelchair places per car. Measured approach clearances and loaded floor and suspension behaviour still need to be demonstrated. [Cutaway of the entire car interior](../../docs/assets/assembly-animations/train-interior.jpg)*
+
+![Close view of the inter-car gangway, passage floor, draft gear, air hoses and electrical connections](../../docs/assets/assembly-animations/train-connector.jpg)
+
+*Inter-car interface study. The gangway and floor bridge provide the passenger passage. The draw gear and service connections sit below it and have separate installation, test and inspection steps.*
+
 ## Viaducts, stations and street works
 
-Both tracks are costed on an elevated alignment for every costed guideway kilometre, including reserved citywide corridors. The construction family uses **10 m precast beams**, separate support and foundation positions for each track, rail fastenings, drainage and a maintenance and evacuation walkway. Repetition permits local casting yards, straightforward transport and replacement. The seven-corridor alternative counts **29,640 beam placements and 29,654 support positions**; the independent citywide network counts **121,156 beams and 121,208 positions**. The planning lift mass is **37.3 t per beam**, subject to an actual crane and handling design.
+The current delivery comparison uses **20 m precast U-girders and shared piers** on standard bays. Two terminal yards supply two inward-moving launching gantries on each suitable open line. Flatbeds bring girders along the installed deck behind each gantry, reducing the need for beam deliveries and routine lifts from the street. Foundations, support construction, starters and closure bays retain their own access and temporary works. Request prices on the actual railway, crossing, temporary-load and ground scope. [20 m construction quantities, cost and cash](engineering/mechanical/civil/rail-fed/network-delivery.md)
+
+![A launching gantry places a precast U-girder delivered on the deck while the street runs below](../../docs/assets/assembly-animations/viaduct-placement.jpg)
+
+*Rail-fed placement concept. The illustration locates the launcher support and lifting gear, the deck flatbed and the pier bearing interface. Their rated equipment and temporary stability need a matched erection study.*
+
+[Completed paired viaduct bay with permanent track and service routes](../../docs/assets/assembly-animations/viaduct-completed.jpg)
 
 Accessible stations provide clear passenger routes, lifts or ramps where required, protected platform edges, fire and evacuation provisions, equipment access and safe transfer to streets and buses. A station's structural and electrical modules should be replaceable without redesigning the whole line. The capital estimate counts **64 stations** first and **280** for the independent citywide network, at a common planning rate of **US$13m each**.
 
-Longer 20, 25 and 30 m spans could reduce foundation counts in constrained streets. Their indicative whole-system prices are shown in the [civil comparison](COST-AND-DELIVERY.md#viaduct-and-construction). They require heavier lifts and their own structural and erection design, so the 10 m family remains the costed construction reference. Road clearances, river crossings, existing utilities and actual foundation ground are site-specific work and are not invented in the map.
+The seven-corridor delivery study counts **14,820 girders, 7,417 shared support positions and 14 terminal yards**. Each typical yard has 16 moulds and 24 released-beam storage positions. Direct civil scope is **$1.350bn** for deck feed and **$1.406bn** for road erection of the same 20 m stock. The headline historic capital and cash tables reproduce their **10 m separate-pier allowance**. The two estimates retain their own structures, equipment and schedule. [Earlier civil basis and comparisons](COST-AND-DELIVERY.md#viaduct-and-construction)
 
-The factory sequence for each repeatable span is mould and reinforcement preparation, cast and cure, dimensional and material inspection, yard release, protected transport, support and bearing inspection, lift and temporary restraint, permanent connection, track fixing and final inspection. The estimate includes beam, support and installation allowances. The monthly production schedule applies a one-month curing, inspection and transport release lag, 80% first-year productivity and 90% later availability. At eight placements per productive day and 250 nominal working days per year, the 2028–2030 civil window closes with **six casting yards and six erection fronts** for the 148.2 km option; 2028–2034 closes with **ten of each** citywide. Crane radius, river crossings, utilities and road-closure calendars are not modelled; the additional facility cost remains unpriced rather than zero.
+The assembly film follows excavation and cage placement, footing and pier pours, cap and bearing fit-up, girder prestressing and casting, deck transport, placement, closure, and installation of the permanent railway interfaces. The assembly records connect these steps to part quantities, crew time and allowance accounts. The illustrative three-shift deck-feed trial took 164 days for erection, against 220 days for one-shift road erection. Night access, curing and inspection time, starter and closure access and foundation release govern the actual calendar. [Viaduct film, assembly parts and workplan](../../docs/assets/assembly-animations/GUIDE.md)
+
+For one paired repeat bay and its attributed shared support, the geometry and sourced girder mass account for 279.5 t at base. Known materials and bearing supply amount to $34,910. The ledger carries separate support and permanent works accounts and shows the two-front yard and plant provision independently of the per-bay quantity. [Civil assembly cost schedule](../../docs/assets/assembly-animations/GUIDE.md#parts-cost-and-shifts)
 
 The [bogie, body, station and viaduct study](engineering/mechanical/README.md) gives lifting and removal interfaces, door positions, bearing reactions and a dimensioned bogie drawing. On a hypothetical 250 m inner curve the straight-platform setting would overlap the body by 6.9 mm before suspension movement. Confirm station curvature and swept clearance before fixing the platform edge.
 
@@ -368,6 +398,8 @@ Issue a typical elevated kilometre, a difficult crossing and an accessible stati
 
 The two alternatives have different scale and different funding decisions. For either one, the first contract package should produce a controlled corridor, station and utility register from the public maps; a service plan for every built section; the selected vehicle and power interfaces; and a bill of quantities that a factory and contractor can price. The city can then let repeatable civil, train, station, electrical and software packages against one configuration. Changes in train mass or power supply must flow to piers, energy, fleet, maintenance and annual cash before an option is compared.
 
+The dates and yard counts below reproduce the earlier priced comparison. The 20 m deck-fed estimates have their own phased workloads, yard counts, assembly crews and cash flows. [Current deck-fed construction programme](engineering/mechanical/civil/rail-fed/network-delivery.md)
+
 | Period | Seven-corridor work | Independent citywide work |
 |---|---|---|
 | 2027–2028 | Sponsor and finance agreements, route and station definition, utility and land planning, first factory setup | Separate citywide corridor and service plan, station register, factory and grid strategy, finance tranches |
@@ -379,11 +411,11 @@ Each corridor should have a contract schedule for land and utility access, mater
 
 ## A first opening to price
 
-The Airport corridor gives the sponsor a smaller comparison with a defined passenger service. The 12 km option has six planning stops, 18 working trains and three spares. Including dedicated facilities and Iraq-priced site and terminal works, the central estimate is **US$813.7m**, with a range of **US$782.9m–879.5m**. This replaces the generic land and utility allowance in the original US$793.177m estimate. With 456 passenger trips a day, the Airport central case needs **US$16.25m/year** to operate, including 205 staff and US$4.16m in electricity. At an assumed IQD 750 ticket, 3.69m paid journeys yield US$1.56m and leave US$14.69m a year in operating support before debt payments. Survey the turnouts, airport access, foundations and depot connections to refine the works quantities. The buyer can replace dedicated facilities with a priced shared or temporary arrangement. [Opening quantities, timetable and cost boundary](AIRPORT-OPENING.md)
+The current 17.46 km Airport alignment study gives the sponsor a smaller route to scope. The 30-minute paired-feed trial completes 72 booked trips. Public GIS layers and the assembly quantities support separate route and build-cost estimates. Survey, utility protection, fleet and systems supply prices, and acceptance remain open. The earlier **US$813.7m** estimate used a 12 km schematic, a different fleet and its own dedicated facilities. Reuse its cost categories when seeking equivalent offers for the corrected alignment. [Current Airport simulation and pricing](engineering/simulation/AUDIT-RESULTS.md) · [Earlier opening cost and service comparison](AIRPORT-OPENING.md)
 
 At the original common tender prices, a scope-by-scope estimate puts Iraqi value retained within Iraqi awards at **US$1.76bn** on the seven corridors and **US$7.02bn** citywide. In the seven-corridor case the estimated award value is US$3.18bn. Imported equipment supplied under an Iraqi contract accounts for part of the difference. Ask each bidder to improve the price and traceable domestic value against the same quantities. [Iraqi value by procurement package](BUYER-COMPARISON.md#how-much-of-the-order-could-stay-in-iraq)
 
-For the first-network supply study, a pair of trains accelerating together draws the representative collector voltage to **1.344 kV** against a **1.350 kV** planning floor. Request conductor, return and source measurements before choosing feed spacing. The civil comparison also finds that the 20, 25 and 30 m trial sections exceed a 60 t crane allowance before rigging. Bidders should price the crane at the actual lift radius, changed section and closures alongside the reduction in supports. [Train and supply study](engineering/mechanical/vehicle/SECTION-POWER.md) · [Span and yard comparison](engineering/mechanical/civil/SPAN-COMPARISON.md)
+For the first-network supply study, a pair of trains accelerating together draws the representative collector voltage to **1.344 kV** against a **1.350 kV** planning floor. Request conductor, return and source measurements before choosing feed spacing. Price each 20 m placement against the specified loads and reaction limits of the proposed launcher. For starter and closure lifts, obtain a working-radius chart, rigging and ground design and price the street access. [Train and supply study](engineering/mechanical/vehicle/SECTION-POWER.md) · [Rail-fed erection study](engineering/mechanical/civil/RAIL-FED-ERECTION.md)
 
 ## Decision requested
 
@@ -396,3 +428,5 @@ For the next planning review, compare the [central services](CENTRAL-ACCESS.md) 
 The [Iraqi investment brief](https://investpromo.gov.iq/wp-content/uploads/2024/03/3.-RFI-English-%D9%86%D8%A8%D8%B0%D8%A9-%D8%B9%D9%86-%D9%85%D8%AA%D8%B1%D9%88-%D8%A8%D8%BA%D8%AF%D8%A7%D8%AF-E-20.2.2024.pdf) supplies the seven-line names, route-length controls and 64-station programme. OpenStreetMap, Natural Earth and Protomaps supply city context as recorded in the [map guide](maps/README.md). The separate citywide route input, the 280-station allowance and both networks' design, cost and annual cash figures come from [Baghdad system input](system.toml) and [calculated results](system-results.json), checked against the [cost schedule](COST-AND-DELIVERY.md). The [vehicle section](VEHICLE.md) and [control equipment schedule](../../control-electronics/README.md) define the installed planning interfaces. The sources are digital and public; no physical prototype, route survey, supplier quotation, signed loan or passenger-service certification is represented.
 
 UKEF terms are from the [Buyer Credit Facility](https://www.gov.uk/guidance/buyer-credit-facility), [foreign-content policy](https://www.gov.uk/government/publications/ukefs-approach-to-foreign-content/ukefs-approach-to-foreign-content), [Iraq country-cover page](https://www.gov.uk/guidance/country-cover-policy-and-indicators), [OECD local-cost guidance](https://www.gov.uk/government/news/new-oecd-rules-on-support-for-local-costs) and [Direct Lending guidance](https://www.gov.uk/guidance/direct-lending-scheme), consulted 18 November 2026. The 20/80 industrial split and 85%-of-eligible-export calculation are explicitly labelled scenarios, and all source links remain active in the PDF.
+
+The assembly illustrations use the first-article vehicle structure and rail-fed viaduct CAD, with added fitout, connector and construction geometry identified in their quantities and shift schedules. The settings and source hashes are published with the rendered views. [Assembly and figure records](../../docs/assets/assembly-animations/GUIDE.md)
