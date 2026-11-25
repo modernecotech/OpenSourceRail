@@ -30,6 +30,7 @@ a:hover,a:focus{text-decoration:underline}nav strong,small{display:block}small{c
 <a href="docs/operator-review/OpenSourceRail-Operator-Brief.pdf"><strong>Operator briefing</strong><small>Fourteen illustrated pages for the meeting.</small></a>
 <a href="docs/operator-review/PARTNERSHIP-PLAN.md"><strong>Host a partner trial</strong><small>Choose a local question, review the budget and agree when to decide.</small></a>
 <a href="docs/operator-review/twins/index.html"><strong>Train and station models</strong><small>Inspect the bogie, carbody, platform, viaduct and controls. Export either IFC4 model.</small></a>
+<a href="cities/Baghdad/CENTRAL-ACCESS.md"><strong>Central Baghdad station access</strong><small>Compare scheduled stops, walking access and two central trunks.</small></a>
 <a href="cities/Baghdad/service-diagrams.html"><strong>Baghdad train diagrams</strong><small>Follow a set through its stops and terminal turn. Compare the full citywide offer and its mainline timetable.</small></a>
 <a href="docs/operator-review/screens/supervision.html"><strong>Control room</strong><small>Replay equipment trips, a stale signal and restoration.</small></a>
 <a href="cities/Baghdad/engineering/prototype/review.html"><strong>Historical Airport prototype</strong><small>Inspect stock drawings, train movements and field-trial forms for the 12 km schematic.</small></a>
@@ -113,6 +114,8 @@ def workshop_files():
                  'cities/Baghdad/IRAQ-CAPITAL.md', 'cities/Baghdad/IRAQ-ESTIMATES.md', 'cities/Baghdad/IRAQ-POWER.md',
                  'cities/Baghdad/airport-integration.html', 'cities/Baghdad/airport-integration.css',
                  'cities/Baghdad/CITYWIDE-SERVICE.md', 'cities/Baghdad/citywide-service.json',
+                 'cities/Baghdad/CENTRAL-ACCESS.md', 'cities/Baghdad/central-access.json',
+                 'cities/Baghdad/maps/central-access.geojson', 'cities/Baghdad/maps/baghdad-central-access.png',
                  'cities/Baghdad/engineering/prototype/review.html', 'cities/Baghdad/engineering/prototype/airport-prototype.zip',
                  'cities/Baghdad/engineering/prototype/airport-enquiries.zip',
                  'cities/Baghdad/engineering/prototype/sourcing-verification.json', 'cities/Baghdad/engineering/prototype/PROCUREMENT-PLAN.md', 'cities/Baghdad/engineering/prototype/sourcing-estimate.json',

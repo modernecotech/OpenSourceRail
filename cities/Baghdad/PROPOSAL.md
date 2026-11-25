@@ -13,14 +13,14 @@ The earlier investment process did not secure a contractor to deliver the metro.
 
 OpenSourceRail is preparing for new ideas in **late 2026 to early 2027**. The authority has yet to publish a submission date in the sources reviewed. The seven corridors provide a historical comparison while Baghdad revisits its routes, service and financing.
 
-The proposal offers **two independent choices**. The **148.2 km concept** follows the seven corridors named in the Iraqi investment brief. The **605.652 km citywide concept** has its own nine cross-city and ring corridors, six infill corridors and proposed links. Its 2035 construction allowance covers the complete guideway plan, including six sections reserved without passenger paths. The planning service assigns access branches to through trains. The route design must resolve their connections before the timetable can be set.
+The original planning work priced **two independent comparison cases**. The **148.2 km concept** follows the seven corridors named in the Iraqi investment brief. The **605.652 km citywide concept** has its own nine cross-city and ring corridors, six infill corridors and proposed links. Its 2035 construction allowance covers the complete guideway plan, including six sections reserved without passenger paths. The planning service assigns access branches to through trains. The route design must resolve their connections before the timetable can be set.
 
 | Programme | Costed guideway | Stations budgeted | Train fleet | Central Iraqi capital | Modelled completion |
 |---|---:|---:|---:|---:|---:|
 | Seven-corridor concept | 148.2 km | 64 | 242 six-car trains | **US$8.37bn** | 2031 |
 | Independent citywide concept | 605.652 km | 280 | 934 six-car trains | **US$33.00bn** | 2035 |
 
-The 2027 capital draws and 2031/2035 completion years are scenario dates. Rebase them on the new procurement timetable once published. These are **one estimate for each alternative**, each priced as a complete railway. They must not be added or subtracted to describe a build sequence. The detailed [cost and delivery schedule](COST-AND-DELIVERY.md) names every quantity, rate, annual operating cost and renewal.
+The 2027 capital draws and 2031/2035 completion years are scenario dates. Rebase them on the new procurement timetable once published. Each estimate records its original track, fleet and station allowances. The central redesign has its own scope and will need its own estimate. The detailed [cost and delivery schedule](COST-AND-DELIVERY.md) names every quantity, rate, annual operating cost and renewal.
 
 ## Earlier idea and present planning design
 
@@ -39,6 +39,8 @@ The earlier coast calculation cannot carry a crowded train through every long or
 The present plan also changes the older tunnel and overhead assumptions: **zero passenger tunnels and zero underground stations** are fixed planning requirements, while the conductor is the lowest priced supply under the current assumptions, not a supplier-proven winner. A no-catenary system remains the preferred procurement outcome. A tender can test overhead, limited-conductor and battery alternatives against identical service, safety and 30-year cost duties.
 
 ## The city and the routes
+
+The independent 605.652 km scheme is a comparison case. The central access review finds gaps at the east-bank markets and Tahrir Square even after the main routes are timed. Reconsider service through the centre before using its construction and operating totals for an investment decision. [Station coverage and central trunk study](CENTRAL-ACCESS.md)
 
 The [seven-line map](maps/Baghdad-148km.png) reproduces the Iraqi National Investment Commission’s February 2024 proposal. Its original satellite background shows the airport approach, route bends and crossings of the Tigris. The route table prints 148 km overall and the seven line items sum to 148.2 km. The independent OpenSourceRail citywide map uses a wider geographic extent and its own GIS linework. [NIC map and route table, page 4](https://mofa.gov.iq/paris/wp-content/uploads/sites/55/2024/02/Baghdad-PDF.pdf#page=4)
 
@@ -375,7 +377,7 @@ For the first-network supply study, a pair of trains accelerating together draws
 
 ## Decision requested
 
-For the anticipated new-ideas window, Amanat Baghdad is asked to consider the open design as a reference available to every proposer and to compare the two **independent** networks on coverage, capacity, installed and whole-life cost, local contract value and design rights. The citywide choice should safeguard through service to the airport, Sadr City and Jadriya and procure connected route, station, factory, power and finance packages. Tender returns should price local manufacturing, repair, training and transferable design deliverables against the same service specification.
+For the next planning review, compare the [central services](CENTRAL-ACCESS.md) with station infill, bus improvements and retained regional connections. Agree how passengers reach markets, jobs, hospitals and the airport before setting the construction scope. Use the original schemes as comparative price and quantity records. Price the revised alignment, transfers, local construction and long-term maintenance against its own service specification.
 
 **Basis of this proposal:** the published Iraqi route brief, open GIS place and population layers, the [Baghdad maps](maps/README.md), the [train](VEHICLE.md) and the [integrated cost schedule](COST-AND-DELIVERY.md). The maps and figures support a funding and procurement discussion. They do not claim surveyed alignments, supplier bids or operating approval.
 

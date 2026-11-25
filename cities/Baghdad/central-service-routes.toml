@@ -1,0 +1,182 @@
+# Approximate access markers and concept alignment controls in WGS84.
+# Each route uses independent directional tracks. Crossing of the two lines at
+# Tahrir uses separate levels and a single passenger interchange precinct.
+scope = "Independent central Baghdad concept with end-to-end services"
+interchange = "Tahrir"
+commercial_speed_kmh = 30
+speed_cap_kmh = 60
+dwell_s = 35
+terminal_layover_min = 3
+headways_s = [600, 900, 1200]
+availability = 0.85
+public_notes = [
+  "Provide an independent elevated crossing in the vicinity of Al Jumhuriya Bridge. The mapped road bridge supplies a corridor reference for the span and approaches.",
+  "Align station access around existing streets and heritage sites. Old Rusafa needs a heritage, property and construction fit study. Concept vertices have no surveyed clearances or design radii.",
+  "Give Tahrir an accessible transfer between separately tracked services. For the timetable screen, conservatively reserve one shared conflict resource at Tahrir until the layout demonstrates separation. Carry vertical circulation, turnbacks and terminal staging through engineering and price review.",
+  "Intercity and bus transfers are candidate precincts. Confirm actual public entrances and pedestrian routes. Local transfer times, ridership, flood, utilities and property are open.",
+]
+
+[lines.C1]
+name = "Mansour–Karkh–Tahrir–Zayouna"
+basis = "Mansour district and central rail hub, national museum, a separate Tigris crossing by the mapped Republic Bridge corridor, Tahrir, east-bank employment and Zayouna."
+sequence = ["Mansour", "Zawraa", "Allawi", "Museum", "Karkh", "Haifa-bend", "Haifa-approach", "Bridge-west", "Bridge-bank", "Bridge-east", "Tahrir", "Kilani", "East-approach", "Zayouna"]
+tigris_crossings = 1
+
+[lines.C2]
+name = "Al Mustansiriya–Medical City–Old Rusafa–Jadriya"
+basis = "Al Mustansiriya, hospital and bus transfers, the Mutanabbi and Shorja markets, Saadoun Street, Karrada, Jadriya and the University of Baghdad approach."
+sequence = ["Mustansiriya", "Bab", "Medical", "Mutanabbi", "Shorja", "Tahrir", "Saadoun", "Firdos", "Karrada", "Jadriya", "University"]
+tigris_crossings = 0
+
+[stations.Mansour]
+name = "Al Mansour"
+place = 17594672306660
+source = "Retained OpenStreetMap/Protomaps place feature 17594672306660"
+basis = "Neighbourhood marker for station siting."
+
+[stations.Allawi]
+name = "Baghdad Central Station / Allawi"
+coordinates = [44.3792689, 33.3250403]
+source = "https://www.openstreetmap.org/node/14196696994"
+basis = "Intercity railway station reference. Locate the metro access at the public station frontage."
+
+[stations.Museum]
+name = "Iraq Museum / Karkh"
+coordinates = [44.3852, 33.3283]
+source = "https://cdli.earth/collections/1100"
+basis = "Museum neighbourhood access marker for a station on a nearby street."
+
+[stations.Tahrir]
+name = "Tahrir Square"
+way = 1237713225
+vertex = 2
+source = "https://www.openstreetmap.org/way/1237713225"
+basis = "Mapped street at the square. Shared access precinct for both lines."
+
+[stations.Kilani]
+name = "Al Kilani / Al Mutasim Street"
+way = 1270363343
+vertex = 2
+source = "https://www.openstreetmap.org/way/1270363343"
+basis = "Mapped Al Mutasim Street near the Al Kilani neighbourhood centre."
+
+[stations.Karkh]
+name = "Karkh / Haifa Street"
+way = 4080139
+vertex = 12
+source = "https://www.openstreetmap.org/way/4080139"
+basis = "Haifa Street near the Al Karkh neighbourhood marker."
+
+[stations.Zawraa]
+name = "Al Zawraa / Damascus Street"
+way = 4073770
+vertex = 0
+source = "https://www.openstreetmap.org/way/4073770"
+basis = "Damascus Street corridor near Al Zawraa Park."
+
+[stations.East-approach]
+name = "Al Muthanna Street"
+way = 4212514
+vertex = 0
+source = "https://www.openstreetmap.org/way/4212514"
+basis = "Mapped arterial east of the central districts and west of Palestine Street."
+
+[stations.Zayouna]
+name = "Zayouna / Palestine Street"
+way = 1265997328
+vertex = 14
+source = "https://www.openstreetmap.org/way/1265997328"
+basis = "Palestine Street approach near the mapped Zayouna neighbourhood."
+
+[stations.Mustansiriya]
+name = "Al Mustansiriya / Turkmen Club Square"
+way = 4289106
+vertex = 12
+source = "https://www.openstreetmap.org/way/4289106"
+basis = "Mapped street at the square near the Al Mustansiriya neighbourhood marker."
+
+[stations.Bab]
+name = "Bab al-Muadham bus interchange"
+coordinates = [44.3844840, 33.3489475]
+source = "https://www.openstreetmap.org/node/11627129086"
+basis = "Mapped bus stop at Bab al-Muadham."
+
+[stations.Medical]
+name = "Medical City / Ibn Sina Street"
+way = 4087717
+vertex = 21
+source = "https://www.openstreetmap.org/way/4087717"
+basis = "Ibn Sina Street by the hospital precinct at the retained Medical City place marker."
+
+[stations.Mutanabbi]
+name = "Mutanabbi Street / Old Rusafa"
+way = 814312504
+vertex = 4
+source = "https://www.openstreetmap.org/way/814312504"
+basis = "Approach from Al Mamun Street. Protect the historic fabric and avoid a station footprint in the book market."
+
+[stations.Shorja]
+name = "Al Shorja market / Republic Street"
+way = 4073849
+vertex = 5
+source = "https://www.openstreetmap.org/way/4073849"
+basis = "Named Republic Street approach to the wholesale market, close to the independently mapped market reference."
+
+[stations.Saadoun]
+name = "Al Saadoun"
+way = 4073845
+vertex = 15
+source = "https://www.openstreetmap.org/way/4073845"
+basis = "Mapped Al Saadoun Street, between Tahrir and Firdos."
+
+[stations.Firdos]
+name = "Firdos Square"
+way = 1237713227
+vertex = 0
+source = "https://www.openstreetmap.org/way/1237713227"
+basis = "Mapped square and arterial junction at the edge of Karrada."
+
+[stations.Karrada]
+name = "Central Karrada"
+place = 17603710679987
+source = "Retained OpenStreetMap/Protomaps place feature 17603710679987"
+basis = "Neighbourhood marker for a street station search."
+
+[stations.Jadriya]
+name = "Jadriya / Al Wuzara Street"
+way = 1207624599
+vertex = 0
+source = "https://www.openstreetmap.org/way/1207624599"
+basis = "Mapped arterial in Jadriya. Serves the north approach to the university."
+
+[stations.University]
+name = "University of Baghdad approach"
+way = 4213746
+vertex = 0
+source = "https://uobaghdad.edu.iq/?page_id=25439"
+basis = "Public-road approach on Khalid ibn al-Walid Street near the Jadriya campus. Road trace from OSM way 4213746."
+
+[waypoints.Haifa-bend]
+way = 4080867
+vertex = 14
+basis = "Haifa Street corridor reference."
+
+[waypoints.Haifa-approach]
+way = 4080867
+vertex = 0
+basis = "Haifa Street south-end approach."
+
+[waypoints.Bridge-west]
+way = 1176936666
+vertex = 0
+basis = "Republic Bridge western approach reference."
+
+[waypoints.Bridge-bank]
+way = 754157537
+vertex = 0
+basis = "Republic Bridge approach reference."
+
+[waypoints.Bridge-east]
+way = 754157537
+vertex = -1
+basis = "Republic Bridge eastern approach reference."

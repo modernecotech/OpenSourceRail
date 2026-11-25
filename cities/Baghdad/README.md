@@ -7,14 +7,14 @@ and independent citywide alternatives. Open main lines use two inward
 deck-fed gantries, subject to temporary works and access. [Current costs and
 delivery programme](engineering/mechanical/civil/rail-fed/network-delivery.md)
 
-Use the **17.46 km Airport alignment study** to review the proposed route, service, power options and partial construction costs together. The 30-minute paired-supply trial completes all 72 booked trips. Survey, complete prices and physical acceptance remain open. Use the citywide study to review which metropolitan routes can operate.
+Use the **17.46 km Airport alignment study** to review the proposed route, service, power options and partial construction costs together. The 30-minute paired-supply trial completes all 72 booked trips. Survey, complete prices and physical acceptance remain open. The 605.652 km citywide plan is a comparison. The [central access review](CENTRAL-ACCESS.md) identifies missing connections and tests a new alignment serving central Baghdad.
 
 | Decision | Open |
 |---|---|
 | Review the revised alignment and request budgetary prices on the matched scope | [Airport audit results](engineering/simulation/AUDIT-RESULTS.md) · [Paired-supply budgetary enquiry](engineering/simulation/audited-enquiry.zip) |
 | Inspect the earlier car, station, beam and power drawings | [Prototype twin and field-return guide](engineering/prototype/README.md) · [Offline prototype drawings](engineering/prototype/airport-prototype.zip) |
 | Review the historical 12 km Airport opening, its 15-minute timetable and 30-site budget | [v0.7.2 Airport opening](airport-integration.html) |
-| Choose a connected citywide service and see which access sections it defers | [Fourteen-route operating decision](CITYWIDE-SERVICE.md) |
+| Compare the connected 14-route timetable with new central service and see what remains deferred | [Central passenger access](CENTRAL-ACCESS.md) · [Fourteen-route clockface trial](CITYWIDE-SERVICE.md) |
 | Compare staged service, fares, debt and maintenance on the seven corridors | [Phased funding schedule](../../docs/operator-review/finance/phased-first.html) |
 
 [Proposal for Amanat Baghdad](PROPOSAL.md) · [PDF proposal](Baghdad-Metro-Proposal.pdf) · [Cost and annual cash schedule](COST-AND-DELIVERY.md) · [Train and station section](VEHICLE.md) · [Map layers and sources](maps/README.md)
@@ -73,6 +73,8 @@ This independent concept uses a wider map extent. The two images have different 
 The independent citywide map contains nine principal corridors, five shared links, six infill corridors and six access branches. It has fourteen service groups and a 280-station allowance. The proposal assigns the airport terminal area to M05, Sadr City anchors to M04 and M09, and Jadriya anchors to M01 and M02. Its 605.652 km is the costed length for the schematic corridors. Five shared links and the east inner arc total 50.099 km and are reserved without assigned train paths. The other 555.553 km has planning assignments. The two M04 branches are 2.323 km and 2.710 km from their assigned main line at the nearest branch ends. The proposal describes these junction gaps and the work needed to establish a timetable.
 
 At the original common bid rates, the reserve accounts for **$1.122bn within the citywide capital estimate**, and **$2.004m/year** of conductor upkeep within annual operations. The full estimate equates to **$51.214m per costed guideway kilometre** or **$55.832m per kilometre with an assigned passenger path**. See the [reserve breakdown](COST-AND-DELIVERY.md#reserved-citywide-guideway).
+
+The [central access review](CENTRAL-ACCESS.md) measures walking access to the stops actually called in the 14-route timetable. It identifies gaps around central Rusafa and tests two central trunks with their own timetable. Use the 605.652 km plan and its investment totals as a comparison case while revising the routes around passenger access.
 
 ### From a named place to an accessible station
 

@@ -374,9 +374,9 @@ def render(r):
     c = r["market"]["central"]
     d = r["deferred"]
     rows = [
-        "# Baghdad citywide operating decision",
+        "# Baghdad 14-route clockface trial",
         "",
-        "Use the fourteen connected main routes for network planning. Keep the airport extension on M05. Defer passenger service on the five access sections below. The published citywide capital retains every section. Baghdad’s operator and funding authority still need to adopt the service and approve the physical sites.",
+        "The clockface trial diagrams fourteen main routes, including the M05 airport extension. The five access sections below remain deferred and the cost ledger retains every section. The [central passenger access review](CENTRAL-ACCESS.md) measures walking access to the actual calls and tests routes into central Baghdad. Use this clockface trial as a timetable comparison.",
         "",
         "| Costed and operated scope | Route-km |",
         "|---|---:|",

@@ -8,6 +8,8 @@ Start with the [stakeholder partnership plan](operator-review/PARTNERSHIP-PLAN.m
 
 The [railway delivery workplan](operator-review/WORKPLAN.md) assigns the first twelve weeks of core and Baghdad work to operators, engineers, local manufacturers and sponsors. Use the [operator briefing and design twins](operator-review/README.md) to review the proposals with them.
 
+The [central Baghdad access review](../cities/Baghdad/CENTRAL-ACCESS.md) reopens passenger coverage and cross-river service for the 605 km comparison. Test access to actual stops, including the walk to change lines, before comparing revised network prices.
+
 The [Airport GIS simulation](../cities/Baghdad/engineering/simulation/GIS-SIMULATION.md) shows how public terrain, soil and water layers can replace uniform desktop inputs and drive simulated construction quantities, operating cases and whole-life costs.
 
 ## Published digital releases
