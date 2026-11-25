@@ -2,11 +2,11 @@
 
 ## Current metropolitan rail network
 
-This is one connected planning network for Baghdad. Its design test follows journeys from housing areas to markets, Medical City, civic centres and the university approach. The test allows up to two changes. The Airport and central routes stay connected, and the orange layer shows gaps beyond a 1.2 km street walk.
+This is one connected planning network for Baghdad. Its design test follows journeys from housing areas to markets, Medical City, civic centres and the university approach, with up to two changes. The same journeys test alternatives that remove duplicate suburban departures and shorten long parallel sections. The Airport and central routes stay connected, and the orange layer shows gaps beyond a 1.2 km street walk.
 
 <!-- current housing budget -->
 
-**Current housing-to-centre budget case.** 776.3 km of mapped guideway, 1,552.6 track-km counting both running tracks, and 681 station sites. The base installed allowance is **US$43.45bn**, with planning cases of US$30.52bn to US$66.12bn. Casting, haul and erection account for 6.76 million paid hours. The six-minute operating offer and the construction schedule use this same candidate. [Quantities, labour and costs](NETWORK-DELIVERY.md) · [Housing journeys and map](NETWORK.md)
+**Current housing-to-centre budget case.** 743.3 km of mapped guideway, 1,486.6 track-km counting both running tracks, and 651 station sites. The base installed allowance is **US$41.58bn**, with planning cases of US$29.19bn to US$63.32bn. Casting, haul and erection account for 6.50 million paid hours. The six-minute operating offer and the construction schedule use this same candidate. [Quantities, labour and costs](NETWORK-DELIVERY.md) · [Housing journeys and map](NETWORK.md)
 
 <!-- end current housing budget -->
 

@@ -5,7 +5,7 @@
 
 <!-- current housing budget -->
 
-**Current housing-to-centre budget case.** 776.3 km of mapped guideway, 1,552.6 track-km counting both running tracks, and 681 station sites. The base installed allowance is **US$43.45bn**, with planning cases of US$30.52bn to US$66.12bn. Casting, haul and erection account for 6.76 million paid hours. The six-minute operating offer and the construction schedule use this same candidate. [Quantities, labour and costs](NETWORK-DELIVERY.md) · [Housing journeys and map](NETWORK.md)
+**Current housing-to-centre budget case.** 743.3 km of mapped guideway, 1,486.6 track-km counting both running tracks, and 651 station sites. The base installed allowance is **US$41.58bn**, with planning cases of US$29.19bn to US$63.32bn. Casting, haul and erection account for 6.50 million paid hours. The six-minute operating offer and the construction schedule use this same candidate. [Quantities, labour and costs](NETWORK-DELIVERY.md) · [Housing journeys and map](NETWORK.md)
 
 <!-- end current housing budget -->
 
@@ -46,7 +46,7 @@ The present plan also changes the older tunnel and overhead assumptions: **zero 
 
 ### Current metropolitan rail network
 
-The current map joins the Airport approach, housing areas and central routes. A constrained street and rail simulation compares routes from housing to named markets, medical care, civic points and higher education. It limits rail trips to two changes with a street walk of up to 1.2 km at both ends. The results guide the perimeter trims and identify where access remains poor. [Route and journey comparison](NETWORK.md) · [Connected network GIS](maps/baghdad-network.geojson)
+The current map joins the Airport approach, housing areas and central routes. A street and rail simulation compares trips from housing to markets, medical care, civic points and higher education. It limits rail trips to two changes with a street walk of up to 1.2 km at both ends. The route review uses those journeys to test consolidating parallel lines and same-direction suburban departures. [Route and journey comparison](NETWORK.md) · [Connected network GIS](maps/baghdad-network.geojson)
 
 ![One metropolitan Baghdad railway map with end-to-end lines, interchanges and walking coverage](maps/baghdad-network.png)
 

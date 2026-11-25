@@ -116,6 +116,111 @@ def test_access_links(trimmed, source_options, reference, comparison, policy, gr
     return chosen, alternatives, tests["variants"], evidence
 
 
+def _walk_distances(network, graph, population):
+    sites = {key: row["coordinates"] for key, row in network["stations"].items()}
+    return holistic_access.walk_to_station(sites, graph, population)[0]
+
+
+def _walking_share(walk, population):
+    return 100 * float(population.counts[walk <= 1200].sum() / population.counts.sum())
+
+
+def _corridor_totals(runs):
+    return {"nearby_parallel_m": sum(row["length_m"] for row in runs if row["kind"] == "nearby_parallel"),
+            "common_alignment_m": sum(row["length_m"] for row in runs if row["kind"] == "common_alignment"),
+            "terminal_fans": len({tuple(row["lines"]) for row in runs if row["terminal_codeparture"]})}
+
+
+def _corridor_impact(stats, original, walk_share, original_walk_share, policy):
+    impact = changes(stats, original, walk_share, original_walk_share)
+    load_metric = "busiest_directed_segment_share_of_served_pct"
+    before = original["concentration"][load_metric]
+    after = stats["concentration"][load_metric]
+    impact["busiest_segment_increase_pp"] = round(after - before, 6) if before is not None and after is not None else None
+    failed = [key for key, value in impact.items() if key in policy and (value is None or value > policy[key])]
+    return impact, failed
+
+
+def consolidate(network, assignment, walking, population, graph, demand, config, *, context=None, protected_stations=()):
+    """Use geometry to propose consolidation and journeys to decide which changes survive."""
+    from . import rail_consolidation, rail_duplication
+
+    settings, policy = config["corridor_screen"], config["corridor_selection"]
+    start = rail_duplication.screen(network["lines"], **settings)
+    current, geometry, chosen_trip, chosen_walk = network, start, assignment, walking
+    start_share = _walking_share(walking, population)
+    passes, edits = [], []
+    for _ in range(policy["max_rounds"]):
+        proposals = rail_consolidation.alternatives(current, geometry, protected_stations=protected_stations,
+                                                     graph=graph, context=context)
+        if not proposals:
+            break
+        baseline = _corridor_totals(geometry["runs"])
+        records, screened, geometries = {}, {}, {}
+        for key, option in proposals.items():
+            candidate = option["network"]
+            if candidate is None:
+                records[key] = {"exceeded": [option["rejection_reason"]], "edited_lines": option["edited_line_ids"]}
+                continue
+            changed = {row["line_id"] for row in option["actions"]}
+            live = candidate["lines"]
+            pairs = {tuple(sorted((a, b))) for a in changed & live.keys() for b in live if a != b}
+            prior_runs = [row for row in geometry["runs"] if changed.isdisjoint(row["lines"])]
+            new_runs = rail_duplication.screen(live, pair_filter=pairs, **settings)["runs"] if pairs else []
+            runs = prior_runs + new_runs
+            totals = _corridor_totals(runs)
+            reduction = sum(baseline[key] - totals[key] for key in ("nearby_parallel_m", "common_alignment_m"))
+            reason = []
+            if reduction < policy["min_duplicate_reduction_m"]:
+                reason.append("insufficient duplication reduction")
+            if any(totals[key] - baseline[key] > 1e-6 for key in ("nearby_parallel_m", "common_alignment_m")):
+                reason.append("increased another type of duplication")
+            if totals["terminal_fans"] > baseline["terminal_fans"]:
+                reason.append("more parallel terminal departures")
+            if candidate["topology"]["route_km"] >= current["topology"]["route_km"]:
+                reason.append("route length did not decrease")
+            records[key] = {"candidate_id": candidate["candidate_id"], "actions": option["actions"],
+                            "corridors": totals, "reduction_m": round(reduction, 3),
+                            "exceeded": reason, "topology": candidate["topology"]}
+            if not reason:
+                screened[key] = candidate
+                geometries[key] = geometry | {"runs": runs}
+        if screened:
+            proposed_trips = holistic_pathways.compare(screened, **demand)["variants"]
+        else:
+            proposed_trips = {}
+        approved = []
+        for key, trips in proposed_trips.items():
+            impact, failed = _corridor_impact(trips, assignment, start_share, start_share, policy)
+            impact["walking_loss_pp"] = None
+            records[key].update({"access": impact, "exceeded": failed})
+            if not failed:
+                walk = _walk_distances(screened[key], graph, population)
+                impact, failed = _corridor_impact(trips, assignment, _walking_share(walk, population), start_share, policy)
+                records[key].update({"access": impact, "exceeded": failed})
+                if not failed:
+                    approved.append((key, walk))
+        selected = None
+        if approved:
+            selected, chosen_walk = min(approved, key=lambda item: (
+                -records[item[0]]["reduction_m"], records[item[0]]["corridors"]["terminal_fans"],
+                screened[item[0]]["topology"]["route_km"], item[0]))
+            current, chosen_trip = screened[selected], proposed_trips[selected]
+            geometry = rail_duplication.screen(current["lines"], **settings)
+            if sorted(geometry["runs"], key=str) != sorted(geometries[selected]["runs"], key=str):
+                raise ValueError("Incremental parallel-route screen differs from a full audit")
+            edits.extend(records[selected]["actions"])
+        passes.append({"selected": selected, "trials": records})
+        if selected is None:
+            break
+    if edits:
+        current = rail_consolidation.refresh_interchange_names(current)
+    return current, chosen_trip, chosen_walk, {"before_candidate_id": network["candidate_id"],
+                                               "before": start, "after": geometry, "passes": passes,
+                                               "before_totals": _corridor_totals(start["runs"]),
+                                               "after_totals": _corridor_totals(geometry["runs"]), "actions": edits}
+
+
 def evaluate(network, population, baseline_walk, graph, context, *, build_reference, enforce_reference=True):
     config = tomllib.loads(POLICY.read_text())
     policy = config["access"]
@@ -154,13 +259,33 @@ def evaluate(network, population, baseline_walk, graph, context, *, build_refere
                                 "removed_route_km": round(previous["topology"]["route_km"] - trial["topology"]["route_km"], 2),
                                 "housing_access": residential_layouts._housing_access(population, previous_walk, walk)}
         _, options = choose_layout(candidates, assignments["variants"], walking, policy)
-    revised = layouts[selected]
-    matched = holistic_pathways.compare({key: layouts[key] for key in dict.fromkeys(("grid_reference", selected))},
-                                        match_service_to="grid_reference", **demand)
+    before = selected
+    before_network = layouts[before]
+    before_walk = _walk_distances(before_network, graph, population)
+    revised, consolidated_trips, consolidated_walk, corridor_audit = consolidate(
+        before_network, assignments["variants"][before], before_walk, population, graph, demand, config,
+        context=context, protected_stations=protected)
+    corridor_audit["before_layout"] = before
+    if revised["candidate_id"] != before_network["candidate_id"]:
+        selected = "consolidated_corridors"
+        layouts[selected] = revised
+        assignments["variants"][selected] = consolidated_trips
+        walking[selected] = _walking_share(consolidated_walk, population)
+        candidates[selected] = {"name": "Consolidated housing routes", "network": revised,
+                                "actions": options[before]["actions"],
+                                "removed_route_km": round(previous["topology"]["route_km"] - revised["topology"]["route_km"], 2),
+                                "housing_access": residential_layouts._housing_access(population, previous_walk, consolidated_walk)}
+        _, options = choose_layout(candidates, assignments["variants"], walking, policy)
+        limits = config["corridor_selection"]
+        impact, exceeded = _corridor_impact(consolidated_trips, assignments["variants"][before], walking[selected],
+                                           walking[before], limits)
+        options[selected].update(equivalent_access_screen=not exceeded, exceeded=exceeded, impact=impact)
+    comparison_keys = dict.fromkeys(("grid_reference", before, selected))
+    matched = holistic_pathways.compare({key: layouts[key] for key in comparison_keys}, match_service_to=before, **demand)
     if matched["demand_sample"]["sample_id"] != assignments["demand_sample"]["sample_id"]:
         raise ValueError("The matched service check must use the same journeys")
     estimates = {}
-    for key in dict.fromkeys(("grid_reference", selected)):
+    for key in comparison_keys:
         construct = residential_delivery.evaluate(layouts[key])
         estimate = residential_systems.estimate(layouts[key], construct, service)
         if abs(estimate["service"]["running_train_km_day"] - assignments["variants"][key]["service"]["running_train_km_day"]) > .1:
@@ -174,5 +299,6 @@ def evaluate(network, population, baseline_walk, graph, context, *, build_refere
                             if code in revised["lines"]},
             "residential": {"selection": selected, "policy": config, "destinations": centre_inputs,
                             "candidates": options, "common_service": assignments, "access_link_tests": link_evidence,
-                            "equal_train_km": matched["variants"], "delivery": estimates}}
-    return revised, tags, {"grid_reference": previous["stations"]}
+                            "equal_train_km": matched["variants"], "delivery": estimates,
+                            "corridor_consolidation": corridor_audit}}
+    return revised, tags, {"grid_reference": previous["stations"], "previous_housing_layout": before_network["stations"]}

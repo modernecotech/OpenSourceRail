@@ -11,6 +11,26 @@ p90_increase_min = 2.0
 reference_candidate_id = "baghdad-network-5b91c84b8028d32e"
 reference_revision = "6f44be8e3004692cef4f3c8de77f817c1817fb83"
 
+[corridor_screen]
+# Planning screen for sustained parallelism. Catchments use actual street walks below.
+sample_m = 100
+nearby_m = 1000
+common_m = 10
+min_run_m = 2000
+max_angle_deg = 25
+terminal_m = 1000
+
+[corridor_selection]
+# Limits relative to the published housing network, at the same six-minute offer.
+served_loss_pp = 0.75
+one_change_loss_pp = 1.0
+destination_loss_pp = 2.0
+walking_loss_pp = 0.5
+p90_increase_min = 2.0
+busiest_segment_increase_pp = 1.0
+max_rounds = 8
+min_duplicate_reduction_m = 250
+
 [[centres]]
 id = "tahrir"
 landmark = "Tahrir Square"

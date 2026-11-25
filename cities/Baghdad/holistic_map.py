@@ -293,6 +293,7 @@ def evaluate(*, step_m=300, spacing_m=650, max_infill=None, max_through_routes=N
              Path(central_service_map.__file__), *(CITY / name for name in (
                  "holistic_through.py", "holistic_grid.py", "holistic_journeys.py", "holistic_orbitals.py",
                  "holistic_pathways.py", "residential_layouts.py", "residential_planning.py", "residential_delivery.py",
+                 "rail_duplication.py", "rail_consolidation.py",
                  "residential_systems.py", "residential_report.py", "residential-access.toml", "central-access.json",
                  *residential_systems.SOURCES)),
              *(central_access.MAPPING / name for name in (
@@ -466,7 +467,7 @@ def image(record, context):
     figure.legend(handles=symbols, loc="upper left", bbox_to_anchor=(.752,.619), frameon=False, fontsize=9.3, labelcolor=ink)
     figure.text(.765, .505, "Estimated walking access", color=ink, fontsize=11.5, weight="bold")
     figure.text(.765, .471, f"{walks['1200']['share_pct']:.1f}% within 1,200 m", color="#236b65", fontsize=14, weight="bold")
-    earlier = cases.get("grid_reference", cases.get("short_links", cases["previous_network"]))
+    earlier = cases.get("previous_housing_layout", cases.get("grid_reference", cases.get("short_links", cases["previous_network"])))
     figure.text(.765, .448, f"Previous map {earlier['1200']['share_pct']:.1f}%", color="#53605b", fontsize=10)
     figure.text(.765, .427, "WorldPop 2026 estimates\nMetropolitan study window\nWalks follow mapped streets",
                 color="#53605b", fontsize=10, linespacing=1.5, va="top")
@@ -510,7 +511,7 @@ def report(result):
         for area in ("metropolitan", "central"):
             row = result_by_area[area]
             percentages = [f"{row['cases'][case][limit]['share_pct']:g}%" for case, limit in (
-                ("grid_reference" if residential else "short_links" if layouts else "previous_network", "1200"),
+                ("previous_housing_layout" if residential else "short_links" if layouts else "previous_network", "1200"),
                 ("infill_1200_priority", "1200"), ("connected_network", "1200"),
                 ("connected_network", "800"))]
             out.append(f"| {name} · {area} | {row['population']:,} | " + " | ".join(percentages) + " |")
@@ -601,6 +602,7 @@ def report(result):
     if residential:
         from . import residential_report
 
+        out.extend(residential_report.corridor_sections(residential, stations))
         out.extend(residential_report.pathway_sections(residential, stations))
         out.extend(residential_report.delivery_summary(residential))
     else:
