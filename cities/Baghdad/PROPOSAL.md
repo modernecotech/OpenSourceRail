@@ -42,11 +42,11 @@ The present plan also changes the older tunnel and overhead assumptions: **zero 
 
 ### Current metropolitan rail network
 
-The current map joins the Airport approach, central routes and outer corridors with new direct cross-city routes. Each connects at both termini, with intermediate interchanges where the station sites permit them. The map uses the population within a 1.2 km walk over mapped streets to test the new routes and station sites. The orange layer shows where walking access remains poor. [Line register and reproducible network calculation](NETWORK.md) · [Connected network GIS](maps/baghdad-network.geojson)
+The current map joins the Airport approach, central routes and outer corridors with long east–west and north–south routes. An orbital lets passengers travel around the centre. The planning comparison tests a second ring, and uses the same journeys and daily train-kilometres to compare travel time, transfers and line loading. The orange layer shows where residents remain beyond a 1.2 km street walk. [Route and journey comparison](NETWORK.md) · [Connected network GIS](maps/baghdad-network.geojson)
 
 ![One metropolitan Baghdad railway map with end-to-end lines, interchanges and walking coverage](maps/baghdad-network.png)
 
-*One proposed Baghdad passenger network. Bold lines mark the new cross-city routes and rings mark proposed interchanges. Street crossings, platforms, operating intervals and physical alignment require design.*
+*One proposed Baghdad passenger network. Bold lines mark cross-city spines and orbitals. Station rings mark proposed interchanges. Street crossings, platforms, operating intervals and physical alignment require design.*
 
 ### Basis of the earlier cost comparisons
 

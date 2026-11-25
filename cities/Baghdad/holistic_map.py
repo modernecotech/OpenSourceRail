@@ -8,6 +8,7 @@ from math import cos, radians
 from pathlib import Path
 
 import numpy as np
+from scipy.spatial import cKDTree
 
 from engineering.performance import disk_reservation
 
@@ -25,13 +26,43 @@ REPORT_FILE = CITY / "NETWORK.md"
 PALETTE = ("#00766f", "#205ca7", "#a84a13", "#943a75", "#386f24", "#693fad", "#277d9a", "#8a6521",
            "#424c7c", "#aa3740", "#347e55", "#695243", "#156a95", "#53562b", "#096b43", "#8a1f58")
 DEFAULT_THROUGH_ROUTES = 16
+GRID_SPINE_LIMIT = 8
+LOCAL_COVERAGE_LINK_LIMIT = 8
+LOCAL_COVERAGE_ROUTE_KM = 88
+LAYOUT_NAMES = {"short_links": "Previous short-link map", "one_ring": "Grid with outer ring",
+                "two_rings": "Grid with two rings", "mixed_one_ring": "Grid and local links with outer ring",
+                "mixed_two_rings": "Grid and local links with two rings",
+                "targeted_relief": "Grid with targeted relief link",
+                "inner_ring_overlay": "Inner ring added to the same mixed grid"}
 
 
-def add_direct_routes(network, population, baseline_walk, graph, context, limit):
-    from . import holistic_through
+def route_samples(geometry):
+    track = holistic_network.Track(geometry)
+    return np.asarray([track.at(km) for km in np.linspace(.001, track.km - .001, max(2, int(track.km * 10)))]) * (
+        holistic_network.LOCAL_METRES)
 
-    planning_cells = holistic_access.coverage_cells(population, baseline_walk)
-    candidates = holistic_through.generate(network, context, graph, coverage_cells=planning_cells)
+
+def layout_rank(candidate, reference, walking_shortfall, route_km):
+    trips, prior = candidate["journeys"], reference["journeys"]
+    paired = candidate["paired_journeys"]
+    ratios = (
+        prior["at_most_one_transfer_share_of_all_pct"] /
+        max(trips["at_most_one_transfer_share_of_all_pct"], 1e-12),
+        (paired["candidate_elapsed_p90_min"] or float("inf")) /
+        (paired["reference_elapsed_p90_min"] or 1.),
+        candidate["concentration"]["busiest_directed_segment_share_of_served_pct"] /
+        max(reference["concentration"]["busiest_directed_segment_share_of_served_pct"], 1e-12),
+    )
+    return round(walking_shortfall, 3), round(max(ratios), 8), round(sum(ratios), 8), route_km
+
+
+def add_direct_routes(network, population, baseline_walk, graph, context, limit, *, candidates=None,
+                      route_km_cap=None, balance_axes=False, coverage_goal=None):
+    if candidates is None:
+        from . import holistic_through
+
+        planning_cells = holistic_access.coverage_cells(population, baseline_walk)
+        candidates = holistic_through.generate(network, context, graph, coverage_cells=planning_cells)
     remaining = baseline_walk > 1200
     pending, comparisons = {}, {}
     for candidate in candidates:
@@ -46,16 +77,23 @@ def add_direct_routes(network, population, baseline_walk, graph, context, limit)
                              "status": "available for comparison"}
         pending[code] = pixels
 
-    chosen = []
+    chosen, total_km = [], 0.
+    axis_counts = {}
     while pending and len(chosen) < limit:
+        if coverage_goal is not None and population.counts[~remaining].sum() >= coverage_goal:
+            break
         ranks = []
         for code, pixels in pending.items():
             gain = round(float(population.counts[pixels[remaining[pixels]]].sum()), 3)
             km = comparisons[code]["one_way_km"]
-            ranks.append((-round(gain / km, 4), -gain, km, code))
-        _, negative_gain, _, code = min(ranks)
-        if negative_gain == 0:
+            if not gain or (route_km_cap is not None and total_km + km > route_km_cap + 1e-7):
+                continue
+            axis = comparisons[code]["screening"].get("orientation")
+            rank = axis_counts.get(axis, 0) if balance_axes else 0
+            ranks.append((rank, -round(gain / km, 4), -gain, km, code))
+        if not ranks:
             break
+        _, _, _, km, code = min(ranks)
         pending.pop(code)
         option = comparisons[code]
         try:
@@ -72,26 +110,183 @@ def add_direct_routes(network, population, baseline_walk, graph, context, limit)
             continue
         option.update(status="included in planning map", marginal_additional_worldpop=gain)
         chosen.append(code)
+        total_km += km
+        axis = option["screening"].get("orientation")
+        axis_counts[axis] = axis_counts.get(axis, 0) + 1
         network, remaining = revised, new_remaining
-    if limit and not chosen:
+    if limit and route_km_cap is None and not chosen:
         raise ValueError("No screened through route could improve the connected network")
     network = holistic_network.insert_through_lines(network, [], graph=graph, context=context, connect_through_lines=True)
     return network, {"selected": chosen, "max_through_routes": limit, "comparisons": comparisons,
                      "objective": "Additional 1,200 m WorldPop residents per route-km, then residents, route-km and ID"}
 
 
-def evaluate(*, step_m=300, spacing_m=650, max_infill=None, max_through_routes=DEFAULT_THROUGH_ROUTES):
+def compare_layouts(network, population, baseline_walk, graph, context):
+    from . import holistic_grid, holistic_journeys, holistic_orbitals
+    from .holistic_through import MAX_DUPLICATION_SHARE, RAIL_DUPLICATION_M
+
+    short_links, short_choices = add_direct_routes(network, population, baseline_walk, graph, context, DEFAULT_THROUGH_ROUTES)
+    base_km = network["topology"]["route_km"]
+    added_km = sum(short_choices["comparisons"][code]["one_way_km"] for code in short_choices["selected"])
+    cells = holistic_access.coverage_cells(population, baseline_walk)
+    candidates = holistic_grid.generate(network, context, graph, coverage_cells=cells)
+    one_ring, one_choices = add_direct_routes(network, population, baseline_walk, graph, context, GRID_SPINE_LIMIT,
+                                              candidates=candidates, route_km_cap=added_km, balance_axes=True)
+    if len({one_choices["comparisons"][code]["screening"]["orientation"] for code in one_choices["selected"]}) < 2:
+        raise ValueError("A cross-city grid requires screened spines in both directions")
+    layouts = {"short_links": short_links, "one_ring": one_ring}
+    choices = {"one_ring": one_choices}
+    ring_only, orbit_evidence = holistic_orbitals.add_inner_orbit(network, graph, context)
+    extra_rings = sorted(set(ring_only["lines"]) - set(network["lines"]))
+    if extra_rings:
+        loop_km = sum(ring_only["lines"][code]["one_way_km"] for code in extra_rings)
+        smaller, small_choices = add_direct_routes(network, population, baseline_walk, graph, context, GRID_SPINE_LIMIT,
+                                                   candidates=candidates, route_km_cap=added_km - loop_km, balance_axes=True)
+        if len({small_choices["comparisons"][code]["screening"]["orientation"] for code in small_choices["selected"]}) == 2:
+            two_ring, orbit_evidence = holistic_orbitals.add_inner_orbit(
+                smaller, graph, context, southern_way=orbit_evidence["southern_way"])
+            if set(two_ring["lines"]) - set(smaller["lines"]):
+                if two_ring["topology"]["route_km"] <= base_km + added_km + .02:
+                    layouts["two_rings"] = two_ring
+                    choices["two_rings"] = small_choices
+
+    def walking_distances(variant):
+        sites = {key: row["coordinates"] for key, row in variant["stations"].items()}
+        return holistic_access.walk_to_station(sites, graph, population)[0]
+
+    walks = {label: walking_distances(variant) for label, variant in layouts.items()}
+    coverage_goal = float(population.counts[walks["short_links"] <= 1200].sum())
+    # Compare the same grid structures with only the local links needed to
+    # recover walking access on the earlier map. Keep their added route-km explicit.
+    for label, grid_choices in list(choices.items()):
+        corridors = cKDTree(np.concatenate([route_samples(layouts[label]["lines"][code]["geometry"])
+                                            for code in grid_choices["selected"]]))
+        local_candidates = [row for row in short_choices["comparisons"].values()
+                            if (corridors.query(route_samples(row["geometry"]))[0] <= RAIL_DUPLICATION_M).mean()
+                            <= MAX_DUPLICATION_SHARE]
+        variant, local = add_direct_routes(layouts[label], population, walks[label], graph, context,
+                                           LOCAL_COVERAGE_LINK_LIMIT,
+                                           candidates=local_candidates,
+                                           route_km_cap=LOCAL_COVERAGE_ROUTE_KM, coverage_goal=coverage_goal)
+        if local["selected"]:
+            mixed = "mixed_" + label
+            layouts[mixed], walks[mixed] = variant, walking_distances(variant)
+            choices[mixed] = {**grid_choices, "spines": grid_choices["selected"], "local_links": local["selected"],
+                              "selected": [*grid_choices["selected"], *local["selected"]],
+                              "comparisons": {**grid_choices["comparisons"], **local["comparisons"]}}
+
+    journeys = holistic_journeys.compare(layouts, graph=graph, population=population, match_service_to="short_links")
+
+    def rank(label):
+        result = journeys["variants"][label]
+        shortfall = max(0., coverage_goal - float(population.counts[walks[label] <= 1200].sum()))
+        return (*layout_rank(result, journeys["variants"]["short_links"], shortfall,
+                             layouts[label]["topology"]["route_km"]), label)
+
+    selected = min(choices, key=rank)
+    pre_relief = selected
+    initial = layouts[selected]
+    initial_choices = choices[selected]
+    experiments = {"short_links": short_links, selected: initial}
+    rejected = {}
+    if len(initial_choices.get("local_links", [])) < LOCAL_COVERAGE_LINK_LIMIT:
+        for code in short_choices["selected"]:
+            option = short_choices["comparisons"][code]
+            if code in initial["lines"] or option["one_way_km"] < 9:
+                continue
+            try:
+                experiments[code] = holistic_network.insert_through_lines(
+                    initial, [option], graph=graph, context=context, connect_through_lines=True)
+            except ValueError as error:
+                rejected[code] = str(error)
+    if "two_rings" in layouts and "M15" not in initial["lines"]:
+        overlay, overlay_evidence = holistic_orbitals.add_inner_orbit(
+            initial, graph, context, southern_way=orbit_evidence["southern_way"])
+        if "M15" in overlay["lines"]:
+            experiments["inner_ring_overlay"] = overlay
+
+    relief = holistic_journeys.compare(experiments, graph=graph, population=population, match_service_to="short_links")
+    if relief["demand_sample"]["sample_id"] != journeys["demand_sample"]["sample_id"]:
+        raise ValueError("Relief tests must use the original origin–destination sample")
+    profile = relief["variants"]
+    reference = profile["short_links"]
+    reference_pressure = profile[selected]["concentration"]["peak_load_per_departure_index"]
+    targets = {}
+    for label, variant in experiments.items():
+        if label in ("short_links", selected):
+            continue
+        candidate = profile[label]
+        distances = walking_distances(variant)
+        shortfall = max(0., coverage_goal - float(population.counts[distances <= 1200].sum()))
+        if candidate["concentration"]["peak_load_per_departure_index"] < reference_pressure:
+            targets[label] = (*layout_rank(candidate, reference, shortfall, variant["topology"]["route_km"]), label)
+        if label == "inner_ring_overlay":
+            layouts[label], walks[label], choices[label] = variant, distances, initial_choices
+            journeys["variants"][label] = candidate
+    initial_rank = (*layout_rank(profile[selected], reference, max(0., coverage_goal - float(
+        population.counts[walks[selected] <= 1200].sum())), initial["topology"]["route_km"]), selected)
+    added_relief = min(targets, key=targets.get) if targets else None
+    if added_relief is not None and targets[added_relief] < initial_rank:
+        trial = experiments[added_relief]
+        if added_relief == "inner_ring_overlay":
+            selected = added_relief
+            orbit_evidence = overlay_evidence
+        else:
+            selected = "targeted_relief"
+            layouts[selected], walks[selected] = trial, walking_distances(trial)
+            option = short_choices["comparisons"][added_relief] | {
+                "basis_for_selection": "Lower peak demand per departure on the same synthetic trips and running train-km",
+                "marginal_additional_worldpop": round(float(population.counts[
+                    (walks[selected] <= 1200) & (walking_distances(initial) > 1200)].sum())),
+            }
+            choices[selected] = {**initial_choices,
+                                 "selected": [*initial_choices["selected"], added_relief],
+                                 "spines": initial_choices.get("spines", initial_choices["selected"]),
+                                 "local_links": [*initial_choices.get("local_links", []), added_relief],
+                                 "comparisons": initial_choices["comparisons"] | {added_relief: option}}
+            journeys["variants"][selected] = profile[added_relief]
+    else:
+        added_relief = None
+
+    best = layouts[selected]
+    sensitivity = holistic_journeys.compare({"short_links": short_links, selected: best}, graph=graph,
+                                            population=population, match_service_to="short_links",
+                                            balance_frequencies=True)
+    if sensitivity["demand_sample"]["sample_id"] != journeys["demand_sample"]["sample_id"]:
+        raise ValueError("Headway comparisons must use the same origin–destination sample")
+    record = {**choices[selected], "layout": selected, "tested_layouts": {
+        key: {"candidate_id": item["candidate_id"], **item["topology"],
+              "new_spines": metadata.get("spines", metadata["selected"] if key != "short_links" else []),
+              "local_links": metadata.get("local_links", metadata["selected"] if key == "short_links" else []),
+              "added_route_km": round(item["topology"]["route_km"] - base_km, 2),
+              "rings": [code for code, line in item["lines"].items() if line["loop"]]}
+        for key, item in layouts.items() for metadata in (choices.get(key, short_choices),)},
+        "matched_added_route_km": round(added_km, 2), "orbital_evidence": orbit_evidence, "journeys": journeys,
+        "headway_sensitivity": sensitivity["variants"], "accepted_relief": added_relief, "pre_relief_layout": pre_relief,
+        "relief_tests": {label: {"concentration": profile[label]["concentration"],
+                                 "journeys": profile[label]["journeys"], "service": profile[label]["service"]}
+                         for label in experiments if label != "short_links"},
+        "rejected_relief": rejected,
+        "layout_rule": "Recover earlier 1,200 m walking access, then minimise the worst relative change in the shares of OD "
+                       "served with at most one transfer and trips on the busiest segment, and in paired p90 journey time"}
+    return best, record, {name: variant["stations"] for name, variant in layouts.items()}
+
+
+def evaluate(*, step_m=300, spacing_m=650, max_infill=None, max_through_routes=None):
     _, _, historic, context = central_access.original_cases()
     graph = central_access.walking_graph()
     base = holistic_network.evaluate(graph=graph)
-    extend = (lambda network, population, walk, graph, context:
-              add_direct_routes(network, population, walk, graph, context, max_through_routes)) if max_through_routes else None
+    extend = compare_layouts
+    if max_through_routes is not None:
+        extend = (lambda network, population, walk, graph, context:
+                  (*add_direct_routes(network, population, walk, graph, context, max_through_routes), {})) if max_through_routes else None
     network, access, cells = holistic_access.evaluate(
         base, holistic_network.insert_stations, historic["clockface"],
         graph=graph, context=context, step_m=step_m, spacing_m=spacing_m, max_infill=max_infill, add_through_routes=extend,
     )
     paths = (Path(__file__), Path(holistic_access.__file__), Path(holistic_gaps.__file__), Path(central_access.__file__),
-             Path(central_service_map.__file__), CITY / "holistic_through.py",
+             Path(central_service_map.__file__), *(CITY / name for name in (
+                 "holistic_through.py", "holistic_grid.py", "holistic_journeys.py", "holistic_orbitals.py")),
              *(central_access.MAPPING / name for name in (
                  "street-source.json", "walking-graph.npz.gz", "walking-streets.geojson.gz",
                  "worldpop-2026-source.json", "worldpop-2026-pixels.npz.gz",
@@ -115,6 +310,30 @@ def transfer_points(network):
     return points
 
 
+def line_style(record):
+    selection = record["walking_access"]["through_route_selection"] or {}
+    selected = set(selection.get("selected", []))
+    local = set(selection.get("local_links", []))
+    axis_counts = {"east–west": 0, "north–south": 0}
+    axis_colors = {"east–west": ("#176292", "#007488", "#2353a3", "#267f99"),
+                   "north–south": ("#a54021", "#934e15", "#ba5829", "#813621")}
+    style = {}
+    for i, (code, line) in enumerate(record["network"]["lines"].items()):
+        if line["loop"]:
+            style[code] = ("orbital", "#7b4694" if code == "M09" else "#962f79", 2.9)
+        elif code in local:
+            style[code] = ("local coverage", PALETTE[i % len(PALETTE)], 1.65)
+        elif code in selected:
+            role = selection["comparisons"][code]["screening"].get("orientation", "direct cross-city")
+            colors = axis_colors.get(role, PALETTE)
+            index = axis_counts.get(role, 0)
+            style[code] = (role, colors[index % len(colors)], 2.8)
+            axis_counts[role] = index + 1
+        else:
+            style[code] = ("retained", PALETTE[i % len(PALETTE)], 1.4)
+    return style
+
+
 def image(record, context):
     import matplotlib
     matplotlib.use("Agg")
@@ -127,7 +346,11 @@ def image(record, context):
     lines, stations = network["lines"], network["stations"]
     cases = access["population"]["worldpop-2026"]["metropolitan"]["cases"]
     walks = cases["connected_network"]
-    through = (access["through_route_selection"] or {}).get("selected", [])
+    selection = access["through_route_selection"] or {}
+    through = selection.get("selected", [])
+    spine_ids = selection.get("spines", through)
+    style = line_style(record)
+    rings = [code for code, item in lines.items() if item["loop"]]
     bgcolor, ink = "#f8f6ee", "#14383c"
     figure = plt.figure(figsize=(15, 12.8), facecolor=bgcolor)
     ax = figure.add_axes((.028, .095, .719, .798), facecolor="#f5f0e5")
@@ -143,17 +366,16 @@ def image(record, context):
         ax.scatter(*xy.T, s=np.clip(counts / 135, .6, 88), c="#ce7a46", alpha=.25, lw=0, zorder=2.5)
 
     handles, all_points = {}, []
-    for i, (key, line) in enumerate(lines.items()):
-        is_through = key in through
-        color = PALETTE[(through.index(key) if is_through else i) % len(PALETTE)]
+    for key, line in lines.items():
+        role, color, width = style[key]
+        prominent = role not in ("retained", "local coverage")
         points = np.array(line["geometry"])
         all_points.extend(points)
-        width = 2.7 if is_through else 1.55
-        z = 4.3 if is_through else 3.8
+        z = 4.3 if prominent else 3.8
         ax.plot(*points.T, color=bgcolor, linewidth=width + 1.6, solid_capstyle="round", zorder=z - .15)
         ax.plot(*points.T, color=color, linewidth=width, solid_capstyle="round", zorder=z)
         stops = np.array([stations[stop]["coordinates"] for stop in line["station_ids"]])
-        ax.scatter(*stops.T, s=10 if is_through else 6, c=bgcolor, edgecolors=color, lw=.62, zorder=5)
+        ax.scatter(*stops.T, s=10 if prominent else 6, c=bgcolor, edgecolors=color, lw=.62, zorder=5)
         handles[key] = Line2D([0], [0], color=color, lw=width, label=key)
 
     transfers = transfer_points(network)
@@ -207,15 +429,19 @@ def image(record, context):
                 arrowprops=dict(arrowstyle="-|>", color=ink))
 
     figure.text(.052, .968, "Baghdad metropolitan rail network", color=ink, fontsize=29, weight="bold", va="top")
-    figure.text(.053, .921, f"{len(lines)} connected lines   ·   {len(through)} new cross-city routes   ·   "
-                f"{len(transfers)} proposed interchanges", color="#445d59", fontsize=13, va="top")
-    figure.text(.765, .876, "New cross-city routes", color=ink, fontsize=12.2, weight="bold")
-    figure.legend(handles=[handles[code] for code in through], loc="upper left", bbox_to_anchor=(.752,.867), labelcolor=ink,
-                  frameon=False, ncol=4, fontsize=8.8, columnspacing=.62, handlelength=1.4)
-    figure.text(.765, .755, "Retained routes", color=ink, fontsize=11.5, weight="bold")
-    figure.legend(handles=[handle for code, handle in handles.items() if code not in through], loc="upper left",
-                  bbox_to_anchor=(.752,.744), labelcolor=ink, frameon=False, ncol=3, fontsize=8.1,
-                  columnspacing=.85, handlelength=1.4)
+    figure.text(.053, .921, f"{len(lines)} connected lines   ·   {len(spine_ids)} cross-city spines   ·   "
+                f"{len(rings)} orbital {'line' if len(rings) == 1 else 'lines'}   ·   {len(transfers)} interchanges",
+                color="#445d59", fontsize=12, va="top")
+    is_grid = "layout" in selection
+    figure.text(.765, .876, "Grid spines and orbitals" if is_grid else "Cross-city additions and orbitals",
+                color=ink, fontsize=12.2, weight="bold")
+    figure.legend(handles=[handles[code] for code in [*spine_ids, *rings]], loc="upper left",
+                  bbox_to_anchor=(.752,.867), labelcolor=ink, frameon=False, ncol=4, fontsize=8.6,
+                  columnspacing=.55, handlelength=1.4)
+    figure.text(.765, .755, "Other passenger routes", color=ink, fontsize=11.5, weight="bold")
+    figure.legend(handles=[handle for code, handle in handles.items() if style[code][0] in ("retained", "local coverage")],
+                  loc="upper left", bbox_to_anchor=(.752,.744), labelcolor=ink, frameon=False, ncol=4,
+                  fontsize=8.1, columnspacing=.85, handlelength=1.4)
     figure.text(.765, .625, "How to read the map", color=ink, fontsize=12, weight="bold")
     figure.legend(handles=(
         Line2D([], [], marker="o", markerfacecolor=bgcolor, markeredgecolor=ink, ls="None", label="Station or interchange"),
@@ -223,7 +449,8 @@ def image(record, context):
     ), loc="upper left", bbox_to_anchor=(.752,.619), frameon=False, fontsize=9.3, labelcolor=ink)
     figure.text(.765, .505, "Estimated walking access", color=ink, fontsize=11.5, weight="bold")
     figure.text(.765, .471, f"{walks['1200']['share_pct']:.1f}% within 1,200 m", color="#236b65", fontsize=14, weight="bold")
-    figure.text(.765, .448, f"Previous map {cases['previous_network']['1200']['share_pct']:.1f}%", color="#53605b", fontsize=10)
+    earlier = cases.get("short_links", cases["previous_network"])
+    figure.text(.765, .448, f"Previous map {earlier['1200']['share_pct']:.1f}%", color="#53605b", fontsize=10)
     figure.text(.765, .427, "WorldPop 2026 estimates\nMetropolitan study window\nWalks follow mapped streets",
                 color="#53605b", fontsize=10, linespacing=1.5, va="top")
     figure.text(.765, .324, "Largest walking gaps", color=ink, fontsize=11.5, weight="bold")
@@ -246,6 +473,7 @@ def report(result):
     network, access = result["network"], result["walking_access"]
     lines, stations = network["lines"], network["stations"]
     selection = access["through_route_selection"]
+    layouts = selection.get("tested_layouts") if selection else None
     out = [
         "# Baghdad metropolitan rail network", "",
         f"This is one connected planning network for Baghdad, with {len(lines)} lines and {len(stations)} station points. "
@@ -257,14 +485,15 @@ def report(result):
         "[Engineering input, coverage and gap data](baghdad-network.json)", "",
         "## Walk to a station", "",
         "The primary planning measure is a 1,200 m walk along the mapped street network. The 800 m result shows shorter access.", "",
-        "| Source and area | Estimated residents | Previous map within 1,200 m | Infill reprioritised to 1,200 m | Revised network within 1,200 m | Revised network within 800 m |",
+        "| Source and area | Estimated residents | Previous map within 1,200 m | Retained routes with infill | Revised network within 1,200 m | Revised network within 800 m |",
         "|---|---:|---:|---:|---:|---:|",
     ]
     for name, result_by_area in access["population"].items():
         for area in ("metropolitan", "central"):
             row = result_by_area[area]
             percentages = [f"{row['cases'][case][limit]['share_pct']:g}%" for case, limit in (
-                ("previous_network", "1200"), ("infill_1200_priority", "1200"), ("connected_network", "1200"),
+                ("short_links" if layouts else "previous_network", "1200"),
+                ("infill_1200_priority", "1200"), ("connected_network", "1200"),
                 ("connected_network", "800"))]
             out.append(f"| {name} · {area} | {row['population']:,} | " + " | ".join(percentages) + " |")
     out.extend([
@@ -288,23 +517,87 @@ def report(result):
         nearby = ", ".join(f"{link['line_id']} ({link['alignment_distance_m']:,} m)" for link in gap["nearby_rail"])
         out.append(f"| {gap['rank']} | {lat:.4f}° N, {lon:.4f}° E | {gap['beyond_1200_m']:,} | {nearby} |")
     out.extend(["",
-        "## Direct cross-city routes", "",
     ])
+    if layouts:
+        comparison = selection["journeys"]
+        walks = access["population"]["worldpop-2026"]["metropolitan"]["cases"]
+        out.extend([
+            "## Network patterns and point-to-point trips", "",
+            "The earlier short-link map, the east–west and north–south grid, and the inner-ring alternative use the same "
+            "synthetic origin–destination demand. The first grid trials use the earlier map’s added route length as a ceiling. "
+            "The mixed grids keep selected short links to recover access where the longer routes leave gaps.", "",
+            "| Pattern | Spines / local links / rings | Added route-km | Within 1.2 km | All OD served | All OD with zero or one transfer | P90 elapsed (min) | Busiest line share | Busiest directed segment share |",
+            "|---|---:|---:|---:|---:|---:|---:|---:|---:|",
+        ])
+        for label, layout in layouts.items():
+            assigned = comparison["variants"][label]
+            stats, load = assigned["journeys"], assigned["concentration"]
+            name = LAYOUT_NAMES[label]
+            if label == selection["layout"]:
+                name = f"**{name}**"
+            out.append(f"| {name} | {len(layout['new_spines'])} / {len(layout['local_links'])} / {len(layout['rings'])} | "
+                       f"{layout['added_route_km']:.1f} | {walks[label]['1200']['share_pct']:.2f}% | {stats['served_share_pct']:.2f}% | "
+                       f"{stats['at_most_one_transfer_share_of_all_pct']:.2f}% | {stats['elapsed_p90_min']:.1f} | "
+                       f"{load['busiest_line_boarding_share_pct']:.2f}% | {load['busiest_directed_segment_share_of_served_pct']:.2f}% |")
+        if selection["accepted_relief"] and selection["layout"] == "targeted_relief":
+            out.extend(["", f"The planning map retains **{selection['accepted_relief']}** as a relief link. Adding it to the best initial grid "
+                        "lowered the peak demand per departure and improved the combined journey and load comparison. "
+                        "The two-ring overlay tests the same initial grid with the inner ring added."])
+        paired = comparison["variants"][selection["layout"]]["paired_journeys"]
+        samples = comparison["demand_sample"]
+        out.extend(["",
+            f"The map shows **{LAYOUT_NAMES[selection['layout']]}**. The selection rule first seeks to restore the previous 1.2 km access. "
+            "It then compares each grid’s one-transfer journey share, 90th-percentile time on matched journeys and busiest segment share "
+            "with the earlier map, choosing the grid with the smallest worst relative change. If none restore coverage, the rule "
+            "minimises the walking-access shortfall first.", "",
+            f"For journeys served in both the selected and earlier networks, the weighted mean elapsed-time change is "
+            f"**{paired['candidate_minus_reference_elapsed_mean_min']:+.2f} minutes**. The assignment holds daily train-km equal to "
+            "the previous map’s service scenario. It includes walking, in-vehicle time, stops, waiting and a transfer penalty. "
+            "The busiest-line share is a share of boardings. The busiest-segment share is a share of served journeys. "
+            "These loads screen transfer pressure. Passenger counts, timetables and train capacities remain open.", "",
+            str(samples["status"]) + ". " + samples["method"], "",
+        ])
+        if "two_rings" not in layouts:
+            out.append("The inner orbital did not form a comparable two-ring grid within the screened route-length allowance.")
+            out.append("")
+        else:
+            out.extend(["The inner orbital trial follows the retained road corridors across the Tigris at Al-A’imma and Al-Jadriya. "
+                        "Its stations and interchanges support a planning comparison. Rail curves, bridge structures and grades require design.", ""])
+        out.extend([
+            "### Managing the busiest line at equal service effort", "",
+            "The sensitivity redistributes departures toward busy sections within the same daily train-km. "
+            "Both networks start with uniform headways and may vary each line’s frequency between half and twice that starting value. "
+            "The assignment recalculates journeys after each frequency change. The peak index scales the maximum share of all sampled trips "
+            "on a directed segment by its headway relative to six minutes. It compares expected demand per departure under the same synthetic trip volume.", "",
+            "| Layout and frequency trial | M09 headway (min) | One-transfer-or-better share | Peak demand per departure index |",
+            "|---|---:|---:|---:|",
+        ])
+        for label in ("short_links", selection["layout"]):
+            for mode, assigned in (("uniform", comparison["variants"][label]),
+                                   ("load-based", selection["headway_sensitivity"][label])):
+                headway = assigned["service"]["line_headways_s"]["M09"] / 60
+                direct = assigned["journeys"]["at_most_one_transfer_share_of_all_pct"]
+                pressure = assigned["concentration"]["peak_load_per_departure_index"]
+                out.append(f"| {LAYOUT_NAMES[label]}, {mode} | {headway:.2f} | {direct:.2f}% | {pressure:.3f} |")
+        out.append("")
+    out.extend(["## Cross-city additions", ""])
     if selection:
         added_km = sum(selection["comparisons"][code]["one_way_km"] for code in selection["selected"])
         out.extend([
-            f"The generator compared {len(selection['comparisons'])} screened alignments. This {selection['max_through_routes']}-route planning trial "
-            f"adds {len(selection['selected'])} routes totalling {added_km:.1f} route-km. Every added route has an interchange at both termini. "
+            f"The generator compared {len(selection['comparisons'])} screened alignments. The selected layout "
+            f"adds {len(selection['selected'])} through routes totalling {added_km:.1f} route-km, before any inner orbital. "
+            "Every through route has an interchange at both termini. "
             "Intermediate interchanges are included where the geometry and station screens allow them. The coverage gain in each row is measured "
             "after the routes above it are added.", "",
-            "| Line | First interchange | Last interchange | Length | Interchanges | Additional residents within 1,200 m |",
-            "|---|---|---|---:|---:|---:|",
+            "| Line | Role | First interchange | Last interchange | Length | Interchanges | Additional residents within 1,200 m |",
+            "|---|---|---|---|---:|---:|---:|",
         ])
         for code in selection["selected"]:
             row = selection["comparisons"][code]
             start, finish = [stations[key]["name"] for key in row["terminal_ids"]]
             count = network["through_lines"][code]["transfer_count"]
-            out.append(f"| {code} | {start} | {finish} | {row['one_way_km']:.2f} km | {count} | {row['marginal_additional_worldpop']:,} |")
+            role = row["screening"].get("orientation", "Local gap link")
+            out.append(f"| {code} | {role} | {start} | {finish} | {row['one_way_km']:.2f} km | {count} | {row['marginal_additional_worldpop']:,} |")
         out.extend(["", "The centre lines are direct planning alignments. Detailed vertical profiles, curve design, property access, "
                     "bridge clearances and platform layouts still need engineering. The GeoJSON and JSON retain the tested geometry and source evidence.", ""])
     out.extend([
@@ -342,18 +635,15 @@ def outputs(record, context):
     geojson = holistic_network.geojson(record["network"])
     geojson["publication_id"] = record["publication_id"]
     unmatched = set(record["walking_access"]["proposed_stops_without_a_street_snap"])
-    through = (record["walking_access"]["through_route_selection"] or {}).get("selected", [])
-    palette = {key: PALETTE[(through.index(key) if key in through else i) % len(PALETTE)]
-               for i, key in enumerate(record["network"]["lines"])}
+    style = line_style(record)
     for feature in geojson["features"]:
         properties = feature["properties"]
         if "station_id" in properties:
             properties["street_snap_within_limit"] = properties["station_id"] not in unmatched
             properties["marker-size"] = "small"
         if properties["kind"] == "line":
-            line = properties["line_id"]
-            properties.update({"route_role": "direct cross-city" if line in through else "retained",
-                               "stroke": palette[line], "stroke-width": 4 if line in through else 2})
+            role, color, width = style[properties["line_id"]]
+            properties.update({"route_role": role, "stroke": color, "stroke-width": round(width * 1.5, 1)})
     geojson["features"].extend({"type": "Feature", "geometry": {"type": "Point", "coordinates": cell["coordinates"]},
                                 "properties": {"kind": "walking-access", "estimated_residents": cell["people"],
                                                "residents_beyond_1200_m": cell["beyond_1200_m"]}}
@@ -377,12 +667,12 @@ def main():
     parser.add_argument("--sample-step-m", type=int, default=300)
     parser.add_argument("--infill-spacing-m", type=int, default=650)
     parser.add_argument("--max-infill", type=int)
-    parser.add_argument("--max-through-routes", type=int, default=DEFAULT_THROUGH_ROUTES)
+    parser.add_argument("--max-through-routes", type=int, help="Replay the earlier short-link concept")
     args = parser.parse_args()
-    if not 0 <= args.max_through_routes <= 20:
+    if args.max_through_routes is not None and not 0 <= args.max_through_routes <= 20:
         parser.error("Use between zero and twenty through routes for a bounded planning comparison")
     if args.output is None and (args.sample_step_m, args.infill_spacing_m, args.max_infill, args.max_through_routes) != (
-            300, 650, None, DEFAULT_THROUGH_ROUTES):
+            300, 650, None, None):
         parser.error("Use --output for an alternative planning scenario")
     reservation = (nullcontext() if args.check else
                    disk_reservation(ROOT, args.output or CITY, "Baghdad connected network and coverage", 96 << 20))

@@ -191,9 +191,11 @@ def evaluate(network, insert_stations, historic_stops, *, graph=None, context=No
     revised = insert_stations(network, additions)
     infill = {label: location["coordinates"] for label, location in revised["stations"].items()}
     infill_walk, _ = walk_to_station(infill, graph, worldpop)
-    through = None
+    through, compared = None, {}
     if add_through_routes is not None:
-        revised, through = add_through_routes(revised, worldpop, infill_walk, graph, context)
+        revised, through, compared = add_through_routes(revised, worldpop, infill_walk, graph, context)
+    comparison_sites = {label: {key: row["coordinates"] for key, row in stations.items()}
+                        for label, stations in compared.items()}
     stops = {label: location["coordinates"] for label, location in revised["stations"].items()}
     offsets, _ = graph[3].query(_points(list(stops.values())))
     unmatched = sorted(label for label, offset in zip(stops, offsets, strict=True) if offset > SNAP_M)
@@ -204,11 +206,12 @@ def evaluate(network, insert_stations, historic_stops, *, graph=None, context=No
         earlier, _ = walk_to_station(previous, graph, population)
         after_infill = infill_walk if population is worldpop else walk_to_station(infill, graph, population)[0]
         final, _ = walk_to_station(stops, graph, population)
+        designs = {label: walk_to_station(sites, graph, population)[0] for label, sites in comparison_sites.items()}
         scopes[name] = summarize(population, {"earlier_clockface": historical,
                                               "connected_before_infill": without,
                                               "previous_network": earlier,
                                               "infill_1200_priority": after_infill,
-                                              "connected_network": final})
+                                              "connected_network": final, **designs})
         if name == "worldpop-2026":
             cells = coverage_cells(population, final)
     return revised, {"walk_m": WALK_M, "station_and_population_snap_m": SNAP_M, "walk_graph": graph[4],
