@@ -448,6 +448,24 @@ def validate(record):
             row["station_ids"] != [code] or set(row["lines"]) != memberships[code]
             for code, row in transfers.items()):
         raise ValueError("Every interchange must be recorded as a shared station on both lines")
+    walking_links = record.get("station_site_links", [])
+    linked_sites, link_ids = set(), set()
+    for link in walking_links:
+        a, b = link["station_ids"]
+        walks = link["walks_m"]
+        if (a == b or {a, b} - stations.keys() or {a, b} & linked_sites or link["id"] in link_ids
+                or len(walks) != 2 or not all(isfinite(distance) and distance > 0 for distance in walks)):
+            raise ValueError("Walking interchange needs distinct stations and a measured route in both directions")
+        locations = link.get("geometry", [])
+        if (memberships[a] & memberships[b] or len(locations) != 2 or any(
+                len(path) < 2 or not np.allclose(path[0], stations[start]["coordinates"], rtol=0, atol=1e-8)
+                or not np.allclose(path[-1], stations[end]["coordinates"], rtol=0, atol=1e-8)
+                for path, (start, end) in zip(locations, ((a, b), (b, a)), strict=True))):
+            raise ValueError("Walking interchange geometry must join the two separate platforms")
+        linked_sites.update((a, b))
+        link_ids.add(link["id"])
+        adjacent[a].add(b)
+        adjacent[b].add(a)
     seen = set()
     queue = deque([min(stations)])
     while queue:
@@ -458,8 +476,11 @@ def validate(record):
     if seen != stations.keys():
         missing = sorted({line for stop in stations.keys() - seen for line in stations[stop]["lines"]})
         raise ValueError(f"Disconnected passenger lines: {', '.join(missing)}")
-    return {"lines": len(lines), "stations": len(stations), "transfer_stations": len(record["transfers"]),
-            "connected_components": 1, "route_km": round(sum(row["one_way_km"] for row in lines.values()), 2)}
+    result = {"lines": len(lines), "stations": len(stations), "transfer_stations": len(record["transfers"]),
+              "connected_components": 1, "route_km": round(sum(row["one_way_km"] for row in lines.values()), 2)}
+    if walking_links:
+        result["walking_transfer_links"] = len(walking_links)
+    return result
 
 
 def evaluate(graph=None):
@@ -711,5 +732,9 @@ def geojson(record):
                      "properties": {key: val for key, val in station.items() if key != "coordinates"} | {
                          "kind": "interchange" if len(station["lines"]) > 1 else "station", "station_id": code}}
                     for code, station in sorted(record["stations"].items()))
+    features.extend({"type": "Feature", "geometry": {"type": "MultiLineString", "coordinates": link["geometry"]},
+                     "properties": {key: val for key, val in link.items() if key != "geometry"} | {
+                         "kind": "walking-interchange", "stroke": "#39254f"}}
+                    for link in record.get("station_site_links", []))
     return {"type": "FeatureCollection", "candidate_id": record["candidate_id"],
             "evaluation_id": record["evaluation_id"], "features": features}

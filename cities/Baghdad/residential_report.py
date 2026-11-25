@@ -7,7 +7,7 @@ def refresh_headline(path, study):
     costs = selected["systems"]["cost_cases"]
     low, base, high = (costs[key]["installed_planning_usd_m"] / 1000 for key in ("low", "base", "high"))
     text = (
-        f"**Current housing-to-centre budget case.** {quantities['unique_guideway_km']:,.1f} km of mapped guideway, "
+        f"**Current metropolitan budget case.** {quantities['unique_guideway_km']:,.1f} km of mapped guideway, "
         f"{quantities['double_track_km']:,.1f} track-km counting both running tracks, and {quantities['station_sites']:,} station sites. "
         f"The base installed allowance is **US${base:.2f}bn**, with planning cases of US${low:.2f}bn to US${high:.2f}bn. "
         f"Casting, haul and erection account for {workforce['paid_deck_and_casting_hours']/1e6:.2f} million paid hours. "
@@ -34,45 +34,62 @@ def _terminal_names(action, stations):
     return " → ".join(stations.get(code, {}).get("name", code) for code in action["new_terminal_ids"])
 
 
-def corridor_sections(study, stations):
-    audit = study["corridor_consolidation"]
-    before, after = audit["before_totals"], audit["after_totals"]
-    settings = audit["before"]["settings"]
-    out = ["## Removing overlapping suburban routes", "",
-           "The earlier alignment shortlist measured proximity against the network used to generate it. "
-           "Later additions could run alongside lines chosen in the meantime. G05 and G09, for example, "
-           "left the same M02 terminus on the same mapped approach.", "",
-           f"The new screen compares every pair of lines in the assembled map. It measures runs of at least "
-           f"{settings['min_run_m']/1000:g} km, within {settings['nearby_m']/1000:g} km and "
-           f"{settings['max_angle_deg']:g}° of parallel in either direction. It counts approaches departing the same "
-           f"terminal cluster within {settings['terminal_m']/1000:g} km and reports alignments within "
-           f"{settings['common_m']:g} m separately. Pair-km count each line pair, so three lines can count the same "
-           "corridor more than once. The walking model tests changes independently using streets and station entrances in the planning data.", "",
-           "| Geometry check | Previous housing map | Revised map |", "|---|---:|---:|",
-           f"| Close parallel corridor pairs, km | {before['nearby_parallel_m']/1000:.2f} | {after['nearby_parallel_m']/1000:.2f} |",
-           f"| Near-identical alignment pairs, km | {before['common_alignment_m']/1000:.2f} | {after['common_alignment_m']/1000:.2f} |",
-           f"| Line pairs leaving nearby termini in parallel | {before['terminal_fans']} | {after['terminal_fans']} |", "",
-           "The consolidation compares the same six-minute service and housing trips with the previous map. "
-           "A change must reduce the measured duplication, retain a connected passenger graph and stay within the declared limits "
-           "for walking access, transfers, each destination, travel time and load concentration.", "",
-           "| Edited line | Revised extent | Route km removed | Reason |", "|---|---|---:|---|"]
-    for action in audit["actions"]:
-        out.append(f"| {action['line_id']} | {_terminal_names(action, stations) or 'Withdrawn service'} | "
-                   f"{action['removed_route_km']:.2f} | {action['reason']} |")
-    if audit["after"]["runs"]:
-        out.extend(["", "The longest remaining alignments flagged for review are shown below. The machine record includes "
-                    "locations, all variants tested and any access penalties that stopped a proposed cut.", "",
-                    "| Remaining pair | Approximate parallel length | Median separation |", "|---|---:|---:|"])
-        for row in audit["after"]["runs"][:5]:
-            out.append(f"| {' / '.join(row['lines'])} | {row['length_m']/1000:.2f} km | {row['median_distance_m']:,.0f} m |")
-        first_trials = audit["passes"][0]["trials"] if audit["passes"] else {}
-        why = first_trials.get("g04-at-m04", {}).get("access")
-        if why and why["served_loss_pp"] > study["policy"]["corridor_selection"]["served_loss_pp"]:
-            out.extend(["", f"For example, turning G04 back at M04 reduced its parallel section with M01, but took away "
-                        f"two-change access on {why['served_loss_pp']:.2f} percentage points of all weighted journeys. "
-                        f"At the worst affected centre the loss was {why['destination_loss_pp']:.2f} points. The revised layout keeps that section."])
-    out.extend(["", "The geometry screen identifies where to test sharing, shortening or rerouting. "
-                "Separate catchments, turnbacks, track junctions and service capacity need explicit evidence before construction.", ""])
+def redesign_sections(study, network):
+    audit = study["network_redesign"]
+    prior = audit["reference"]
+    selected = audit["selected"]
+    options = audit["options"]
+    instance = options[selected] if selected else prior
+    out = ["## Redesigning the trunks, stops and dense gaps", "",
+           "The study starts with alternatives for the cross-city trunks and outer branches. It tests changes to those layouts "
+           "and reallocates route length to neighbourhoods with the largest shortfalls in street-walk access. It joins stations "
+           "only at a mapped shared platform site or through an explicit measured two-way street link between separate platforms.", "",
+           "Parallel length sums overlapping runs for each line pair, for routes separated by up to 1 km over at least 2 km "
+           "with similar bearings. The station column counts pairs of distinct sites closer than 280 m. "
+           "The selection also checks total route length, access to each named centre, two-change reach and travel time.", "",
+           "| Measure | Published housing network | Revised network |", "|---|---:|---:|",
+           f"| Close parallel length, pair-km | {prior['overlaps']['nearby_parallel_m']/1000:.2f} | {instance['overlaps']['nearby_parallel_m']/1000:.2f} |",
+           f"| Station site pairs within 280 m | {prior['close_site_pairs']} | {instance['close_site_pairs']} |",
+           f"| Route-km | {prior['route_km']:.2f} | {instance['route_km']:.2f} |",
+           f"| Physical station sites | {prior['stations']} | {instance['stations']} |", ""]
+    if selected:
+        stations = network["stations"]
+        station_audit = instance["station_audit"]
+        out.extend([f"**Selected layout — {instance['name']} with dense-gap routes and revised stations.** "
+                    f"The fixed priority areas gain walking access for an estimated **{instance['gap_people_gain']:,} residents**. "
+                    f"The station review combines or removes {len(instance['station_actions'])} close calls and models "
+                    f"{len(station_audit['links'])} two-way street links between separate sites.", "",
+                    "| New route on map | Planning ID | First and last interchange | Route km |", "|---|---|---|---:|"])
+        for number, code in enumerate(instance["gap_route_ids"], 1):
+            line = network["lines"][code]
+            first, last = (stations[line["station_ids"][i]]["name"] for i in (0, -1))
+            out.append(f"| D{number} | `{code}` | {first} → {last} | {line['one_way_km']:.2f} |")
+        out.extend(["", "| Trunk change | Disposition | Reason |", "|---|---|---|"])
+        for action in instance["trunk_actions"]:
+            out.append(f"| {action['line_id']} | {action['action'].replace('_', ' ')} | {action['reason']} |")
+        out.extend(["", "| Combined station or retained stop | Source station IDs | Disposition |", "|---|---|---|"])
+        for action in instance["station_actions"]:
+            name = stations[action["kept_station_id"]]["name"]
+            out.append(f"| {name} | {', '.join(action['source_station_ids'])} | {action['kind'].replace('_', ' ')} |")
+    else:
+        out.extend(["No redesign passed the combined access and geometry limits. The published network remains the comparison case.", ""])
+    out.extend(["", "### Population still outside a 1.2 km walk in the priority areas", "",
+                "The same 4 km areas and their WorldPop pixels are used before and after, so gains in one district do not hide a worse gap in another.", "",
+                "| Area centre | Before | Revised | Change |", "|---|---:|---:|---:|"])
+    for row in audit["priority_areas"]:
+        west, south, east, north = row["bounds_wsen"]
+        before, after = row["before_unserved"], row["revised_unserved"]
+        out.append(f"| {(south+north)/2:.4f}° N, {(west+east)/2:.4f}° E | {before:,} | {after:,} | {after-before:+,} |")
+    out.extend(["", "### Tested layouts", "", "| Trunk layout and subsequent gap routes | Route km | Close pair-km | Gap gain | Walking gain | Decision |",
+                "|---|---:|---:|---:|---:|---|"])
+    for code, row in options.items():
+        if "walking_gain_pp" not in row:
+            continue
+        disposition = "Selected" if code == selected else ", ".join(item.replace("_", " ") for item in row["failed"]) or "Eligible"
+        out.append(f"| {row['name']} | {row['route_km']:.2f} | {row['overlaps']['nearby_parallel_m']/1000:.2f} | "
+                   f"{row['gap_people_gain']:+,} | {row['walking_gain_pp']:+.2f} pp | {disposition} |")
+    out.extend(["", "The GIS and machine record retain the pedestrian walks and tested route geometry. Curve design, land and utility access, "
+                "street crossing safety, rail junctions and step-free interchange layouts are open engineering tasks.", ""])
     return out
 
 
@@ -83,17 +100,15 @@ def pathway_sections(study, stations):
     sample = comparison["demand_sample"]
     variants = comparison["variants"]
     outcome = variants[selected]
-    baseline = study["corridor_consolidation"]["before_layout"]
+    baseline = study["network_redesign"]["before_layout"]
     centres = {row["id"]: row for row in study["destinations"]}
     out = ["## Housing-to-centre journeys", "",
            f"The model tests {sample['origin_count']:,} populated housing tiles against {sample['destination_count']} named central destinations. "
            "WorldPop residential population represents origins outside the selected central box. Each destination has equal weight in this trial. "
            "Both walks follow mapped streets and must be within 1.2 km. Rail paths allow zero, one or two changes. "
            "A constrained search still finds a valid two-change route when a faster route would take three changes.", "",
-           f"**Selected layout — {cases[selected]['name']}**. Every test uses the same six-minute directional service offer. "
-           "First choose the shortest perimeter layout that stays within the trial’s access and journey-time bands. Then test central links "
-           "on that layout and retain the best gain in two-change reach if one-change reach holds and the network remains shorter than the earlier grid. "
-           "The consolidation then checks those journeys again after removing parallel sections.", "",
+           f"**Selected layout — {cases[selected]['name']}**. Every comparison uses the same six-minute directional service. "
+           "The earlier layouts show how the published housing network was reached. The same journeys test the new trunk and station layouts.", "",
            "| Layout | Route km removed | Direct available | Within one change | Within two changes | P90 elapsed (min) | Access screen |",
            "|---|---:|---:|---:|---:|---:|---|"]
     for code, option in cases.items():
@@ -151,7 +166,7 @@ def pathway_sections(study, stations):
 
 
 def delivery_summary(study):
-    name, previous = study["selection"], study["corridor_consolidation"]["before_layout"]
+    name, previous = study["selection"], study["network_redesign"]["before_layout"]
     before, after = [study["delivery"][key] for key in (previous, name)]
     q0, q1 = (side["construction"]["quantities"] for side in (before, after))
     p0, p1 = (side["construction"]["programme"] for side in (before, after))
@@ -223,6 +238,8 @@ def delivery_report(record):
                 f"and {service['reserve_trainsets']:,} spare six-car sets, {service['depot_allowances']} depot allowances and "
                 f"{service['control_centre_allowances']} control centres. The traction allowance covers {power['nominal_supply_sites']} grid sites "
                 f"and approximately {power['annual_grid_gwh']:,.1f} GWh/year. Site ratings and depot movements require simulation.", "",
+                f"The allowance includes access and crossing work for {quantities['street_transfer_links']} mapped pedestrian transfer pairs. "
+                "Each pair keeps both station structures and receives the same budget allowance as an interchange circulation package.", "",
                 "| Direct package, constant 2026 $m | Low | Base | High |", "|---|---:|---:|---:|"])
     cases = ("low", "base", "high")
     for key in costs["base"]["direct_scope_usd_m"]:

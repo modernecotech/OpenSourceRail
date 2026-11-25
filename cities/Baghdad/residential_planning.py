@@ -280,8 +280,30 @@ def evaluate(network, population, baseline_walk, graph, context, *, build_refere
         impact, exceeded = _corridor_impact(consolidated_trips, assignments["variants"][before], walking[selected],
                                            walking[before], limits)
         options[selected].update(equivalent_access_screen=not exceeded, exceeded=exceeded, impact=impact)
-    comparison_keys = dict.fromkeys(("grid_reference", before, selected))
-    matched = holistic_pathways.compare({key: layouts[key] for key in comparison_keys}, match_service_to=before, **demand)
+    from . import network_redesign
+
+    control = selected
+    control_network = revised
+    redesign_policy = config["network_redesign"]
+    if enforce_reference and control_network["candidate_id"] != redesign_policy["reference_candidate_id"]:
+        raise ValueError("Trunk redesign requires the reconstructed published housing network")
+    revised, redesigned_walk, redesigned_trips, redesign = network_redesign.evaluate(
+        control_network, consolidated_walk, consolidated_trips, population, graph, context, demand, config,
+        protected_stations=protected)
+    redesign["before_layout"] = control
+    if redesign["selected"]:
+        selected = "trunks_and_dense_gaps"
+        layouts[selected] = revised
+        assignments["variants"][selected] = redesigned_trips
+        revised_walk_share = _walking_share(redesigned_walk, population)
+        options[selected] = {"name": "Trunks, shared stations and dense-gap routes", "candidate_id": revised["candidate_id"],
+                             "topology": revised["topology"], "walking_1200_pp": revised_walk_share,
+                             "removed_route_km": round(previous["topology"]["route_km"] - revised["topology"]["route_km"], 2),
+                             "equivalent_access_screen": True, "exceeded": [], "actions": options[control]["actions"],
+                             "housing_access": residential_layouts._housing_access(population, consolidated_walk,
+                                                                                   redesigned_walk)}
+    comparison_keys = dict.fromkeys(("grid_reference", before, control, selected))
+    matched = holistic_pathways.compare({key: layouts[key] for key in comparison_keys}, match_service_to=control, **demand)
     if matched["demand_sample"]["sample_id"] != assignments["demand_sample"]["sample_id"]:
         raise ValueError("The matched service check must use the same journeys")
     estimates = {}
@@ -292,13 +314,15 @@ def evaluate(network, population, baseline_walk, graph, context, *, build_refere
             raise ValueError("Priced service must match the tested housing-to-centre service")
         estimates[key] = {"construction": construct, "systems": estimate}
     new_spine = [extra] if extra else []
+    dense_links = redesign["options"][redesign["selected"]]["gap_route_ids"] if redesign["selected"] else []
     tags = {"selected": [code for code in [*previous_meta["selected"], *new_spine] if code in revised["lines"]],
-            "spines": [code for code in [*previous_meta["spines"], *new_spine] if code in revised["lines"]],
+            "spines": [code for code in [*previous_meta["spines"], *new_spine, *dense_links] if code in revised["lines"]],
             "local_links": [code for code in previous_meta["local_links"] if code in revised["lines"]],
             "comparisons": {code: {"screening": row["screening"]} for code, row in previous_meta["comparisons"].items()
                             if code in revised["lines"]},
             "residential": {"selection": selected, "policy": config, "destinations": centre_inputs,
                             "candidates": options, "common_service": assignments, "access_link_tests": link_evidence,
                             "equal_train_km": matched["variants"], "delivery": estimates,
-                            "corridor_consolidation": corridor_audit}}
-    return revised, tags, {"grid_reference": previous["stations"], "previous_housing_layout": before_network["stations"]}
+                            "corridor_consolidation": corridor_audit, "network_redesign": redesign},
+            "dense_gap_lines": dense_links}
+    return revised, tags, {"grid_reference": previous["stations"], "previous_housing_layout": control_network["stations"]}

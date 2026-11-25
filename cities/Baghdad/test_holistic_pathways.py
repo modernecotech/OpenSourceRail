@@ -111,6 +111,27 @@ class HousingPathwaysTests(unittest.TestCase):
         self.assertEqual(journeys["reachable_with_at_most_share_of_all_pct"], {"0": 100, "1": 100, "2": 100})
         self.assertEqual(journeys["transfer_share_of_all_pct"], {"0": 0, "1": 100, "2": 0})
 
+    def test_nearby_rail_sites_use_a_timed_street_transfer_in_each_direction(self):
+        self.points["C"] = tuple(np.asarray(self.points["B"]) + [200 / holistic_network.LOCAL_METRES[0], 0])
+        separated = self.network({"AB": ["A", "B"], "CE": ["C", "E"]})
+        with self.assertRaisesRegex(ValueError, "Disconnected passenger lines"):
+            holistic_network.validate(separated)
+        separated["station_site_links"] = [{"id": "B-C", "station_ids": ["B", "C"], "walks_m": [230., 330.],
+                                              "geometry": [[self.points["B"], self.points["C"]],
+                                                           [self.points["C"], self.points["B"]]]}]
+
+        def simulate(start, end):
+            return holistic_pathways.compare({"linked": separated},
+                origins=[holistic_pathways.HousingOrigin(start, self.points[start], 100)],
+                destinations=[holistic_pathways.CentreDestination(end, self.points[end])],
+                graph=self.street(), assumptions=self.assumptions)["variants"]["linked"]["journeys"]
+
+        outbound, inbound = simulate("A", "E"), simulate("E", "A")
+        self.assertEqual(outbound["transfer_share_of_all_pct"], {"0": 0, "1": 100, "2": 0})
+        self.assertEqual(inbound["transfer_share_of_all_pct"], {"0": 0, "1": 100, "2": 0})
+        self.assertAlmostEqual(inbound["elapsed_p90_min"] - outbound["elapsed_p90_min"],
+                               100 / self.assumptions.walk_speed_m_s / 60, places=2)
+
     def test_a_city_can_define_its_own_metric_street_projection(self):
         raw, matrix, active, street, source = self.street()
         shift = np.array([10000., -3000.])
@@ -132,6 +153,20 @@ class HousingPathwaysTests(unittest.TestCase):
         self.assertEqual(short["running_train_km_day"], long["running_train_km_day"])
         self.assertEqual(short["headway_to_nominal_ratio"], 1)
         self.assertGreater(long["headway_to_nominal_ratio"], short["headway_to_nominal_ratio"])
+
+    def test_trial_batches_can_reuse_directed_walks_without_changing_results(self):
+        networks = {"direct": self.network({"AE": ["A", "E"]}),
+                    "detour": self.network({"AHE": ["A", "H", "E"]})}
+        graph = self.street((("home", "A", 300), ("E", "centre", 400)))
+        demand = dict(origins=[holistic_pathways.HousingOrigin("home", self.points["home"], 100)],
+                      destinations=[holistic_pathways.CentreDestination("centre", self.points["centre"])],
+                      graph=graph, assumptions=self.assumptions)
+        cache = {}
+        holistic_pathways.compare({"direct": networks["direct"]}, street_access_cache=cache, **demand)
+        self.assertEqual(holistic_pathways.compare(networks, street_access_cache=cache, **demand),
+                         holistic_pathways.compare(networks, **demand))
+        with self.assertRaisesRegex(ValueError, "same streets"):
+            holistic_pathways.compare(networks, street_access_cache=cache, **(demand | {"graph": self.street()}))
 
     def test_population_tiles_exclude_centre_pixels_before_aggregation(self):
         coordinates = np.array([self.points[code] for code in ("A", "B", "C")])

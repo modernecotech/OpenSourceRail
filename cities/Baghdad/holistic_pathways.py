@@ -110,25 +110,35 @@ def _street_distances(matrix, point_nodes, point_offsets, stop_nodes, stop_offse
     return distance
 
 
-def _street_access(networks, origins, destinations, graph, limit_m, project, snap_limit_m):
+def _street_access(networks, origins, destinations, graph, limit_m, project, snap_limit_m, cache=None):
     _, matrix, active, tree, _ = graph
     stops = sorted({tuple(station["coordinates"]) for network in networks.values()
                     for station in network["stations"].values()})
-    stop_offsets, stop_indices = tree.query(project(stops))
+    if cache is None:
+        cache = {}
+    scope = (id(graph), id(project), limit_m, snap_limit_m, origins.tobytes(), destinations.tobytes())
+    if cache.setdefault("scope", scope) != scope:
+        raise ValueError("Walking access can be reused only with the same streets and demand points")
+    columns = cache.setdefault("columns", {})
+    new_stops = [point for point in stops if point not in columns]
+    if new_stops:
+        stop_offsets, stop_indices = tree.query(project(new_stops))
 
-    def access(points, direction):
-        offsets, indices = tree.query(project(points))
-        return _street_distances(direction, active[indices], offsets, active[stop_indices], stop_offsets,
-                                 limit_m, snap_limit_m)
+        def access(points, direction):
+            offsets, indices = tree.query(project(points))
+            return _street_distances(direction, active[indices], offsets, active[stop_indices], stop_offsets,
+                                     limit_m, snap_limit_m)
 
-    origin_walk = access(origins, matrix)
-    # Egress is station-to-point travel. Search from destinations on reversed streets.
-    destination_walk = access(destinations, matrix.T.tocsr())
-    index = {point: i for i, point in enumerate(stops)}
+        origin_walk = access(origins, matrix)
+        # Egress is station-to-point travel. Search from destinations on reversed streets.
+        destination_walk = access(destinations, matrix.T.tocsr())
+        columns.update({point: (origin_walk[:, i].copy(), destination_walk[:, i].copy())
+                        for i, point in enumerate(new_stops)})
     result = {}
     for name, network in networks.items():
-        columns = [index[tuple(station["coordinates"])] for _, station in sorted(network["stations"].items())]
-        result[name] = origin_walk[:, columns], destination_walk[:, columns]
+        walks = [columns[tuple(station["coordinates"])] for _, station in sorted(network["stations"].items())]
+        origin, destination = zip(*walks, strict=True)
+        result[name] = np.column_stack(origin), np.column_stack(destination)
     return result
 
 
@@ -330,11 +340,12 @@ def _evaluate(network, access, assumptions, headway, origins, people, destinatio
 
 def compare(networks, *, origins, destinations, graph=None, assumptions=holistic_journeys.JourneyAssumptions(),
             match_service_to=None, origin_source=None, project=central_access._points,
-            validate_network=holistic_network.validate, snap_limit_m=central_access.SNAP_M):
+            validate_network=holistic_network.validate, snap_limit_m=central_access.SNAP_M, street_access_cache=None):
     """Compare weighted housing and centre points on candidate rail networks.
 
     Other cities can supply their directed walking graph, its longitude/latitude
     projection into metres and their own geometry validator.
+    A batch of layout trials can reuse street distances with an initially empty cache.
     """
     if not networks or match_service_to is not None and match_service_to not in networks:
         raise ValueError("Provide networks and include any matched-service reference")
@@ -347,7 +358,7 @@ def compare(networks, *, origins, destinations, graph=None, assumptions=holistic
     if graph is None:
         graph = central_access.walking_graph()
     access = _street_access(networks, origin_coordinates, destination_coordinates, graph, assumptions.walk_limit_m,
-                            project, snap_limit_m)
+                            project, snap_limit_m, street_access_cache)
     weights = np.outer(people / people.sum(), destination_weights / destination_weights.sum())
     sample = {
         "status": "Illustrative housing-to-centre demand",

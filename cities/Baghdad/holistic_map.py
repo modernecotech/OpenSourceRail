@@ -293,7 +293,8 @@ def evaluate(*, step_m=300, spacing_m=650, max_infill=None, max_through_routes=N
              Path(central_service_map.__file__), *(CITY / name for name in (
                  "holistic_through.py", "holistic_grid.py", "holistic_journeys.py", "holistic_orbitals.py",
                  "holistic_pathways.py", "residential_layouts.py", "residential_planning.py", "residential_delivery.py",
-                 "rail_duplication.py", "rail_consolidation.py",
+                 "rail_duplication.py", "rail_consolidation.py", "network_redesign.py", "network_trunks.py",
+                 "network_gap_routes.py", "network_station_sites.py",
                  "residential_systems.py", "residential_report.py", "residential-access.toml", "central-access.json",
                  *residential_systems.SOURCES)),
              *(central_access.MAPPING / name for name in (
@@ -323,6 +324,7 @@ def line_style(record):
     selection = record["walking_access"]["through_route_selection"] or {}
     selected = set(selection.get("selected", []))
     local = set(selection.get("local_links", []))
+    dense_links = set(selection.get("dense_gap_lines", []))
     axis_counts = {"east–west": 0, "north–south": 0}
     axis_colors = {"east–west": ("#176292", "#007488", "#2353a3", "#267f99"),
                    "north–south": ("#a54021", "#934e15", "#ba5829", "#813621")}
@@ -330,6 +332,8 @@ def line_style(record):
     for i, (code, line) in enumerate(record["network"]["lines"].items()):
         if line["loop"]:
             style[code] = ("orbital", "#7b4694" if code == "M09" else "#962f79", 2.9)
+        elif code in dense_links:
+            style[code] = ("dense gap route", "#b23964", 3.3)
         elif code in local:
             style[code] = ("local coverage", PALETTE[i % len(PALETTE)], 1.65)
         elif code in selected:
@@ -359,6 +363,7 @@ def image(record, context):
     residential = selection.get("residential")
     through = selection.get("selected", [])
     spine_ids = selection.get("spines", through)
+    display_codes = {code: f"D{index}" for index, code in enumerate(selection.get("dense_gap_lines", []), 1)}
     style = line_style(record)
     rings = [code for code, item in lines.items() if item["loop"]]
     bgcolor, ink = "#f8f6ee", "#14383c"
@@ -386,7 +391,7 @@ def image(record, context):
         ax.plot(*points.T, color=color, linewidth=width, solid_capstyle="round", zorder=z)
         stops = np.array([stations[stop]["coordinates"] for stop in line["station_ids"]])
         ax.scatter(*stops.T, s=10 if prominent else 6, c=bgcolor, edgecolors=color, lw=.62, zorder=5)
-        handles[key] = Line2D([0], [0], color=color, lw=width, label=key)
+        handles[key] = Line2D([0], [0], color=color, lw=width, label=display_codes.get(key, key))
 
     transfers = transfer_points(network)
     if transfers:
@@ -396,6 +401,8 @@ def image(record, context):
         path = row.get("geometry")
         if path:
             ax.plot(*np.array(path).T, ls=(0, (1.5, 1.5)), color=ink, lw=1.3, zorder=5.5)
+    for link in network.get("station_site_links", []):
+        ax.plot(*np.array(link["geometry"][0]).T, ls=(0, (1.5, 1.5)), color="#39254f", lw=1.3, zorder=6.1)
 
     destinations = (
         ("Airport terminal", ("airport terminal", "airport-00"), (-8, -14)),
@@ -447,7 +454,7 @@ def image(record, context):
                    f"{len(rings)} orbital {'line' if len(rings) == 1 else 'lines'}   ·   {len(transfers)} interchanges")
     figure.text(.053, .921, description, color="#445d59", fontsize=12, va="top")
     is_grid = "layout" in selection
-    legend_title = ("Main housing routes" if residential else "Grid spines and orbitals" if is_grid
+    legend_title = ("Cross-city and gap routes" if residential else "Grid spines and orbitals" if is_grid
                     else "Cross-city additions and orbitals")
     figure.text(.765, .876, legend_title,
                 color=ink, fontsize=12.2, weight="bold")
@@ -464,6 +471,8 @@ def image(record, context):
     if residential:
         symbols.append(Line2D([], [], marker="*", markerfacecolor="#e4a735", markeredgecolor=ink,
                               ls="None", label="Journey test destination"))
+    if network.get("station_site_links"):
+        symbols.append(Line2D([], [], color="#39254f", ls=":", label="Street transfer between stations"))
     figure.legend(handles=symbols, loc="upper left", bbox_to_anchor=(.752,.619), frameon=False, fontsize=9.3, labelcolor=ink)
     figure.text(.765, .505, "Estimated walking access", color=ink, fontsize=11.5, weight="bold")
     figure.text(.765, .471, f"{walks['1200']['share_pct']:.1f}% within 1,200 m", color="#236b65", fontsize=14, weight="bold")
@@ -602,7 +611,7 @@ def report(result):
     if residential:
         from . import residential_report
 
-        out.extend(residential_report.corridor_sections(residential, stations))
+        out.extend(residential_report.redesign_sections(residential, network))
         out.extend(residential_report.pathway_sections(residential, stations))
         out.extend(residential_report.delivery_summary(residential))
     else:
@@ -663,14 +672,19 @@ def outputs(record, context, *, refresh_readers=False):
     geojson["publication_id"] = record["publication_id"]
     unmatched = set(record["walking_access"]["proposed_stops_without_a_street_snap"])
     style = line_style(record)
+    selection = record["walking_access"]["through_route_selection"] or {}
+    display_codes = {code: f"D{index}" for index, code in enumerate(selection.get("dense_gap_lines", []), 1)}
     for feature in geojson["features"]:
         properties = feature["properties"]
         if "station_id" in properties:
             properties["street_snap_within_limit"] = properties["station_id"] not in unmatched
             properties["marker-size"] = "small"
         if properties["kind"] == "line":
-            role, color, width = style[properties["line_id"]]
+            line_id = properties["line_id"]
+            role, color, width = style[line_id]
             properties.update({"route_role": role, "stroke": color, "stroke-width": round(width * 1.5, 1)})
+            if line_id in display_codes:
+                properties["map_label"] = display_codes[line_id]
     geojson["features"].extend({"type": "Feature", "geometry": {"type": "Point", "coordinates": cell["coordinates"]},
                                 "properties": {"kind": "walking-access", "estimated_residents": cell["people"],
                                                "residents_beyond_1200_m": cell["beyond_1200_m"]}}
@@ -681,7 +695,6 @@ def outputs(record, context, *, refresh_readers=False):
         geojson["features"].append({"type": "Feature", "geometry": {"type": "Polygon", "coordinates": [ring]},
                                     "properties": {"kind": "coverage-gap-area", "stroke": "#ce7a46",
                                                    "stroke-opacity": .16, "fill-opacity": 0, **gap}})
-    selection = record["walking_access"]["through_route_selection"] or {}
     residential = selection.get("residential")
     if residential:
         for destination in residential["destinations"]:

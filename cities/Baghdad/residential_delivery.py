@@ -258,6 +258,8 @@ def _costs(quantities, orders, programme, params, policy, evidence, fx):
                                                              * station_rates["electromechanical_and_platform_equipment"][i],
             "site_public_access_egress": quantities["station_sites"] * station_rates["public_access_and_egress"][i],
             "transfer_circulation_allowance": quantities["transfer_sites"] * station_rates["public_access_and_egress"][i],
+            "street_transfer_access_allowance": quantities["street_transfer_links"]
+                                                * station_rates["public_access_and_egress"][i],
         }
         scope = {
             "elevated_civil": elevated,
@@ -312,6 +314,7 @@ def evaluate(network, *, launcher_pairs=3, road_teams=2, overhead_exclusion_pct=
         "double_track_km": 2 * fsum(owned_lengths.values()),
         "station_sites": len(network["stations"]),
         "transfer_sites": len(network["transfers"]),
+        "street_transfer_links": len(network.get("station_site_links", [])),
         "station_line_platform_packages": sum(len(row["station_ids"]) for row in network["lines"].values()),
         "tunnel_km": 0,
         "underground_stations": 0,

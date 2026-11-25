@@ -186,11 +186,17 @@ def _assignment_graph(network, access, assumptions, headway_s):
                 edge(arrive[stop], depart[stop], assumptions.dwell_s)
 
     transfer_cost = assumptions.transfer_walk_s + assumptions.transfer_penalty_s
-    for stop in transfer_stations:
-        for previous_line, arrival in arrivals[stop]:
-            for next_line, departure in departures[stop]:
+    transfer_arcs = [(stop, stop, 0.) for stop in transfer_stations]
+    for link in sorted(network.get("station_site_links", []), key=lambda row: row["id"]):
+        a, b = link["station_ids"]
+        outward, inward = link["walks_m"]
+        transfer_arcs.extend(((a, b, outward / assumptions.walk_speed_m_s),
+                              (b, a, inward / assumptions.walk_speed_m_s)))
+    for start, end, street_walk in transfer_arcs:
+        for previous_line, arrival in arrivals[start]:
+            for next_line, departure in departures[end]:
                 if previous_line != next_line:
-                    edge(arrival, departure, transfer_cost + waits[next_line])
+                    edge(arrival, departure, transfer_cost + street_walk + waits[next_line])
 
     matrix = csr_matrix((costs, (rows, columns)), shape=(dimension, dimension))
     if matrix.nnz != len(costs):

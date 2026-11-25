@@ -64,11 +64,14 @@ def sampled_positions(line, step_m, spacing_m):
             for metres in samples[separation.min(axis=1) >= spacing_m - 1e-7]]
 
 
-def opportunities(network, population, existing, graph, step_m, spacing_m, context):
+def opportunities(network, population, existing, graph, step_m, spacing_m, context, *, target_pixels=None):
     """Build sparse sets of residents a station could newly reach via streets."""
     _, matrix, active, street_tree, _ = graph
     first, second = WALK_M
-    residual = np.flatnonzero((existing > first) & (population.offsets_m <= SNAP_M))
+    eligible = (existing > first) & (population.offsets_m <= SNAP_M)
+    if target_pixels is not None:
+        eligible &= target_pixels
+    residual = np.flatnonzero(eligible)
     residual_tree = cKDTree(population.xy[residual])
 
     @lru_cache(maxsize=16)
