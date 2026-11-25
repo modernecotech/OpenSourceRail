@@ -23,6 +23,8 @@ Cost sensitivity is conditional on the chosen quantities and rates. The UK Infra
 
 ## Use the audit
 
+For a costed desktop comparison, use the [GIS simulation](GIS-SIMULATION.md). Public elevation, soil texture and historical water layers feed its rail profile, support quantities, train and power replay, and purchaser cash model.
+
 Run `./osr design railway audit` from the repository root. Use `--json` for stage identities, source references, assumption values, case results and unresolved evidence. Use `--help` for alternate inputs. The offline [decision results](AUDIT-RESULTS.md) show the default comparison. Each reference describes its own study scope. The production release remains held for physical and procurement evidence.
 
 ## Compare a fitted train on the same railway

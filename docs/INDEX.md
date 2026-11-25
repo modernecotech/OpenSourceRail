@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **245**.
+Indexed Markdown files: **247**.
 
 ## Sections
 
@@ -20,7 +20,7 @@ Indexed Markdown files: **245**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
-| [cities](#cities) | 73 |
+| [cities](#cities) | 75 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
 | [docs](#docs) | 139 |
@@ -116,6 +116,8 @@ Indexed Markdown files: **245**.
 | [`cities/Baghdad/engineering/simulation/CAM-COMPARISON.md`](../cities/Baghdad/engineering/simulation/CAM-COMPARISON.md) | CamCraft and FreeCAD on the Airport wax coupon |
 | [`cities/Baghdad/engineering/simulation/FEEDER-OPTIONS.md`](../cities/Baghdad/engineering/simulation/FEEDER-OPTIONS.md) | Compare supply spacing and conductor resistance |
 | [`cities/Baghdad/engineering/simulation/FREECAD-INTERACTIVE.md`](../cities/Baghdad/engineering/simulation/FREECAD-INTERACTIVE.md) | FreeCAD CAM trial on the wax coupon |
+| [`cities/Baghdad/engineering/simulation/GIS-SIMULATION-GUIDE.md`](../cities/Baghdad/engineering/simulation/GIS-SIMULATION-GUIDE.md) | Using public GIS layers to model and price the Airport railway |
+| [`cities/Baghdad/engineering/simulation/GIS-SIMULATION.md`](../cities/Baghdad/engineering/simulation/GIS-SIMULATION.md) | Baghdad Airport GIS simulation and cost estimate |
 | [`cities/Baghdad/engineering/simulation/JOINT-COMPARISON.md`](../cities/Baghdad/engineering/simulation/JOINT-COMPARISON.md) | Which choices change the service and the price? |
 | [`cities/Baghdad/engineering/simulation/MOTION-POWER.md`](../cities/Baghdad/engineering/simulation/MOTION-POWER.md) | Airport service, train motion and traction supply |
 | [`cities/Baghdad/engineering/simulation/PLAN.md`](../cities/Baghdad/engineering/simulation/PLAN.md) | Baghdad Airport simulation programme |

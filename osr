@@ -65,6 +65,7 @@ Worked cases for reproducing estimates and supplier packages
   reference v07 [--stations N] [--route-km KM]  Joined digital corridor quantities and cost
   design railway simulation --compare  Cross train, headway, supply and civil choices for the opening
   design railway baghdad-options  Compare supply, span and piers for the seven-line network
+  design railway site-study       Model and price the Airport corridor with public GIS layers
 
 The default is a development selection. Physical and operating acceptance remain
 open. Source-bound outputs remain tied to their declared candidate and inputs.
@@ -107,6 +108,7 @@ if [[ "${1:-}" == design && "${2:-}" == railway ]]; then
     case "${3:-}:${4:-}" in
         yard:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.prototype.yard_offers "$@" ;;
         audit:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.simulation.assumption_audit "$@" ;;
+        site-study:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.simulation.site_study "$@" ;;
         feeder:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.simulation.feeder_options "$@" ;;
         baghdad-delivery:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.mechanical.civil.network_delivery "$@" ;;
         rail-fed:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.mechanical.civil.rail_fed_erection "$@" ;;

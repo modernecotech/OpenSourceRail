@@ -40,6 +40,8 @@ Start with the **interactive workshop** linked above. Extract it, open **START.h
 
 ## Maps and passenger journeys
 
+Use public elevation, soil texture and historical water layers to turn a route trace into a costed planning case. The Baghdad Airport example carries its estimated rail grades into the train and power replay, and prices variable pier heights, footing sensitivities and feeder renewals over 30 years. The GIS layers, unit assumptions and cash flows are available for review and reuse. [Airport GIS simulation and costs](cities/Baghdad/engineering/simulation/GIS-SIMULATION.md)
+
 Start with a trip people need to make. In the city Workbench, select a line, choose two stations and inspect access, expected waiting, time on board and transfers. The 266 city entries are planning outlines. City teams can replace provisional geometry and demand with local evidence. In the Samawah exercise, merge two nearby station markers and inspect the changed walking access and station count. For GIS work, take the route into RustGIS and bring the edited plan back through the planning workflow. [Planning guide](docs/workbench/planning/README.md) · [Samawah worked exercise](docs/book/38-samawah-practice.md) · [GIS import and export](docs/gis/README.md)
 
 | Edit a plan | Read the journey as a passenger |
