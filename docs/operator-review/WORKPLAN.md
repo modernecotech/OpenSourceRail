@@ -4,6 +4,8 @@ This is a work programme for a prospective railway owner and operator. It starts
 
 ## Cost and test the shift workplan
 
+For the current Baghdad housing network, use the candidate’s route quantities, construction shift schedules and budget. [Current Baghdad delivery estimate](../../cities/Baghdad/NETWORK-DELIVERY.md)
+
 Use the [costed shift workplan](delivery/WORKFORCE-SIMULATION.md) alongside this
 programme. It prices designated workers, shift coverage and labour demand for
 operations, training, vehicle assembly, beam production and erection. It also

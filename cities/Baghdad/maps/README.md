@@ -1,6 +1,6 @@
 # Baghdad railway maps
 
-The [current metropolitan map](baghdad-network.png) shows the Airport, central and outer routes in one connected passenger network. It also marks the populated areas beyond a 1,200 m walk. Use the [network GIS](baghdad-network.geojson) or the [line register and coverage results](../NETWORK.md) to inspect a particular route or transfer.
+The current metropolitan map shows one connected passenger network and the destinations used to test trips from housing areas. It marks populated areas beyond a 1,200 m walk. The GIS and line register use the same route lengths as the delivery estimate. [Map](baghdad-network.png) · [GIS](baghdad-network.geojson) · [Coverage results](../NETWORK.md) · [Delivery estimate](../NETWORK-DELIVERY.md)
 
 ## Retained map sources
 

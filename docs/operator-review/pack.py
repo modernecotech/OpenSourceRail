@@ -31,6 +31,7 @@ a:hover,a:focus{text-decoration:underline}nav strong,small{display:block}small{c
 <a href="docs/operator-review/PARTNERSHIP-PLAN.md"><strong>Host a partner trial</strong><small>Choose a local question, review the budget and agree when to decide.</small></a>
 <a href="docs/operator-review/twins/index.html"><strong>Train and station models</strong><small>Inspect the bogie, carbody, platform, viaduct and controls. Export either IFC4 model.</small></a>
 <a href="cities/Baghdad/maps/baghdad-network.png"><strong>Baghdad metropolitan rail network</strong><small>See the connected passenger routes, interchanges and remaining walking gaps.</small></a>
+<a href="cities/Baghdad/NETWORK-DELIVERY.md"><strong>Current Baghdad delivery estimate</strong><small>Review the selected layout’s track, construction shifts, fleet and cost.</small></a>
 <a href="cities/Baghdad/service-diagrams.html"><strong>Earlier Baghdad train diagrams</strong><small>Follow a set through its stops and terminal turn on the original citywide study routes.</small></a>
 <a href="docs/operator-review/screens/supervision.html"><strong>Control room</strong><small>Replay equipment trips, a stale signal and restoration.</small></a>
 <a href="cities/Baghdad/engineering/prototype/review.html"><strong>Historical Airport prototype</strong><small>Inspect stock drawings, train movements and field-trial forms for the 12 km schematic.</small></a>
@@ -116,7 +117,8 @@ def workshop_files():
                  'cities/Baghdad/CITYWIDE-SERVICE.md', 'cities/Baghdad/citywide-service.json',
                  'cities/Baghdad/CENTRAL-ACCESS.md', 'cities/Baghdad/central-access.json',
                  'cities/Baghdad/maps/central-access.geojson', 'cities/Baghdad/maps/baghdad-central-access.png',
-                 'cities/Baghdad/NETWORK.md', 'cities/Baghdad/baghdad-network.json',
+                 'cities/Baghdad/NETWORK.md', 'cities/Baghdad/NETWORK-DELIVERY.md', 'cities/Baghdad/baghdad-network.json',
+                 'cities/Baghdad/residential-access.toml',
                  'cities/Baghdad/maps/baghdad-network.geojson', 'cities/Baghdad/maps/baghdad-network.png',
                  'cities/Baghdad/maps/central-service.geojson', 'cities/Baghdad/maps/baghdad-central-service.png',
                  'cities/Baghdad/engineering/prototype/review.html', 'cities/Baghdad/engineering/prototype/airport-prototype.zip',

@@ -55,7 +55,7 @@ For a different planning question, compare how Amman’s terrain and Karachi’s
 
 A planning team can export route, stop, service and origin–destination edits, then compile and verify the proposal against its input revision. A separate city calculation carries the revised plan into fleet, section capacity, civil quantities and cost. Compare propulsion or construction assumptions while keeping demand and service fixed, or change the service and compare the fleet and capacity it requires. [Proposal and recalculation commands](docs/workbench/planning/README.md) · [City atlas and source data](docs/design-engine/city-atlas/README.md)
 
-Baghdad’s network tests long east–west and north–south routes, with orbitals for journeys that can bypass the centre. The same passenger journey model compares one and two rings, travel time, transfers and the busiest line sections. A 1.2 km street-walk test shows which neighbourhoods each layout reaches. [Baghdad network and journey comparison](cities/Baghdad/NETWORK.md)
+Baghdad’s network tests trips from housing areas to named central destinations. It compares direct paths and journeys with up to two changes, using a 1.2 km street walk at each end. The selected route and station register also drives track quantities, casting and erection shifts, fleet and costs. [Baghdad network and journey comparison](cities/Baghdad/NETWORK.md) · [Current delivery estimate](cities/Baghdad/NETWORK-DELIVERY.md)
 
 [![One connected Baghdad railway map with proposed station interchanges and walking-access gaps](cities/Baghdad/maps/baghdad-network.png)](cities/Baghdad/NETWORK.md)
 

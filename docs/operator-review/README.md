@@ -6,7 +6,7 @@ For the corrected 17.46 km Airport study, compare both supply enquiries against 
 
 Use this pack to review the railway with an operations director, chief engineer, financing team and local builders. The core example is a 30 km elevated railway with a six-car, 276-place train and overhead power. Baghdad’s seven corridors and independent citywide option use 700-place trains and protected conductor rail. Each has its own construction, service and funding assumptions. The digital designs support layout review, costing and prototype quotations. Site surveys, supplier terms, physical tests and operating authorisations remain open.
 
-For Baghdad route planning, open the [metropolitan network map](../../cities/Baghdad/maps/baghdad-network.png). It shows complete passenger routes and transfer points in a single network, with the walking gaps measured over the street graph. [Network and coverage evidence](../../cities/Baghdad/NETWORK.md)
+For Baghdad route planning, review the housing-to-centre paths and the quantities priced from the selected map. The comparison limits journeys to two changes and uses street walks at both ends. [Metropolitan network map](../../cities/Baghdad/maps/baghdad-network.png) · [Journey evidence](../../cities/Baghdad/NETWORK.md) · [Current delivery and cost](../../cities/Baghdad/NETWORK-DELIVERY.md)
 
 ## Run a 30-minute operator review
 

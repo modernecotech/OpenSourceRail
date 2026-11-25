@@ -3,7 +3,11 @@
 **Proposal to Amanat Baghdad · 25 November 2026 · planning prices in 2026 US dollars**
 
 
-**Iraqi construction budget.** The seven corridors cost an estimated **$8.37bn** centrally, with a **$6.12bn–$12.35bn** planning range. The independent citywide alternative costs **$33.00bn** centrally, with a **$24.10bn–$48.83bn** range. The common design-rate estimates of $7.866bn and $31.018bn remain available for matching vendor returns. At the Iraqi central prices, estimated domestic value within Iraqi-awarded contracts is **$1.84bn** and **$7.36bn**, respectively. [Capital by work package and year](IRAQ-CAPITAL.md) · [Operating costs, fares and debt payments](IRAQ-ESTIMATES.md)
+<!-- current housing budget -->
+
+**Current housing-to-centre budget case.** 776.3 km of mapped guideway, 1,552.6 track-km counting both running tracks, and 681 station sites. The base installed allowance is **US$43.45bn**, with planning cases of US$30.52bn to US$66.12bn. Casting, haul and erection account for 6.76 million paid hours. The six-minute operating offer and the construction schedule use this same candidate. [Quantities, labour and costs](NETWORK-DELIVERY.md) · [Housing journeys and map](NETWORK.md)
+
+<!-- end current housing budget -->
 
 ## Brief
 
@@ -20,7 +24,7 @@ The original planning work priced **two independent comparison cases**. The **14
 | Seven-corridor concept | 148.2 km | 64 | 242 six-car trains | **US$8.37bn** | 2031 |
 | Independent citywide concept | 605.652 km | 280 | 934 six-car trains | **US$33.00bn** | 2035 |
 
-The 2027 capital draws and 2031/2035 completion years are scenario dates. Rebase them on the new procurement timetable once published. Each estimate records its original track, fleet and station allowances. The current connected Baghdad network needs an estimate based on its own routes, stations and service. The detailed [cost and delivery schedule](COST-AND-DELIVERY.md) records the earlier quantities, rates, annual operating costs and renewals.
+The 2027 capital draws and 2031/2035 completion years apply to the earlier scenario calendars. Each estimate records its original track, fleet and station allowances. The [updated estimate](NETWORK-DELIVERY.md) prices the current routes, stations, service and work orders. The [earlier cost schedules](COST-AND-DELIVERY.md) retain their original quantities and renewals.
 
 ## Earlier idea and present planning design
 
@@ -32,7 +36,7 @@ OpenSourceRail began with a light, wheel-supported train accelerated at stations
 | Line power | Local launch equipment and service power; powered length depends on each stop | Guarded, sectionalised conductor on both tracks; no overhead wires |
 | Train equipment | Passive bogies, independent service battery and brakes | 24 driven axles, converters and contact shoes; separate 65 kWh service battery and brakes |
 | Civil and stations | Track, launch/braking equipment, power and interfaces sized for the selected route | Elevated double track, wayside protection, grid sites and accessible stations |
-| Cost and status | Research option; no matched Baghdad installed cost or service timetable | Integrated 148.2 km and independent 605.652 km planning estimates below |
+| Cost and status | Research option; no matched Baghdad installed cost or service timetable | [Current housing-network planning estimate](NETWORK-DELIVERY.md) |
 
 The earlier coast calculation cannot carry a crowded train through every long or uphill Baghdad section at the desired speed. A cheaper station-launch design would need a route-specific mix of shorter gaps, booster sections or small onboard motors and storage, plus a full stopping and recovery case. The **station-charged battery** row later in this proposal is a *powered-bogie train*, not that passive station-launch idea. It must not be presented as its cost.
 
@@ -42,11 +46,11 @@ The present plan also changes the older tunnel and overhead assumptions: **zero 
 
 ### Current metropolitan rail network
 
-The current map joins the Airport approach, central routes and outer corridors with long east–west and north–south routes. An orbital lets passengers travel around the centre. The planning comparison tests a second ring, and uses the same journeys and daily train-kilometres to compare travel time, transfers and line loading. The orange layer shows where residents remain beyond a 1.2 km street walk. [Route and journey comparison](NETWORK.md) · [Connected network GIS](maps/baghdad-network.geojson)
+The current map joins the Airport approach, housing areas and central routes. A constrained street and rail simulation compares routes from housing to named markets, medical care, civic points and higher education. It limits rail trips to two changes with a street walk of up to 1.2 km at both ends. The results guide the perimeter trims and identify where access remains poor. [Route and journey comparison](NETWORK.md) · [Connected network GIS](maps/baghdad-network.geojson)
 
 ![One metropolitan Baghdad railway map with end-to-end lines, interchanges and walking coverage](maps/baghdad-network.png)
 
-*One proposed Baghdad passenger network. Bold lines mark cross-city spines and orbitals. Station rings mark proposed interchanges. Street crossings, platforms, operating intervals and physical alignment require design.*
+*One proposed Baghdad passenger network. Stars mark the six journey test destinations. Station rings mark proposed interchanges. Street crossings, platforms, operating intervals and physical alignment require design.*
 
 ### Basis of the earlier cost comparisons
 

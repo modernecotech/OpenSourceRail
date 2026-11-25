@@ -403,7 +403,7 @@ jobs:
       - name: Verify the connected Baghdad network and reproducible coverage
         run: |
           python -m pip install --disable-pip-version-check matplotlib==3.11.2 Pillow==13.0.0
-          python -m pytest -q --import-mode=importlib cities/Baghdad/test_holistic_*.py
+          python -m pytest -q --import-mode=importlib cities/Baghdad/test_holistic_*.py cities/Baghdad/test_residential_*.py
           python -m cities.Baghdad.holistic_map --check
       - name: Verify railway timetables, prototype prices and bench records
         run: |

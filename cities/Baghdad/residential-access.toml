@@ -1,0 +1,57 @@
+# Retained named precincts and street approaches are taken from central-access.json.
+# Destination weights are common planning weights, pending measured OD counts.
+[access]
+origin_tile_m = 2000
+outside_centre_bounds_wsen = [44.348, 33.280, 44.435, 33.366]
+served_loss_pp = 0.5
+one_change_loss_pp = 0.75
+destination_loss_pp = 1.5
+walking_loss_pp = 0.5
+p90_increase_min = 2.0
+reference_candidate_id = "baghdad-network-5b91c84b8028d32e"
+reference_revision = "6f44be8e3004692cef4f3c8de77f817c1817fb83"
+
+[[centres]]
+id = "tahrir"
+landmark = "Tahrir Square"
+weight = 1
+
+[[centres]]
+id = "shorja"
+landmark = "Al-Shorja market"
+weight = 1
+
+[[centres]]
+id = "medical-city"
+landmark = "Medical City area"
+weight = 1
+
+[[centres]]
+id = "karkh"
+station_source = "Karkh"
+weight = 1
+
+[[centres]]
+id = "mansour"
+station_source = "Mansour"
+weight = 1
+
+[[centres]]
+id = "jadriya"
+station_source = "University"
+weight = 1
+
+[planning_service]
+# These are the common pathway test and budget service inputs, not an adopted timetable.
+headway_s = 360
+operating_hours_per_day = 18
+turnaround_min = 3
+# Reference 934 sets for 812 peak workings, rounded to 15% spare.
+spare_fraction = 0.15
+# Earlier 934-set programme allocated 12 depots and four control centres.
+nominal_sets_per_depot = 80
+nominal_depots_per_control_centre = 3
+# Nominal site allowance informed by the six-site, 17.46 km Airport trial.
+# A utility and multi-train simulation must establish actual site count and peaks.
+supply_site_spacing_km = 3.5
+power_section_track_km = 2.0

@@ -23,6 +23,7 @@ MAP_FILE = MAP / "baghdad-network.png"
 DATA_FILE = MAP / "baghdad-network.geojson"
 RECORD_FILE = CITY / "baghdad-network.json"
 REPORT_FILE = CITY / "NETWORK.md"
+DELIVERY_FILE = CITY / "NETWORK-DELIVERY.md"
 PALETTE = ("#00766f", "#205ca7", "#a84a13", "#943a75", "#386f24", "#693fad", "#277d9a", "#8a6521",
            "#424c7c", "#aa3740", "#347e55", "#695243", "#156a95", "#53562b", "#096b43", "#8a1f58")
 DEFAULT_THROUGH_ROUTES = 16
@@ -273,10 +274,14 @@ def compare_layouts(network, population, baseline_walk, graph, context):
 
 
 def evaluate(*, step_m=300, spacing_m=650, max_infill=None, max_through_routes=None):
+    from . import residential_planning, residential_systems
+
     _, _, historic, context = central_access.original_cases()
     graph = central_access.walking_graph()
     base = holistic_network.evaluate(graph=graph)
-    extend = compare_layouts
+    extend = lambda network, population, walk, graph, context: residential_planning.evaluate(
+        network, population, walk, graph, context, build_reference=compare_layouts,
+        enforce_reference=(step_m, spacing_m, max_infill) == (300, 650, None))
     if max_through_routes is not None:
         extend = (lambda network, population, walk, graph, context:
                   (*add_direct_routes(network, population, walk, graph, context, max_through_routes), {})) if max_through_routes else None
@@ -286,7 +291,10 @@ def evaluate(*, step_m=300, spacing_m=650, max_infill=None, max_through_routes=N
     )
     paths = (Path(__file__), Path(holistic_access.__file__), Path(holistic_gaps.__file__), Path(central_access.__file__),
              Path(central_service_map.__file__), *(CITY / name for name in (
-                 "holistic_through.py", "holistic_grid.py", "holistic_journeys.py", "holistic_orbitals.py")),
+                 "holistic_through.py", "holistic_grid.py", "holistic_journeys.py", "holistic_orbitals.py",
+                 "holistic_pathways.py", "residential_layouts.py", "residential_planning.py", "residential_delivery.py",
+                 "residential_systems.py", "residential_report.py", "residential-access.toml", "central-access.json",
+                 *residential_systems.SOURCES)),
              *(central_access.MAPPING / name for name in (
                  "street-source.json", "walking-graph.npz.gz", "walking-streets.geojson.gz",
                  "worldpop-2026-source.json", "worldpop-2026-pixels.npz.gz",
@@ -347,6 +355,7 @@ def image(record, context):
     cases = access["population"]["worldpop-2026"]["metropolitan"]["cases"]
     walks = cases["connected_network"]
     selection = access["through_route_selection"] or {}
+    residential = selection.get("residential")
     through = selection.get("selected", [])
     spine_ids = selection.get("spines", through)
     style = line_style(record)
@@ -402,6 +411,9 @@ def image(record, context):
             ax.annotate(name, match["coordinates"], xytext=offset, textcoords="offset points", ha="right" if offset[0]<0 else "left",
                         fontsize=8.5, color=ink, weight="bold", zorder=7,
                         bbox=dict(boxstyle="round,pad=.18", fc=bgcolor, ec="none", alpha=.93))
+    if residential:
+        locations = np.asarray([row["coordinates"] for row in residential["destinations"]])
+        ax.scatter(*locations.T, marker="*", s=115, facecolors="#e4a735", edgecolors=ink, lw=.7, zorder=7.2)
     # Label route termini with their service code. Fill the legend with the
     # full set so every coloured line is interpretable even where labels meet.
     for key, line in lines.items():
@@ -429,11 +441,14 @@ def image(record, context):
                 arrowprops=dict(arrowstyle="-|>", color=ink))
 
     figure.text(.052, .968, "Baghdad metropolitan rail network", color=ink, fontsize=29, weight="bold", va="top")
-    figure.text(.053, .921, f"{len(lines)} connected lines   ·   {len(spine_ids)} cross-city spines   ·   "
-                f"{len(rings)} orbital {'line' if len(rings) == 1 else 'lines'}   ·   {len(transfers)} interchanges",
-                color="#445d59", fontsize=12, va="top")
+    description = (f"{len(lines)} connected lines   ·   {len(stations)} station sites   ·   {len(transfers)} interchanges"
+                   if residential else f"{len(lines)} connected lines   ·   {len(spine_ids)} cross-city spines   ·   "
+                   f"{len(rings)} orbital {'line' if len(rings) == 1 else 'lines'}   ·   {len(transfers)} interchanges")
+    figure.text(.053, .921, description, color="#445d59", fontsize=12, va="top")
     is_grid = "layout" in selection
-    figure.text(.765, .876, "Grid spines and orbitals" if is_grid else "Cross-city additions and orbitals",
+    legend_title = ("Main housing routes" if residential else "Grid spines and orbitals" if is_grid
+                    else "Cross-city additions and orbitals")
+    figure.text(.765, .876, legend_title,
                 color=ink, fontsize=12.2, weight="bold")
     figure.legend(handles=[handles[code] for code in [*spine_ids, *rings]], loc="upper left",
                   bbox_to_anchor=(.752,.867), labelcolor=ink, frameon=False, ncol=4, fontsize=8.6,
@@ -443,13 +458,15 @@ def image(record, context):
                   loc="upper left", bbox_to_anchor=(.752,.744), labelcolor=ink, frameon=False, ncol=4,
                   fontsize=8.1, columnspacing=.85, handlelength=1.4)
     figure.text(.765, .625, "How to read the map", color=ink, fontsize=12, weight="bold")
-    figure.legend(handles=(
-        Line2D([], [], marker="o", markerfacecolor=bgcolor, markeredgecolor=ink, ls="None", label="Station or interchange"),
-        Line2D([], [], color="#bb6637", alpha=.55, marker="o", ls="None", label="People beyond a 1.2 km walk"),
-    ), loc="upper left", bbox_to_anchor=(.752,.619), frameon=False, fontsize=9.3, labelcolor=ink)
+    symbols = [Line2D([], [], marker="o", markerfacecolor=bgcolor, markeredgecolor=ink, ls="None", label="Station or interchange"),
+               Line2D([], [], color="#bb6637", alpha=.55, marker="o", ls="None", label="People beyond a 1.2 km walk")]
+    if residential:
+        symbols.append(Line2D([], [], marker="*", markerfacecolor="#e4a735", markeredgecolor=ink,
+                              ls="None", label="Journey test destination"))
+    figure.legend(handles=symbols, loc="upper left", bbox_to_anchor=(.752,.619), frameon=False, fontsize=9.3, labelcolor=ink)
     figure.text(.765, .505, "Estimated walking access", color=ink, fontsize=11.5, weight="bold")
     figure.text(.765, .471, f"{walks['1200']['share_pct']:.1f}% within 1,200 m", color="#236b65", fontsize=14, weight="bold")
-    earlier = cases.get("short_links", cases["previous_network"])
+    earlier = cases.get("grid_reference", cases.get("short_links", cases["previous_network"]))
     figure.text(.765, .448, f"Previous map {earlier['1200']['share_pct']:.1f}%", color="#53605b", fontsize=10)
     figure.text(.765, .427, "WorldPop 2026 estimates\nMetropolitan study window\nWalks follow mapped streets",
                 color="#53605b", fontsize=10, linespacing=1.5, va="top")
@@ -474,6 +491,7 @@ def report(result):
     lines, stations = network["lines"], network["stations"]
     selection = access["through_route_selection"]
     layouts = selection.get("tested_layouts") if selection else None
+    residential = selection.get("residential") if selection else None
     out = [
         "# Baghdad metropolitan rail network", "",
         f"This is one connected planning network for Baghdad, with {len(lines)} lines and {len(stations)} station points. "
@@ -492,7 +510,7 @@ def report(result):
         for area in ("metropolitan", "central"):
             row = result_by_area[area]
             percentages = [f"{row['cases'][case][limit]['share_pct']:g}%" for case, limit in (
-                ("short_links" if layouts else "previous_network", "1200"),
+                ("grid_reference" if residential else "short_links" if layouts else "previous_network", "1200"),
                 ("infill_1200_priority", "1200"), ("connected_network", "1200"),
                 ("connected_network", "800"))]
             out.append(f"| {name} · {area} | {row['population']:,} | " + " | ".join(percentages) + " |")
@@ -580,8 +598,14 @@ def report(result):
                 pressure = assigned["concentration"]["peak_load_per_departure_index"]
                 out.append(f"| {LAYOUT_NAMES[label]}, {mode} | {headway:.2f} | {direct:.2f}% | {pressure:.3f} |")
         out.append("")
-    out.extend(["## Cross-city additions", ""])
-    if selection:
+    if residential:
+        from . import residential_report
+
+        out.extend(residential_report.pathway_sections(residential, stations))
+        out.extend(residential_report.delivery_summary(residential))
+    else:
+        out.extend(["## Cross-city additions", ""])
+    if selection and not residential:
         added_km = sum(selection["comparisons"][code]["one_way_km"] for code in selection["selected"])
         out.extend([
             f"The generator compared {len(selection['comparisons'])} screened alignments. The selected layout "
@@ -600,7 +624,8 @@ def report(result):
             out.append(f"| {code} | {role} | {start} | {finish} | {row['one_way_km']:.2f} km | {count} | {row['marginal_additional_worldpop']:,} |")
         out.extend(["", "The centre lines are direct planning alignments. Detailed vertical profiles, curve design, property access, "
                     "bridge clearances and platform layouts still need engineering. The GeoJSON and JSON retain the tested geometry and source evidence.", ""])
-    out.extend([
+    if not residential:
+        out.extend([
         "## How the network is generated", "",
         "1. Assemble the timed alignments into ordered passenger lines. Incorporate the corrected geographic Airport approach "
         "and retain the central station calls as part of the same network. Show only lines with a complete route.",
@@ -616,22 +641,22 @@ def report(result):
         "Recalculate coverage after each addition so overlapping catchments receive credit once.",
         "6. Recalculate both walking thresholds against WorldPop and GHS-POP for the final stations. Verify the connected passenger graph, "
         "all route termini and intermediate transfer locations.", "",
-        "## End-to-end routes", "", "| Line | First stop | Last stop | Route km | Station points |", "|---|---|---|---:|---:|",
-    ])
+        ])
+    out.extend(["## End-to-end routes", "", "| Line | First stop | Last stop | Route km | Station points |", "|---|---|---|---:|---:|"])
     for line, item in lines.items():
         ids = item["station_ids"]
         first = stations[ids[0]]["name"]
         last = "Returns to first stop" if item["loop"] else stations[ids[-1]]["name"]
         out.append(f"| {line} | {first} | {last} | {item['one_way_km']:.2f} | {len(ids)} |")
-    out.extend(["", "The revised routes and stops need their own running times, depot and turnback design, protection, "
-                "fleet and cost evaluation. The earlier budgets and timetables belong to their original studies.", "",
+    out.extend(["", "The route and service allowances need a timetable, turnback, depot, protection and operating verification. "
+                "The earlier published budgets and timetables belong to their original studies.", "",
                 "Run `./osr design railway baghdad-network --check` to reproduce the published map and coverage. "
                 "Use `--output build/baghdad-network-trial --max-through-routes 0` to compare revised station siting on the earlier routes.", "",
                 f"Publication `{result['publication_id']}`.", ""])
     return "\n".join(out)
 
 
-def outputs(record, context):
+def outputs(record, context, *, refresh_readers=False):
     geojson = holistic_network.geojson(record["network"])
     geojson["publication_id"] = record["publication_id"]
     unmatched = set(record["walking_access"]["proposed_stops_without_a_street_snap"])
@@ -654,8 +679,22 @@ def outputs(record, context):
         geojson["features"].append({"type": "Feature", "geometry": {"type": "Polygon", "coordinates": [ring]},
                                     "properties": {"kind": "coverage-gap-area", "stroke": "#ce7a46",
                                                    "stroke-opacity": .16, "fill-opacity": 0, **gap}})
-    return {RECORD_FILE: central_access.encode(record), DATA_FILE: central_access.encode(geojson),
-            REPORT_FILE: report(record).encode(), MAP_FILE: image(record, context)}
+    selection = record["walking_access"]["through_route_selection"] or {}
+    residential = selection.get("residential")
+    if residential:
+        for destination in residential["destinations"]:
+            geojson["features"].append({"type": "Feature", "geometry": {"type": "Point", "coordinates": destination["coordinates"]},
+                                        "properties": {"kind": "journey-destination", **destination}})
+    generated = {RECORD_FILE: central_access.encode(record), DATA_FILE: central_access.encode(geojson),
+                 REPORT_FILE: report(record).encode(), MAP_FILE: image(record, context)}
+    if residential:
+        from .residential_report import delivery_report, refresh_headline
+
+        generated[DELIVERY_FILE] = delivery_report(record).encode()
+        if refresh_readers:
+            for path in (CITY / "README.md", CITY / "PROPOSAL.md"):
+                generated[path] = refresh_headline(path, residential)
+    return generated
 
 
 def main():
@@ -679,7 +718,7 @@ def main():
     with reservation:
         record, context = evaluate(step_m=args.sample_step_m, spacing_m=args.infill_spacing_m, max_infill=args.max_infill,
                                    max_through_routes=args.max_through_routes)
-        for path, value in outputs(record, context).items():
+        for path, value in outputs(record, context, refresh_readers=args.output is None).items():
             if args.check:
                 current = path.read_bytes()
                 matches = central_access.map_pixels_match(current, value) if path == MAP_FILE else current == value

@@ -2,20 +2,21 @@
 
 ## Current metropolitan rail network
 
-This is one connected planning network for Baghdad. Bold lines show the long east–west and north–south spines and the orbitals. The Airport approach, central routes and outer districts connect through proposed interchanges. The orange layer shows where residents remain more than a 1.2 km street walk from a station.
+This is one connected planning network for Baghdad. Its design test follows journeys from housing areas to markets, Medical City, civic centres and the university approach. The test allows up to two changes. The Airport and central routes stay connected, and the orange layer shows gaps beyond a 1.2 km street walk.
+
+<!-- current housing budget -->
+
+**Current housing-to-centre budget case.** 776.3 km of mapped guideway, 1,552.6 track-km counting both running tracks, and 681 station sites. The base installed allowance is **US$43.45bn**, with planning cases of US$30.52bn to US$66.12bn. Casting, haul and erection account for 6.76 million paid hours. The six-minute operating offer and the construction schedule use this same candidate. [Quantities, labour and costs](NETWORK-DELIVERY.md) · [Housing journeys and map](NETWORK.md)
+
+<!-- end current housing budget -->
 
 [![One connected map of Baghdad’s railway, station interchanges and walking-access gaps](maps/baghdad-network.png)](maps/baghdad-network.png)
 
 [Full-size network map](maps/baghdad-network.png) · [Route, station and transfer GIS](maps/baghdad-network.geojson) · [Network logic, coverage and line termini](NETWORK.md)
 
-The generator compares the grid with one or two rings and tests which local links are useful for covering gaps. It uses the same synthetic journeys and daily train-kilometres to compare travel times, transfers and load concentration. The underlying cost, train and construction studies below retain the earlier geometry they priced. The connected network needs its own timetable and estimate.
+The generator compares shorter perimeter variants using the same housing origins, destinations and service offer. The selected design has a matching delivery workplan and installed, operating and renewal allowances. Earlier design and cost studies retain the geometry they priced.
 
-For civil budgeting and supplier enquiries, start with the **20 m shared-pier
-delivery programme**. It recalculates the standard girders, foundations,
-terminal yards, labour, construction windows and cash for the seven-corridor
-and independent citywide alternatives. Open main lines use two inward
-deck-fed gantries, subject to temporary works and access. [Current costs and
-delivery programme](engineering/mechanical/civil/rail-fed/network-delivery.md)
+The current [delivery workplan](NETWORK-DELIVERY.md) prices 20 m shared-pier stock and two inward launching gantries on eligible open lines. The [earlier 20 m delivery studies](engineering/mechanical/civil/rail-fed/network-delivery.md) retain the seven-corridor and 605 km alternatives for comparison.
 
 The assembly films follow both launch fronts and show the fitted train with its cab ends, gangways, passenger saloon and service connections. The part and shift schedules identify which geometry, masses, prices and labour allowances support the illustrations. [Assembly films, renders and workplans](../../docs/assets/assembly-animations/GUIDE.md) · [Illustrated proposal](Baghdad-Metro-Proposal.pdf)
 
@@ -27,9 +28,9 @@ Use the **17.46 km Airport alignment study** to review the proposed route, servi
 | Inspect the earlier car, station, beam and power drawings | [Prototype twin and field-return guide](engineering/prototype/README.md) · [Offline prototype drawings](engineering/prototype/airport-prototype.zip) |
 | Review the historical 12 km Airport opening, its 15-minute timetable and 30-site budget | [v0.7.2 Airport opening](airport-integration.html) |
 | Trace the earlier timetable and central access calculations used in the network revision | [Central access inputs](CENTRAL-ACCESS.md) · [Fourteen-route clockface trial](CITYWIDE-SERVICE.md) |
-| Compare staged service, fares, debt and maintenance on the seven corridors | [Phased funding schedule](../../docs/operator-review/finance/phased-first.html) |
+| Compare staged service, fares, debt and maintenance on the earlier seven corridors | [Phased funding schedule](../../docs/operator-review/finance/phased-first.html) |
 
-[Proposal for Amanat Baghdad](PROPOSAL.md) · [PDF proposal](Baghdad-Metro-Proposal.pdf) · [Cost and annual cash schedule](COST-AND-DELIVERY.md) · [Train and station section](VEHICLE.md) · [Map layers and sources](maps/README.md)
+[Proposal for Amanat Baghdad](PROPOSAL.md) · [PDF proposal](Baghdad-Metro-Proposal.pdf) · [Current delivery and budget](NETWORK-DELIVERY.md) · [Earlier cost and cash schedule](COST-AND-DELIVERY.md) · [Train and station section](VEHICLE.md) · [Map layers and sources](maps/README.md)
 
 Baghdad is preparing fresh investment opportunities after the earlier offers failed to meet government requirements. OpenSourceRail is preparing for a late-2026 to early-2027 invitation for ideas. The timetable awaits an official notice. [Al-Mada interview with Amanat Baghdad, 25 October 2026](https://almadapaper.net/458226/) · [NINA interview with the National Investment Commission, 27 October 2026](https://ninanews.com/website/News/Details?key=1322248)
 
@@ -49,7 +50,7 @@ Each row compares the two programmes at the same price basis. The routes, statio
 [Operator briefing and design twins](../../docs/operator-review/README.md) · [Baghdad delivery workplan](../../docs/operator-review/WORKPLAN.md#opening-a-railway-in-baghdad) · [Compare annual funding and fares](../../docs/operator-review/finance/index.html)
 
 
-**Iraqi construction budget.** The seven corridors cost an estimated **$8.37bn** centrally, with a **$6.12bn–$12.35bn** planning range. The independent citywide alternative costs **$33.00bn** centrally, with a **$24.10bn–$48.83bn** range. The common design-rate estimates of $7.866bn and $31.018bn remain available for matching vendor returns. At the Iraqi central prices, estimated domestic value within Iraqi-awarded contracts is **$1.84bn** and **$7.36bn**, respectively. [Capital by work package and year](IRAQ-CAPITAL.md) · [Operating costs, fares and debt payments](IRAQ-ESTIMATES.md)
+**Earlier Iraqi construction budgets.** The seven corridors cost an estimated **$8.37bn** centrally, with a **$6.12bn–$12.35bn** planning range. The independent citywide alternative costs **$33.00bn** centrally, with a **$24.10bn–$48.83bn** range. The common design-rate estimates of $7.866bn and $31.018bn remain available for matching vendor returns on those scopes. At the Iraqi central prices, estimated domestic value within Iraqi-awarded contracts is **$1.84bn** and **$7.36bn**, respectively. [Earlier capital by work package and year](IRAQ-CAPITAL.md) · [Earlier operating costs, fares and debt payments](IRAQ-ESTIMATES.md)
 
 ## Earlier route and cost evidence
 
