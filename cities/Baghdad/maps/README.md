@@ -1,9 +1,15 @@
 # Baghdad railway maps
 
+The [current metropolitan map](baghdad-network.png) shows the Airport, central and outer routes in one connected passenger network. It also marks the populated areas beyond a 1,200 m walk. Use the [network GIS](baghdad-network.geojson) or the [line register and coverage results](../NETWORK.md) to inspect a particular route or transfer.
+
+## Retained map sources
+
+The maps below record the original comparison geometry underlying earlier studies and estimates.
+
 | Geographic review | Programme length | Station allowance | Map content |
 | --- | ---: | ---: | --- |
 | [Seven corridors](Baghdad-148km.png) · [Named-place review](corridor-review.geojson) | 148.2 km | 64 | Original February 2024 NIC satellite route plate |
-| [Current central rail study](baghdad-central-service.png) · [Central routes and stations GIS](central-service.geojson) | 28.21 km | 19 | Both lines end to end, including the Tigris crossing and Tahrir Square interchange |
+| [Earlier central access study](baghdad-central-service.png) · [Central routes and stations GIS](central-service.geojson) | 28.21 km | 19 | Both lines end to end, including the Tigris crossing and Tahrir Square interchange |
 | [Earlier citywide comparison](Baghdad-606km.png) · [Service and access GIS](central-access.geojson) | 605.652 km costed / 552.562 km timed | 280 budgeted | Passenger paths, deferred branches and reserved guideway |
 
 ## How to read the seven corridors

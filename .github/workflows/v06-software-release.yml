@@ -72,6 +72,8 @@ on:
       - "tools/automation/check-markdown-links.py"
       - "tools/automation/tests/test_markdown_epoch_links.py"
       - "cities/Baghdad/**"
+      - "cities/catalogue/west-asia/Iraq/Baghdad/engineering/mapping/**"
+      - "cities/catalogue/west-asia/Iraq/Baghdad/map-context.json.gz"
       - "tools/automation/check-airport-install.py"
       - "engineering/design_search/storage.py"
       - "docs/reference-v07/integration/timetable.py"
@@ -189,6 +191,8 @@ on:
       - "tools/automation/check-markdown-links.py"
       - "tools/automation/tests/test_markdown_epoch_links.py"
       - "cities/Baghdad/**"
+      - "cities/catalogue/west-asia/Iraq/Baghdad/engineering/mapping/**"
+      - "cities/catalogue/west-asia/Iraq/Baghdad/map-context.json.gz"
       - "tools/automation/check-airport-install.py"
       - "engineering/design_search/storage.py"
       - "docs/reference-v07/integration/timetable.py"
@@ -282,6 +286,7 @@ jobs:
             /cities/Baghdad/**
             /tools/automation/check-airport-install.py
             /cities/catalogue/west-asia/Iraq/Baghdad/map-context.json.gz
+            /cities/catalogue/west-asia/Iraq/Baghdad/engineering/mapping/**
             /LICENSE.md
             /Cargo.toml
             /Cargo.lock
@@ -395,6 +400,11 @@ jobs:
         run: |
           python -m cities.Baghdad.engineering.simulation.reference_project --check
           python -m pytest -q --import-mode=importlib cities/Baghdad/engineering/simulation/test_reference_project.py
+      - name: Verify the connected Baghdad network and reproducible coverage
+        run: |
+          python -m pip install --disable-pip-version-check matplotlib==3.11.2 Pillow==13.0.0
+          python -m pytest -q --import-mode=importlib cities/Baghdad/test_holistic_*.py
+          python -m cities.Baghdad.holistic_map --check
       - name: Verify railway timetables, prototype prices and bench records
         run: |
           python -m unittest discover -s docs/reference-v07/integration -p test_timetable.py

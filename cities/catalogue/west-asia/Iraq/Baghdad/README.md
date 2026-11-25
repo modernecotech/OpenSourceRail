@@ -1,10 +1,9 @@
 # Baghdad railway planning data
 
-The [OpenSourceRail Baghdad proposal](../../../../Baghdad/PROPOSAL.md) is the current city planning entry point.
-It defines the 148.2 km first programme and the 605.65 km metropolitan concept,
-including airport-terminal, Sadr City and Jadriya service.
+The [current Baghdad network](../../../../Baghdad/NETWORK.md) connects the Airport approach, central routes and outer districts. The map shows end-to-end services, proposed interchanges and the remaining walking-access gaps.
 
-[First-programme map](../../../../Baghdad/maps/corridor-review.geojson) · [Metropolitan map](../../../../Baghdad/maps/network-606km.geojson) · [Planning workspace](../../../../../docs/workbench/planning/index.html?city=baghdad) · [Current city packet](engineering/current/README.md)
+[Full-size Baghdad rail map](../../../../Baghdad/maps/baghdad-network.png) · [Network GIS](../../../../Baghdad/maps/baghdad-network.geojson) · [Baghdad proposal](../../../../Baghdad/PROPOSAL.md)
 
-The calculated outline in `engineering/outline/` is a separate research scenario.
-Its route, fleet and prices do not define either proposal concept.
+The [earlier estimates](../../../../Baghdad/COST-AND-DELIVERY.md) retain their 148.2 km and 605.65 km comparison scopes. The calculated outline in `engineering/outline/` is a separate research scenario.
+
+[Planning workspace](../../../../../docs/workbench/planning/index.html?city=baghdad) · [Research city packet](engineering/current/README.md)

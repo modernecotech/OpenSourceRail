@@ -6,7 +6,6 @@ import html
 import json
 from urllib.parse import urljoin
 from io import BytesIO
-from hashlib import sha256
 from pathlib import Path
 
 import cairosvg
@@ -19,14 +18,12 @@ from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import mm
-from reportlab.lib.utils import ImageReader
 from reportlab.platypus import Flowable, Image, KeepTogether, PageBreak, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
 
 ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
 OUTPUT = HERE / "Baghdad-Metro-Proposal.pdf"
-NIC_PLATE = HERE / "maps" / "Baghdad-148km.png"
 
 
 def inline(nodes):
@@ -47,14 +44,6 @@ def inline(nodes):
         elif "children" in node:
             out.append(inline(node["children"]))
     return "".join(out)
-
-
-def verify_nic_plate():
-    """Check the pixels of the original plate before embedding it."""
-    plate = ImageReader(str(NIC_PLATE))
-    if (plate.getSize() != (890, 632) or sha256(plate.getRGBData()).hexdigest()
-            != "53046ba154f84753fe2bc84aa45502f9de1ae3af962f02c3bb33fb2bb8f0cb14"):
-        raise ValueError("Restore the February 2024 route plate from the source in maps/README.md")
 
 
 class ProposalFigure(Flowable):
@@ -89,7 +78,6 @@ class ProposalFigure(Flowable):
 
 
 def render():
-    verify_nic_plate()
     result = json.loads((HERE / "system-results.json").read_text())
     styles = getSampleStyleSheet()
     styles.add(ParagraphStyle(name="TitleOSR", parent=styles["Title"], fontName="Helvetica-Bold",
@@ -104,7 +92,9 @@ def render():
     styles.add(ParagraphStyle(name="CellOSR", parent=styles["BodyOSR"], fontSize=7.6, leading=10.2, spaceAfter=0))
     styles.add(ParagraphStyle(name="FooterOSR", parent=styles["BodyOSR"], fontSize=7,
                               textColor=colors.HexColor("#697a83"), alignment=TA_CENTER))
-    ast = mistune.create_markdown(renderer="ast", plugins=["table"])((HERE / "PROPOSAL.md").read_text())
+    proposal = (HERE / "PROPOSAL.md").read_text()
+    proposal_date = next(line for line in proposal.splitlines() if line.startswith("**Proposal to Amanat Baghdad · ")).split(" · ")[1]
+    ast = mistune.create_markdown(renderer="ast", plugins=["table"])(proposal)
     story = []
     current_section = ""
     def figure(node, caption):
@@ -260,7 +250,7 @@ def render():
     def footer(canvas, document):
         canvas.setFont("Helvetica", 7)
         canvas.setFillColor(colors.HexColor("#697a83"))
-        canvas.drawString(16 * mm, 10 * mm, "OpenSourceRail | Amanat Baghdad planning proposal | 20 November 2026")
+        canvas.drawString(16 * mm, 10 * mm, f"OpenSourceRail | Amanat Baghdad planning proposal | {proposal_date}")
         canvas.drawRightString(194 * mm, 10 * mm, str(document.page))
     doc.build(story, onFirstPage=footer, onLaterPages=footer)
     print(OUTPUT)

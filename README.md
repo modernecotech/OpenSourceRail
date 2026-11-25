@@ -55,9 +55,9 @@ For a different planning question, compare how Amman’s terrain and Karachi’s
 
 A planning team can export route, stop, service and origin–destination edits, then compile and verify the proposal against its input revision. A separate city calculation carries the revised plan into fleet, section capacity, civil quantities and cost. Compare propulsion or construction assumptions while keeping demand and service fixed, or change the service and compare the fleet and capacity it requires. [Proposal and recalculation commands](docs/workbench/planning/README.md) · [City atlas and source data](docs/design-engine/city-atlas/README.md)
 
-Compare walking routes to the stations that trains actually serve. In Baghdad, the connected 14-route trial still leaves most of the central study area outside an 800 m walk. A separate two-trunk study tests a Tigris crossing and a central transfer. The map distinguishes operating paths from deferred and reserved sections. [Central Baghdad access and train service](cities/Baghdad/CENTRAL-ACCESS.md)
+The Baghdad network map brings the Airport approach, central routes and outer corridors into one connected passenger network. The generator checks end-to-end routing and interchanges, ranks station sites by additional residents reached over mapped streets, and marks the remaining coverage gaps. [Baghdad network and coverage calculation](cities/Baghdad/NETWORK.md)
 
-[![Full central Baghdad rail map showing the two proposed lines and their Tahrir Square interchange](cities/Baghdad/maps/baghdad-central-service.png)](cities/Baghdad/README.md#current-central-rail-study)
+[![One connected Baghdad railway map with proposed station interchanges and walking-access gaps](cities/Baghdad/maps/baghdad-network.png)](cities/Baghdad/NETWORK.md)
 
 ## Timetables and train motion
 

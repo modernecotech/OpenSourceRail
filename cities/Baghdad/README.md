@@ -1,14 +1,14 @@
 # Baghdad metropolitan railway
 
-## Current central rail study
+## Current metropolitan rail network
 
-The current central Baghdad concept has two end-to-end services across **28.21 km** and **19 proposed stops**. C1 runs from Al Mansour to Zayouna across the Tigris. C2 runs from Al Mustansiriya to the University of Baghdad through Old Rusafa and Karrada. They meet at Tahrir Square. The trial timetable uses 15-minute headways.
+This is one connected planning network for Baghdad. It joins the Airport and central routes to the lines serving the outer districts. Every displayed rail line has an end-to-end path. Transfers are shown at proposed interchange stations. The map also shows where the network leaves residents more than a 1,200 m walk from a station.
 
-[![Both central Baghdad routes and all 19 proposed stations, including the Tahrir Square interchange](maps/baghdad-central-service.png)](maps/baghdad-central-service.png)
+[![One connected map of Baghdad’s railway, station interchanges and walking-access gaps](maps/baghdad-network.png)](maps/baghdad-network.png)
 
-[Full-size central map](maps/baghdad-central-service.png) · [Central routes and stations in GeoJSON](maps/central-service.geojson) · [Walking access and timetable evidence](CENTRAL-ACCESS.md)
+[Full-size network map](maps/baghdad-network.png) · [Route, station and transfer GIS](maps/baghdad-network.geojson) · [Network logic, coverage and line termini](NETWORK.md)
 
-The metropolitan replan remains open. The 605.652 km concept and its prices are retained below for comparison, alongside the separate seven-corridor proposal from the Iraqi investment brief.
+The map uses a deterministic route and station check. The underlying cost, train and construction studies below retain the earlier geometry they priced. The connected network needs its own timetable and estimate.
 
 For civil budgeting and supplier enquiries, start with the **20 m shared-pier
 delivery programme**. It recalculates the standard girders, foundations,
@@ -19,14 +19,14 @@ delivery programme](engineering/mechanical/civil/rail-fed/network-delivery.md)
 
 The assembly films follow both launch fronts and show the fitted train with its cab ends, gangways, passenger saloon and service connections. The part and shift schedules identify which geometry, masses, prices and labour allowances support the illustrations. [Assembly films, renders and workplans](../../docs/assets/assembly-animations/GUIDE.md) · [Illustrated proposal](Baghdad-Metro-Proposal.pdf)
 
-Use the **17.46 km Airport alignment study** to review the proposed route, service, power options and partial construction costs together. The 30-minute paired-supply trial completes all 72 booked trips. Survey, complete prices and physical acceptance remain open. The 605.652 km citywide plan is a comparison. The [central access review](CENTRAL-ACCESS.md) identifies missing connections and tests a new alignment serving central Baghdad.
+Use the **17.46 km Airport alignment study** to review the proposed route, service, power options and partial construction costs together. The 30-minute paired-supply trial completes all 72 booked trips. Survey, complete prices and physical acceptance remain open. The [metropolitan network](NETWORK.md) uses the corrected Airport approach in the citywide passenger graph.
 
 | Decision | Open |
 |---|---|
 | Review the revised alignment and request budgetary prices on the matched scope | [Airport audit results](engineering/simulation/AUDIT-RESULTS.md) · [Paired-supply budgetary enquiry](engineering/simulation/audited-enquiry.zip) |
 | Inspect the earlier car, station, beam and power drawings | [Prototype twin and field-return guide](engineering/prototype/README.md) · [Offline prototype drawings](engineering/prototype/airport-prototype.zip) |
 | Review the historical 12 km Airport opening, its 15-minute timetable and 30-site budget | [v0.7.2 Airport opening](airport-integration.html) |
-| Compare the connected 14-route timetable with new central service and see what remains deferred | [Central passenger access](CENTRAL-ACCESS.md) · [Fourteen-route clockface trial](CITYWIDE-SERVICE.md) |
+| Trace the earlier timetable and central access calculations used in the network revision | [Central access inputs](CENTRAL-ACCESS.md) · [Fourteen-route clockface trial](CITYWIDE-SERVICE.md) |
 | Compare staged service, fares, debt and maintenance on the seven corridors | [Phased funding schedule](../../docs/operator-review/finance/phased-first.html) |
 
 [Proposal for Amanat Baghdad](PROPOSAL.md) · [PDF proposal](Baghdad-Metro-Proposal.pdf) · [Cost and annual cash schedule](COST-AND-DELIVERY.md) · [Train and station section](VEHICLE.md) · [Map layers and sources](maps/README.md)
@@ -51,42 +51,11 @@ Each row compares the two programmes at the same price basis. The routes, statio
 
 **Iraqi construction budget.** The seven corridors cost an estimated **$8.37bn** centrally, with a **$6.12bn–$12.35bn** planning range. The independent citywide alternative costs **$33.00bn** centrally, with a **$24.10bn–$48.83bn** range. The common design-rate estimates of $7.866bn and $31.018bn remain available for matching vendor returns. At the Iraqi central prices, estimated domestic value within Iraqi-awarded contracts is **$1.84bn** and **$7.36bn**, respectively. [Capital by work package and year](IRAQ-CAPITAL.md) · [Operating costs, fares and debt payments](IRAQ-ESTIMATES.md)
 
-## City maps and routes
+## Earlier route and cost evidence
 
-### 148.2 km · Iraqi investment proposal, February 2024
+The 148.2 km estimate uses the National Investment Commission’s February 2024 seven-corridor brief. The 605.652 km case priced a separate earlier scheme, including 50.099 km of reserved guideway. Both are retained as cost comparators for the revised map. [NIC investment plate and source](maps/README.md#how-to-read-the-seven-corridors) · [Earlier citywide route and service inputs](CITYWIDE-SERVICE.md) · [Original civil and operating estimates](COST-AND-DELIVERY.md)
 
-The map below is the National Investment Commission’s original seven-corridor overview. Follow the pale pink line from **B Airport** into western Baghdad, the blue line towards **Al Zafraniya** in the southeast, and the white line around the western districts. The accompanying route table prints **148 km** in total. Its seven line items add to **148.2 km**, the distance used in the OpenSourceRail cost comparison. [Original map and route table, page 4](https://mofa.gov.iq/paris/wp-content/uploads/sites/55/2024/02/Baghdad-PDF.pdf#page=4)
-
-![Iraq’s February 2024 Baghdad Metro satellite map showing seven proposed corridors and the airport approach](maps/Baghdad-148km.png)
-
-[Open the full-size route map](maps/Baghdad-148km.png) · [Separate GIS review of named places and unresolved locations](maps/corridor-review.geojson)
-
-| First-programme line | Route length | Principal areas |
-|---|---:|---|
-| Green | 19 km | Al Alawi, Mansour, Yarmouk, Bayaa, Doura |
-| Red | 27.7 km | Al Alawi, Kadhimiya, Adhamiya, Mustansiriya, Maisaloun |
-| Blue | 22 km | Al Shaab, Waziriya, Khallani, Tayaran, Zuafaraniya |
-| Purple | 14.5 km | Tayaran, Hamza, Ur, Al Shaab, Sadr City approaches |
-| Yellow | 30 km | Baladiyat, Maisaloun, Jadriya, Bayaa, Adan |
-| White | 23 km | Kadhimiya, Shulah, Gazaliya, Khadhraa, Amiriya, Bayaa |
-| Airport | 12 km | Passenger-terminal area, Amiriya, Aamil, Bayaa, Qadisiya |
-| **Total** | **148.2 km** | **64 stations budgeted across the programme** |
-
-The airport line is planned to reach the passenger-terminal building area. The independent station-location study uses a building centroid; the final platform, step-free landside route and operating/security boundary require design with the airport. The separate access study identifies locations to inspect in Sadr City and Jadriya.
-
-### 605.652 km · Earlier guideway concept and clockface comparison
-
-The map distinguishes the **552.562 km** with timed passenger paths from the five deferred access branches and six reserved sections in the costed concept.
-
-![Citywide comparison showing scheduled passenger paths, deferred access, and reserved guideway](maps/Baghdad-606km.png)
-
-[Full-size citywide comparison](maps/Baghdad-606km.png) · [Service and comparison GIS](maps/central-access.geojson) · [Original guideway inputs for reproducing the cost model](maps/network-606km.geojson)
-
-The independent citywide map contains nine principal corridors, five shared links, six infill corridors and six access branches. It has fourteen service groups and a 280-station allowance. The proposal assigns the airport terminal area to M05, Sadr City anchors to M04 and M09, and Jadriya anchors to M01 and M02. Its 605.652 km is the costed length for the schematic corridors. Five shared links and the east inner arc total 50.099 km and are reserved without assigned train paths. The other 555.553 km has planning assignments. The two M04 branches are 2.323 km and 2.710 km from their assigned main line at the nearest branch ends. The proposal describes these junction gaps and the work needed to establish a timetable.
-
-At the original common bid rates, the reserve accounts for **$1.122bn within the citywide capital estimate**, and **$2.004m/year** of conductor upkeep within annual operations. The full estimate equates to **$51.214m per costed guideway kilometre** or **$55.832m per kilometre with an assigned passenger path**. See the [reserve breakdown](COST-AND-DELIVERY.md#reserved-citywide-guideway).
-
-The [central access review](CENTRAL-ACCESS.md) measures walking access to the stops actually called in the 14-route timetable. It identifies gaps around central Rusafa and tests two central trunks with their own timetable. Use the 605.652 km plan and its investment totals as a comparison case while revising the routes around passenger access.
+The earlier estimates retain their own Airport terminal access, Sadr City branches and Jadriya assumptions. The new map includes only complete rail paths that pass its connection check. The [route register](NETWORK.md#end-to-end-routes) lists each end-to-end service and the walking-coverage calculation identifies populated gaps for the next alignment work.
 
 ### From a named place to an accessible station
 

@@ -172,17 +172,19 @@ def city(model,packet,detail,row,root):
     directory=Path(row['path']);city=packet['city'];name=city['name'];slug=city['slug']
     if slug == 'baghdad':
         proposal=link(directory,'cities/Baghdad/PROPOSAL.md')
-        map_a=link(directory,'cities/Baghdad/maps/corridor-review.geojson')
-        map_b=link(directory,'cities/Baghdad/maps/network-606km.geojson')
+        network=link(directory,'cities/Baghdad/NETWORK.md')
+        network_map=link(directory,'cities/Baghdad/maps/baghdad-network.png')
+        gis=link(directory,'cities/Baghdad/maps/baghdad-network.geojson')
+        costs=link(directory,'cities/Baghdad/COST-AND-DELIVERY.md')
         planning=link(directory,'docs/workbench/planning/index.html?city=baghdad')
         return '\n'.join([
             '# Baghdad railway planning data','',
-            'The [OpenSourceRail Baghdad proposal]('+proposal+') is the current city planning entry point.',
-            'It defines the 148.2 km first programme and the 605.65 km metropolitan concept,',
-            'including airport-terminal, Sadr City and Jadriya service.','',
-            '[First-programme map]('+map_a+') · [Metropolitan map]('+map_b+') · [Planning workspace]('+planning+') · [Current city packet](engineering/current/README.md)','',
-            'The calculated outline in `engineering/outline/` is a separate research scenario.',
-            'Its route, fleet and prices do not define either proposal concept.','',
+            'The [current Baghdad network]('+network+') connects the Airport approach, central routes and outer districts. '
+            'The map shows end-to-end services, proposed interchanges and the remaining walking-access gaps.','',
+            '[Full-size Baghdad rail map]('+network_map+') · [Network GIS]('+gis+') · [Baghdad proposal]('+proposal+')','',
+            'The [earlier estimates]('+costs+') retain their 148.2 km and 605.65 km comparison scopes. '
+            'The calculated outline in `engineering/outline/` is a separate research scenario.','',
+            '[Planning workspace]('+planning+') · [Research city packet](engineering/current/README.md)','',
         ])
     p='engineering/outline/';policy=packet['assumptions']['policy'];cost=packet['costs'];r=packet['resources'];q=packet['civil']['quantities']
     lines=sorted(packet['lines'],key=lambda x:_natural(x['line_id']));stats=packet['summary'];w=detail['delivery_draft']['workforce']
