@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **253**.
+Indexed Markdown files: **254**.
 
 ## Sections
 
@@ -20,7 +20,7 @@ Indexed Markdown files: **253**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
-| [cities](#cities) | 80 |
+| [cities](#cities) | 81 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
 | [docs](#docs) | 140 |
@@ -67,6 +67,7 @@ Indexed Markdown files: **253**.
 | [`cities/Baghdad/OPERATING-ALTERNATIVES.md`](../cities/Baghdad/OPERATING-ALTERNATIVES.md) | Baghdad opening operating alternatives |
 | [`cities/Baghdad/PROPOSAL.md`](../cities/Baghdad/PROPOSAL.md) | OpenSourceRail Baghdad metropolitan railway |
 | [`cities/Baghdad/README.md`](../cities/Baghdad/README.md) | Baghdad metropolitan railway |
+| [`cities/Baghdad/RING-GRID.md`](../cities/Baghdad/RING-GRID.md) | Baghdad ring-and-grid network comparison |
 | [`cities/Baghdad/SERVICE-DIAGRAMS.md`](../cities/Baghdad/SERVICE-DIAGRAMS.md) | Baghdad passenger service and train workings |
 | [`cities/Baghdad/VEHICLE.md`](../cities/Baghdad/VEHICLE.md) | Baghdad 700-place train |
 | [`cities/Baghdad/engineering/commissioning/COMMISSIONING.md`](../cities/Baghdad/engineering/commissioning/COMMISSIONING.md) | Airport traction and station commissioning |

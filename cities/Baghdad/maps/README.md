@@ -2,6 +2,8 @@
 
 The current metropolitan map shows one connected passenger network and the destinations used to test trips from housing areas. It marks populated areas beyond a 1,200 m walk. The GIS and line register use the same route lengths as the delivery estimate. [Map](baghdad-network.png) · [GIS](baghdad-network.geojson) · [Coverage results](../NETWORK.md) · [Delivery estimate](../NETWORK-DELIVERY.md)
 
+The ring-and-grid study compares the published network with closed inner and outer rings, near-straight cross-city routes and an inner-ring-only option. [Comparison map](baghdad-ring-grid.png) · [Journey, construction and cost comparison](../RING-GRID.md)
+
 ## Retained map sources
 
 The maps below record the original comparison geometry underlying earlier studies and estimates.
