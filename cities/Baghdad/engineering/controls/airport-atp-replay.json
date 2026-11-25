@@ -1,0 +1,224 @@
+{
+  "alignment_id": "ad4cee7997ab1d2567b71f3dfaae57dd5eb9d6715a32dd5928c20e70cfeb535d",
+  "alignment_record_id": "d6eb481cda9e0fe40c055e3bd4202aa1d213530947341fc13a34fe2db99f0d37",
+  "brake_duty_id": "054a820edc9535811a9f1cf6fa9b38461f3e3fe4dbe19f837f1e2cfe904a5f7d",
+  "cases": {
+    "authority_expired": {
+      "atp": {
+        "command": "Emergency",
+        "distance_to_end_mm": null,
+        "envelope_mmps": null,
+        "reason": "MaExpired"
+      },
+      "authority": {
+        "applicable_restrictions": [],
+        "derived_from_entry_id": 7,
+        "end": {
+          "direction": "Forward",
+          "offset_mm": 1249377,
+          "section": 5
+        },
+        "has_known_position": true,
+        "train_id": 101,
+        "valid_until_ns": 4000000000
+      }
+    },
+    "clear_ahead": {
+      "atp": {
+        "command": "Release",
+        "distance_to_end_mm": 1658984,
+        "envelope_mmps": 38897,
+        "reason": "WithinEnvelope"
+      },
+      "authority": {
+        "applicable_restrictions": [],
+        "derived_from_entry_id": 7,
+        "end": {
+          "direction": "Forward",
+          "offset_mm": 1249377,
+          "section": 5
+        },
+        "has_known_position": true,
+        "train_id": 101,
+        "valid_until_ns": 4000000000
+      }
+    },
+    "leader_in_next_section": {
+      "atp": {
+        "command": "Emergency",
+        "distance_to_end_mm": 409607,
+        "envelope_mmps": 19327,
+        "reason": "Overspeed"
+      },
+      "authority": {
+        "applicable_restrictions": [],
+        "derived_from_entry_id": 9,
+        "end": {
+          "direction": "Forward",
+          "offset_mm": 1249377,
+          "section": 4
+        },
+        "has_known_position": true,
+        "train_id": 101,
+        "valid_until_ns": 4000000000
+      }
+    },
+    "leader_with_position_and_speed_uncertainty": {
+      "atp": {
+        "command": "Emergency",
+        "distance_to_end_mm": 404607,
+        "envelope_mmps": 19209,
+        "reason": "Overspeed"
+      },
+      "authority": {
+        "applicable_restrictions": [],
+        "derived_from_entry_id": 9,
+        "end": {
+          "direction": "Forward",
+          "offset_mm": 1249377,
+          "section": 4
+        },
+        "has_known_position": true,
+        "train_id": 101,
+        "valid_until_ns": 4000000000
+      }
+    },
+    "unknown_position": {
+      "atp": {
+        "command": "Emergency",
+        "distance_to_end_mm": null,
+        "envelope_mmps": null,
+        "reason": "NoKnownPosition"
+      },
+      "authority": {
+        "applicable_restrictions": [],
+        "derived_from_entry_id": 5,
+        "end": {
+          "direction": "Forward",
+          "offset_mm": 0,
+          "section": 0
+        },
+        "has_known_position": false,
+        "train_id": 101,
+        "valid_until_ns": 4000000000
+      }
+    },
+    "wrong_train_authority": {
+      "atp": {
+        "command": "Emergency",
+        "distance_to_end_mm": null,
+        "envelope_mmps": null,
+        "reason": "MaTrainMismatch"
+      },
+      "authority": {
+        "applicable_restrictions": [],
+        "derived_from_entry_id": 9,
+        "end": {
+          "direction": "Forward",
+          "offset_mm": 1249377,
+          "section": 5
+        },
+        "has_known_position": true,
+        "train_id": 102,
+        "valid_until_ns": 4000000000
+      }
+    }
+  },
+  "evaluation_id": "b099fb3762541dad931a60f42a009968b05b05fdb3bbf08b104f1cf6216b0fd6",
+  "open_evidence": [
+    "Surveyed front-to-protected-limit distances and withheld overlaps",
+    "Qualified brake force, speed, thermal and timing evidence",
+    "Localisation and independent stopping trials with installed controllers",
+    "Resource ownership, directional authority topology and communications validation"
+  ],
+  "physical_acceptance": false,
+  "protection_layout_screen": "open",
+  "reference_candidate_id": "3347491cf97611b96593be4d9c5c63c61a82c7212d87f0c67ca5e1dcbfb9ee7d",
+  "rust_inputs": {
+    "after_coast_speed_mmps": 20393,
+    "approach_speed_mmps": 20000,
+    "chainages_mm": [
+      0,
+      7448812,
+      13016199,
+      14962156,
+      16211533,
+      17460910
+    ],
+    "coast_distance_mm": 40393,
+    "length_mm": 104500,
+    "loaded_mass_kg": 246036,
+    "net_deceleration_mmps2": 456
+  },
+  "schema": "osr-baghdad-airport-atp-replay/1",
+  "scope": "Synthetic lead- and following-train snapshots on the mapped interstation distances. ATP starts after the separately calculated downhill coast and uses a zero additional delay. The station boundaries, train positions and uncertainty are fixture inputs. The 2% comparator is an adverse load sensitivity. The desktop route maximum grade is separate.",
+  "site_evaluation_id": "8a04542fd45e6c158954385ab7427e62a466dd30b7c8223685909de608adce2b",
+  "source_sha256": {
+    "Cargo.lock": "36d1d5ec2fc968306bab22cd3fc180618f7b70b847848f1a060f864ed7b67f1e",
+    "Cargo.toml": "409b2595104c76729d72c6b41b9b5e08574f656d0f9f9014f77f7c0fa7221ca3",
+    "cities/Baghdad/VEHICLE.md": "1f2a9063db7b8b1e2511624554b5e8f6bf1609cf0ef5e691416f2e5bb0ba195c",
+    "cities/Baghdad/airport_assembly.py": "5341e5198a74db3c59613cea5fe086e2798df55573eb901d7b45952efc5a0c18",
+    "cities/Baghdad/engineering/controls/airport_atp_replay.py": "a395d1265d0e7bedf208ecb953a6ddac17a7ef241f3f20df2f4250751c6341ac",
+    "cities/Baghdad/engineering/mechanical/README.md": "a64b6be1aa73176cb277004fee79c11134703d443f0b37bbc3bc4f774164762f",
+    "cities/Baghdad/engineering/mechanical/vehicle/section-trial.toml": "8c15d3a0fafd08b87f594052b781d0d7a4139caedea0fa83ccf182aafa003ae2",
+    "cities/Baghdad/engineering/prototype/car.py": "e868c1abf5779889812544c185afc635200b26dbaf9fd58fa9870bd19a7ee506",
+    "cities/Baghdad/engineering/prototype/commercial.py": "3f9f9c81aef2d2bf99de15e3a3c3ef24d03bb6c763ffd90367900c1a6a9f20a8",
+    "cities/Baghdad/engineering/prototype/vehicle-factory/installed-fitout-bom.csv": "45b834d349d01bd59dcc42228b90dae3bcf0a067b4525a7a0f273d6a785b4aa8",
+    "cities/Baghdad/engineering/prototype/vehicle-factory/installed-ga.json": "69a24467e7abe96db16b31f1c5078365253f6a2a9bd931ff4571cb8df83b9c4b",
+    "cities/Baghdad/engineering/prototype/weights.py": "5f988eac2564600cb0d106f718a8ac702b54d62c258fc188e40b0e5c260ce329",
+    "cities/Baghdad/engineering/simulation/airport_alignment.py": "9bb66fbdb642709949360637a43a41b041d80e0c25661610c4a2c7de9d9a6461",
+    "cities/Baghdad/engineering/simulation/scenario.py": "cfdcc33b2e59aa41e62041bc9aa3eab854e15683fb80d51faddfe5f6629abd36",
+    "cities/Baghdad/engineering/simulation/site-study.json": "55151a5c2162d97e86a67e89f078da2df989efe9b99bbdaf63f8af47f67a0219",
+    "cities/Baghdad/engineering/simulation/site_layers.py": "28aa437b92e808b908922c34fc13d16f991a81f7fc5f2a0e8951c9e68440c109",
+    "cities/Baghdad/engineering/simulation/site_profile.py": "32bb26803bd75b7d1986392856380b534cafa1cbb5f750e6e3bdce4d9c865e95",
+    "cities/Baghdad/engineering/simulation/vehicle_audit.py": "35fbc105b3eb30ca2dcf95762a46c616314e569da56a62ea4f80ed8a9d740ab9",
+    "cities/Baghdad/engineering/simulation/vehicle_civil.py": "e58a9aab3efd14179b3da18d5163908e6afb824496e2ce64f49f961a88f7c26b",
+    "cities/Baghdad/system.toml": "5a847f9bf78cb1ad0ed81a66136a511cce39a5ee0bc99bb20d35717da848a035",
+    "crates/osr-atp/examples/airport_protection_replay.rs": "a8529baa82c83adb2b7a6953c6e98474046077a86b3bd2f223ab306e52b195a8",
+    "crates/osr-atp/src/envelope.rs": "3901e6c02019f78dccf46198fad0a049479413fb0d4458336cff7b011ba6b82a",
+    "crates/osr-atp/src/evaluate.rs": "20aa9f99ca163096d3d050a8ce35a4f37d8971a2428a728b99c202cb37ef521e",
+    "crates/osr-atp/src/kani_proofs.rs": "a273ace636a0b9b5dc4758027f1ec39604038f12b7eb50ee85c9128a29fb5df2",
+    "crates/osr-atp/src/lib.rs": "3a5b716ea8b9569e252021e32594db422c0dffe50349efa6eb7f054495c39ec2",
+    "crates/osr-atp/src/powered_wheel.rs": "f21d6ada33ed525dd93b683c3986cff4967725aa71c0933728b3d6161fa47dfc",
+    "crates/osr-atp/src/state.rs": "d6eee032c56e85ec08601c6ed6eb7baecd2a13f58cff9756fd994b0cb21cfddd",
+    "crates/osr-atp/src/wheel_station.rs": "2263e40f464dbbd35df9d50ad7425e7265074d9dfeb6060580262c07ba778db2",
+    "crates/osr-core/src/consist.rs": "1751c11582227e65bf3b9059d92ccc37f006df71df7aa88258e86bddef836360",
+    "crates/osr-core/src/deployment.rs": "d8f9d2305d137a52783ecbb5244edcd6e553c6ca4a8a9a4308fe90fdb5df3199",
+    "crates/osr-core/src/geometry.rs": "ea956fc1bf01db721e7d715c10f2a57d06d026824dd437fa20d1332264a160f6",
+    "crates/osr-core/src/ids.rs": "da19c4d25950e70a6e3dabb57550ba6d01825089bd0fb1a43077eab13af65cfd",
+    "crates/osr-core/src/lib.rs": "a16bce9940d62030521fc56c5fe6ec0286bb375911e6c55e16603d1bc779f8b7",
+    "crates/osr-core/src/resources.rs": "367d201281cde034f9854c0a03ff4a5d371ea92e762588d05532286d1a48f2c1",
+    "crates/osr-core/src/topology.rs": "b2a0e6818d76a56e9a87ad1d2c63a34384d0205b3e67b19561772cbce55b92f7",
+    "crates/osr-interlocking/src/kani_proofs.rs": "27415230e48a0c9cdd3adc955da9cffd4c9b027c5d5152636a41c528292caa5b",
+    "crates/osr-interlocking/src/lib.rs": "291b7fe0bdf235d57f774999a8d31b2318c283d33a4919e5c5a86aa8fbbc2613",
+    "crates/osr-interlocking/src/log.rs": "ca541ed09e8a7227e7864a58c98238e54871ed70078e33d78ccead7364247be0",
+    "crates/osr-interlocking/src/ma.rs": "2a782f09348fb6a94973413959c7b7d2b49aba336ad223d4c4771f21dc97ecbc",
+    "crates/osr-interlocking/src/ordered_map.rs": "9e646d6fc67ba0bf3c4721a5f5afbc07480596fb217b2aa8eb906877af4375b8",
+    "crates/osr-interlocking/src/progressive.rs": "a67f84b15db6b5ad5fef70d039b31a99572eb69ffa9403a3291de2a09daa377d",
+    "crates/osr-interlocking/src/progressive/recovery.rs": "3224a3ba63e5384138fdb8f1a41272e08fab72a20bcc86cc96bfe6cf4270bab5",
+    "crates/osr-interlocking/src/resource_log.rs": "f99f0938e81800c953d853263e19d146117ce44211f399dcf9d1d02cdbca3989",
+    "crates/osr-interlocking/src/resources.rs": "1ddb168c7a5ce79657fa6e834f2631de37e42e4e43bff90b0079595a1ccb5b76",
+    "crates/osr-interlocking/src/state.rs": "eadf125cbb227c6a5b1f3bf9725595e0fb133d45cb27dab68fa9bc565d882a93",
+    "crates/osr-interlocking/src/station.rs": "9f5846dbe9cac8a4db2110cd08a400e798bfc93ab1d0204c1c0fb3b1d86b2c5b",
+    "crates/osr-interlocking/src/topology.rs": "af0d2895303dc86980850ef707b045a94ed95580869954a59bdb06c73ca1430d",
+    "prototype:civil-article.json": "67c414f861743e57d65cbe5246823c0236a80463ff595c40d8031091a537ff3f",
+    "prototype:fitout-interfaces.json": "7f23ff526ac00e90d4f84de3ce11fe8e3cced288de38111e37a48a69628dba84",
+    "prototype:manifest.json": "2c91d93f0dad85a7c7d86b9420f93f1f8a1dd67f68f7efd7676ec04ea4edd8e8",
+    "prototype:mechanical.json": "2ec9848993595b41fd5042aa4c2f4774eb4db201138f533e5b1d2e2616c5a5e9",
+    "prototype:opening.json": "ae6b55d85a569d5a6eab505b9297d19b664685e0ca36e1ebfabc16ee86b4b832",
+    "prototype:returns/fitout.csv": "fd14a31548f9e5da884ac69ae7620cf24c0edc64bff49965bbb9cb5565b7160e",
+    "prototype:returns/weights.json": "fd1260b2758fe19908798b6d3022105fedcbef0de96ac72f87c9266f45bdbd6f",
+    "prototype:revised-cuts.csv": "819f7d10f082ec7d3c58b4581575f58aa9a38ca5df2883e692c9033650088e84"
+  },
+  "study_brake": {
+    "coast_delay_s": 2.0,
+    "downgrade_pct": 2.0,
+    "failed_rail_modules": 1,
+    "loaded_mass_kg": 246035.9582,
+    "rail_module_force_kn": 14.6,
+    "stopping_distance_m": 495.74588612082607,
+    "wheel_brakes_available": false
+  },
+  "vehicle_candidate_id": "03a57d2f8c334572837ca45c46af941acc4542a6163524577ecd7f3a350d53b8",
+  "vehicle_evaluation_id": "0f8f06a1867a6103488e7278c63e8f4c026b7ca8d64df70d6c5429607c980970"
+}

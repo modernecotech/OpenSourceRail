@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **249**.
+Indexed Markdown files: **251**.
 
 ## Sections
 
@@ -20,7 +20,7 @@ Indexed Markdown files: **249**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
-| [cities](#cities) | 76 |
+| [cities](#cities) | 78 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
 | [docs](#docs) | 140 |
@@ -68,6 +68,7 @@ Indexed Markdown files: **249**.
 | [`cities/Baghdad/SERVICE-DIAGRAMS.md`](../cities/Baghdad/SERVICE-DIAGRAMS.md) | Baghdad passenger service and train workings |
 | [`cities/Baghdad/VEHICLE.md`](../cities/Baghdad/VEHICLE.md) | Baghdad 700-place train |
 | [`cities/Baghdad/engineering/commissioning/COMMISSIONING.md`](../cities/Baghdad/engineering/commissioning/COMMISSIONING.md) | Airport traction and station commissioning |
+| [`cities/Baghdad/engineering/controls/AIRPORT-ATP.md`](../cities/Baghdad/engineering/controls/AIRPORT-ATP.md) | Authority and stopping sensitivity on the corrected Airport alignment |
 | [`cities/Baghdad/engineering/controls/README.md`](../cities/Baghdad/engineering/controls/README.md) | Baghdad train and station electrical interfaces |
 | [`cities/Baghdad/engineering/controls/STATION-BENCH.md`](../cities/Baghdad/engineering/controls/STATION-BENCH.md) | Baghdad station visit and fault trials |
 | [`cities/Baghdad/engineering/mechanical/README.md`](../cities/Baghdad/engineering/mechanical/README.md) | Baghdad mechanical first article |
@@ -122,6 +123,7 @@ Indexed Markdown files: **249**.
 | [`cities/Baghdad/engineering/simulation/JOINT-COMPARISON.md`](../cities/Baghdad/engineering/simulation/JOINT-COMPARISON.md) | Which choices change the service and the price? |
 | [`cities/Baghdad/engineering/simulation/MOTION-POWER.md`](../cities/Baghdad/engineering/simulation/MOTION-POWER.md) | Airport service, train motion and traction supply |
 | [`cities/Baghdad/engineering/simulation/PLAN.md`](../cities/Baghdad/engineering/simulation/PLAN.md) | Baghdad Airport simulation programme |
+| [`cities/Baghdad/engineering/simulation/PROJECT-REFERENCE.md`](../cities/Baghdad/engineering/simulation/PROJECT-REFERENCE.md) | Baghdad Airport digital project reference |
 | [`cities/Baghdad/engineering/simulation/SIMULATION.md`](../cities/Baghdad/engineering/simulation/SIMULATION.md) | Reproducing the 12 km Airport simulation |
 | [`cities/Baghdad/engineering/simulation/audit-production-guide.md`](../cities/Baghdad/engineering/simulation/audit-production-guide.md) | Airport workshop and partial owner cash |
 | [`cities/Baghdad/engineering/simulation/passenger-guide.md`](../cities/Baghdad/engineering/simulation/passenger-guide.md) | Airport platform movement, doors and summer cooling |

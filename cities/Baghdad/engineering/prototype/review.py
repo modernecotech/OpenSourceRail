@@ -9,7 +9,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
 
-from cities.Baghdad import airport_integration, airport_single_line, citywide_service
+from cities.Baghdad import airport_integration, airport_single_line
 from cities.Baghdad.engineering.commissioning import drawing, feeder, measurements, recorder
 from cities.Baghdad.engineering.prototype import (
     fitout,
@@ -31,6 +31,9 @@ CITY = HERE.parents[1]
 ROOT = CITY.parents[1]
 PACKET = HERE / "airport-prototype.zip"
 PAGE = HERE / "review.html"
+CITYWIDE_APPENDIX = HERE / "retained-citywide-appendix.zip"
+# Extracted from this packet at 354522b7d7eabb57650f8d516eabf3b6df4916ba.
+CITYWIDE_APPENDIX_SHA256 = "f0e84aa972554a95e34d78dfc9104ddfe5a3b12988f9e328675caa4ff85239dc"
 TITLES = {
     "car": "Car and powered bogie frames",
     "track-span": "Track beam",
@@ -199,6 +202,21 @@ def page(data, offline):
 </main><script id="model-data" type="application/json">{jsdata}</script><script>{(HERE/"twin.js").read_text()}</script></body></html>"""
 
 
+def retained_citywide_appendix():
+    """Read the independent network comparison supplied with this drawing edition."""
+    raw = CITYWIDE_APPENDIX.read_bytes()
+    if sha256(raw).hexdigest() != CITYWIDE_APPENDIX_SHA256:
+        raise ValueError("The retained citywide appendix differs from the prototype drawing edition")
+    with ZipFile(io.BytesIO(raw)) as appendix:
+        members = {name: appendix.read(name) for name in appendix.namelist()}
+    network = json.loads(members["network/citywide-service.json"])
+    if network["evaluation_id"] != _id({k: v for k, v in network.items() if k != "evaluation_id"}):
+        raise ValueError("Retained citywide appendix has an inconsistent evaluation identity")
+    if not network["timetable"]["resource_screen_passed"]:
+        raise ValueError("Citywide planning selection requires a passing resource screen")
+    return network, members
+
+
 def construct(financial_return=None, document_directory=None, feeder_return=None):
     parent = airport_integration.build()
     article, files = car.artifacts(parent)
@@ -213,20 +231,13 @@ def construct(financial_return=None, document_directory=None, feeder_return=None
         raise ValueError("Article identity differs from opening configuration")
     power = feeder.evaluate(case, feeder_return, service=service)
     accounts = commercial.assess(case, service, cfg, financial_return, document_directory)
-    # Financial returns on the Airport line do not change the independent network timetable.
-    network = json.loads(citywide_service.RECORD.read_bytes())
-    if network["evaluation_id"] != _id({k: v for k, v in network.items() if k != "evaluation_id"}) or any(
-        sha256((ROOT / path).read_bytes()).hexdigest() != digest
-        for path, digest in network["source_sha256"].items()
-    ):
-        raise ValueError("Rebuild the citywide selection before reviewing the Airport opening")
+    network, citywide_files = retained_citywide_appendix()
+    files.update(citywide_files)
     civil, civil_files = civil_article.artifacts(article)
     files.update(civil_files)
     files.update(fitout.artifacts(article))
     files.update(degraded_service.artifacts(case, power, service))
     outage = json.loads(files["degraded-service.json"])
-    if not network["timetable"]["resource_screen_passed"]:
-        raise ValueError("Citywide planning selection requires a passing resource screen")
     geoms = {"car": mesh.read_obj(files["car-and-bogies.obj"], article["pieces"])}
     datums = {"car": "Metres from car centre at rail head. x forward, y left, z up."}
     files["car-and-bogies.ifc"] = mesh.ifc4(geoms["car"], article["frame_revision"], case["candidate_id"])
@@ -296,13 +307,10 @@ def construct(financial_return=None, document_directory=None, feeder_return=None
             "service.json": encode(service),
             "cash.json": encode(accounts),
             "feeder-options.json": encode(power),
-            "network/citywide-service.json": encode(network),
-            "network/service-decision.md": citywide_service.render(network).encode(),
             "electrical/priced-single-line.svg": airport_single_line.single_line_svg(case).encode(),
             "electrical/paired-paths.svg": drawing.parallel_svg(power).encode(),
             "returns/finance.json": encode(commercial.form(case)),
             "returns/weights.json": encode(weights.form(article)),
-            "returns/citywide.json": encode(citywide_service.return_template(network)),
             "material-comparison.json": encode(material),
             **{
                 name: (HERE / name).read_bytes()

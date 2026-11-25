@@ -284,6 +284,7 @@ jobs:
             /cities/catalogue/west-asia/Iraq/Baghdad/map-context.json.gz
             /LICENSE.md
             /Cargo.toml
+            /Cargo.lock
             /rust-toolchain.toml
             /crates/**
             /docs/workbench/current/**
@@ -390,6 +391,10 @@ jobs:
         run: |
           python -m engineering.outline.baghdad_diagrams --check
           cargo test --locked --manifest-path cities/Baghdad/engineering/controls/Cargo.toml
+      - name: Verify the graded Airport project reference and interface rejection cases
+        run: |
+          python -m cities.Baghdad.engineering.simulation.reference_project --check
+          python -m pytest -q --import-mode=importlib cities/Baghdad/engineering/simulation/test_reference_project.py
       - name: Verify railway timetables, prototype prices and bench records
         run: |
           python -m unittest discover -s docs/reference-v07/integration -p test_timetable.py

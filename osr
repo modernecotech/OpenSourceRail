@@ -15,6 +15,7 @@ Usage: ./osr [COMMAND] [arguments]
   workbench [...]   Serve the read-only current Workbench on 127.0.0.1:8090
   plan [...]        Serve, compile and verify a GIS proposal bound to v0.6
   design railway audit [--json]       Trace assumption conflicts through route, power, civil works and cash
+  design railway project-reference    Review the reconciled Airport digital case and open gates
   design railway spans --route-km KM  Compare viaduct and erection options using Iraqi planning rates
   design railway baghdad-delivery    Show current 20 m Baghdad civil programme, yards, costs and workforce
   design railway rail-fed --help     Compare road-fed cranes with two terminal-fed launching gantries
@@ -110,6 +111,7 @@ if [[ "${1:-}" == design && "${2:-}" == railway ]]; then
         yard:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.prototype.yard_offers "$@" ;;
         audit:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.simulation.assumption_audit "$@" ;;
         site-study:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.simulation.site_study "$@" ;;
+        project-reference:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.simulation.reference_project "$@" ;;
         central-access:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.central_access "$@" ;;
         feeder:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.simulation.feeder_options "$@" ;;
         baghdad-delivery:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.mechanical.civil.network_delivery "$@" ;;

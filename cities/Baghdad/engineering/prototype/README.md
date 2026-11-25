@@ -2,7 +2,7 @@
 
 Open the [interactive prototype twin](review.html) in a browser. To review the earlier first-article drawings, download [airport-prototype.zip](airport-prototype.zip), extract it and open **START.html**. Both work offline. The archive includes IFC4, OBJ, drawings, quantities, electrical scenarios, cash flows and blank field-return forms.
 
-This historical 12 km schematic combines the Airport line’s 15-minute timetable with a revised steel car. It preserves the [published v0.7.2 opening](../../airport-integration.html) as the price and engineering comparison. The separate [citywide operating decision](../../CITYWIDE-SERVICE.md) uses fourteen main routes and a different fleet.
+This historical 12 km schematic combines the Airport line’s 15-minute timetable with a revised steel car. It preserves the published v0.7.2 opening as the price and engineering comparison. The offline twin reproduces its original fourteen-route appendix from the archived drawing issue. The current citywide clockface trial has its own publication and fleet assumptions. [Published opening](../../airport-integration.html) · [Original prototype issue](https://github.com/modernecotech/OpenSourceRail/blob/354522b7d7eabb57650f8d516eabf3b6df4916ba/cities/Baghdad/engineering/prototype/airport-prototype.zip) · [Retained appendix](retained-citywide-appendix.zip) · [Current citywide trial](../../CITYWIDE-SERVICE.md)
 
 For new enquiries, start from the [corrected Airport design review](../simulation/ASSUMPTION-AUDIT.md) and issue only the scopes bound to the chosen revised layout. The drawings below refer to the earlier schematic. Fabrication and passenger service still require approved limits and site and first-article evidence.
 

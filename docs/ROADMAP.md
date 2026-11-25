@@ -37,6 +37,20 @@ The current Airport comparison uses a 17.46 km horizontal study. The 30-minute p
 
 ## Delivery sequence
 
+### v0.8 Airport integration work
+
+Use the [Baghdad Airport digital project reference](../cities/Baghdad/engineering/simulation/PROJECT-REFERENCE.md) for the next joined engineering run. It fixes the provisional GIS-profiled route, 30-minute service, six-car powered-wheel train and paired six-site supply for that run. A passing booked-day simulation leaves the failed and open functional checks in force. Record a new physical candidate when an interface or installation changes.
+
+| Phase | Lead and next work | Evidence needed to close the phase |
+|---|---|---|
+| 1. System definition | Systems and operations verify the centreline, stops, demand, turnbacks and depot access. Allocate each load, clearance, protection and service requirement to an interface owner. | One requirements and hazard register, with the route, train, civil, power and price identities reconciled. Check clean installation and source-bound outputs. |
+| 2. Operating model and controls | Controls, rolling stock and electrical run the candidate-specific authority and braking sensitivities. Add actual proposed protection boundaries and measured actuator response when available. Size the auxiliary duty and protection equipment with the same load and recovery scenarios. | Working-day and degradation records plus an independently checked stopping and isolation envelope. Record unresolved adequacy, localisation, network timing, hardware independence and bench evidence by owner. |
+| 3. Representative assemblies | Rolling stock and civil close one car, one bogie, one station and the 20 m repeat bay. Compare the operating loads with prestress release, handling, road lifts and loaded flatbed and gantry stages. | Common interface datums, installed weight and axle reactions, platform sweep, structural checks, the foundation basis and a temporary works design. Use the assembly register to request scope-matched returns. |
+| 4. Production and economics | Production, procurement and the operator reconcile EBOM, shop routing, site work and renewals on the confirmed assembly. Use the existing Rust workplan, delivery schedule and 30-year ledger. | Traceability from quantities to supplier rows and roles, checked for duplicated work and missing cost scope. Record inspection, repair and replacement methods and the basis for Iraqi content. |
+| 5. Digital review and first articles | The integrator and an independent reviewer rerun the same project input and challenge a changed vehicle mass, a stale authority and a changed civil quantity. Publish the engineering, procurement and operations evidence in one reader. | Current sources, reproducible outputs and review records. Issue fabrication and operating approvals only through their respective evidence and decision processes. |
+
+Begin with the [requirements and standards crosswalk](certification/compliance-matrix.md), the [Airport ATP replay](../cities/Baghdad/engineering/controls/AIRPORT-ATP.md) and the [assembly cost and workplan](assets/assembly-animations/GUIDE.md#parts-cost-and-shifts).
+
 | Priority | Work | Completion check |
 |---|---|---|
 | 1. Make the price reviewable | Show buyers which costs serve scheduled trains, which cover reserved sections and which packages local suppliers can deliver. Make these quantities visible when a station or route changes. | Capital reconciles to the selected totals. A station edit recalculates local work. Candidate identities and existing service and prices are preserved. |
