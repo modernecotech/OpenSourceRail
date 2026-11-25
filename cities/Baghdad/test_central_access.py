@@ -6,7 +6,7 @@ import numpy as np
 from scipy.sparse import csr_matrix
 from scipy.spatial import cKDTree
 
-from . import central_access
+from . import central_access, central_service, central_service_map
 
 
 class CentralAccessTests(unittest.TestCase):
@@ -33,3 +33,15 @@ class CentralAccessTests(unittest.TestCase):
         self.assertGreater(len(stations["clockface"]), len(stations["original"]))
         self.assertNotIn("M-075", stations["clockface"])
         self.assertIn("airport-terminal", stations["clockface"])
+
+    def test_standalone_map_has_both_routes_and_only_their_stops(self):
+        study = central_service.evaluate()
+        data = central_service_map.geojson({"central_study": study, "evaluation_id": "test"})
+        features = {feature["id"]: feature for feature in data["features"]}
+        self.assertEqual(len(features), len(study["stations"]) + 2)
+        for name, route in study["lines"].items():
+            feature = features[name]
+            self.assertEqual(feature["properties"]["stations_in_order"], route["station_ids"])
+            terminals = [features[route["station_ids"][i]]["geometry"]["coordinates"] for i in (0, -1)]
+            self.assertEqual([feature["geometry"]["coordinates"][i] for i in (0, -1)], terminals)
+        self.assertEqual(features[study["interchange_station_id"]]["properties"]["lines"], ["C1", "C2"])

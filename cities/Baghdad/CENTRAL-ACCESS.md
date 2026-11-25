@@ -52,8 +52,10 @@ The 10-minute trial failed the conservative shared Tahrir conflict check. The 15
 
 Take the two trunks forward for comparison with central station infill and an improved bus network. Check each crossing and interchange on the ground and retain through routes only where train and passenger paths work together. Compare passenger access, waits and total cost before extending the suburban network. The older 605 km construction and operating rates belong to their original scope.
 
-[Connected 14-route timetable](CITYWIDE-SERVICE.md) · [GIS layers](maps/central-access.geojson) · [Timetables, walking metrics and source record](central-access.json)
+[Full-size central route map](maps/baghdad-central-service.png) · [Central routes GIS](maps/central-service.geojson) · [Citywide service comparison](maps/Baghdad-606km.png)
+
+[Connected 14-route timetable](CITYWIDE-SERVICE.md) · [Comparison GIS layers](maps/central-access.geojson) · [Timetables, walking metrics and source record](central-access.json)
 
 Reproduce this issue with `./osr design railway central-access --check`.
 
-Evaluation `55d2cf9406acd3fba24e0c4a9bd4b2ea1bd04d26cbbc493b0de117d1bed54fab`.
+Evaluation `7ab63f0083ea558e59d691595e47bcefb97b8424ede144957f152978181a648f`.

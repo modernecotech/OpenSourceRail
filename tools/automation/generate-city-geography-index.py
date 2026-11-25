@@ -55,7 +55,7 @@ def generate() -> str:
         if city["slug"] == "baghdad":
             first_capital = first["power_cases"]["protected_conductor"]["installed_capital_usd_m"] / 1000
             metro_capital = metro["power_cases"]["protected_conductor"]["installed_capital_usd_m"] / 1000
-            rows.append(f"| {city['country']} | [Baghdad alternatives](../Baghdad/PROPOSAL.md) | 148.2 / 605.65 | 7 / 14 service groups | 64 / 280 | 242 / 934 | ${first_capital:.3f}bn / ${metro_capital:.3f}bn | [Separate planning estimates](../Baghdad/COST-AND-DELIVERY.md) · [Research outline]({hold}) |")
+            rows.append(f"| {city['country']} | [Baghdad city planning](../Baghdad/README.md) | 148.2 / 605.65 | 7 / 14 service groups | 64 / 280 | 242 / 934 | ${first_capital:.3f}bn / ${metro_capital:.3f}bn | [Current central route map](../Baghdad/maps/baghdad-central-service.png) · [Earlier comparison costs](../Baghdad/COST-AND-DELIVERY.md) · [Research outline]({hold}) |")
             continue
         if r:
             capital = r["installed_capital_usd"]["base"] / 1e6
@@ -66,8 +66,8 @@ def generate() -> str:
         "# City railway designs and maps", "",
         f"Explore **{register['city_count']} city network outlines**. Each city dossier brings together its visible network map, line and station tables, service and fleet, civil and factory quantities, workforce, energy accounting, capital and whole-life costs, finance scenarios, site requirements and downloads.", "",
         "The figures use the exact selected calculated outline and explicit Class C estimates. A complete outline supports comparison and development; engineering verification and manufacturing or operating approval remain separate.", "",
-        "[Baghdad proposal](../Baghdad/PROPOSAL.md) · [Samawah](west-asia/Iraq/Samawah/README.md) · [Interactive city atlas](../../docs/workbench/current/index.html?outlineCity=baghdad) · [Dossier methods](../../docs/design-engine/city-dossiers/README.md) · [Planning workspace](../../docs/workbench/planning/index.html) · [Project introduction](../../README.md)", "",
-        "Station groups are operational line/platform groups; shared access sites and interchanges are reported separately inside each dossier. Baghdad's two high-capacity planning networks are independent alternatives, each with its own route, fleet and cost basis. Other rows use the selected calculated outline's base installed estimate. Programme totals do not assume shared factories or imply verified local prices.", "",
+        "[Baghdad city planning](../Baghdad/README.md) · [Samawah](west-asia/Iraq/Samawah/README.md) · [Interactive city atlas](../../docs/workbench/current/index.html?outlineCity=baghdad) · [Dossier methods](../../docs/design-engine/city-dossiers/README.md) · [Planning workspace](../../docs/workbench/planning/index.html) · [Project introduction](../../README.md)", "",
+        "Station groups are operational line/platform groups; shared access sites and interchanges are reported separately inside each dossier. Baghdad’s reported 148.2 and 605.65 km figures are earlier comparison scopes with separate route, fleet and cost bases. The central routes use their own map and timetable study. Other rows use the selected calculated outline's base installed estimate. Programme totals do not assume shared factories or imply verified local prices.", "",
         "| Country | City dossier and map | Route km | Lines | Station groups | Trainsets incl. reserve | Base installed US$ | Physical evidence |",
         "|---|---|---:|---:|---:|---:|---:|---|", *rows, "",
     ])

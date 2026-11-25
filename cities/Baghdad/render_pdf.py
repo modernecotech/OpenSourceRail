@@ -1,12 +1,10 @@
-"""Render the Baghdad proposal from its Markdown source, the NIC route plate and the citywide GIS map."""
+"""Render the Baghdad proposal from its Markdown source and published maps."""
 
 from __future__ import annotations
 
 import html
 import json
-import math
 from urllib.parse import urljoin
-import gzip
 from io import BytesIO
 from hashlib import sha256
 from pathlib import Path
@@ -28,10 +26,7 @@ from reportlab.platypus import Flowable, Image, KeepTogether, PageBreak, Paragra
 ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
 OUTPUT = HERE / "Baghdad-Metro-Proposal.pdf"
-MAP_IMAGES = (HERE / "maps" / "Baghdad-148km.png", HERE / "maps" / "Baghdad-606km.png")
-CITY_CONTEXT = ROOT / "cities/catalogue/west-asia/Iraq/Baghdad/map-context.json.gz"
-CITY_CONTEXT_SHA256 = "21ab8f69f933ee84e32158f3b5de54d29d5fea8518183457856d2745e6c78168"
-
+NIC_PLATE = HERE / "maps" / "Baghdad-148km.png"
 
 
 def inline(nodes):
@@ -54,157 +49,12 @@ def inline(nodes):
     return "".join(out)
 
 
-def map_images():
-    """Publish legible, source-bound planning maps alongside the city proposal."""
-    from matplotlib.collections import LineCollection, PatchCollection
-    from matplotlib.patches import Patch, Polygon
-    from matplotlib.lines import Line2D
-
-    # The first map is the NIC's native image. Verify its pixels before using it
-    # in the proposal so the station-location schematic cannot replace it again.
-    plate = ImageReader(str(MAP_IMAGES[0]))
+def verify_nic_plate():
+    """Check the pixels of the original plate before embedding it."""
+    plate = ImageReader(str(NIC_PLATE))
     if (plate.getSize() != (890, 632) or sha256(plate.getRGBData()).hexdigest()
             != "53046ba154f84753fe2bc84aa45502f9de1ae3af962f02c3bb33fb2bb8f0cb14"):
         raise ValueError("Restore the February 2024 route plate from the source in maps/README.md")
-    if sha256(CITY_CONTEXT.read_bytes()).hexdigest() != CITY_CONTEXT_SHA256:
-        raise ValueError("Baghdad city background has changed; review its source before rendering")
-    with gzip.open(CITY_CONTEXT, "rt") as source:
-        context = json.load(source)
-
-    def rings(geometry):
-        kind, coordinates = geometry["type"], geometry["coordinates"]
-        if kind == "Polygon":
-            return [coordinates[0]]
-        if kind == "MultiPolygon":
-            return [polygon[0] for polygon in coordinates]
-        return []
-
-    def line_parts(geometry):
-        kind, coordinates = geometry["type"], geometry["coordinates"]
-        if kind == "LineString":
-            return [coordinates]
-        if kind == "MultiLineString":
-            return coordinates
-        return []
-
-    def draw_background(ax, bounds):
-        ax.set_facecolor("#f0eee4")
-        land_colours = {"residential": "#e9e5dc", "commercial": "#e4daca",
-                        "industrial": "#ded9d2", "park": "#d7e8d1",
-                        "grass": "#dfe9d4", "grassland": "#dfe9d4",
-                        "farmland": "#e5ead9", "school": "#e2e8d6",
-                        "university": "#dce7d5"}
-        patches, colours = [], []
-        for feature in context["layers"].get("landuse", []):
-            colour = land_colours.get(feature.get("properties", {}).get("kind"))
-            if colour is None:
-                continue
-            for ring in rings(feature["geometry"]):
-                if len(ring) >= 3:
-                    patches.append(Polygon(ring, closed=True))
-                    colours.append(colour)
-        if patches:
-            ax.add_collection(PatchCollection(patches, facecolors=colours, edgecolors="none", zorder=0.1))
-        water_patches, water_lines = [], []
-        for feature in context["layers"].get("water", []):
-            water_patches.extend(Polygon(ring, closed=True) for ring in rings(feature["geometry"]) if len(ring) >= 3)
-            water_lines.extend(line_parts(feature["geometry"]))
-        if water_patches:
-            ax.add_collection(PatchCollection(water_patches, facecolor="#a9d3e1", edgecolor="none", zorder=.3))
-        if water_lines:
-            ax.add_collection(LineCollection(water_lines, colors="#9ecddd", linewidths=.8, zorder=.31))
-        for kind, colour, width in (("major_road", "#c8bdad", .65),
-                                    ("highway", "#c6ac91", 1.0),
-                                    ("rail", "#b4a89c", .55)):
-            lines = [line for feature in context["layers"].get("roads", [])
-                     if feature.get("properties", {}).get("kind") == kind
-                     for line in line_parts(feature["geometry"])]
-            if lines:
-                ax.add_collection(LineCollection(lines, colors=colour, linewidths=width, alpha=.7, zorder=.5))
-        west, south, east, north = bounds
-        for feature in context["layers"].get("places", []):
-            props = feature.get("properties", {})
-            if props.get("kind_detail") not in ("city", "town"):
-                continue
-            x, y = feature["geometry"]["coordinates"]
-            label = props.get("name:en")
-            if label and west < x < east and south < y < north:
-                ax.text(x, y, label, fontsize=6.2, color="#6a716d", alpha=.8,
-                        ha="center", va="center", zorder=1)
-
-    styles = {"line": ("#146c85", 1.7), "physical_connector": ("#b77827", 1.6),
-              "schematic_control_polyline": ("#238c63", 1.5),
-              "straight_lower_bound_connector": ("#b04d54", 1.25),
-              "through_service_access": ("#b04d54", 1.7)}
-    destination = MAP_IMAGES[1]
-    data = json.loads((HERE / "maps/network-606km.geojson").read_text())
-    fig, ax = plt.subplots(figsize=(8.5, 9), dpi=190)
-    fig.patch.set_facecolor("white")
-    route_points = [point for feature in data["features"]
-                    if feature.get("geometry", {}).get("type") == "LineString"
-                    for point in feature["geometry"]["coordinates"]]
-    min_x, max_x = min(p[0] for p in route_points), max(p[0] for p in route_points)
-    min_y, max_y = min(p[1] for p in route_points), max(p[1] for p in route_points)
-    pad_x, pad_y = (max_x - min_x) * .07, (max_y - min_y) * .07
-    bounds = (min_x - pad_x, min_y - pad_y, max_x + pad_x, max_y + pad_y)
-    draw_background(ax, bounds)
-    for feature in data["features"]:
-        geometry = feature.get("geometry") or {}
-        if geometry.get("type") != "Polygon":
-            continue
-        if feature.get("properties", {}).get("kind") != "priority_proximity_area":
-            continue
-        ring = geometry["coordinates"][0]
-        ax.fill([p[0] for p in ring], [p[1] for p in ring],
-                color="#f1cf76", alpha=.22, zorder=1)
-    for feature in data["features"]:
-        geometry = feature.get("geometry") or {}
-        if geometry.get("type") != "LineString":
-            continue
-        kind = feature.get("properties", {}).get("kind")
-        colour, width = styles.get(kind, ("#89949d", 0.8))
-        points = geometry["coordinates"]
-        ax.plot([p[0] for p in points], [p[1] for p in points],
-                color=colour, linewidth=width, linestyle="-", alpha=.88, zorder=3)
-    for feature in data["features"]:
-        geometry = feature.get("geometry") or {}
-        if geometry.get("type") != "Point":
-            continue
-        props = feature.get("properties", {})
-        x, y = geometry["coordinates"]
-        kind = props.get("kind", "")
-        if kind in ("station", "proposed_stop_anchor"):
-            ax.scatter(x, y, s=6, color="#384d5a", alpha=.5, zorder=4)
-        elif kind in ("proposed_anchor", "proposed_population_anchor"):
-            ax.scatter(x, y, s=45, marker="D", color="#bf7324", edgecolor="white", linewidth=.6, zorder=6)
-            label = props.get("map_label") or props.get("name") or props.get("rfi_name")
-            if label:
-                ax.annotate(label, (x, y), xytext=(5, 5), textcoords="offset points",
-                            fontsize=7, color="#663f18", weight="bold", zorder=7)
-    ax.set_title("605.652 km | independent citywide network", fontsize=15, color="#17364a", pad=15, weight="bold")
-    ax.set_xlabel("Longitude (°E)", fontsize=8, color="#51616b")
-    ax.set_ylabel("Latitude (°N)", fontsize=8, color="#51616b")
-    ax.tick_params(labelsize=7, colors="#617781")
-    ax.grid(color="#dce5e9", linewidth=.5, zorder=0)
-    ax.set_aspect(1 / math.cos(math.radians(33.3)))
-    ax.set_xlim(bounds[0], bounds[2])
-    ax.set_ylim(bounds[1], bounds[3])
-    for spine in ax.spines.values():
-        spine.set_color("#c6d2d9")
-    legend = [Line2D([0], [0], color="#146c85", lw=2, label="Principal route"),
-                  Line2D([0], [0], color="#b77827", lw=2, label="Shared through link"),
-                  Line2D([0], [0], color="#238c63", lw=2, label="Infill corridor"),
-                  Line2D([0], [0], color="#b04d54", lw=2, label="Through-service access"),
-                  Line2D([0], [0], marker=".", color="#384d5a", lw=0, label="Stop screen")]
-    legend.append(Patch(facecolor="#f1cf76", alpha=.4, label="1 km priority access area"))
-    ax.legend(handles=legend, loc="lower center", bbox_to_anchor=(.5, -.16), ncol=4,
-              frameon=False, fontsize=8)
-    fig.text(.5, .015, "City background: OpenStreetMap, Natural Earth and Protomaps | routes are schematic",
-             ha="center", fontsize=8, color="#51616b")
-    fig.tight_layout(rect=(0, .08, 1, .97))
-    destination.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(destination, facecolor="white")
-    plt.close(fig)
 
 
 class ProposalFigure(Flowable):
@@ -239,7 +89,7 @@ class ProposalFigure(Flowable):
 
 
 def render():
-    map_images()
+    verify_nic_plate()
     result = json.loads((HERE / "system-results.json").read_text())
     styles = getSampleStyleSheet()
     styles.add(ParagraphStyle(name="TitleOSR", parent=styles["Title"], fontName="Helvetica-Bold",

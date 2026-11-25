@@ -3,7 +3,8 @@
 | Geographic review | Programme length | Station allowance | Map content |
 | --- | ---: | ---: | --- |
 | [Seven corridors](Baghdad-148km.png) · [Named-place review](corridor-review.geojson) | 148.2 km | 64 | Original February 2024 NIC satellite route plate |
-| [Independent citywide concept](Baghdad-606km.png) · [Editable GIS](network-606km.geojson) | 605.652 km | 280 | Nine principal corridors, five reserved links, six infill corridors, six access branches and stop screens |
+| [Current central rail study](baghdad-central-service.png) · [Central routes and stations GIS](central-service.geojson) | 28.21 km | 19 | Both lines end to end, including the Tigris crossing and Tahrir Square interchange |
+| [Earlier citywide comparison](Baghdad-606km.png) · [Service and access GIS](central-access.geojson) | 605.652 km costed / 552.562 km timed | 280 budgeted | Passenger paths, deferred branches and reserved guideway |
 
 ## How to read the seven corridors
 
@@ -39,7 +40,9 @@ The cost and service model retains its original source-bound schematic. Its 138.
 
 ## Citywide concept
 
-Use the [service-status map](baghdad-central-access.png) to identify scheduled paths, deferred branches and reserved guideway. The [central access review](../CENTRAL-ACCESS.md) measures walking access to stations. [Editable service and access layers](central-access.geojson)
+The [citywide map](Baghdad-606km.png) shows the timetable status of each section and marks the scheduled stops. Open the [walking-access comparison](baghdad-central-access.png) to see both cases in the central area. [Central access review](../CENTRAL-ACCESS.md)
+
+The original 605.652 km drawing and geometry reproduce the earlier estimate. [Original map at the reviewed revision](https://github.com/modernecotech/OpenSourceRail/blob/f403916dc703521f845d4cc1761cf1b1e24f2c6c/cities/Baghdad/maps/Baghdad-606km.png) · [Source guideway geometry](network-606km.geojson)
 
 The citywide model assigns the airport approach to M05, Sadr City approaches to M04 and M09, and Jadriya approaches to M01 and M02. The junction screen identifies gaps at both M04 approaches. The other approaches touch their drawn main lines within the map tolerance. Switches, stop locations, clearances and pier positions require design. This map draws 608.460 km across planning lines and connections against the 605.652 km cost control. [Junction screen](../system-results.json)
 

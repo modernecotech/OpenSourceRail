@@ -18,6 +18,7 @@ from engineering.ferrite_maglev.pilot_corridor import walking_graph, xy
 from engineering.performance import disk_reservation
 
 from .airport_integration import write_atomic
+from . import central_service_map
 
 CITY = Path(__file__).resolve().parent
 ROOT = CITY.parents[1]
@@ -219,7 +220,8 @@ def evaluate():
     features.extend({"type": "Feature", "properties": {"name": row["name"], "status": "destination",
                                                         "cases": row["cases"]},
                      "geometry": {"type": "Point", "coordinates": row["coordinates"]}} for row in landmarks)
-    sources = (Path(__file__), *INPUTS, Path(central_service.__file__), Path(walking_graph.__code__.co_filename),
+    sources = (Path(__file__), *INPUTS, Path(central_service.__file__), Path(central_service_map.__file__),
+               Path(walking_graph.__code__.co_filename),
                *(MAPPING / name for name in ("walking-graph.npz.gz", "walking-streets.geojson.gz", "street-source.json",
                                              "worldpop-2026-source.json", "worldpop-2026-pixels.npz.gz",
                                              "ghsl-2025-source.json", "ghsl-2025-pixels.npz.gz")))
@@ -260,7 +262,7 @@ def map_image(geojson, plot, context):
               "reserved guideway": "#948c82", "central study line": "#106e62"}
     styles = {"clockface calls": "-", "deferred access": "--", "reserved guideway": ":",
               "central study line": "-"}
-    trunk_colors = {"C1": "#106e62", "C2": "#793975"}
+    trunk_colors = central_service_map.COLORS
     for panel, title, case in zip(panels, ("605 km costed concept", "Central area · 14-line trial",
                                          "Central area · two-trunk study"), (None, "clockface", "central"), strict=True):
         panel.set_facecolor("#f7f5ed")
@@ -434,7 +436,10 @@ def report(record):
         "paths work together. Compare passenger access, waits and total cost before extending the suburban network. "
         "The older 605 km construction and operating rates belong to their original scope.",
         "",
-        "[Connected 14-route timetable](CITYWIDE-SERVICE.md) · [GIS layers](maps/central-access.geojson) · "
+        "[Full-size central route map](maps/baghdad-central-service.png) · "
+        "[Central routes GIS](maps/central-service.geojson) · [Citywide service comparison](maps/Baghdad-606km.png)",
+        "",
+        "[Connected 14-route timetable](CITYWIDE-SERVICE.md) · [Comparison GIS layers](maps/central-access.geojson) · "
         "[Timetables, walking metrics and source record](central-access.json)",
         "",
         "Reproduce this issue with `./osr design railway central-access --check`.",
@@ -454,10 +459,14 @@ def main():
     with disk_reservation(ROOT, ROOT, "Baghdad central access review", 32 << 20):
         record, geojson, plot, context = evaluate()
         if options.publish or options.check:
+            central = central_service_map.geojson(record)
             outputs = {CITY / "CENTRAL-ACCESS.md": report(record).encode(),
                        CITY / "central-access.json": encode(record),
                        CITY / "maps/central-access.geojson": encode(geojson),
-                       CITY / "maps/baghdad-central-access.png": map_image(geojson, plot, context)}
+                       CITY / "maps/baghdad-central-access.png": map_image(geojson, plot, context),
+                       CITY / "maps/central-service.geojson": encode(central),
+                       CITY / "maps/baghdad-central-service.png": central_service_map.image(record, central, context),
+                       CITY / "maps/Baghdad-606km.png": central_service_map.citywide_image(record, geojson, context)}
             for path, data in outputs.items():
                 if options.publish:
                     write_atomic(path, data)

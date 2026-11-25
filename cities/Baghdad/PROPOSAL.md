@@ -40,6 +40,16 @@ The present plan also changes the older tunnel and overhead assumptions: **zero 
 
 ## The city and the routes
 
+### Current central rail study
+
+The central concept runs two end-to-end services over 28.21 km with 19 proposed stops and a transfer at Tahrir Square. Both termini and every proposed call are shown below. The concept has its own timetable. Its route and price scope remain separate from the 605.652 km comparison. [Central timetable and walking access](CENTRAL-ACCESS.md) · [Central routes GIS](maps/central-service.geojson)
+
+![Full central Baghdad concept showing both lines, every proposed stop and the Tahrir Square interchange](maps/baghdad-central-service.png)
+
+*Central Baghdad rail study. C1 crosses the Tigris. C2 connects Old Rusafa and Karrada. The two lines meet at Tahrir Square.*
+
+### Earlier guideway comparisons
+
 The independent 605.652 km scheme is a comparison case. The central access review finds gaps at the east-bank markets and Tahrir Square even after the main routes are timed. Reconsider service through the centre before using its construction and operating totals for an investment decision. [Station coverage and central trunk study](CENTRAL-ACCESS.md)
 
 The [seven-line map](maps/Baghdad-148km.png) reproduces the Iraqi National Investment Commission’s February 2024 proposal. Its original satellite background shows the airport approach, route bends and crossings of the Tigris. The route table prints 148 km overall and the seven line items sum to 148.2 km. The independent OpenSourceRail citywide map uses a wider geographic extent and its own GIS linework. [NIC map and route table, page 4](https://mofa.gov.iq/paris/wp-content/uploads/sites/55/2024/02/Baghdad-PDF.pdf#page=4)
@@ -62,11 +72,11 @@ The [seven-line map](maps/Baghdad-148km.png) reproduces the Iraqi National Inves
 
 The independent citywide network gives the **airport terminal** an access section on service M05; it assigns the three **Sadr City** anchors to M04 and M09 through branches and the two **Jadriya** anchors to M01 and M02. The Sadr cross-city services M10 and M11 and the southwest service M13 add direct capacity through those catchments. These are schematic railway corridors to the named access areas, not approved platform sites or walking routes.
 
-The [citywide map](maps/Baghdad-606km.png) contains 26 schematic physical sections: nine principal corridors, five shared links, six infill corridors and six access branches. All are included in the citywide guideway-length and capital controls. The **14 named service groups** cover 20 sections; six are reserved non-revenue corridors without a train path. The station budget is 280. The two maps' lengths are declared planning controls; their drawn polylines are not measured construction centre lines. The [map guide](maps/README.md) provides the editable GIS layers and sources.
+The [citywide comparison map](maps/Baghdad-606km.png) shows 26 schematic physical sections, grouped by their status in the 14-route trial. The costed layout includes nine principal corridors, five shared links, six infill corridors and six access branches. All are included in the citywide guideway-length and capital controls. The **14 named service groups** cover 20 sections; six are reserved non-revenue corridors without a train path. The station budget is 280. The two maps' lengths are declared planning controls; their drawn polylines are not measured construction centre lines. The [map guide](maps/README.md) provides the editable GIS layers and sources.
 
-![The independent Baghdad citywide scheme with service corridors and access branches](maps/Baghdad-606km.png)
+![Citywide comparison showing scheduled paths, deferred access and reserved guideway](maps/Baghdad-606km.png)
 
-*Citywide alternative. This map covers a wider area. Its stop markers identify places to examine for access. The estimate includes 50.099 km of reserved guideway without scheduled passenger service.*
+*Earlier citywide comparison. The train plan covers 552.562 km. The map distinguishes deferred access and reserved guideway. The original prices cover all 605.652 km.*
 
 | Through-service groups | Citywide role |
 |---|---|

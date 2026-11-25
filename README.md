@@ -55,7 +55,7 @@ A planning team can export route, stop, service and origin–destination edits, 
 
 Compare walking routes to the stations that trains actually serve. In Baghdad, the connected 14-route trial still leaves most of the central study area outside an 800 m walk. A separate two-trunk study tests a Tigris crossing and a central transfer. The map distinguishes operating paths from deferred and reserved sections. [Central Baghdad access and train service](cities/Baghdad/CENTRAL-ACCESS.md)
 
-[![Baghdad service and station access maps showing the citywide guideway, its central coverage and the proposed two-trunk study](cities/Baghdad/maps/baghdad-central-access.png)](cities/Baghdad/CENTRAL-ACCESS.md)
+[![Full central Baghdad rail map showing the two proposed lines and their Tahrir Square interchange](cities/Baghdad/maps/baghdad-central-service.png)](cities/Baghdad/README.md#current-central-rail-study)
 
 ## Timetables and train motion
 

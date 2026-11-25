@@ -1,5 +1,15 @@
 # Baghdad metropolitan railway
 
+## Current central rail study
+
+The current central Baghdad concept has two end-to-end services across **28.21 km** and **19 proposed stops**. C1 runs from Al Mansour to Zayouna across the Tigris. C2 runs from Al Mustansiriya to the University of Baghdad through Old Rusafa and Karrada. They meet at Tahrir Square. The trial timetable uses 15-minute headways.
+
+[![Both central Baghdad routes and all 19 proposed stations, including the Tahrir Square interchange](maps/baghdad-central-service.png)](maps/baghdad-central-service.png)
+
+[Full-size central map](maps/baghdad-central-service.png) · [Central routes and stations in GeoJSON](maps/central-service.geojson) · [Walking access and timetable evidence](CENTRAL-ACCESS.md)
+
+The metropolitan replan remains open. The 605.652 km concept and its prices are retained below for comparison, alongside the separate seven-corridor proposal from the Iraqi investment brief.
+
 For civil budgeting and supplier enquiries, start with the **20 m shared-pier
 delivery programme**. It recalculates the standard girders, foundations,
 terminal yards, labour, construction windows and cash for the seven-corridor
@@ -21,7 +31,7 @@ Use the **17.46 km Airport alignment study** to review the proposed route, servi
 
 Baghdad is preparing fresh investment opportunities after the earlier offers failed to meet government requirements. OpenSourceRail is preparing for a late-2026 to early-2027 invitation for ideas. The timetable awaits an official notice. [Al-Mada interview with Amanat Baghdad, 25 October 2026](https://almadapaper.net/458226/) · [NINA interview with the National Investment Commission, 27 October 2026](https://ninanews.com/website/News/Details?key=1322248)
 
-OpenSourceRail proposes an elevated, zero-tunnel railway with no overhead wires. A protected conductor beside the track supplies powered wheel bogies. The seven-corridor concept follows the Iraqi investment brief. The independent citywide concept serves the airport passenger-terminal area, Sadr City, Jadriya and outer districts through fourteen service groups. The train, power supply, viaduct, fleet, operations and costs are calculated separately for each concept.
+OpenSourceRail proposes an elevated, zero-tunnel railway with no overhead wires. A protected conductor beside the track supplies powered wheel bogies. The seven-corridor concept follows the Iraqi investment brief. The earlier citywide concept assigns airport, Sadr City and Jadriya branches to its service groups. The clockface trial runs to the airport and defers five access branches. The train, power supply, viaduct, fleet, operations and costs are calculated separately for each concept.
 
 | Programme | Seven-corridor alternative | Independent citywide alternative |
 |---|---:|---:|
@@ -62,13 +72,13 @@ The map below is the National Investment Commission’s original seven-corridor 
 
 The airport line is planned to reach the passenger-terminal building area. The independent station-location study uses a building centroid; the final platform, step-free landside route and operating/security boundary require design with the airport. The separate access study identifies locations to inspect in Sadr City and Jadriya.
 
-### 605.652 km · OpenSourceRail citywide alternative
+### 605.652 km · Earlier guideway concept and clockface comparison
 
-This independent concept uses a wider map extent. The two images have different scales.
+The map distinguishes the **552.562 km** with timed passenger paths from the five deferred access branches and six reserved sections in the costed concept.
 
-![Baghdad metropolitan railway concept over city streets, water and land use](maps/Baghdad-606km.png)
+![Citywide comparison showing scheduled passenger paths, deferred access, and reserved guideway](maps/Baghdad-606km.png)
 
-[Open the metropolitan map](maps/Baghdad-606km.png) · [Download its GIS layers](maps/network-606km.geojson)
+[Full-size citywide comparison](maps/Baghdad-606km.png) · [Service and comparison GIS](maps/central-access.geojson) · [Original guideway inputs for reproducing the cost model](maps/network-606km.geojson)
 
 The independent citywide map contains nine principal corridors, five shared links, six infill corridors and six access branches. It has fourteen service groups and a 280-station allowance. The proposal assigns the airport terminal area to M05, Sadr City anchors to M04 and M09, and Jadriya anchors to M01 and M02. Its 605.652 km is the costed length for the schematic corridors. Five shared links and the east inner arc total 50.099 km and are reserved without assigned train paths. The other 555.553 km has planning assignments. The two M04 branches are 2.323 km and 2.710 km from their assigned main line at the nearest branch ends. The proposal describes these junction gaps and the work needed to establish a timetable.
 
