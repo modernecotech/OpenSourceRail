@@ -1,4 +1,4 @@
-"""Publish the bounded three-ring and short-line withdrawal comparison for Baghdad."""
+"""Publish Baghdad’s population-fitted rings and cross-city trunk comparison."""
 
 import argparse
 import gzip
@@ -17,12 +17,13 @@ REPORT = Path("THREE-RING-STUDY.md")
 DATA = Path("three-ring-study.json.gz")
 MAP = Path("maps/baghdad-three-ring-comparison.png")
 GEOJSON = Path("maps/baghdad-three-ring-trial.geojson")
-NAMES = {"published": "Published two rings", "suburban-orbital": "Suburban rings, short routes removed",
-         "suburban-road-corridors": "Suburban rings aligned to mapped roads",
-         "suburban-interchanges": "Suburban rings with consolidated stations", "custom-layout": "Edited network"}
+NAMES = {"published": "Two-ring reference", "custom-layout": "Edited network"}
 
 
 def name(code):
+    if code.startswith("coverage-"):
+        middle, outer = code.removeprefix("coverage-").split("-")
+        return f"Three rings · {middle.upper()} / {outer.upper()}"
     return NAMES.get(code, code.replace("-", " ").capitalize())
 
 
@@ -39,50 +40,43 @@ def report(record):
     selected = record["selection"]["illustrated_trial"]
     eligible = record["selection"]["eligible_replacement"]
     chosen = record["summary"][selected] if selected else reference
-    text = ["# Baghdad · Suburban rings and through routes", "",
-            "The middle ring targets neighbourhoods previously served by small standalone lines. "
-            f"The planning target is about {study.MIDDLE_TARGET_GAP_M / 1000:g} km from the outer ring, "
-            "with routes adapted to the areas they serve. "
-            "A direct shared ring station on each bank shortens trips across the orbital network.", ""]
-    if selected:
-        intro = (f"**{name(selected)}** is the illustrated trial. It has **{chosen['short_count']} "
-                 f"standalone routes up to {study.SHORT_KM:g} km**, **{chosen['middle_ring_through_count']} straight "
-                 f"cross-Tigris services connecting the central and suburban rings**, and **{chosen['transfer_stations']} shared station sites**. "
-                 f"The published two-ring network has {reference['short_count']} short routes.")
-        text += [intro, ""]
+    text = ["# Baghdad · Population-led rings and cross-city trunks", "",
+            "The central ring encloses the mapped central districts on a convex alignment. The middle and outer "
+            "rings are each fitted to residential population and the mapped walking network. Their separation varies "
+            "around the city. The trunk search compares direct cross-city alignments from opposite sides of the outer "
+            "ring. It checks tagged bridge approaches and possible new crossings against mapped river geometry.", ""]
     if eligible:
-        text += [f"**{name(eligible)}** clears the digital replacement screen. Land, bridge and station design remain open.", ""]
+        text += [f"**{name(eligible)}** clears the digital replacement screen. Site and operating approval remain open.", ""]
     else:
-        text += ["The published two-ring plan remains the planning reference while the trial’s open checks are resolved.", ""]
-    text += ["![Baghdad network comparison with direct ring transfers and cross-Tigris services](maps/baghdad-three-ring-comparison.png)", "",
+        text += ["The two-ring reference still supplies the proposal’s budget. The three-ring comparison shows the "
+                 "benefits of a simpler network and the districts where its access or journeys still fall short.", ""]
+    text += ["![Two Baghdad networks with full-colour lines, shared stations and cross-Tigris trunks](maps/baghdad-three-ring-comparison.png)", "",
              "[Current proposal](PROPOSAL.md) · [Two-ring reference](STRAIGHT-THROUGH-NETWORK.md) · "
              "[Editable trial GIS](maps/baghdad-three-ring-trial.geojson) · [Machine results](three-ring-study.json.gz)", "",
              "## Network and access", "",
-             "| Layout | Rings | Services | Short routes | Cross-Tigris links to inner and middle rings | Full through services | Route-km | Sites | Shared sites | Parallel pair-km |",
+             "| Layout | Rings | Services | Short services | Cross-city trunks | Route-km | Station sites | Shared sites | Pairs of sites within 750 m | Parallel pair-km |",
              "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|"]
     for code, row in record["summary"].items():
+        station_screen = row["station_screen"]
         text.append(f"| {name(code)} | {len(row['rings'])} | {row['lines']} | {row['short_count']} | "
-                    f"{row['middle_ring_through_count']} | {row['through_count']} | "
-                    f"{row['route_km']:.2f} | {row['stations']} | {row['transfer_stations']} | {row['parallel_pair_km']:.2f} |")
+                    f"{row['through_count']} | {row['route_km']:.2f} | {row['stations']} | {row['transfer_stations']} | "
+                    f"{station_screen.get('pairs_closer_than_750_m', '—')} | {row['parallel_pair_km']:.2f} |")
     housing = record["housing"]["variants"]["published"]["service"]
-    text += ["", f"The passenger models use **{housing['running_train_km_day']:,.0f} scheduled train-km/day**. "
-             "All stops are served in both directions. A longer route portfolio has a longer headway at this fixed running "
-             "budget. The housing model explicitly searches paths with at most two changes. The wide-district column reports "
-             "what share finds a least-generalised-cost route with up to two changes.", "",
-             "| Layout | WorldPop walk 1.3 km | GHSL walk 1.3 km | WorldPop beyond M09 served | Housing ≤2 changes | Wide-district ≤2 changes | Mean headway |",
+    text += ["", f"The passenger comparisons hold running supply at **{housing['running_train_km_day']:,.0f} train-km/day**. "
+             "The housing test searches journeys with up to two changes. The wider metropolitan test assigns "
+             "least-generalised-cost trips, then reports the share using up to two changes. "
+             "Both population layers use the same retained street graph and a 1.3 km maximum walk.", "",
+             "| Layout | WorldPop within 1.3 km | GHSL within 1.3 km | WorldPop reached only via middle-ring sites | Housing ≤2 changes | Wider journeys ≤2 changes | Headway |",
              "|---|---:|---:|---:|---:|---:|---:|"]
-    worldpop = record["coverage"]["worldpop-2026"]
     for code, row in record["summary"].items():
-        fringe = worldpop[code]["1300"]["district_access_pct"]["outside_existing_outer_ring"]
+        reach = record["coverage"]["worldpop-2026"][code]["1300"]
         text.append(f"| {name(code)} | {_pct(row['worldpop_1300_pct'])} | {_pct(row['ghsl_1300_pct'])} | "
-                    f"{_pct(fringe)} | {_pct(row['housing_two_changes_pct'])} | {_pct(row['wide_two_changes_pct'])} | "
-                    f"{row['headway_s']/60:.2f} min |")
-    text += ["", "### Neighbourhoods previously served by short lines", "",
-             "This subset could walk to a short-line stop within 1.3 km on the published network and had no "
-             "other station within the same walking distance. The final column counts residents who rely on "
-             "standalone middle-ring sites in the trial. Shared stations that already exist on a long route "
-             "are assigned to that route’s catchment.", "",
-             "| Layout | Population grid | Former short-line catchment | Still within 1.3 km | Middle-ring-only replacement | Lost access |",
+                    f"{reach['middle_only_people']:,} | {_pct(row['housing_two_changes_pct'])} | "
+                    f"{_pct(row['wide_two_changes_pct'])} | {row['headway_s']/60:.2f} min |")
+    text += ["", "A resident is counted in the middle-ring-only column if they lose their 1.3 km access when "
+             "stations exclusive to that ring are removed. Shared stations stay available in this test.", "",
+             "### Neighbourhoods previously served only by short routes", "",
+             "| Layout | Population grid | Former catchment | Still within 1.3 km | Of those, served only by middle-ring sites | Lost access |",
              "|---|---|---:|---:|---:|---:|"]
     for code in record["summary"]:
         for dataset in ("worldpop-2026", "ghsl-2025"):
@@ -90,66 +84,41 @@ def report(record):
             original, reached, middle = (row[field] for field in ("baseline_short_only_people",
                 "retained_access_people", "served_by_middle_only_sites_people"))
             text.append(f"| {name(code)} | {dataset} | {original:,} | {reached:,} | {middle:,} | {original - reached:,} |")
-    text += ["", "The map marks the largest remaining gaps in former short-line catchments on a 1 km grid. "
-             "The machine results include the coordinates, metropolitan gains and losses, "
-             "a 1.2 km walking sensitivity, and access to named destinations.", ""]
-
+    text += ["", "The map marks the largest areas where the trial loses existing walking access. The machine record also contains "
+             "overall access gains and losses, named destinations and the 1.2 km walking sensitivity.", ""]
     if selected and "middle_outer_gap_km" in chosen["orbital_metrics"]:
         metrics = chosen["orbital_metrics"]
-        gaps = metrics["middle_outer_gap_km"]
-        text += ["## Ring spacing and direct interchanges", "",
-                 f"The median distance from middle to outer ring is **{gaps['median']:.2f} km**, with the central "
-                 f"80% of sampled points between **{gaps['p10']:.2f} and {gaps['p90']:.2f} km**. "
-                 "The distance can fall to zero at a mapped shared station. Both tracks retain their own alignment.", "",
-                 f"The inner ring’s close non-adjacent reaches fall from "
-                 f"**{reference['orbital_metrics']['inner_foldback_km']:.2f} km** to "
-                 f"**{metrics['inner_foldback_km']:.2f} km**. The screen compares points within 850 m of each other "
-                 "and at least 1.5 km apart along the ring.", "",
-                 "| Bank | Shared station | Rings | Coordinates |", "|---|---|---|---|"]
-        for contact in sorted(metrics["inter_ring_contacts"], key=lambda row: row["bank"]):
-            site = contact["station_id"]
-            station = record["layouts"][selected]["stations"][site]
-            lon, lat = station["coordinates"]
-            text.append(f"| {contact['bank']} | {station['name']} ({site}) | {' / '.join(contact['rings'])} | "
-                        f"{lon:.5f}° E, {lat:.5f}° N |")
-        text.append("")
-
-    if selected:
-        audit = record["layout_trials"][selected]
-        if "withdrawal" in audit:
-            withdrawal = audit["withdrawal"]
-            closed = len(withdrawal["former_short_line_stations_closed"])
-            missing = len(withdrawal["stops_without_a_replacement_walk"])
-            text += ["## Route withdrawal and station consolidation", "",
-                     f"The trial removes **{withdrawal['withdrawn_route_km']:.2f} route-km** across "
-                     f"**{len(withdrawal['withdrawn_routes'])} short routes**. Of {closed} former stop sites "
-                     f"that close, {missing} lack a replacement street walk within 1.3 km.", ""]
-        if "station_consolidation" in audit:
-            before = audit["station_consolidation"]["station_sites_before"]
-            shared = audit["shared_sites_before_consolidation"]
-            text += [f"Consolidation changes {before} sites to {chosen['stations']} sites and "
-                     f"{shared} shared stations to {chosen['transfer_stations']}. "
-                     "A shared station requires an actual mapped connection and reconciled calls. "
-                     "Nearby sites that cannot be combined remain visible in the GIS.", ""]
-        text += ["The straight trunk screen requires a Tigris crossing and a route within 1.10 times its end-to-end chord. "
-                 "The full through-service count additionally requires shared stations on all rings and both terminals "
-                 "outside the outermost ring.", ""]
-        for code in ("published", selected):
-            routes = record["summary"][code]["through_lines"]
-            text.append(f"- **{name(code)}** qualifies {', '.join(routes) if routes else 'no routes'}.")
-        if "orbitals" in audit:
-            road = audit["orbitals"]["alignments"]
-            text += ["", "Mapped major-road alignment support is "
-                     + ", ".join(f"{road[code]['major_road_support_share']*100:.1f}% on {code}" for code in study.RINGS)
-                     + ". Each proposed crossing and elevated alignment requires site design.", ""]
-        joins = audit.get("trunk_joins", [])
-        if joins:
-            text += ["", "New trunk transfers to the rings use exact intersections on dry mapped streets. "
-                     "Nearby single-service calls are folded into the interchange only when their replacement walk is mapped.", ""]
-            for join in joins:
-                text.append(f"- **{join['line']} to {join['ring']}** · {join['station_id']}.")
-    if rejection := record["layout_trials"].get("suburban-road-corridors", {}).get("rejection_reason"):
-        text += ["", f"The road-following variant was screened out. {rejection}.", ""]
+        text += ["## Geometry and station placement", "",
+                 "| Distance from inner alignment to next ring | 10th percentile | Median | 90th percentile |",
+                 "|---|---:|---:|---:|"]
+        for label, key in (("Central to middle", "inner_middle_gap_km"),
+                           ("Middle to outer", "middle_outer_gap_km")):
+            gap = metrics[key]
+            text.append(f"| {label} | {gap['p10']:.2f} km | {gap['median']:.2f} km | {gap['p90']:.2f} km |")
+        text += ["", f"The inner ring has **{metrics['inner_foldback_km']:.2f} km** of close non-adjacent alignment, "
+                 f"down from **{reference['orbital_metrics']['inner_foldback_km']:.2f} km**. The screen counts reaches "
+                 "within 850 m of another point at least 1.5 km away along the ring.", ""]
+        if metrics["inter_ring_contacts"]:
+            names = [f"{row['bank']} ({row['station_id']})" for row in metrics["inter_ring_contacts"]]
+            text += ["Direct ring contacts use shared sites at " + ", ".join(names) + ".", ""]
+        else:
+            text += ["Shared trunk stations provide the ring connections in the illustrated layout.", ""]
+        details = record["layout_trials"][selected]
+        if search := details.get("trunk_search"):
+            text += [f"The deterministic search generated {len(record['rings']['generated_orbital_shapes'])} nested "
+                     f"orbital combinations and built {len(record['rings']['examined_layouts'])} complete-layout trials. "
+                     f"For the illustrated fit, {search['pool_candidates']} cross-city alignments passed the geometric "
+                     "pool screens. The planner prioritised the Airport, then added coverage while checking station "
+                     "separation and parallel running. The full layouts are ranked on 1.3 km walking reach across "
+                     "both population grids.", ""]
+        text += ["| Trunk | Route-km | Route ÷ chord | Shared stations on the three rings |",
+                 "|---|---:|---:|---|"]
+        for code, row in sorted(chosen["through_lines"].items()):
+            sites = ", ".join(f"{ring} ({len(ids)})" for ring, ids in row["ring_crossing_stations"].items())
+            text.append(f"| {code} | {row['route_km']:.2f} | {row['detour_ratio']:.3f} | {sites} |")
+        text += ["", "Trunks serve both sides of the outer ring with one Tigris crossing each. Shared station "
+                 "sites are retained before adding local stops. Dedicated railway bridges, grades, junctions, "
+                 "accessible station entrances and operating headways require site and engineering work.", ""]
     text += ["", "To evaluate an edited layout, change its line geometry and ordered station IDs in the trial GeoJSON. "
              "Omit any line to withdraw it. The evaluator rebuilds transfers, service and cost for the full network.", "",
              "`./osr design railway baghdad-three-rings --layout revised.geojson --output build/baghdad-layout-trial`", "",
@@ -178,6 +147,22 @@ def report(record):
     return "\n".join(text)
 
 
+CENTRAL_COLOR = "#a33e23"
+MIDDLE_COLOR = "#087867"
+OUTER_COLOR = "#553b96"
+SHORT_COLOR = "#ab4900"
+TRUNK_COLORS = ("#1b4e99", "#8f2662", "#005e82", "#526a13", "#236449", "#6a2384", "#96305b",
+                "#265975", "#74452b", "#006777", "#782440", "#485691", "#27683d", "#612664")
+
+
+def route_colors(layout, short_routes):
+    colors = {"M15": CENTRAL_COLOR, "M09": MIDDLE_COLOR if "M16" in layout["lines"] else OUTER_COLOR,
+              "M16": OUTER_COLOR}
+    for index, code in enumerate(sorted(layout["lines"].keys() - colors.keys())):
+        colors[code] = SHORT_COLOR if code in short_routes else TRUNK_COLORS[index % len(TRUNK_COLORS)]
+    return colors
+
+
 def draw(record, context):
     import matplotlib
     matplotlib.use("Agg")
@@ -189,18 +174,19 @@ def draw(record, context):
     selected = record["selection"]["illustrated_trial"] or "published"
     keys = ("published", selected) if selected != "published" else ("published",)
     water, rivers, roads = central_service_map.source_geometry(context)
-    zoom_lines = [line["geometry"] for line in record["layouts"][selected]["lines"].values()]
-    extent = np.concatenate(zoom_lines)
+    extent = np.concatenate([
+        line["geometry"] for key in keys for line in record["layouts"][key]["lines"].values()
+    ])
     lower, upper = extent.min(axis=0) - .008, extent.max(axis=0) + .008
     paper, ink = "#faf7ef", "#193742"
-    color = {"M15": "#b54930", "M09": "#008377", "M16": "#5655a5"}
-    blue, short, local = "#245bab", "#b07926", "#818b8c"
-    figure, axes = plt.subplots(1, len(keys), squeeze=False, figsize=(16, 8.4) if len(keys) > 1 else (10, 8.5),
-                                gridspec_kw={"left": .04, "right": .975, "bottom": .14, "top": .84, "wspace": .08})
+    comparison = len(keys) > 1
+    figure, axes = plt.subplots(1, len(keys), squeeze=False, figsize=(16, 8.4) if comparison else (10, 8.5),
+                                gridspec_kw={"left": .04, "right": .975, "bottom": .17, "top": .84, "wspace": .08})
     figure.patch.set_facecolor(paper)
-    figure.text(.047, .946, "Baghdad’s suburban ring and through routes", color=ink, fontsize=26, weight="bold")
-    figure.text(.047, .895, "Middle-ring coverage, direct interchanges and a network without short standalone routes",
-                color="#465e68", fontsize=12)
+    figure.text(.047, .946, "Baghdad’s rings and cross-city routes", color=ink, fontsize=26, weight="bold")
+    subtitle = ("Published layout and coverage-led trial on the same scale" if comparison
+                else "Passenger services and shared interchanges in the published layout")
+    figure.text(.047, .899, subtitle, color="#465e68", fontsize=12)
     for axis, key in zip(axes[0], keys, strict=True):
         net, row = record["layouts"][key], record["summary"][key]
         axis.set_facecolor("#f0ece4")
@@ -208,52 +194,118 @@ def draw(record, context):
                                              edgecolor="none", zorder=1))
         axis.add_collection(LineCollection(rivers, colors="#80afbb", linewidths=1, zorder=1.2))
         axis.add_collection(LineCollection(roads, colors="#b2aa9a", linewidths=.30, alpha=.35, zorder=2))
-        through = row["through_lines"] if key == "published" else row["middle_ring_through_lines"]
-        for code, line in net["lines"].items():
-            pts = np.asarray(line["geometry"]).T
-            shade = color.get(code, blue if code in through else short if code in row["short_lines"] else local)
-            emphasize = code in color or code in through
-            if emphasize:
-                axis.plot(*pts, color=paper, linewidth=4, zorder=4)
-            axis.plot(*pts, color=shade, linewidth=2.25 if emphasize else 1.25 if shade == short else .75,
-                      alpha=1 if emphasize or shade == short else .73, zorder=5 if emphasize else 3)
-        interchange = {site for code in study.RINGS if code in net["lines"]
-                       for site in net["lines"][code]["station_ids"] if len(net["stations"][site]["lines"]) > 1}
+        through = set(row["through_lines"])
+        cross_river = through | set(row.get("middle_ring_through_lines", {}))
+        rings = set(study.RINGS)
+        short_routes = set(row["short_lines"])
+        colors = route_colors(net, short_routes)
+        terminals = []
+        for code, line in sorted(net["lines"].items()):
+            if code in rings:
+                width, layer = 2.5, 4.
+            elif code in short_routes:
+                width, layer = 1.4, 3.
+            else:
+                width, layer = (2.35, 4.6) if code in cross_river else (1.55, 3.4)
+            shade = colors[code]
+            points = np.asarray(line["geometry"])
+            axis.plot(*points.T, color=paper, linewidth=width + .8, zorder=layer)
+            axis.plot(*points.T, color=shade, linewidth=width, zorder=layer + .1,
+                      linestyle=(0, (4.5, 2.5)) if code in short_routes else "-")
+            if code in through:
+                axis.scatter(*points[[0, -1]].T, marker="s", facecolor=shade, edgecolor=paper,
+                             s=22, linewidths=.8, zorder=5.4)
+            if code in cross_river or (code not in rings and len(net["lines"]) <= 13):
+                terminals.append((code, shade, points[[0, -1]]))
+        interchange = {site for site, station in net["stations"].items() if len(station["lines"]) > 1}
+        if key != "published":
+            local_sites = np.array([site["coordinates"] for stop, site in sorted(net["stations"].items())
+                                    if stop not in interchange])
+            if local_sites.size:
+                axis.scatter(*local_sites.T, s=4, edgecolors="#635b5e", facecolors=paper, linewidths=.35, zorder=5.5)
         pts = np.array([net["stations"][site]["coordinates"] for site in sorted(interchange)])
         if pts.size:
             axis.scatter(*pts.T, s=13, edgecolors=ink, facecolors=paper, linewidths=.58, zorder=6)
-        for contact in row["orbital_metrics"].get("inter_ring_contacts", []):
+        if "Airport-00" in net["stations"]:
+            airport = net["stations"]["Airport-00"]["coordinates"]
+            axis.scatter(*airport, s=46, marker="*", facecolors="#e0ad39", edgecolors=ink, linewidths=.6, zorder=7)
+            axis.annotate("Airport", airport, xytext=(-7, -7), textcoords="offset points", ha="right",
+                          color=ink, fontsize=8, bbox={"fc": paper, "ec": "none", "pad": .5}, zorder=8)
+        for contact in row.get("orbital_metrics", {}).get("inter_ring_contacts", []):
             xy = net["stations"][contact["station_id"]]["coordinates"]
             axis.scatter(*xy, s=90, marker="D", facecolor="#fadc72", edgecolor=ink, linewidths=1.2, zorder=7)
             axis.annotate(contact["bank"], xy, xytext=(8, -10), textcoords="offset points", color=ink,
                           fontsize=9, bbox={"fc": paper, "ec": "none", "pad": .6}, zorder=8)
-        cells = record["coverage"]["worldpop-2026"][key]["1300"]["short_route_catchments"]["largest_unserved_cells"]
+        cells = record["coverage"]["worldpop-2026"][key]["1300"].get("largest_formerly_served_cells", [])
         if cells:
             axis.scatter(*np.array([site["coordinates"] for site in cells]).T, s=38, color="#a12642",
                          marker="x", linewidths=1.5, zorder=8)
         axis.set(xlim=(lower[0], upper[0]), ylim=(lower[1], upper[1]), xticks=[], yticks=[],
                  aspect=holistic_network.LOCAL_METRES[1] / holistic_network.LOCAL_METRES[0])
-        label = f"{name(key)}  ·  {row['short_count']} short lines"
-        axis.set_title(label, loc="left", fontsize=12, weight="bold", color=ink, pad=9)
+        axis.apply_aspect()
+        axis.set_title(name(key), loc="left", fontsize=12, weight="bold", color=ink, pad=17)
+        counts = f"{len(net['lines'])} services · {row['short_count']} short lines"
+        if row.get("worldpop_1300_pct") is not None:
+            counts += f" · {row['worldpop_1300_pct']:.1f}% within a 1.3 km walk"
+        axis.text(0, 1.015, counts,
+                  transform=axis.transAxes, color="#465e68", fontsize=9, va="bottom")
+        _label_routes(axis, terminals, paper)
         for spine in axis.spines.values():
             spine.set_color("#c5beb0")
-    legend = [Line2D([], [], color=shade, lw=2.5, label=label) for shade, label in (
-        (color["M15"], "Inner ring"), (color["M09"], "Middle ring"), (color["M16"], "Outer ring"),
-        (blue, "Straight cross-Tigris trunk"), (short, "Short route ≤8 km"), (local, "Other routes"))]
-    legend.append(Line2D([], [], color="#a12642", marker="x", linestyle="none", label="Lost short-route access"))
-    figure.legend(handles=legend, loc="lower center", bbox_to_anchor=(.5, .077), frameon=False, ncol=7,
+    ring_styles = [(CENTRAL_COLOR, "Inner ring"), (OUTER_COLOR, "Outer ring")]
+    if any("M16" in record["layouts"][key]["lines"] for key in keys):
+        ring_styles.insert(1, (MIDDLE_COLOR, "Middle ring"))
+    legend = [Line2D([], [], color=shade, lw=2.5, label=label) for shade, label in ring_styles]
+    legend.append(Line2D([], [], color=TRUNK_COLORS[0], lw=2.35, label="Cross-Tigris trunk"))
+    legend.append(Line2D([], [], color=TRUNK_COLORS[1], lw=1.55, label="Other passenger service"))
+    if any(record["summary"][key]["short_count"] for key in keys):
+        legend.append(Line2D([], [], color=SHORT_COLOR, lw=1.4, linestyle="--", label=f"Short route ≤{study.SHORT_KM:g} km"))
+    if comparison:
+        legend.append(Line2D([], [], color="#a12642", marker="x", linestyle="none", label="Largest gaps vs reference"))
+    figure.legend(handles=legend, loc="lower center", bbox_to_anchor=(.5, .077), frameon=False,
+                  ncol=7 if comparison else 4,
                   labelcolor=ink, fontsize=10)
-    figure.text(.047, .036, "Same scale. Circles mark orbital transfers and diamonds mark direct connections between rings. Basemap © OpenStreetMap contributors.",
-                color="#465e68", fontsize=9.3)
+    figure.text(.047, .042, "Open circles mark shared stations, squares mark through-route terminals and the star marks the Airport.",
+                color="#465e68", fontsize=8.5)
+    figure.text(.047, .022, "Basemap © OpenStreetMap contributors.", color="#465e68", fontsize=8.5)
     buffer = BytesIO()
     figure.savefig(buffer, dpi=155, format="png", facecolor=paper)
     plt.close(figure)
     return buffer.getvalue()
 
 
+def _label_routes(axis, routes, paper):
+    """Place one visible line identifier near either terminus when there is room."""
+    renderer = axis.figure.canvas.get_renderer()
+    occupied = []
+    for code, shade, ends in routes:
+        for xy in sorted(ends, key=lambda point: (-point[1], point[0])):
+            for dx, dy in ((7, 7), (-7, 7), (7, -7), (-7, -7)):
+                label = axis.annotate(code, xy, xytext=(dx, dy), textcoords="offset points", color=shade,
+                                      ha="left" if dx > 0 else "right", va="center", fontsize=8,
+                                      weight="bold", bbox={"fc": paper, "ec": "none", "pad": .8}, zorder=9)
+                bounds = label.get_window_extent(renderer).padded(2.5)
+                if not all(axis.bbox.contains(*corner) for corner in bounds.get_points()) or any(
+                        bounds.overlaps(previous) for previous in occupied):
+                    label.remove()
+                    continue
+                occupied.append(bounds)
+                break
+            else:
+                continue
+            break
+
+
 def outputs(record, context):
     selected = record["selection"]["illustrated_trial"] or "published"
-    data = holistic_network.geojson(record["layouts"][selected])
+    layout = record["layouts"][selected]
+    short_routes = set(record["summary"][selected]["short_lines"])
+    colors = route_colors(layout, short_routes)
+    data = holistic_network.geojson(layout)
+    for feature in data["features"]:
+        props = feature["properties"]
+        if props["kind"] == "line":
+            props.update(stroke=colors[props["line_id"]], **{"stroke-opacity": 1, "stroke-width": 3})
     data.update(publication_id=record["publication_id"], trial=selected, study_status=record["study_status"])
     return {REPORT: report(record).encode(), DATA: gzip.compress(central_access.encode(record), mtime=0),
             MAP: draw(record, context), GEOJSON: central_access.encode(data)}

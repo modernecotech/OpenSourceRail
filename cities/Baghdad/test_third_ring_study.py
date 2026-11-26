@@ -22,15 +22,27 @@ def test_published_trial_reconciles_ring_contacts_station_evidence_and_matching_
     context = central_access.original_cases()[3]
     expected_train_km = record["housing"]["variants"]["published"]["service"]["running_train_km_day"]
     main = record["selection"]["illustrated_trial"]
+    assert main != "published"
+    assert main in record["layouts"]
+    assert len(record["rings"]["generated_orbital_shapes"]) >= 2
     for key, network in record["layouts"].items():
         row = record["summary"][key]
         polygons = study.validate_layout(network)
         if "M16" in polygons and "M09" in polygons:
             metrics = study._orbital_metrics(network, context)
             assert metrics == row["orbital_metrics"]
-            assert 1.75 <= metrics["middle_outer_gap_km"]["median"] <= 3.25
-            assert sorted(contact["bank"] for contact in metrics["inter_ring_contacts"]) == ["Karkh", "Rusafa"]
-            assert metrics["inner_foldback_km"] < record["summary"]["published"]["orbital_metrics"]["inner_foldback_km"]
+            assert 0 < metrics["middle_outer_gap_km"]["p10"] < metrics["middle_outer_gap_km"]["p90"]
+            assert 0 < metrics["inner_middle_gap_km"]["p10"] < metrics["inner_middle_gap_km"]["p90"]
+            assert metrics["inner_foldback_km"] == 0
+            assert row["lines"] < record["summary"]["published"]["lines"]
+            assert row["stations"] < record["summary"]["published"]["stations"]
+            assert row["through_count"] == row["lines"] - 3
+            assert row["station_screen"]["pairs_closer_than_750_m"] < (
+                record["summary"]["published"]["station_screen"]["pairs_closer_than_750_m"])
+            trial = record["layout_trials"][key]
+            assert trial["candidate_id"] == network["candidate_id"]
+            assert trial["evaluation_id"] == network["evaluation_id"]
+            assert trial["walking"] == {"worldpop-2026": row["worldpop_1300_pct"], "ghsl-2025": row["ghsl_1300_pct"]}
             assert row["short_lines"] == []
             assert record["coverage"]["worldpop-2026"][key]["1300"]["short_route_catchments"][
                 "baseline_short_only_people"] > 0
@@ -46,7 +58,14 @@ def test_published_trial_reconciles_ring_contacts_station_evidence_and_matching_
         assert central_access.digest(central_access.ROOT / path) == digest
     gis = central_access.read(study.CITY / publication.GEOJSON)
     assert gis["publication_id"] == identity
-    assert gis["candidate_id"] == record["layouts"][main or "published"]["candidate_id"]
+    assert gis["candidate_id"] == record["layouts"][main]["candidate_id"]
+    selected = record["layouts"][main]
+    colors = publication.route_colors(selected, set(record["summary"][main]["short_lines"]))
+    for feature in gis["features"]:
+        properties = feature["properties"]
+        if properties["kind"] == "line":
+            assert properties["stroke-opacity"] == 1
+            assert properties["stroke"] == colors[properties["line_id"]]
 
 
 def test_rings_can_touch_at_a_shared_station_but_cannot_share_running_track():

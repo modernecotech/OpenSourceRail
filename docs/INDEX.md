@@ -75,7 +75,7 @@ Indexed Markdown files: **265**.
 | [`cities/Baghdad/SPACED-RINGS.md`](../cities/Baghdad/SPACED-RINGS.md) | Baghdad compact rings and through routes |
 | [`cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md`](../cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md) | Baghdad metropolitan railway · Quantities, work programme and costs |
 | [`cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md`](../cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md) | Baghdad metropolitan railway · Rings and Tigris through services |
-| [`cities/Baghdad/THREE-RING-STUDY.md`](../cities/Baghdad/THREE-RING-STUDY.md) | Baghdad · Suburban rings and through routes |
+| [`cities/Baghdad/THREE-RING-STUDY.md`](../cities/Baghdad/THREE-RING-STUDY.md) | Baghdad · Population-led rings and cross-city trunks |
 | [`cities/Baghdad/TRAIN-AND-STATION.md`](../cities/Baghdad/TRAIN-AND-STATION.md) | Baghdad 700-place train |
 | [`cities/Baghdad/VEHICLE.md`](../cities/Baghdad/VEHICLE.md) | Baghdad 700-place train |
 | [`cities/Baghdad/WIDER-RING.md`](../cities/Baghdad/WIDER-RING.md) | Baghdad wider inner ring |

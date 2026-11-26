@@ -10,11 +10,11 @@
 
 ## The railway and its passengers
 
-The elevated route joins the central districts, outer ring and Airport in one network. Two direct lines cross the Tigris and share stations with both rings. The access comparison tests a 1.3 km street walk at each end and a maximum of two changes for trips from housing to named centres. The route set can change when a tested layout improves access, connections or delivery. [Network, journeys and GIS](STRAIGHT-THROUGH-NETWORK.md) · [Three-ring and rerouting comparison](THREE-RING-STUDY.md)
+The elevated route joins the central districts, outer ring and Airport in one network. Two direct lines cross the Tigris and share stations with both rings. The access comparison tests a 1.3 km street walk at each end and a maximum of two changes for trips from housing to named centres. The route set can change when a tested layout improves access, connections or delivery. [Network, journeys and GIS](STRAIGHT-THROUGH-NETWORK.md) · [Population-led three-ring comparison](THREE-RING-STUDY.md)
 
-![Active Baghdad railway map with the two through routes and their ring interchanges](maps/baghdad-straight-through-network.png)
+![Baghdad’s budget reference beside the population-led three-ring trial, with all passenger routes in colour](maps/baghdad-three-ring-comparison.png)
 
-*Diamonds locate the Tigris crossings. Open circles mark shared ring stations. Stars mark the six journey test destinations.*
+*The left map is the budget reference. The right map tests three independently fitted rings and long cross-Tigris routes. Both maps use the same scale. Compare walking access, transfers and the costed trial before changing the budget basis.*
 
 ## Programme, service and lifecycle costs
 

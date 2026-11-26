@@ -125,11 +125,13 @@ active entry points. Preserve exact published evidence in its original scope.
   passenger space at both outer ends and separate rescue coupling interfaces.
   Apply `cities/Baghdad/train-operation.toml` to CAD, parts, workplans and renders.
   A permanent driver cab belongs to a separately identified design alternative.
-- In a multi-ring layout, route the suburban orbital through distinct residential
-  catchments and compare the people who depend on proposed short-route withdrawals.
-  Use Baghdad’s 2.5 km planning separation as a median target for its middle and
-  outer rings. At planned contacts, require a shared station and separate
-  alignments. Treat names, alignments and station locations as revisable inputs.
+- In a multi-ring layout, fit the orbitals to distinct residential catchments
+  and let their separation vary. Check central loops for close non-adjacent
+  reaches. Compare station walking access and two-change journeys against a
+  common baseline. Prefer shared stations and long, near-straight trunks
+  across the Tigris that connect all three rings in the Baghdad trial.
+  Preserve separate alignments at direct ring contacts. Route identities,
+  alignments and station locations are revisable inputs.
 
 ## Repository workflow and readers
 

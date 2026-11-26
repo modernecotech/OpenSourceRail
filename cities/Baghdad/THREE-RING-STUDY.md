@@ -1,79 +1,70 @@
-# Baghdad · Suburban rings and through routes
+# Baghdad · Population-led rings and cross-city trunks
 
-The middle ring targets neighbourhoods previously served by small standalone lines. The planning target is about 2.5 km from the outer ring, with routes adapted to the areas they serve. A direct shared ring station on each bank shortens trips across the orbital network.
+The central ring encloses the mapped central districts on a convex alignment. The middle and outer rings are each fitted to residential population and the mapped walking network. Their separation varies around the city. The trunk search compares direct cross-city alignments from opposite sides of the outer ring. It checks tagged bridge approaches and possible new crossings against mapped river geometry.
 
-**Suburban rings aligned to mapped roads** is the illustrated trial. It has **0 standalone routes up to 8 km**, **3 straight cross-Tigris services connecting the central and suburban rings**, and **95 shared station sites**. The published two-ring network has 8 short routes.
+The two-ring reference still supplies the proposal’s budget. The three-ring comparison shows the benefits of a simpler network and the districts where its access or journeys still fall short.
 
-The published two-ring plan remains the planning reference while the trial’s open checks are resolved.
-
-![Baghdad network comparison with direct ring transfers and cross-Tigris services](maps/baghdad-three-ring-comparison.png)
+![Two Baghdad networks with full-colour lines, shared stations and cross-Tigris trunks](maps/baghdad-three-ring-comparison.png)
 
 [Current proposal](PROPOSAL.md) · [Two-ring reference](STRAIGHT-THROUGH-NETWORK.md) · [Editable trial GIS](maps/baghdad-three-ring-trial.geojson) · [Machine results](three-ring-study.json.gz)
 
 ## Network and access
 
-| Layout | Rings | Services | Short routes | Cross-Tigris links to inner and middle rings | Full through services | Route-km | Sites | Shared sites | Parallel pair-km |
+| Layout | Rings | Services | Short services | Cross-city trunks | Route-km | Station sites | Shared sites | Pairs of sites within 750 m | Parallel pair-km |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| Published two rings | 2 | 36 | 8 | 6 | 3 | 785.14 | 641 | 115 | 24.98 |
-| Suburban rings, short routes removed | 3 | 29 | 0 | 2 | 0 | 833.06 | 664 | 83 | 38.56 |
-| Suburban rings with consolidated stations | 3 | 29 | 0 | 4 | 1 | 833.06 | 655 | 97 | 38.56 |
-| Suburban rings aligned to mapped roads | 3 | 29 | 0 | 3 | 0 | 852.16 | 666 | 95 | 35.22 |
+| Two-ring reference | 2 | 36 | 8 | 2 | 785.14 | 641 | 115 | 379 | 24.98 |
+| Three rings · M1 / O4 | 3 | 11 | 0 | 8 | 362.29 | 259 | 38 | 3 | 12.35 |
+| Three rings · M3 / O4 | 3 | 9 | 0 | 6 | 317.23 | 242 | 31 | 2 | 0.00 |
 
-The passenger models use **282,650 scheduled train-km/day**. All stops are served in both directions. A longer route portfolio has a longer headway at this fixed running budget. The housing model explicitly searches paths with at most two changes. The wide-district column reports what share finds a least-generalised-cost route with up to two changes.
+The passenger comparisons hold running supply at **282,650 train-km/day**. The housing test searches journeys with up to two changes. The wider metropolitan test assigns least-generalised-cost trips, then reports the share using up to two changes. Both population layers use the same retained street graph and a 1.3 km maximum walk.
 
-| Layout | WorldPop walk 1.3 km | GHSL walk 1.3 km | WorldPop beyond M09 served | Housing ≤2 changes | Wide-district ≤2 changes | Mean headway |
+| Layout | WorldPop within 1.3 km | GHSL within 1.3 km | WorldPop reached only via middle-ring sites | Housing ≤2 changes | Wider journeys ≤2 changes | Headway |
 |---|---:|---:|---:|---:|---:|---:|
-| Published two rings | 76.72% | 77.37% | 61.04% | 77.63% | 57.67% | 6.00 min |
-| Suburban rings, short routes removed | 75.03% | 75.90% | 62.09% | 75.89% | 50.81% | 6.37 min |
-| Suburban rings with consolidated stations | 75.02% | 75.88% | 62.07% | 76.26% | 52.90% | 6.37 min |
-| Suburban rings aligned to mapped roads | 75.80% | 76.76% | 62.41% | 75.69% | 52.30% | 6.51 min |
+| Two-ring reference | 76.72% | 77.37% | 0 | 77.63% | 57.67% | 6.00 min |
+| Three rings · M1 / O4 | 57.76% | 58.23% | 555,687 | 39.39% | 39.60% | 2.77 min |
+| Three rings · M3 / O4 | 56.12% | 56.23% | 771,335 | 29.33% | 37.24% | 2.42 min |
 
-### Neighbourhoods previously served by short lines
+A resident is counted in the middle-ring-only column if they lose their 1.3 km access when stations exclusive to that ring are removed. Shared stations stay available in this test.
 
-This subset could walk to a short-line stop within 1.3 km on the published network and had no other station within the same walking distance. The final column counts residents who rely on standalone middle-ring sites in the trial. Shared stations that already exist on a long route are assigned to that route’s catchment.
+### Neighbourhoods previously served only by short routes
 
-| Layout | Population grid | Former short-line catchment | Still within 1.3 km | Middle-ring-only replacement | Lost access |
+| Layout | Population grid | Former catchment | Still within 1.3 km | Of those, served only by middle-ring sites | Lost access |
 |---|---|---:|---:|---:|---:|
-| Published two rings | worldpop-2026 | 272,311 | 272,311 | 0 | 0 |
-| Published two rings | ghsl-2025 | 216,037 | 216,037 | 0 | 0 |
-| Suburban rings, short routes removed | worldpop-2026 | 272,311 | 101,816 | 58,891 | 170,495 |
-| Suburban rings, short routes removed | ghsl-2025 | 216,037 | 75,038 | 38,061 | 140,999 |
-| Suburban rings with consolidated stations | worldpop-2026 | 272,311 | 101,816 | 58,891 | 170,495 |
-| Suburban rings with consolidated stations | ghsl-2025 | 216,037 | 75,038 | 38,061 | 140,999 |
-| Suburban rings aligned to mapped roads | worldpop-2026 | 272,311 | 136,990 | 89,185 | 135,321 |
-| Suburban rings aligned to mapped roads | ghsl-2025 | 216,037 | 94,349 | 50,911 | 121,688 |
+| Two-ring reference | worldpop-2026 | 272,311 | 272,311 | 0 | 0 |
+| Two-ring reference | ghsl-2025 | 216,037 | 216,037 | 0 | 0 |
+| Three rings · M1 / O4 | worldpop-2026 | 272,311 | 218,618 | 28,571 | 53,693 |
+| Three rings · M1 / O4 | ghsl-2025 | 216,037 | 166,957 | 19,734 | 49,080 |
+| Three rings · M3 / O4 | worldpop-2026 | 272,311 | 191,869 | 26,632 | 80,442 |
+| Three rings · M3 / O4 | ghsl-2025 | 216,037 | 137,750 | 17,558 | 78,287 |
 
-The map marks the largest remaining gaps in former short-line catchments on a 1 km grid. The machine results include the coordinates, metropolitan gains and losses, a 1.2 km walking sensitivity, and access to named destinations.
+The map marks the largest areas where the trial loses existing walking access. The machine record also contains overall access gains and losses, named destinations and the 1.2 km walking sensitivity.
 
-## Ring spacing and direct interchanges
+## Geometry and station placement
 
-The median distance from middle to outer ring is **2.50 km**, with the central 80% of sampled points between **1.95 and 3.21 km**. The distance can fall to zero at a mapped shared station. Both tracks retain their own alignment.
+| Distance from inner alignment to next ring | 10th percentile | Median | 90th percentile |
+|---|---:|---:|---:|
+| Central to middle | 2.63 km | 3.60 km | 4.33 km |
+| Middle to outer | 2.02 km | 3.43 km | 3.88 km |
 
-The inner ring’s close non-adjacent reaches fall from **4.60 km** to **0.00 km**. The screen compares points within 850 m of each other and at least 1.5 km apart along the ring.
+The inner ring has **0.00 km** of close non-adjacent alignment, down from **4.60 km**. The screen counts reaches within 850 m of another point at least 1.5 km away along the ring.
 
-| Bank | Shared station | Rings | Coordinates |
-|---|---|---|---|
-| Karkh | Karkh orbital interchange (X-RING-KARKH) | M15 / M09 | 44.34354° E, 33.26269° N |
-| Rusafa | Rusafa orbital interchange (X-RING-RUSAFA) | M09 / M16 | 44.47371° E, 33.41199° N |
+Shared trunk stations provide the ring connections in the illustrated layout.
 
-## Route withdrawal and station consolidation
+The deterministic search generated 12 nested orbital combinations and built 3 complete-layout trials. For the illustrated fit, 487 cross-city alignments passed the geometric pool screens. The planner prioritised the Airport, then added coverage while checking station separation and parallel running. The full layouts are ranked on 1.3 km walking reach across both population grids.
 
-The trial removes **42.42 route-km** across **8 short routes**. Of 29 former stop sites that close, 12 lack a replacement street walk within 1.3 km.
+| Trunk | Route-km | Route ÷ chord | Shared stations on the three rings |
+|---|---:|---:|---|
+| T01 | 32.08 | 1.004 | M15 (2), M09 (2), M16 (2) |
+| T02 | 26.48 | 1.006 | M15 (2), M09 (2), M16 (2) |
+| T03 | 26.29 | 1.017 | M15 (2), M09 (2), M16 (2) |
+| T04 | 26.38 | 1.018 | M15 (1), M09 (2), M16 (1) |
+| T05 | 25.21 | 1.005 | M15 (1), M09 (2), M16 (2) |
+| T06 | 28.32 | 1.011 | M15 (1), M09 (2), M16 (1) |
+| T07 | 25.56 | 1.052 | M15 (1), M09 (1), M16 (2) |
+| T08 | 24.42 | 1.015 | M15 (1), M09 (1), M16 (1) |
 
-Consolidation changes 677 sites to 666 sites and 86 shared stations to 95. A shared station requires an actual mapped connection and reconciled calls. Nearby sites that cannot be combined remain visible in the GIS.
+Trunks serve both sides of the outer ring with one Tigris crossing each. Shared station sites are retained before adding local stops. Dedicated railway bridges, grades, junctions, accessible station entrances and operating headways require site and engineering work.
 
-The straight trunk screen requires a Tigris crossing and a route within 1.10 times its end-to-end chord. The full through-service count additionally requires shared stations on all rings and both terminals outside the outermost ring.
-
-- **Published two rings** qualifies M01, ST02-01, ST03-02.
-- **Suburban rings aligned to mapped roads** qualifies no routes.
-
-Mapped major-road alignment support is 95.6% on M15, 58.4% on M09, 38.1% on M16. Each proposed crossing and elevated alignment requires site design.
-
-
-New trunk transfers to the rings use exact intersections on dry mapped streets. Nearby single-service calls are folded into the interchange only when their replacement walk is mapped.
-
-- **M07 to M09** · X-M09-M07-f8f2c582.
-- **G02 to M16** · X-M16-G02-c4556168.
 
 To evaluate an edited layout, change its line geometry and ordered station IDs in the trial GeoJSON. Omit any line to withdraw it. The evaluator rebuilds transfers, service and cost for the full network.
 
@@ -85,26 +76,23 @@ The priced cases use the same six-minute budget offer, unit rates and curved-sto
 
 | Layout | Running-track km | Fleet | Standard casting, haul and erection hours | Base installed US$bn | Annual operation US$bn | 30-year present US$bn |
 |---|---:|---:|---:|---:|---:|---:|
-| Published two rings | 1,568.22 | 581 | 6,259,184 | 43.12 | 1.16 | 65.94 |
-| Suburban rings, short routes removed | 1,665.54 | 588 | 6,299,608 | 44.09 | 1.21 | 67.95 |
-| Suburban rings with consolidated stations | 1,665.54 | 590 | 6,299,608 | 44.20 | 1.20 | 67.91 |
-| Suburban rings aligned to mapped roads | 1,703.74 | 601 | 6,374,160 | 45.03 | 1.23 | 69.20 |
+| Two-ring reference | 1,568.22 | 581 | 6,259,184 | 43.12 | 1.16 | 65.94 |
+| Three rings · M1 / O4 | 724.58 | 242 | 2,581,192 | 18.54 | 0.50 | 28.37 |
+| Three rings · M3 / O4 | 634.46 | 216 | 2,167,192 | 16.45 | 0.45 | 25.33 |
 
 | Layout | Concurrent yards | Last standard-stock day | Curved girder pieces | Route-km on unresolved beam or crossing forms |
 |---|---:|---:|---:|---:|
-| Published two rings | 8 | 3,202 | 2,382 | 269.27 |
-| Suburban rings, short routes removed | 8 | 4,712 | 4,470 | 232.09 |
-| Suburban rings with consolidated stations | 8 | 4,712 | 4,418 | 232.77 |
-| Suburban rings aligned to mapped roads | 8 | 4,965 | 5,522 | 244.08 |
+| Two-ring reference | 8 | 3,202 | 2,382 | 269.27 |
+| Three rings · M1 / O4 | 8 | 2,548 | 1,612 | 37.80 |
+| Three rings · M3 / O4 | 8 | 2,612 | 1,618 | 34.49 |
 
 These allowances include the counted recurring stock and curved-piece premium. New bridges, station interfaces and other held structures need separate design and prices. The model leaves the project opening date open.
 
 ## Decision checks
 
-- **Suburban rings, short routes removed** · WorldPop walk coverage falls below the existing planning tolerance. GHSL walk coverage falls below the existing planning tolerance. Housing reach with up to two changes falls below the existing tolerance. At least one named central destination loses too much access. Wide outer-district journeys with up to two changes fall below the service tolerance. The layout increases sustained close parallel running.
-- **Suburban rings with consolidated stations** · WorldPop walk coverage falls below the existing planning tolerance. GHSL walk coverage falls below the existing planning tolerance. Housing reach with up to two changes falls below the existing tolerance. At least one named central destination loses too much access. Wide outer-district journeys with up to two changes fall below the service tolerance. The layout increases sustained close parallel running.
-- **Suburban rings aligned to mapped roads** · WorldPop walk coverage falls below the existing planning tolerance. GHSL walk coverage falls below the existing planning tolerance. Housing reach with up to two changes falls below the existing tolerance. At least one named central destination loses too much access. Wide outer-district journeys with up to two changes fall below the service tolerance. The layout increases sustained close parallel running.
+- **Three rings · M1 / O4** · WorldPop walk coverage is below the two-ring reference. GHSL walk coverage is below the two-ring reference. Housing reach with up to two changes falls below the existing tolerance. At least one named central destination loses too much access. Wide outer-district journeys with up to two changes fall below the service tolerance.
+- **Three rings · M3 / O4** · WorldPop walk coverage is below the two-ring reference. GHSL walk coverage is below the two-ring reference. Housing reach with up to two changes falls below the existing tolerance. At least one named central destination loses too much access. Wide outer-district journeys with up to two changes fall below the service tolerance.
 
 Reproduce with `OPENBLAS_NUM_THREADS=1 ./osr design railway baghdad-three-rings --check`.
 
-Publication `22f11656cfaf037359a5b6d817edcd2a4ff0881158d5bb287df55c552dc325ee`.
+Publication `c01580f48b4e01b1677c658c32a80438db85d9f014624161cdc53f3df4c6da4a`.

@@ -8,9 +8,9 @@ The active proposal is one connected, elevated metropolitan network with a centr
 
 <!-- end current housing budget -->
 
-[![The current Baghdad metro network with both rings and Tigris crossings](maps/baghdad-straight-through-network.png)](STRAIGHT-THROUGH-NETWORK.md)
+[![Baghdad’s reference network and population-led three-ring trial at the same scale](maps/baghdad-three-ring-comparison.png)](THREE-RING-STUDY.md)
 
-[Illustrated proposal](Baghdad-Metro-Proposal.pdf) · [Proposal source](PROPOSAL.md) · [Route and station GIS](maps/baghdad-straight-through-network.geojson) · [Suburban-ring trial and editable routes](THREE-RING-STUDY.md)
+[Illustrated proposal](Baghdad-Metro-Proposal.pdf) · [Proposal source](PROPOSAL.md) · [Route and station GIS](maps/baghdad-straight-through-network.geojson) · [Population-led three-ring trials and editable routes](THREE-RING-STUDY.md)
 
 ## Building and operating the railway
 

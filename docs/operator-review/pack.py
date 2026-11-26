@@ -31,7 +31,7 @@ a:hover,a:focus{text-decoration:underline}nav strong,small{display:block}small{c
 <a href="docs/operator-review/PARTNERSHIP-PLAN.md"><strong>Host a partner trial</strong><small>Choose a local question, review the budget and agree when to decide.</small></a>
 <a href="cities/Baghdad/TRAIN-AND-STATION.md"><strong>Train and station interfaces</strong><small>Review the active vehicle, platform and conductor design.</small></a>
 <a href="cities/Baghdad/maps/baghdad-straight-through-network.png"><strong>Baghdad metropolitan rail network</strong><small>See the connected passenger routes, interchanges and remaining walking gaps.</small></a>
-<a href="cities/Baghdad/THREE-RING-STUDY.md"><strong>Suburban ring trial</strong><small>Compare short-route replacements, shared stations and passenger access.</small></a>
+<a href="cities/Baghdad/THREE-RING-STUDY.md"><strong>Population-led three-ring trial</strong><small>Compare cross-Tigris trunks, station coverage, transfers and costs.</small></a>
 <a href="cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md"><strong>Current Baghdad delivery estimate</strong><small>Review the selected layout’s track, construction shifts, fleet and cost.</small></a>
 <a href="docs/operator-review/screens/supervision.html"><strong>Control room</strong><small>Replay equipment trips, a stale signal and restoration.</small></a>
 <a href="docs/operator-review/finance/index.html"><strong>Funding and fares</strong><small>Compare debt payments and test the public funding requirement.</small></a>
