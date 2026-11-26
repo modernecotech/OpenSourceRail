@@ -24,6 +24,9 @@ it and the vehicle drawing is checked against its door and body dimensions.
 
 ## Train, platform and conductor interface
 
+The train is planned for unattended **GoA4** operation. Both outer ends are part of the passenger saloon, with fixed glazing and handrails. The train retains two underfloor rescue coupling interfaces for recovery. Confirm rescue forces, access and operating procedures with the protected recovery design. [Operating configuration](train-operation.toml) · [Passenger end render](../../docs/assets/assembly-animations/train-terminal.jpg)
+
+
 Use rail head as z = 0 and track centre as y = 0. For straight, level
 stations, the nominal car floor is z = 1,000 mm; the platform edge is
 |y| = 1,425 mm from its track centre. A 2,700 mm wide car then has a 75 mm

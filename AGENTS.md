@@ -121,6 +121,11 @@ active entry points. Preserve exact published evidence in its original scope.
 | Offers, lifecycle costs and cash | Ask suppliers for matched quantities, inclusions, currency and price date, lead times, exclusions, origin and maintenance. Replace an allowance once and identify labour, plant or tooling already priced elsewhere. Distinguish illustrative low/base/high ranges from calibrated probabilities. Propagate scope changes through installed cost, operations, renewals and phased cash. Declare any inherited schedules or allowances. |
 | Evidence and handover | Use the standards crosswalk and project-specific acceptance criteria to link requirements, hazards, models, tests, supplier evidence, decisions and responsible reviewers. Maintain part and asset identity from quotation through as-built records, inspection, repair and return to service. |
 
+- Baghdad’s live passenger-train concept uses unattended GoA4 operation, with
+  passenger space at both outer ends and separate rescue coupling interfaces.
+  Apply `cities/Baghdad/train-operation.toml` to CAD, parts, workplans and renders.
+  A permanent driver cab belongs to a separately identified design alternative.
+
 ## Repository workflow and readers
 
 - Work in the existing OpenSourceRail repository on `main`. Keep city designs in

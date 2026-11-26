@@ -142,6 +142,26 @@ same_as = "source.html"
         self.assertIn("guide.pdf: artifact digest differs", errors)
         self.assertIn("guide.receipt.json: missing or stale SHA-256 for guide.md", errors)
 
+    def test_render_receipt_fails_for_an_old_view_of_current_geometry(self):
+        spec = self.root / REGISTER
+        self.write(REGISTER, spec.read_text() + """
+[[spec.artifact]]
+path = "train.jpg"
+receipt = "render.receipt.json"
+receipt_scope = "views.front"
+digest_key = "render_sha256"
+source_key = "sources"
+sources = ["civil/source.py"]
+""")
+        self.write("train.jpg", "render of the approved geometry")
+        self.write("render.receipt.json", json.dumps({
+            "views": {"front": {"render_sha256": self.digest("train.jpg")}},
+            "sources": {"civil/source.py": self.digest("civil/source.py")},
+        }))
+        self.assertEqual(check(self.root).errors, [])
+        self.write("train.jpg", "older render with a driver compartment")
+        self.assertIn("train.jpg: artifact digest differs", check(self.root).errors[0])
+
     def test_obsolete_sentence_fails_even_when_live_claim_is_correct(self):
         path = self.root / "guide.md"
         self.write("guide.md", path.read_text() + "Representative 10 m track beam quantities follow.\n")

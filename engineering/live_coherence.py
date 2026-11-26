@@ -232,13 +232,17 @@ def check(root=ROOT):
 
     def artifact(entry, _expected):
         path = entry["path"]
-        receipt = document(entry["receipt"])
-        compare(receipt["artifact"], path, entry["receipt"])
+        document_receipt = document(entry["receipt"])
+        receipt = _one(document_receipt, entry.get("receipt_scope", ""))
+        if "receipt_scope" not in entry:
+            compare(receipt["artifact"], path, entry["receipt"])
         if path.endswith(".pdf"):
             require(read(path).startswith(b"%PDF-"), path, "missing PDF file signature")
-        require(receipt["sha256"] == digest(path), path,
+        artifact_hash = (hashlib.sha256(gzip.decompress(read(path))).hexdigest()
+                         if entry.get("gzip_digest") else digest(path))
+        require(receipt[entry.get("digest_key", "sha256")] == artifact_hash, path,
                 f"artifact digest differs from {entry['receipt']}; rebuild the artifact and receipt")
-        hashes = receipt["source_sha256"]
+        hashes = _one(document_receipt, entry.get("source_key", "source_sha256"))
         require(set(entry["sources"]) <= set(hashes), entry["receipt"],
                 "receipt is missing required sources from the live register")
         verify_hashes(hashes, hashes, entry["receipt"], "rebuild the artifact and receipt")

@@ -526,3 +526,122 @@ values = ['Quantified recurring straight stock in the chainage register \| [\d,]
 [[spec.reader]]
 path = "cities/Baghdad/engineering/mechanical/civil/CURVED-BEAM-PROGRAMME.md"
 values = ['^\| straight \d+m \| [\d,]+ \| [\d,]+ \| 0 / 0 \| [\d.,]+ \| [\d,]+ \| [\d,]+ \| (?P<value>[\d,]+) \|']
+
+[[spec]]
+id = "baghdad-unattended-driver-cabs"
+source = "cities/Baghdad/train-operation.toml"
+key = "permanent_driver_cabs"
+unit = "cab"
+
+[[spec.record]]
+path = "docs/assets/assembly-animations/assembly-ledger.json"
+scope = "candidates.train"
+keys = ["operation.permanent_driver_cabs"]
+provenance = ["source_sha256"]
+dependencies = ["cities/Baghdad/train-operation.toml", "docs/assets/assembly-animations/train.py", "docs/assets/assembly-animations/train_fitout.py"]
+
+[[spec.reader]]
+path = "docs/assets/assembly-animations/assembly-ledger.json"
+forbidden = ['end[-_]cab|(?:driver(?:[\x27’]s)?|driving)[ _-]+(?:cab|chair|compartment|station|desk|display|seat|console|cushion|controls)\b|cab[ _-]+(?:desk|console|bulkhead|interior)']
+
+[[spec.reader]]
+path = "docs/assets/assembly-animations/assembly-bom.csv"
+forbidden = ['end[-_]cab|(?:driver(?:[\x27’]s)?|driving)[ _-]+(?:cab|chair|compartment|station|desk|display|seat|console|cushion|controls)\b|cab[ _-]+(?:desk|console|bulkhead|interior)']
+
+[[spec.reader]]
+path = "docs/assets/assembly-animations/assembly-plan.json"
+forbidden = ['end[-_]cab|cab[ _-]+(?:desk|console|bulkhead|interior)']
+
+[[spec.reader]]
+path = "docs/assets/assembly-animations/workplan/workforce.csv"
+forbidden = ['end[-_]cab|cab[ _-]+(?:desk|console|bulkhead|interior)']
+
+[[spec.reader]]
+path = "docs/assets/assembly-animations/train_fitout.py"
+required = ['group\("terminal-passenger-trim"', 'group\("end-rescue"', 'passenger end glazing and gasket']
+forbidden = ['end[-_]cab|(?:driver(?:[\x27’]s)?|driving)[ _-]+(?:cab|chair|compartment|station|desk|display|seat|console|cushion|controls)\b|cab[ _-]+(?:desk|console|bulkhead|interior)']
+
+[[spec.artifact]]
+path = "docs/assets/assembly-animations/train-parts.obj.gz"
+receipt = "docs/assets/assembly-animations/assembly-ledger.json"
+receipt_scope = "candidates.train"
+digest_key = "geometry_sha256"
+source_key = "candidates.train.source_sha256"
+gzip_digest = true
+sources = ["cities/Baghdad/train-operation.toml", "docs/assets/assembly-animations/train_fitout.py"]
+
+[[spec.artifact]]
+path = "docs/assets/assembly-animations/train.mp4"
+receipt = "docs/assets/assembly-animations/receipt.json"
+receipt_scope = "train"
+digest_key = "mp4_sha256"
+source_key = "train.source_sha256"
+sources = ["cities/Baghdad/train-operation.toml", "docs/assets/assembly-animations/train.py", "docs/assets/assembly-animations/train_fitout.py"]
+
+[[spec.artifact]]
+path = "docs/assets/assembly-animations/train.webp"
+receipt = "docs/assets/assembly-animations/receipt.json"
+receipt_scope = "train"
+digest_key = "poster_sha256"
+source_key = "train.source_sha256"
+sources = ["docs/assets/assembly-animations/train_fitout.py"]
+
+[[spec.artifact]]
+path = "docs/assets/assembly-animations/train-exterior.jpg"
+receipt = "docs/assets/assembly-animations/views-receipt.json"
+receipt_scope = "views.train-exterior"
+digest_key = "render_sha256"
+source_key = "sources"
+sources = ["cities/Baghdad/train-operation.toml", "docs/assets/assembly-animations/train_fitout.py"]
+
+[[spec.artifact]]
+path = "docs/assets/assembly-animations/train-terminal.jpg"
+receipt = "docs/assets/assembly-animations/views-receipt.json"
+receipt_scope = "views.train-terminal"
+digest_key = "render_sha256"
+source_key = "sources"
+sources = ["cities/Baghdad/train-operation.toml", "docs/assets/assembly-animations/train_fitout.py"]
+
+[[spec]]
+id = "baghdad-train-automation"
+source = "cities/Baghdad/train-operation.toml"
+key = "grade_of_automation"
+
+[[spec.record]]
+path = "docs/assets/assembly-animations/assembly-ledger.json"
+keys = ["candidates.train.operation.grade_of_automation"]
+
+[[spec.reader]]
+path = "cities/Baghdad/TRAIN-AND-STATION.md"
+required = ['unattended \*\*{value}\*\*', 'Both outer ends are part of the passenger saloon', '\]\(train-operation\.toml\)']
+
+[[spec.reader]]
+path = "docs/assets/assembly-animations/GUIDE.md"
+required = ['Unattended {value}', '\]\(train-terminal\.jpg\)']
+forbidden = ['(?:front|rear|driver|cab)\s+cab\b|terminal\s+cabs?\b|recovery\s+cabs?\b']
+
+[[spec.reader]]
+path = "README.md"
+required = ['unattended {value}', '\]\(docs/assets/assembly-animations/train-terminal\.jpg\)']
+forbidden = ['\bcab\s+(?:front|end|assembly)\b|\brear\s+cab\b']
+
+[[spec.reader]]
+path = "cities/Baghdad/PROPOSAL.md"
+required = ['unattended {value}', '\]\(\.\./\.\./docs/assets/assembly-animations/train-terminal\.jpg\)']
+forbidden = ['\bcab\s+(?:front|end|assembly)\b|\brear\s+cab\b']
+
+[[spec]]
+id = "baghdad-passenger-train-ends"
+source = "cities/Baghdad/train-operation.toml"
+key = "outer_end_use"
+
+[[spec.record]]
+path = "docs/assets/assembly-animations/assembly-ledger.json"
+scope = "candidates.train"
+keys = ["operation.outer_end_use"]
+fixed = { "operation.permanent_driver_cabs" = 0 }
+
+[[spec.record]]
+path = "docs/assets/assembly-animations/workplan/summary.json"
+scope = "scope"
+external = { path = "docs/assets/assembly-animations/assembly-ledger.json", matches = { "candidate_ids.train" = "candidates.train.candidate_id" } }

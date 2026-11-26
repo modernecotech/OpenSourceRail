@@ -321,36 +321,27 @@ def saloon_groups(geometry):
 
 
 def end_groups():
-    cab = [
-        section("formed cab skirt", [(-1.28,.92),(1.28,.92),(1.34,1.15),(-1.34,1.15)],
+    front = [
+        section("formed terminal skirt", [(-1.28,.92),(1.28,.92),(1.34,1.15),(-1.34,1.15)],
                 -8.50,-8.35,0,TEAL),
-        section("formed cab nose panel", [(-1.34,1.15),(1.34,1.15),(1.28,1.88),(-1.28,1.88)],
+        section("formed terminal front panel", [(-1.34,1.15),(1.34,1.15),(1.28,1.88),(-1.28,1.88)],
                 -8.52,-8.35,0,CREAM),
-        section("cab windshield and gasket", [(-1.19,1.87),(1.19,1.87),(1.08,2.77),(-1.08,2.77)],
+        section("passenger end glazing and gasket", [(-1.19,1.87),(1.19,1.87),(1.08,2.77),(-1.08,2.77)],
                 -8.53,-8.46,0,WINDOW),
         solid("window reflection", (-8.533,-1.02,2.62), (-8.531,1.02,2.65), REFLECTION),
-        section("cab destination header", [(-1.28,2.77),(1.28,2.77),(1.24,3.24),(-1.24,3.24)],
+        section("terminal destination header", [(-1.28,2.77),(1.28,2.77),(1.24,3.24),(-1.24,3.24)],
                 -8.51,-8.34,0,CREAM),
         solid("destination display enclosure", (-8.527,-.54,2.83), (-8.513,.54,3.042), DARK),
-        solid("cab access and rescue hatch", (-8.54,-.32,.98), (-8.49,.32,1.32), TEAL),
-        solid("windshield wiper", (-8.543,-.89,1.94), (-8.533,-.34,1.968), SILVER),
-        solid("windshield wiper", (-8.543,.34,1.94), (-8.533,.89,1.968), SILVER),
+        solid("rescue coupling access hatch", (-8.54,-.32,.98), (-8.49,.32,1.32), TEAL),
         *[round_stock("front marker", y,z,-8.54,-8.515,.062,0,color) for y in (-.94,.94)
           for z,color in ((1.48,LIGHT),(1.33,RED))],
     ]
-    cab_interior = [
-        solid("driver console pedestal", (-8.32,-.64,1.01), (-7.96,.56,1.46), DARK),
-        section("console desk", [(-8.37,1.46),(-7.91,1.46),(-8.08,1.58),(-8.37,1.60)],
-                -.59,.51,1,SILVER),
-        solid("driver display and controls", (-8.26,-.30,1.56), (-8.03,.29,1.66), WINDOW),
-        solid("driver seat stand", (-7.74,-.16,1.0), (-7.51,.16,1.41), DARK),
-        solid("driver cushion", (-7.80,-.25,1.39), (-7.33,.25,1.49), BLUE),
-        solid("driver seat back and headrest", (-7.40,-.23,1.44), (-7.30,.23,2.08), BLUE),
-        solid("cab rear bulkhead, side section", (-7.22,-1.17,1), (-7.15,-.40,3.01), CREAM),
-        solid("cab rear bulkhead, side section", (-7.22,.40,1), (-7.15,1.17,3.01), CREAM),
-        solid("cab rear service door", (-7.23,-.391,1), (-7.16,.391,2.12), TEAL),
-        solid("cab rear service door window", (-7.232,-.19,1.48), (-7.158,.19,1.98), WINDOW),
-        solid("cab rear service door lock", (-7.235,-.35,1.51), (-7.151,-.30,1.56), SILVER),
+    passenger_trim = [
+        solid("passenger end wall lower liner", (-8.40,-1.18,1.01), (-8.34,1.18,1.82), CREAM),
+        solid("passenger glazing sill trim", (-8.43,-1.18,1.81), (-8.31,1.18,1.88), SILVER),
+        round_stock("passenger end handrail", -8.27,1.22,-1.06,1.06,.022,1,YELLOW),
+        *[solid("end handrail bracket", (-8.35,y-.028,1.19), (-8.24,y+.028,1.25), SILVER)
+          for y in (-1.02,0,1.02)],
     ]
     rescue = [
         solid("rescue coupler mounting flange", (-8.5,-.32,.49), (-8.29,.32,.79), DARK),
@@ -404,16 +395,16 @@ def end_groups():
             round_stock(name + " coupling", y,z,-.035,.035,radius+.011,0,DARK),
         ])
     return [
-        group("end-cab-nose", "Terminal front panels, windshield, wipers, lamps, display and rescue hatch",
-              cab, "cab-nose", "Formed sheet, safety glazing and electrical kit", (290,520,870),
-              (11500,22600,47000), 59, "Fit front module, survey mounting and check seal and visibility",
+        group("terminal-front", "Terminal panels, passenger glazing, lamps, display and rescue hatch",
+              front, "terminal-front", "Formed sheet, safety glazing and electrical kit", (290,520,870),
+              (11500,22600,47000), 59, "Fit terminal front and check seals, glazing and marker lamps",
               "Body and glazing fitter", "V01/V03", 2),
-        group("end-cab-interior", "Cab desk, display, seat and rear service bulkhead",
-              cab_interior, "cab-interior", "Console equipment, steel and lining", (210,415,770),
-              (10500,22200,49000), 48, "Fit bulkhead, then install cab console, seating and cabling",
-              "Electrical and interior fitter", "V01/V03", 2),
+        group("terminal-passenger-trim", "Passenger end liner, glazing sill, handrail and brackets",
+              passenger_trim, "terminal-passenger-trim", "Interior lining and handrail hardware", (35,65,110),
+              (1200,2600,5200), 14, "Fit passenger end lining and inspect handrail fixings and circulation",
+              "Interior fitter", "V01/V03", 2),
         group("end-rescue", "Outboard rescue flange, adaptor and mount",
-              rescue, "cab-rescue", "Steel coupler assembly", (74,135,275), (2400,5100,10600), 7,
+              rescue, "terminal-rescue", "Steel coupler assembly", (74,135,275), (2400,5100,10600), 7,
               "Fit terminal drawgear and check stowage and rescue access", "Mechanical fitter", "V15", 2),
         group("end-vestibule", "Inner end panels, opening portal, threshold and trim",
               end_panel, "vestibule", "Sheet, gasket and liner", (71,125,245), (1700,3100,6900), 11,

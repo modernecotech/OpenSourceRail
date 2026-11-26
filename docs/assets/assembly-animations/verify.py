@@ -6,6 +6,7 @@ import gzip
 import importlib
 import json
 from pathlib import Path
+import re
 import subprocess
 
 from ledger import FILMS, ROOT, digest, validate_dependencies
@@ -45,19 +46,35 @@ def verify_film(path, film, receipt, decode):
     subprocess.run(["ffmpeg", "-nostdin", "-v", "error", "-xerror", "-i", str(mp4), "-f", "null", "-"], check=True)
 
 
+def verify_train_ends(train):
+    """Check installed scene objects at both ends and in the complete consist."""
+    enclosed_driver_equipment = re.compile(r"\b(?:cab|driver|console|bulkhead)\b", re.I)
+    interface = ("passenger end glazing and gasket", "passenger end handrail",
+                 "rescue coupler mounting flange")
+    for second, ends in ((134, 1), (144, 1), (187, 2)):
+        names = [item.mesh.name for item in train.frame(second).items]
+        assert not any(enclosed_driver_equipment.search(name) for name in names), second
+        assert all(names.count(part) == ends for part in interface), (second, interface)
+    visible_end = {item.mesh.name for item in train.terminal_render().items}
+    assert set(interface) <= visible_end
+
+
 def verify(path, decode=False):
     ledger = read_json(path / "assembly-ledger.json")["candidates"]
     videos = read_json(path / "receipt.json")
     views = read_json(path / "views-receipt.json")
     assert set(FILMS) == set(ledger) == set(videos)
     verified_sources(views["sources"])
-    assert {"train-exterior", "train-interior", "train-connector", "viaduct-placement",
+    assert {"train-exterior", "train-interior", "train-connector", "train-terminal", "viaduct-placement",
             "viaduct-completed"}.issubset(views["views"])
     for name, record in views["views"].items():
         image = path / f"{name}.jpg"
         assert digest(image.read_bytes()) == record["render_sha256"], image
     for name, frame_times in (("train", (144,)), ("viaduct", (43, 57))):
         module = importlib.import_module(name)
+        if name == "train":
+            verify_train_ends(module)
+            assert ledger[name]["operation"] == module.OPERATION
         for seconds in frame_times:
             with Image.open(path / f"{name}-{seconds}.png") as screenshot:
                 assert ImageChops.difference(screenshot.convert("RGB"), raster(module, seconds)).getbbox() is None

@@ -26,11 +26,15 @@ def material(color, finish):
     bsdf = result.node_tree.nodes.get("Principled BSDF")
     bsdf.inputs["Base Color"].default_value = (*rgb, 1)
     bsdf.inputs["Roughness"].default_value = {
-        "glazing": .14, "painted": .29, "metal": .36, "ground": .84, "concrete": .72, "vinyl": .56,
+        "glazing": .14, "end-glazing": .10, "painted": .29, "metal": .36, "ground": .84,
+        "concrete": .72, "vinyl": .56,
     }.get(finish, .46)
     bsdf.inputs["Metallic"].default_value = {"metal": .61, "painted": .17, "glazing": .28}.get(finish, 0)
     if finish == "painted":
         bsdf.inputs["Coat Weight"].default_value = .22
+    if finish == "end-glazing":
+        bsdf.inputs["Base Color"].default_value = (.65, .76, .78, 1)
+        bsdf.inputs["Transmission Weight"].default_value = .94
     if finish in ("ground", "concrete"):
         nodes = result.node_tree.nodes
         noise = nodes.new("ShaderNodeTexNoise")
@@ -48,6 +52,8 @@ def material(color, finish):
 
 def finish_for(name):
     name = name.lower()
+    if name.startswith("passenger end glazing and gasket"):
+        return "end-glazing"
     if any(term in name for term in ("floor", "seats", "seat_", "bellows", "buffer", "trim", "rubber", "lining")):
         return "vinyl"
     if any(term in name for term in ("glass", "windscreen", "glazing", "window")):
@@ -216,7 +222,7 @@ def render(record, output, samples):
 
     studio = name not in ("train-exterior", "viaduct-completed", "viaduct-placement")
     lighting(target, width, studio)
-    if name == "train-saloon":
+    if camera["eye"]:
         for x in (-6, -3, 0, 3, 6):
             for y in (-.64, .64):
                 bpy.ops.object.light_add(type="AREA", location=(x, y, 2.76))

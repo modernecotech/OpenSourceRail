@@ -36,15 +36,17 @@ The city should confirm continuous accessible street and station paths with peop
 
 ## Trains and accessible stations
 
-The Baghdad pricing reference uses a six-car powered-wheel train with six 17 m cars, a 700-place normal load and four passenger door openings per side per car. The straight island interface allows 125 m of clear platform. Confirm vehicle limits, body motion, suspension travel, doors and platform gaps in the same model. [Vehicle and station specification](TRAIN-AND-STATION.md)
+The Baghdad pricing reference uses a six-car powered-wheel train with six 17 m cars, a 700-place normal load and four passenger door openings per side per car. The train is designed for unattended GoA4 operation, with glazed passenger ends and separate rescue couplings. The straight island interface allows 125 m of clear platform. Confirm vehicle limits, body motion, suspension travel, doors and platform gaps in the same model. [Vehicle and station specification](TRAIN-AND-STATION.md)
 
-![Concept render of the train with cab end, doors and connected cars](../../docs/assets/assembly-animations/train-exterior.jpg)
+![Concept render of the train with a glazed passenger end, doors and connected cars](../../docs/assets/assembly-animations/train-exterior.jpg)
 
-*The vehicle concept shows the roofline, cab, window band and accessible doors.*
+*The vehicle concept shows the glazed passenger end, window band and accessible doors.*
 
-![Passenger saloon concept with seats, wheelchair space, poles and ceiling services](../../docs/assets/assembly-animations/train-saloon.jpg)
+![View from the passenger saloon toward the end glazing and handrail](../../docs/assets/assembly-animations/train-terminal.jpg)
 
-*The fitout model locates fixtures and circulation space for boarding and maintenance studies.*
+*The open saloon continues to the end glazing. The rescue coupling mounts below the floor.*
+
+[Saloon seating and accessible areas](../../docs/assets/assembly-animations/train-saloon.jpg)
 
 ![Close view of the gangway, coupling and inter-car service connections](../../docs/assets/assembly-animations/train-connector.jpg)
 

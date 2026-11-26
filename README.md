@@ -167,13 +167,13 @@ The counted parts catalogue records stock, assembly and draft business data. The
 
 **[Watch the train fabrication and assembly animation](https://raw.githubusercontent.com/modernecotech/OpenSourceRail/main/docs/assets/assembly-animations/train.mp4)** · [Geometry and chapter guide](docs/assets/assembly-animations/GUIDE.md)
 
-[![Finished concept render of the Baghdad six-car train, showing the cab front, saloon glazing and door pairs](docs/assets/assembly-animations/train-exterior.jpg)](docs/assets/assembly-animations/train-exterior.jpg)
+[![Finished concept render of the Baghdad six-car train, showing the glazed passenger end and door pairs](docs/assets/assembly-animations/train-exterior.jpg)](docs/assets/assembly-animations/train-exterior.jpg)
 
-| Fit out the passenger car | Connect two cars | Assemble the rear cab |
+| Fit out the passenger car | Connect two cars | Look through the passenger end |
 |---|---|---|
-| [![Passenger saloon with seats, grab poles, overhead services and doorway approaches](docs/assets/assembly-animations/train-saloon.jpg)](docs/assets/assembly-animations/train-saloon.jpg) | [![Two inner ends show the gangway, floor bridge, draw gear and service connections](docs/assets/assembly-animations/train-connector.jpg)](docs/assets/assembly-animations/train-connector.jpg) | [![Rear cab assembly with bulkhead, console position and service access](docs/assets/assembly-animations/train-144.png)](docs/assets/assembly-animations/train-144.png) |
+| [![Passenger saloon with seats, grab poles, overhead services and doorway approaches](docs/assets/assembly-animations/train-saloon.jpg)](docs/assets/assembly-animations/train-saloon.jpg) | [![Two inner ends show the gangway, floor bridge, draw gear and service connections](docs/assets/assembly-animations/train-connector.jpg)](docs/assets/assembly-animations/train-connector.jpg) | [![View from the end of the passenger saloon showing the handrail and front glazing](docs/assets/assembly-animations/train-terminal.jpg)](docs/assets/assembly-animations/train-terminal.jpg) |
 
-The concept adds both outer cab ends, five inner connections and the passenger fitout to the source-bound steel frames. Use the parts register to review geometry, mass and purchasing allowances alongside the installation work. Supplier interface dimensions and installed weights remain separate evidence fields. [Assembly BOM, geometry and costed shifts](docs/assets/assembly-animations/GUIDE.md#parts-cost-and-shifts)
+The Baghdad Airport train concept uses unattended GoA4 operation. The two glazed ends extend the passenger saloon, with rescue couplings below the floor and five gangways between cars. Use the parts register to review geometry, mass and purchasing allowances alongside the installation work. Supplier interface dimensions and installed weights remain separate evidence fields. [Assembly BOM, geometry and costed shifts](docs/assets/assembly-animations/GUIDE.md#parts-cost-and-shifts)
 
 Group the steel frame into cutting, keyed fit-up, welding, finishing and
 inspection work. A shared CNC cell and reusable jigs can feed multiple manual

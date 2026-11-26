@@ -1,9 +1,9 @@
 {
   "candidates": {
     "train": {
-      "candidate_id": "bbfa815eb2b7c0c9c624a53e22449ddcc0f687d80253858f1733b567128a2a2e",
-      "evaluation_id": "49cc03ac671a41525753ff0f61300501aab244424fc282ce3da6773aa072eff7",
-      "geometry_sha256": "163ac00bfe1614f70a81e94ba006bb16b57d7dd13c3570ff9dddd761dadc8d5b",
+      "candidate_id": "3fcce47d9dd530e57464d6595073c909ee5f39a5b7656382d9a68446addb1d84",
+      "evaluation_id": "7d24ca63f683a7ed443495c1e52eb76908786a4032aa03fb602bc4924f79c3cf",
+      "geometry_sha256": "10059186846f6cf80daf3afd9aafc2af016c50c7e0a431f382b988b315320a5f",
       "inventory": [
         {
           "key": "steel-sill",
@@ -228,15 +228,15 @@
           "quantity": 4
         },
         {
-          "key": "end-cab-nose",
+          "key": "terminal-front",
           "kind": "installed",
           "material": "Formed sheet, safety glazing and electrical kit",
           "quantity": 2
         },
         {
-          "key": "end-cab-interior",
+          "key": "terminal-passenger-trim",
           "kind": "installed",
-          "material": "Console equipment, steel and lining",
+          "material": "Interior lining and handrail hardware",
           "quantity": 2
         },
         {
@@ -276,6 +276,11 @@
           "quantity": 5
         }
       ],
+      "operation": {
+        "grade_of_automation": "GoA4",
+        "outer_end_use": "passenger",
+        "permanent_driver_cabs": 0
+      },
       "part_file": "train-parts.obj.gz",
       "parts": [
         {
@@ -1639,30 +1644,27 @@
         },
         {
           "account": "V01/V03; fleet estimate replacement comparison only",
-          "assembly": "Cab nose",
-          "basis": "Outboard cab concept repeated mirrored at the other terminal. Visibility, structure, protection and supplier attachments are open. Concept allowance for complete group with its standard mount hardware. Ranges and crew hours are engineering scenario inputs pending drawings, weighings and quotes. The source fleet allowance is a separate whole-train comparison, with no additive allocation.",
+          "assembly": "Terminal front",
+          "basis": "Mirrored outer ends for unattended operation. Glazing, impact protection and supplier attachments require review. Concept allowance for complete group with its standard mount hardware. Ranges and crew hours are engineering scenario inputs pending drawings, weighings and quotes. The source fleet allowance is a separate whole-train comparison, with no additive allocation.",
           "crew": "Body and glazing fitter",
           "geometry_objects": [
-            "end-cab-nose--001--formed_cab_skirt",
-            "end-cab-nose--002--formed_cab_nose_panel",
-            "end-cab-nose--003--cab_windshield_and_gasket",
-            "end-cab-nose--004--window_reflection",
-            "end-cab-nose--005--cab_destination_header",
-            "end-cab-nose--006--destination_display_enclosure",
-            "end-cab-nose--007--cab_access_and_rescue_hatch",
-            "end-cab-nose--008--windshield_wiper",
-            "end-cab-nose--009--windshield_wiper",
-            "end-cab-nose--010--front_marker",
-            "end-cab-nose--011--front_marker",
-            "end-cab-nose--012--front_marker",
-            "end-cab-nose--013--front_marker"
+            "terminal-front--001--formed_terminal_skirt",
+            "terminal-front--002--formed_terminal_front_panel",
+            "terminal-front--003--passenger_end_glazing_and_gasket",
+            "terminal-front--004--window_reflection",
+            "terminal-front--005--terminal_destination_header",
+            "terminal-front--006--destination_display_enclosure",
+            "terminal-front--007--rescue_coupling_access_hatch",
+            "terminal-front--008--front_marker",
+            "terminal-front--009--front_marker",
+            "terminal-front--010--front_marker",
+            "terminal-front--011--front_marker"
           ],
-          "key": "end-cab-nose",
+          "key": "terminal-front",
           "kind": "installed",
           "material": "Formed sheet, safety glazing and electrical kit",
-          "name": "Terminal front panels, windshield, wipers, lamps, display and rescue hatch",
+          "name": "Terminal panels, passenger glazing, lamps, display and rescue hatch",
           "predecessors": [
-            "end-cab-interior",
             "steel-end_post"
           ],
           "quantity": 2,
@@ -1678,52 +1680,48 @@
             47000
           ],
           "unit_volume_m3": null,
-          "work": "Fit front module, survey mounting and check seal and visibility"
+          "work": "Fit terminal front and check seals, glazing and marker lamps"
         },
         {
           "account": "V01/V03; fleet estimate replacement comparison only",
-          "assembly": "Cab interior",
-          "basis": "Both terminal driver cabs and rear service bulkheads are concepts. Qualified controls and escape envelope open. Concept allowance for complete group with its standard mount hardware. Ranges and crew hours are engineering scenario inputs pending drawings, weighings and quotes. The source fleet allowance is a separate whole-train comparison, with no additive allocation.",
-          "crew": "Electrical and interior fitter",
+          "assembly": "Terminal passenger trim",
+          "basis": "Open end saloon lining and passenger handrail. Confirm impact protection, accessible circulation and anchorage. Concept allowance for complete group with its standard mount hardware. Ranges and crew hours are engineering scenario inputs pending drawings, weighings and quotes. The source fleet allowance is a separate whole-train comparison, with no additive allocation.",
+          "crew": "Interior fitter",
           "geometry_objects": [
-            "end-cab-interior--001--driver_console_pedestal",
-            "end-cab-interior--002--console_desk",
-            "end-cab-interior--003--driver_display_and_controls",
-            "end-cab-interior--004--driver_seat_stand",
-            "end-cab-interior--005--driver_cushion",
-            "end-cab-interior--006--driver_seat_back_and_headrest",
-            "end-cab-interior--007--cab_rear_bulkhead__side_section",
-            "end-cab-interior--008--cab_rear_bulkhead__side_section",
-            "end-cab-interior--009--cab_rear_service_door",
-            "end-cab-interior--010--cab_rear_service_door_window",
-            "end-cab-interior--011--cab_rear_service_door_lock"
+            "terminal-passenger-trim--001--passenger_end_wall_lower_liner",
+            "terminal-passenger-trim--002--passenger_glazing_sill_trim",
+            "terminal-passenger-trim--003--passenger_end_handrail",
+            "terminal-passenger-trim--004--end_handrail_bracket",
+            "terminal-passenger-trim--005--end_handrail_bracket",
+            "terminal-passenger-trim--006--end_handrail_bracket"
           ],
-          "key": "end-cab-interior",
+          "key": "terminal-passenger-trim",
           "kind": "installed",
-          "material": "Console equipment, steel and lining",
-          "name": "Cab desk, display, seat and rear service bulkhead",
+          "material": "Interior lining and handrail hardware",
+          "name": "Passenger end liner, glazing sill, handrail and brackets",
           "predecessors": [
+            "terminal-front",
             "floor-panels"
           ],
           "quantity": 2,
           "unit_mass_kg": [
-            210,
-            415,
-            770
+            35,
+            65,
+            110
           ],
-          "unit_person_hours": 48,
+          "unit_person_hours": 14,
           "unit_price_usd": [
-            10500,
-            22200,
-            49000
+            1200,
+            2600,
+            5200
           ],
           "unit_volume_m3": null,
-          "work": "Fit bulkhead, then install cab console, seating and cabling"
+          "work": "Fit passenger end lining and inspect handrail fixings and circulation"
         },
         {
           "account": "V15; fleet estimate replacement comparison only",
-          "assembly": "Cab rescue",
-          "basis": "Two outboard locations proposed. Coupler design, load limits, stowage and recovery arrangements remain open. Concept allowance for complete group with its standard mount hardware. Ranges and crew hours are engineering scenario inputs pending drawings, weighings and quotes. The source fleet allowance is a separate whole-train comparison, with no additive allocation.",
+          "assembly": "Terminal rescue",
+          "basis": "Two outboard locations. Coupler design, load limits, stowage and recovery arrangements remain open. Concept allowance for complete group with its standard mount hardware. Ranges and crew hours are engineering scenario inputs pending drawings, weighings and quotes. The source fleet allowance is a separate whole-train comparison, with no additive allocation.",
           "crew": "Mechanical fitter",
           "geometry_objects": [
             "end-rescue--001--rescue_coupler_mounting_flange",
@@ -1755,7 +1753,7 @@
         {
           "account": "V01/V03/V12; fleet estimate replacement comparison only",
           "assembly": "Vestibule",
-          "basis": "Ten inner end locations are implied by the proposed two-cab, six-car arrangement. End portal and personnel protection open. Concept allowance for complete group with its standard mount hardware. Ranges and crew hours are engineering scenario inputs pending drawings, weighings and quotes. The source fleet allowance is a separate whole-train comparison, with no additive allocation.",
+          "basis": "Ten inner end locations in a six-car formation. End portal and personnel protection open. Concept allowance for complete group with its standard mount hardware. Ranges and crew hours are engineering scenario inputs pending drawings, weighings and quotes. The source fleet allowance is a separate whole-train comparison, with no additive allocation.",
           "crew": "Body fitter",
           "geometry_objects": [
             "end-vestibule--001--end_vestibule_side_panel",
@@ -1983,25 +1981,26 @@
         "cities/Baghdad/engineering/prototype/vehicle-factory/installed-fitout-bom.csv": "45b834d349d01bd59dcc42228b90dae3bcf0a067b4525a7a0f273d6a785b4aa8",
         "cities/Baghdad/engineering/prototype/vehicle-factory/installed-ga.json": "69a24467e7abe96db16b31f1c5078365253f6a2a9bd931ff4571cb8df83b9c4b",
         "cities/Baghdad/engineering/prototype/vehicle-factory/vehicle-quote.csv": "0ec132ff208792872f6ed12c4bebf28b15e5f260d7460ae369b2c582d17c3ebd",
-        "docs/assets/assembly-animations/ledger.py": "bb2e58cda4bb5ea1658ed1f48cd6cb60350b8ba3768fb1b1b42d37e5fddefedc",
+        "cities/Baghdad/train-operation.toml": "b0095990dd28ddf38f9e353884aaba7e51912eaf2a25b992bfcf990ac39cb7f6",
+        "docs/assets/assembly-animations/ledger.py": "5b71f4cf627d2c608d0c841798235fe26a1d575a1d41af76dca3670a4fcf5e6a",
         "docs/assets/assembly-animations/scene.py": "5113e8674de2a009c7a91f069cc28051d5a4aae4ea9dcf375d72158c8dcd9941",
-        "docs/assets/assembly-animations/train.py": "74fa3bce162115bb1b1f25c1c488eea36b067de01391b36b7ba8cc8782171e43",
-        "docs/assets/assembly-animations/train_fitout.py": "12ad4cd69121c5ec3c1eb32964e2445a7b34186f8b1a5c31d456d6db662c0f34"
+        "docs/assets/assembly-animations/train.py": "d0512f2106853882323b3eb6711a03c030105cf31f281190977e4f36a030d29c",
+        "docs/assets/assembly-animations/train_fitout.py": "00913e5d5d2d2c25b9a45e00fb1d29072942aeda15f6c3503413809fe1dfcbdd"
       },
       "totals": {
         "installed": {
           "known_mass_kg": [
-            35285,
-            55582,
-            88937
+            34935,
+            54882,
+            87617
           ],
           "known_price_usd": [
-            1069510,
-            1949010,
-            3644240
+            1050910,
+            1909810,
+            3556640
           ],
           "quantities": 562,
-          "required_person_hours": 2965.6,
+          "required_person_hours": 2897.6,
           "rows": 28,
           "unknown_mass_rows": 0,
           "unpriced_rows": 0
@@ -2027,7 +2026,7 @@
     },
     "viaduct": {
       "candidate_id": "eaf461db36ae97880ce2c36953a2fdccadbd6780175c6f5d2cf708a94a56a6bb",
-      "evaluation_id": "8d80567cac5c170c82543577260296ce43acf867aa436f34c179a28ac65ba1ca",
+      "evaluation_id": "02cc80375165caa5ebb6af18b63d845c37b057e29be069d7c45bafcb0bfeba45",
       "geometry_sha256": "50a00cc45a4dd632b9d53bedd96309ade1fc9d645133398b56767f48483db52c",
       "inventory": [
         {
@@ -3106,7 +3105,7 @@
         "cities/Baghdad/engineering/mechanical/civil/rail-fed/crew-workplan.csv": "a22642796f09e7f472fdd70f4fce79580c753bfdc677baec4cb5bae3bad306a6",
         "cities/Baghdad/engineering/mechanical/civil/rail-fed/rail-fed-launch.obj": "8a0a46b0bd8157e4d45f5714734e8381548b65ff358c6ef24c46b981a87225d6",
         "cities/Baghdad/engineering/mechanical/civil/rail_fed_assumptions.toml": "3692a94edd1d71f08e9ba3afba200c91e8d1570cc8d2517c52c101c5fc2a9999",
-        "docs/assets/assembly-animations/ledger.py": "bb2e58cda4bb5ea1658ed1f48cd6cb60350b8ba3768fb1b1b42d37e5fddefedc",
+        "docs/assets/assembly-animations/ledger.py": "5b71f4cf627d2c608d0c841798235fe26a1d575a1d41af76dca3670a4fcf5e6a",
         "docs/assets/assembly-animations/scene.py": "5113e8674de2a009c7a91f069cc28051d5a4aae4ea9dcf375d72158c8dcd9941",
         "docs/assets/assembly-animations/viaduct.py": "08ab65e16e91fd785c7abd41d19ad51e85a7b251d1de34912008061a1aa4a209"
       },

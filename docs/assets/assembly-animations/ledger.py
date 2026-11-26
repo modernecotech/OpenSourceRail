@@ -221,6 +221,8 @@ def publish(output):
         geometry_path.write_bytes(gzip.compress(geometry, mtime=0))
         physical = dict(scope=SCOPES[name], geometry_sha256=digest(geometry),
                         inventory=[{key: row[key] for key in ("key", "quantity", "material", "kind")} for row in records])
+        if name == "train":
+            physical["operation"] = module.OPERATION
         candidate_sources = (*module.SOURCES, *(f"docs/assets/assembly-animations/{file}"
                               for file in (f"{name}.py", "ledger.py", "scene.py")))
         candidate = dict(candidate_id=digest(encoded(physical)), **physical,

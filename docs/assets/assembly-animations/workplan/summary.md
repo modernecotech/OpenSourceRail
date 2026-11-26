@@ -2,7 +2,7 @@
 
 Scope **Baghdad animation assembly packages**
 
-Plan `ca03933d6c103d8332c4d0152e4a1b039e5760f4cdfa16b78cb950ed4f5eff84` · 80 work rows · 90% capacity in the availability test.
+Plan `f0f9f532e5816187523a8785da06ef0d6eb9e770eabc974454357ab3b4bc32b6` · 80 work rows · 90% capacity in the availability test.
 
 Amounts are planning estimates in US dollars. Each account has its own purchase, construction, training or operating period. Where a contract already includes labour, use the account to test or replace the allowance.
 
@@ -10,9 +10,6 @@ Amounts are planning estimates in US dollars. Each account has its own purchase,
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
 | train / Axles · V06; fleet estimate replacement comparison only | 139.2 | 192.0 | 163.2 | 0.0 → 0.0 | $1,215.36 | $1,330.56 | $1,562.88 | 0 |
 | train / Bogie frame stock · V04/V05; fleet estimate replacement comparison only | 97.8 | 192.0 | 163.2 | 0.0 → 0.0 | $1,215.36 | $1,330.56 | $1,562.88 | 0 |
-| train / Cab interior · V01/V03; fleet estimate replacement comparison only | 96.0 | 128.0 | 108.8 | 0.0 → 0.0 | $810.24 | $887.04 | $1,041.92 | 0 |
-| train / Cab nose · V01/V03; fleet estimate replacement comparison only | 118.0 | 160.0 | 136.0 | 0.0 → 0.0 | $1,012.80 | $1,108.80 | $1,302.40 | 0 |
-| train / Cab rescue · V15; fleet estimate replacement comparison only | 14.0 | 32.0 | 27.2 | 0.0 → 0.0 | $202.56 | $221.76 | $260.48 | 0 |
 | train / Carbody frame stock · V04/V05; fleet estimate replacement comparison only | 534.9 | 768.0 | 652.8 | 0.0 → 4.6 | $4,861.44 | $5,322.24 | $6,251.52 | 0 |
 | train / Collector · V13; fleet estimate replacement comparison only | 16.0 | 32.0 | 27.2 | 0.0 → 0.0 | $202.56 | $221.76 | $260.48 | 0 |
 | train / Connector bellows · V03/V12; fleet estimate replacement comparison only | 70.0 | 96.0 | 81.6 | 0.0 → 0.0 | $607.68 | $665.28 | $781.44 | 0 |
@@ -31,6 +28,9 @@ Amounts are planning estimates in US dollars. Each account has its own purchase,
 | train / Services · V08/V13; fleet estimate replacement comparison only | 156.0 | 192.0 | 163.2 | 0.0 → 9.1 | $1,215.36 | $1,330.56 | $1,562.88 | 0 |
 | train / Shell · V12; fleet estimate replacement comparison only | 420.0 | 512.0 | 435.2 | 0.0 → 28.3 | $3,240.96 | $3,548.16 | $4,167.68 | 0 |
 | train / Suspension · V07; fleet estimate replacement comparison only | 86.4 | 128.0 | 108.8 | 0.0 → 3.9 | $810.24 | $887.04 | $1,041.92 | 0 |
+| train / Terminal front · V01/V03; fleet estimate replacement comparison only | 118.0 | 160.0 | 136.0 | 0.0 → 0.0 | $1,012.80 | $1,108.80 | $1,302.40 | 0 |
+| train / Terminal passenger trim · V01/V03; fleet estimate replacement comparison only | 28.0 | 48.0 | 40.8 | 0.0 → 0.0 | $303.84 | $332.64 | $390.72 | 0 |
+| train / Terminal rescue · V15; fleet estimate replacement comparison only | 14.0 | 32.0 | 27.2 | 0.0 → 0.0 | $202.56 | $221.76 | $260.48 | 0 |
 | train / Underroof · V11/V13; fleet estimate replacement comparison only | 81.0 | 96.0 | 81.6 | 0.0 → 7.6 | $607.68 | $665.28 | $781.44 | 0 |
 | train / Vestibule · V01/V03/V12; fleet estimate replacement comparison only | 110.0 | 160.0 | 136.0 | 0.0 → 0.0 | $1,012.80 | $1,108.80 | $1,302.40 | 0 |
 | viaduct / Deck feed · Flatbed mobilisation and dry hire | 80.0 | 96.0 | 81.6 | 0.0 → 6.6 | $700.80 | $768.00 | $901.44 | 0 |

@@ -6,6 +6,7 @@ from hashlib import sha256
 from io import StringIO
 from json import loads
 from pathlib import Path
+import tomllib
 from zipfile import ZipFile
 
 from scene import Camera, Frame, Item, Mesh, box, combine, load_obj
@@ -24,7 +25,11 @@ QUOTE = f"{PROTOTYPE}/vehicle-factory/vehicle-quote.csv"
 RAPID = f"{PROTOTYPE}/rapid-production/comparison.json"
 ESTIMATE = f"{PROTOTYPE}/sourcing-estimate.json"
 FITOUT_SCENE = "docs/assets/assembly-animations/train_fitout.py"
-SOURCES = (PACKET, CAM, SAW_CUTS, FACTORY, GA, FITOUT_BOM, QUOTE, RAPID, ESTIMATE, FITOUT_SCENE)
+OPERATION_SOURCE = "cities/Baghdad/train-operation.toml"
+OPERATION = tomllib.loads((ROOT / OPERATION_SOURCE).read_text())
+if OPERATION != dict(grade_of_automation="GoA4", permanent_driver_cabs=0, outer_end_use="passenger"):
+    raise ValueError("This passenger-end assembly depicts the Baghdad unattended train")
+SOURCES = (PACKET, CAM, SAW_CUTS, FACTORY, GA, FITOUT_BOM, QUOTE, RAPID, ESTIMATE, FITOUT_SCENE, OPERATION_SOURCE)
 
 TITLE = "Building and fitting the six-car Airport train"
 DURATION = 188
@@ -39,7 +44,7 @@ CHAPTERS = (
     (72, "Powered equipment"),
     (90, "Saloon installation"),
     (108, "Doors and enclosure"),
-    (126, "Two terminal cabs"),
+    (126, "Passenger train ends"),
     (145, "Couplers and services"),
     (166, "Gangways and formation"),
     (178, "Six-car overview"),
@@ -410,7 +415,7 @@ def frame(seconds):
     if seconds < 126:
         return enclosure_shot(seconds)
     if seconds < 145:
-        return cab_shot(seconds)
+        return terminal_shot(seconds)
     if seconds < 166:
         return connection_shot(seconds)
     if seconds < 178:
@@ -513,25 +518,25 @@ def enclosure_shot(t):
                  ("Eight door openings per Airport car", "Roof HVAC at two nominated study points"))
 
 
-def cab_shot(t):
+def terminal_shot(t):
     rear = t >= 135.5
     end = 1 if rear else -1
     run = [*track(-11,11), *BODY, *RUNNING, *fitting(*BASE_STAGES, "deck","interior")]
     start = 135.5 if rear else 126
-    for stage, z in (("cab-interior",.85),("cab-nose",.4),("cab-rescue",.0)):
+    for stage, z in (("terminal-passenger-trim",.85),("terminal-front",.4),("terminal-rescue",.0)):
         parts = graded_parts((stage,), t, start+1, start+7, dx=-1.75, dz=z)
         run.extend(at(parts, reverse=rear))
     if not rear:
         run.extend(fitting("shell","glazing","doors","roof","roof-services"))
-    title = "Fit the rear-facing terminal cab" if rear else "Fit the forward-facing terminal cab"
+    title = "Fit the rear passenger end" if rear else "Fit the front passenger end"
     caption = (
-        "The opposite cab faces outward at the far end of the set. This open view shows the rear bulkhead and service door."
+        "The trim and handrail face the saloon. A protected mount below the floor receives the rescue adaptor."
         if rear else
-        "Offer the cab front to the terminal car. Fit the windshield, markers, driver console and rescue mounting."
+        "Install the passenger glazing, destination display, marker lamps and rescue coupling interface."
     )
     return Frame(Camera((end*7.47,0,1.66),-112 if rear else -147,14,8.8),
                  run, title, caption,
-                 ("Two opposite terminal cabs", "Cab volumes and rescue mounts are concepts"))
+                 ("Unattended GoA4 formation", "Passenger saloon extends to both ends"))
 
 
 def end_context(gap, *, dress=True):
@@ -581,7 +586,7 @@ def closed_formation():
         items.extend(at(stock_and_fit,x))
         if index in (0,len(CENTRES)-1):
             reverse = index != 0
-            items.extend(at(fitting("cab-nose","cab-interior","cab-rescue"),x,reverse=reverse))
+            items.extend(at(fitting("terminal-front","terminal-passenger-trim","terminal-rescue"),x,reverse=reverse))
             items.extend(at(fitting("vestibule"),x,reverse=not reverse))
         else:
             items.extend(at(fitting("vestibule"),x))
@@ -594,14 +599,14 @@ def closed_formation():
 def formation_shot(t):
     return Frame(Camera((-3,0,1.42),-49 + 9*smooth(t,178,DURATION),15,91), list(closed_formation()),
                  "A six-car Airport train",
-                 "Two terminal cabs face out. The five internal junctions connect the cars and their passenger gangways.",
+                 "Passenger train ends face out. The five internal junctions connect the cars and their passenger gangways.",
                  ("Baghdad Airport first article", "Concept fitout and end interfaces", "105 m platform reference"))
 
 
 def exterior_render():
     # Two coupled cars fill the foreground; the full formation remains behind them.
     return Frame(Camera((-37,0,1.61),-147,16,32), list(closed_formation()),
-                 "Airport train exterior", "Outboard terminal cab, four-door side and roof HVAC packs.",
+                 "Airport train exterior", "Passenger end glazing, four-door side and roof HVAC packs.",
                  ("Train exterior and starting end",))
 
 
@@ -631,9 +636,20 @@ def saloon_render():
                  ("Equipment locations await layout, circulation and evacuation review",))
 
 
+def terminal_render():
+    items = [
+        *fitting("deck","interior","shell","glazing","doors","roof","underroof"),
+        *fitting("terminal-front","terminal-passenger-trim","terminal-rescue"),
+    ]
+    return Frame(Camera((-8.32,0,1.8),0,0,3.2), items, "Passenger end at eye level",
+                 "The fixed end glazing and passenger handrail are part of the open saloon.",
+                 ("Outboard rescue mounting is below the floor",))
+
+
 RENDERS = {"train-exterior": exterior_render, "train-interior": interior_render,
-           "train-connector": connector_render, "train-saloon": saloon_render}
-RENDER_EYES = {"train-saloon": ((-2.8,-.06,1.65),(4.2,.07,1.68))}
+           "train-connector": connector_render, "train-saloon": saloon_render, "train-terminal": terminal_render}
+RENDER_EYES = {"train-saloon": ((-2.8,-.06,1.65),(4.2,.07,1.68)),
+               "train-terminal": ((-5.62,.14,1.67),(-8.33,0,1.92))}
 
 
 def stock_ledger():
@@ -694,9 +710,9 @@ def inventory():
         "doors": ("steel-jamb_liner",),
         "roof": ("overhead-run",),
         "roof-services": ("roof-skin",),
-        "cab-interior": ("floor-panels",),
-        "cab-nose": ("end-cab-interior", "steel-end_post"),
-        "cab-rescue": ("steel-end_tie",),
+        "terminal-passenger-trim": ("terminal-front", "floor-panels"),
+        "terminal-front": ("steel-end_post",),
+        "terminal-rescue": ("steel-end_tie",),
         "vestibule": ("steel-end_post", "floor-panels"),
         "connector-draft": ("end-vestibule", "steel-end_tie"),
         "connector-utilities": ("connector-draft", "services"),
@@ -713,10 +729,10 @@ def inventory():
         "roof-services": "Two study points per car per installed-ga.json. Package footprint, loads, cooling and drain trial are open.",
         "services": "Centre service study point from installed-ga.json. Cabinet split, hose lengths, qualified capacity, wiring routing and equipment mass await suppliers.",
         "collector": "24 contact sets for six opening formations per installed-fitout-bom.csv. Four is the implied one-set quantity, with only two example envelopes displayed and car assignment open.",
-        "cab-nose": "Outboard cab concept repeated mirrored at the other terminal. Visibility, structure, protection and supplier attachments are open.",
-        "cab-interior": "Both terminal driver cabs and rear service bulkheads are concepts. Qualified controls and escape envelope open.",
-        "cab-rescue": "Two outboard locations proposed. Coupler design, load limits, stowage and recovery arrangements remain open.",
-        "vestibule": "Ten inner end locations are implied by the proposed two-cab, six-car arrangement. End portal and personnel protection open.",
+        "terminal-front": "Mirrored outer ends for unattended operation. Glazing, impact protection and supplier attachments require review.",
+        "terminal-passenger-trim": "Open end saloon lining and passenger handrail. Confirm impact protection, accessible circulation and anchorage.",
+        "terminal-rescue": "Two outboard locations. Coupler design, load limits, stowage and recovery arrangements remain open.",
+        "vestibule": "Ten inner end locations in a six-car formation. End portal and personnel protection open.",
         "connector-draft": "Five inter-car joints implied by the published six centre positions. The nominal 500 mm separation follows 17 m body length and 17.5 m spacing. Approve drawgear, coupler loads and curvature before fit.",
         "connector-bridge": "Five proposed inter-car bridges. Bridge sweep, emergency retention and floor gap in articulated poses are open.",
         "connector-bellows": "Five proposed bellows sets. Fire, weather sealing and articulated body sweep are open.",
