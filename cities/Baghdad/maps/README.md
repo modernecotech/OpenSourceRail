@@ -6,6 +6,8 @@ The ring-and-grid study compares the published network with closed inner and out
 
 The compact-ring study sets a 5 km minimum horizontal clearance between the two alignments. It tests a smaller inner loop, fewer parallel routes and consolidated station sites against the published network. [Comparison map](baghdad-spaced-rings.png) · [GIS](baghdad-spaced-rings.geojson) · [Journey, construction and cost results](../SPACED-RINGS.md)
 
+The wider ring follows a larger central footprint while retaining the 5 km minimum clearance and the same outer alignment. [Side-by-side map](baghdad-wider-ring.png) · [GIS](baghdad-wider-ring.geojson) · [Access and cost comparison](../WIDER-RING.md)
+
 ## Retained map sources
 
 The maps below record the original comparison geometry underlying earlier studies and estimates.
