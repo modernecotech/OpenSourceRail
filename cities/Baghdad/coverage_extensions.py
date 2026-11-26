@@ -82,30 +82,8 @@ def _stops(track, stations, streets, context, demand_tree, people):
     coordinate_rows = coordinates[legal]
     weights = np.array([people[indices].sum()
                         for indices in demand_tree.query_ball_point(points[legal], trunks.WALK_M)])
-    parents = np.full(len(legal_km), -1)
-    merit = np.full(len(legal_km), -np.inf)
-    merit[0] = 0
-    scale = max(float(weights.max()), 1.)
-    for index in range(1, len(legal_km)):
-        gap = legal_km[index] - legal_km[:index]
-        links = np.flatnonzero((gap >= trunks.STATION_SPACING_M / 1000 - 1e-9)
-                               & (gap <= trunks.MAX_STOP_GAP_M / 1000 + 1e-9) & np.isfinite(merit[:index]))
-        if not len(links):
-            continue
-        # Favour useful catchments while penalising excessive calls and empty reaches.
-        rewards = merit[links] - .55 * (gap[links] - 1.9)**2
-        upstream = int(rewards.argmax())
-        parents[index] = links[upstream]
-        merit[index] = rewards[upstream] + weights[index] / scale - .5
-
-    if parents[-1] < 0:
-        return []
-    selected = []
-    index = len(legal_km) - 1
-    while index:
-        selected.append((float(legal_km[index]), coordinate_rows[index].tolist()))
-        index = int(parents[index])
-    return selected[::-1]
+    path = trunks.spaced_platform_path(legal_km, weights, 1.9)
+    return [(float(legal_km[index]), coordinate_rows[index].tolist()) for index in path or ()]
 
 
 def _install(network, extension):

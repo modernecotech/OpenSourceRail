@@ -19,6 +19,25 @@ def _track(points):
     return rail.Track(_coordinates(points))
 
 
+def test_alternate_platforms_repair_a_gap_without_relaxing_spacing():
+    km = np.array([0., 1.25, 3.375, 5.75, 7.])
+    assert trunks.spaced_platform_path(km, np.ones_like(km), 1.65) == [1, 2, 3, 4]
+    missing = km[[0, 1, 3, 4]]
+    assert trunks.spaced_platform_path(missing, np.ones_like(missing), 1.65) is None
+
+
+def test_named_bent_arm_preserves_turn_cap_and_fixed_terminal():
+    bank, target = np.asarray([[0., 0.], [10_000, 7_000]])
+    direction = np.array([1., 0.])
+    arms = list(trunks._bent_arms(bank, direction, target))
+    assert arms
+    for arm in arms:
+        assert np.array_equal(arm[[0, -1]], [bank, target])
+        entry, exit_ = np.diff(arm, axis=0)
+        assert trunks.third_ring_through._turn(direction, entry) <= trunks.MAX_TURN_DEG + 1e-8
+        assert trunks.third_ring_through._turn(entry, exit_) <= trunks.MAX_TURN_DEG + 1e-8
+
+
 def _rings():
     record = {"lines": {}, "stations": {}, "transfers": []}
     for code, radius in zip(trunks.RINGS, (2_000, 5_000, 8_000), strict=True):

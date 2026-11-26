@@ -15,7 +15,7 @@ from shapely import contains_xy, distance, line_interpolate_point
 from shapely.geometry import LineString, Point, Polygon
 
 from . import (central_access, coverage_destinations, coverage_gap, coverage_network, coverage_regional,
-               coverage_trunks, holistic_access, holistic_network, holistic_pathways, ring_corridors,
+               coverage_through_journeys, coverage_trunks, holistic_access, holistic_network, holistic_pathways, ring_corridors,
                residential_layouts, residential_planning, residential_systems, ring_grid_comparison, ring_grid_journeys,
                straight_network_study)
 from .coverage_orbitals import WALK_M
@@ -392,6 +392,27 @@ def _decision_holds(summary, available, policy, metadata):
     return assessments
 
 
+def _through_research_lead(summary, journeys, available):
+    """Prefer one-seat reach across all named suburbs before trading off coverage."""
+    candidates = []
+    for code in available:
+        row = summary[code]
+        if any(walk is None or walk > WALK_M for walk in row["destination_walk_m"].values()):
+            continue
+        if row["airport_walk_m"] is None or row["airport_walk_m"] > WALK_M:
+            continue
+        if any(row["suburban"].get(key) for key in (
+                "missing_contour_crossings", "close_departures", "parallel_suburban_corridors")):
+            continue
+        origins = journeys["variants"][code]["origins"].values()
+        direct = [origin["direct_through_destination_count"] for origin in origins]
+        if not any(direct):
+            continue
+        candidates.append((-sum(count > 0 for count in direct), -min(direct), -sum(direct),
+                           -min(row["worldpop_1300_pct"], row["ghsl_1300_pct"]), row["route_km"], code))
+    return min(candidates)[-1] if candidates else None
+
+
 def _summary(networks, cover, housing, metro, geometry, context):
     summary = {}
     for code, net in networks.items():
@@ -475,6 +496,14 @@ def evaluate(layout=None):
     for key, net in networks.items():
         summary[key]["airport_walk_m"] = _airport_walk(net, reference, graph)
         summary[key]["destination_walk_m"] = coverage_destinations.walking(net, graph)
+    journeys = coverage_through_journeys.compare(
+        networks, graph=graph, destinations=destinations, assumptions=assumptions,
+        through_routes={code: row["through_lines"] for code, row in summary.items()},
+    )
+    for key, case in journeys["variants"].items():
+        if not isclose(case["running_train_km_day"], housing["variants"][key]["service"]["running_train_km_day"],
+                       abs_tol=.01):
+            raise ValueError("Suburban journeys must carry the same scheduled train-km")
     holds = _decision_holds(summary, [key for key in networks if key != "published"], policy, metadata)
     costs = {key: _equal_scope_cost(net, context, policy) for key, net in networks.items()}
     scope = {"walking": f"Baghdad retained streets and population grids, {WALK_M} m",
@@ -490,8 +519,10 @@ def evaluate(layout=None):
     } for key, row in summary.items()}
     comparison = metro_network.compare(metro_cases, required_destinations=[*coverage_destinations.ANCHORS, "Airport"],
                                        population_grids=populations, walk_limit_m=WALK_M, reference_id="published")
+    through_lead = _through_research_lead(summary, journeys, metadata)
     selection = {"holds": holds, "eligible_replacement": comparison["eligible_economic_lead"],
-                 "illustrated_trial": comparison["eligible_economic_lead"] or comparison["research_lead"]}
+                 "through_research_lead": through_lead,
+                 "illustrated_trial": comparison["eligible_economic_lead"] or through_lead or comparison["research_lead"]}
     if layout is not None:
         selection["illustrated_trial"] = "custom-layout"
     sources = dict(published["source_sha256"])
@@ -503,13 +534,15 @@ def evaluate(layout=None):
     sources.update(metro_network.SOURCE_SHA256)
     for path in (REFERENCE, coverage_destinations.REFERENCE_GIS, coverage_network.RETAINED_SEED,
                  residential_planning.POLICY, Path(__file__), *(CITY / f"{name}.py" for name in
-                  ("coverage_network", "coverage_orbitals", "coverage_trunks", "coverage_extensions", "third_ring_through",
-                                      "third_ring_publication", "coverage_destinations", "coverage_gap", "coverage_regional"))):
+                   ("coverage_network", "coverage_orbitals", "coverage_trunks", "coverage_extensions", "third_ring_through",
+                    "third_ring_publication", "coverage_destinations", "coverage_gap", "coverage_regional",
+                    "coverage_through_journeys"))):
         sources[path.relative_to(central_access.ROOT).as_posix()] = central_access.digest(path)
     record = {"schema": "osr-baghdad-three-ring-comparison/1", "reference": published["publication_id"],
               "study_status": "planning-comparison", "physical_acceptance": False, "selection": selection,
               "rings": examined, "layouts": networks, "layout_trials": metadata, "summary": summary,
               "geometry": geometry, "coverage": coverage, "housing": housing, "metropolitan": metro,
+              "named_suburban_journeys": journeys,
               "costs": costs, "source_sha256": sources,
               "destinations": coverage_destinations.locations(),
               "metropolitan_comparison": comparison,

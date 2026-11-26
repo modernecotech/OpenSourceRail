@@ -132,7 +132,35 @@ def test_published_named_places_and_one_urban_gap_are_connected_and_compared():
     assert record["metropolitan_comparison"]["assessments"][selected]["destinations_without_walk_access"] == []
     assert "retained-named-gap" in record["layouts"]
     assert any(case.startswith("coverage-") and case.endswith("-gap") for case in record["layouts"])
-    assert selected in record["metropolitan_comparison"]["research_pareto"]
+    assert selected in record["metropolitan_comparison"]["assessments"]
+
+
+def test_illustrated_trial_carries_all_named_suburbs_through_baghdad():
+    record = central_access.read(study.CITY / publication.DATA)
+    selected = record["selection"]["through_research_lead"]
+    assert selected == record["selection"]["illustrated_trial"]
+    network = record["layouts"][selected]
+    through = record["summary"][selected]["through_lines"]
+    suburbs = record["named_suburban_journeys"]["variants"]
+    direct = suburbs[selected]
+    feeder = suburbs["retained-named-gap"]
+    assert direct["candidate_id"] == network["candidate_id"]
+    assert direct["running_train_km_day"] == feeder["running_train_km_day"]
+    for name in study.coverage_destinations.ANCHORS:
+        origin = direct["origins"][name]
+        assert origin["walkable_through_routes"]
+        assert origin["walkable_through_routes"].keys() <= through.keys()
+        assert all(through[route]["crosses_tigris_centreline"] and
+                   all(through[route]["ring_crossing_stations"][ring] for ring in study.RINGS)
+                   for route in origin["walkable_through_routes"])
+        assert not feeder["origins"][name]["walkable_through_routes"]
+        assert origin["destination_count_by_max_transfers"]["2"] > (
+            feeder["origins"][name]["destination_count_by_max_transfers"]["2"])
+    for name in ("Basmaya", "Tajiyat"):
+        assert direct["origins"][name]["direct_through_destination_count"] > 0
+        assert direct["origins"][name]["destination_count_by_max_transfers"]["0"] > 0
+    assert not record["summary"][selected]["suburban"]["close_departures"]
+    assert not record["summary"][selected]["suburban"]["parallel_suburban_corridors"]
 
 
 def test_rings_can_touch_at_a_shared_station_but_cannot_share_running_track():

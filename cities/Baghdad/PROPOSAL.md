@@ -10,11 +10,11 @@
 
 ## The railway and its passengers
 
-The elevated route joins the central districts, outer ring and Airport in one network. Two direct lines cross the Tigris and share stations with both rings. The access comparison tests a 1.3 km street walk at each end and a maximum of two changes for trips from housing to named centres. The route set can change when a tested layout improves access, connections or delivery. [Network, journeys and GIS](STRAIGHT-THROUGH-NETWORK.md) · [Three-ring suburban extensions](THREE-RING-STUDY.md)
+The elevated route joins the central districts, outer ring and Airport in one network. Two direct lines cross the Tigris and share stations with both rings. The access comparison tests a 1.3 km street walk at each end and a maximum of two changes for trips from housing to named centres. The route set can change when a tested layout improves access, connections or delivery. [Network, journeys and GIS](STRAIGHT-THROUGH-NETWORK.md) · [Three-ring suburban through journeys](THREE-RING-STUDY.md)
 
-![The three-ring core and the same through routes extended into the suburbs](maps/baghdad-three-ring-comparison.png)
+![Outer-ring transfers and cross-city suburban services on the same scale](maps/baghdad-three-ring-comparison.png)
 
-*The left map shows the compact three-ring core. The right map adds suburban coverage and a line through urban access gaps. The budget uses the two-ring route set linked above. The study compares walking access, transfers and costs across the reference and trial layouts.*
+*The left map shows the suburb-to-ring transfer case. The right map shows services that bring suburban passengers through Baghdad. The study compares one-seat journeys, walking access, construction quantities and costs. The two-ring route set linked above supplies the budget.*
 
 ## Programme, service and lifecycle costs
 

@@ -175,6 +175,7 @@ def station_audit(network):
 
 def _portfolio_rank(trial):
     return (-sum(walk is not None and walk <= WALK_M for walk in trial["destination_walk_m"].values()),
+            -len(trial["trunk_search"]["named_terminal_anchors"]),
             -min(trial["walking"].values()), -sum(trial["walking"].values()),
             trial["station_screen"]["physical_sites"], trial["route_km"], trial["id"])
 
@@ -224,7 +225,6 @@ def designs(reference, graph, context, populations):
     """Fit shapes independently, then rank complete networks on both population grids."""
     primary = populations["worldpop-2026"]
     fitted = coverage_orbitals.fit_orbitals(graph, context, primary)
-    targets = coverage_destinations.terminal_candidates(graph, context)
     layouts, examined = [], {}
     best = fitted[0]
     alternate_outer = next((row for row in fitted if
@@ -236,6 +236,10 @@ def designs(reference, graph, context, populations):
         trial_id = orbital["id"]
         print(f"Building {trial_id} with up to {MAX_TRUNKS} cross-Tigris trunks", flush=True)
         seeds = _ring_seed(reference, orbital)
+        targets = coverage_destinations.terminal_candidates(
+            graph, context, outer_ring=orbital["polygons"][RINGS[-1]],
+            departure_offset_m=coverage_trunks.SUBURBAN_GATE_OFFSET_M,
+        )
         likely_stops = (site for stops in orbital["test_stations"].values() for site in stops)
         assembly, trunks = coverage_trunks.assemble(reference, seeds, graph, context, primary,
                                                      max_trunks=MAX_TRUNKS, coverage_sites=likely_stops,

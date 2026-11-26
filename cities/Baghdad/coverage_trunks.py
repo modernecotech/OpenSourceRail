@@ -125,6 +125,32 @@ def _platform_lattice(track, graph, context, demand_tree):
     return chain, coords, offset, valid, potential
 
 
+def spaced_platform_path(km, weights, target_gap_km):
+    """Find the best accessible sequence under the minimum and maximum platform intervals."""
+    reward = weights / max(float(weights.max()), 1.)
+    parent = np.full(len(km), -1)
+    merit = np.full(len(km), -np.inf)
+    merit[0] = 0.
+    for index in range(1, len(km)):
+        gaps = km[index] - km[:index]
+        parents = np.flatnonzero((gaps >= STATION_SPACING_M / 1000 - 1e-9)
+                                 & (gaps <= MAX_STOP_GAP_M / 1000 + 1e-9)
+                                 & np.isfinite(merit[:index]))
+        if parents.size:
+            scores = merit[parents] - .55 * (gaps[parents] - target_gap_km)**2
+            best = int(scores.argmax())
+            parent[index] = parents[best]
+            merit[index] = scores[best] + reward[index] - .5
+    if parent[-1] < 0:
+        return None
+    result = []
+    index = len(km) - 1
+    while index:
+        result.append(index)
+        index = parent[index]
+    return result[::-1]
+
+
 def _calls(track, ring_sites, network, station_tree, weights, lattice):
     calls = []
     for code in sorted(RINGS, key=lambda code: (len(ring_sites[code]), code)):
@@ -159,6 +185,7 @@ def _calls(track, ring_sites, network, station_tree, weights, lattice):
     valid = valid & (station_tree.query(coords)[0] >= STATION_SPACING_M)
     ordinary = []
     for low, high in zip(mandatory, mandatory[1:]):
+        segment = []
         count = max(1, round((high - low) * 1000 / TARGET_STOP_GAP_M))
         previous = low
         for target in np.linspace(low, high, count + 1)[1:-1]:
@@ -170,10 +197,17 @@ def _calls(track, ring_sites, network, station_tree, weights, lattice):
             index = min(choices, key=lambda i: (-float(weights[potential[i]].sum()),
                                                 abs(chain[i] - target), offset[i], i))
             previous = float(chain[index])
-            ordinary.append(previous)
-    chainages = sorted([*mandatory, *ordinary])
-    if max(np.diff(chainages)) * 1000 > MAX_STOP_GAP_M:
-        return None
+            segment.append(previous)
+        if max(np.diff([low, *segment, high])) * 1000 > MAX_STOP_GAP_M:
+            legal = np.flatnonzero(valid & (chain >= low + STATION_SPACING_M / 1000)
+                                   & (chain <= high - STATION_SPACING_M / 1000))
+            endpoints_and_sites = np.r_[low, chain[legal], high]
+            support = np.array([0., *(weights[potential[i]].sum() for i in legal), 0.])
+            path = spaced_platform_path(endpoints_and_sites, support, TARGET_STOP_GAP_M / 1000)
+            if path is None:
+                return None
+            segment = endpoints_and_sites[path[:-1]].tolist()
+        ordinary.extend(segment)
     return calls, ordinary
 
 
@@ -241,6 +275,92 @@ def _dedicated_reaches(context, water, river, graph, inner):
     return [reach for _, reach in reaches]
 
 
+def _candidate(track, reach, bridge_id, bridge, tagged, water_rows, airport, names, proxy,
+               graph, context, polygons, ring_tracks):
+    shape = LineString(track.points)
+    if not shape.is_simple or not all(shape.crosses(polygons[code]) for code in RINGS):
+        return None, "does not cross every orbital"
+    matches = _ring_sites(track, ring_tracks, polygons, graph, context)
+    if matches is None:
+        return None, "missing dry street-accessible orbital interchange"
+    wet = []
+    path_rows = [*water_rows[0], bridge, *water_rows[1]]
+    for offset, rows in zip(track.chainage[:-1], path_rows, strict=True):
+        wet.extend(row | {"chainage_km": round(offset / 1000 + row["chainage_km"], 3)} for row in rows)
+    return {"track": track, "bridge": bridge_id, "reach": reach, "wet": wet, "airport": airport,
+            "ring_sites": matches, "tagged_bridge": tagged, "proxy": proxy,
+            "detour": third_ring_through._detour(track), "destinations": names}, None
+
+
+def _bent_arms(bank, direction, target):
+    """Offer a bounded set of tangents for a name missed by straight bank approaches."""
+    vector = target - bank
+    length = np.linalg.norm(vector)
+    along = float(direction @ vector)
+    lateral = direction[0] * vector[1] - direction[1] * vector[0]
+    turn = float(np.degrees(np.arctan2(lateral, along)))
+    if abs(turn) >= 2 * MAX_TURN_DEG or length < 2_000:
+        return
+    sign = 1 if turn >= 0 else -1
+    angles = sorted({sign * angle for angle in (0, 10, 20, MAX_TURN_DEG)}
+                    | {np.clip(turn, -MAX_TURN_DEG, MAX_TURN_DEG)})
+    for angle in angles:
+        radians_ = np.deg2rad(angle)
+        tangent = direction * np.cos(radians_) + np.array([-direction[1], direction[0]]) * np.sin(radians_)
+        for share in (.22, .40, .60):
+            start_leg = tangent * (share * length)
+            if third_ring_through._turn(start_leg, vector - start_leg) <= MAX_TURN_DEG + 1e-8:
+                yield np.array([bank, bank + start_leg, target])
+
+
+def _bent_named_candidates(bridges, terminals, targets, missing, graph, context, water,
+                           river, polygons, ring_tracks):
+    """Try one additional turn on the named bank, retaining the normal trunk checks."""
+    result = []
+    for bridge_id, reach, centre_rows, tagged, arms, bank_water in bridges:
+        direction = reach[1] - reach[0]
+        direction /= np.linalg.norm(direction)
+        for side in (0, 1):
+            outward = (2 * side - 1) * direction
+            opposite = 1 - side
+            for terminal, names in targets.items():
+                if not names & missing:
+                    continue
+                endings = []
+                for arm in _bent_arms(reach[side], outward, terminals[terminal]):
+                    if not rail.dry_points(arm[1:2] / rail.LOCAL_METRES, context).all():
+                        continue
+                    oriented = arm[::-1] if side == 0 else arm
+                    crossing = [_dry_bank_arm(a, b, context, water, river) for a, b in zip(oriented, oriented[1:])]
+                    if any(rows is None for rows in crossing):
+                        continue
+                    for other, ordinary, score in arms[opposite][:14]:
+                        if other == terminal or bank_water[opposite][other] is None:
+                            continue
+                        other_arm = np.array([reach[opposite], terminals[other]])
+                        if opposite == 0:
+                            other_arm = other_arm[::-1]
+                        left, right = (oriented, other_arm) if side == 0 else (other_arm, oriented)
+                        water_rows = (crossing, [bank_water[opposite][other]]) if side == 0 else (
+                            [bank_water[opposite][other]], crossing)
+                        path = np.vstack((left, right))
+                        track = rail.Track(path / rail.LOCAL_METRES)
+                        if MIN_LENGTH_KM <= track.km <= MAX_LENGTH_KM and third_ring_through._detour(track) <= MAX_DETOUR:
+                            endings.append((track, water_rows, ordinary, score, other))
+                endings.sort(key=lambda row: (row[2], row[3], third_ring_through._detour(row[0])))
+                passed = 0
+                for track, water_rows, ordinary, score, other in endings[:32]:
+                    candidate, _ = _candidate(track, reach, bridge_id, centre_rows, tagged, water_rows,
+                                              not ordinary, names | targets.get(other, frozenset()), -score,
+                                              graph, context, polygons, ring_tracks)
+                    if candidate:
+                        result.append(candidate)
+                        passed += 1
+                    if passed == 4:
+                        break
+    return result
+
+
 def _pool(terminals, demand, weights, airport, graph, context, polygons, ring_tracks, *, targets=None):
     targets = targets or {}
     _, bridges = through._street_layers(context)
@@ -255,7 +375,7 @@ def _pool(terminals, demand, weights, airport, graph, context, polygons, ring_tr
             sites.append(reach)
     mapped_count = len(sites)
     sites.extend(_dedicated_reaches(context, water, river, graph, polygons[RINGS[0]]))
-    candidates, audit = [], []
+    candidates, audit, approaches = [], [], []
     for bridge_id, reach in enumerate(sites, 1):
         tagged_bridge = bridge_id <= mapped_count
         if tagged_bridge:
@@ -273,6 +393,7 @@ def _pool(terminals, demand, weights, airport, graph, context, polygons, ring_tr
                 for landing, sign in zip(reach, (-1, 1), strict=True)]
         west = {i: _dry_bank_arm(terminals[i], reach[0], context, water, river) for i, _, _ in arms[0]}
         east = {i: _dry_bank_arm(reach[1], terminals[i], context, water, river) for i, _, _ in arms[1]}
+        approaches.append((bridge_id, reach, bridge, tagged_bridge, arms, (west, east)))
         pairs = []
         for (a, other_a, score_a), (b, other_b, score_b) in product(*arms):
             if a == b:
@@ -307,21 +428,13 @@ def _pool(terminals, demand, weights, airport, graph, context, polygons, ring_tr
                 failures["unsupported water crossing or repeated Tigris crossing"] += 1
                 continue
             track = rail.Track(path / rail.LOCAL_METRES)
-            shape = LineString(path)
-            if not all(shape.crosses(polygons[code]) for code in RINGS):
-                failures["does not cross every orbital"] += 1
+            candidate, failure = _candidate(
+                track, reach, bridge_id, bridge, tagged_bridge, ([west[a]], [east[b]]),
+                not other, destinations, -score, graph, context, polygons, ring_tracks)
+            if failure:
+                failures[failure] += 1
                 continue
-            matches = _ring_sites(track, ring_tracks, polygons, graph, context)
-            if matches is None:
-                failures["missing dry street-accessible orbital interchange"] += 1
-                continue
-            wet = [*west[a]]
-            for offset, rows in ((track.chainage[1], bridge), (track.chainage[2], east[b])):
-                wet.extend(row | {"chainage_km": round(offset / 1000 + row["chainage_km"], 3)} for row in rows)
-            candidates.append({"track": track, "bridge": bridge_id, "reach": reach,
-                               "wet": wet, "airport": not other, "ring_sites": matches, "tagged_bridge": tagged_bridge,
-                               "proxy": -score, "detour": detour, "terminals": (a, b),
-                               "destinations": destinations})
+            candidates.append(candidate)
             accepted_sector[sector] += 1
             accepted += 1
             group_counts[group] += 1
@@ -332,6 +445,15 @@ def _pool(terminals, demand, weights, airport, graph, context, polygons, ring_tr
                       "rankable_airport_pairs": sum(not row[0] for row in pairs),
                       "airport_pairs_passed": airport_pairs_passed,
                       "reasons": dict(sorted(failures.items()))})
+    missing = set().union(*targets.values()) - set().union(*(row["destinations"] for row in candidates))
+    if missing:
+        bent = _bent_named_candidates(approaches, terminals, targets, missing, graph, context,
+                                     water, river, polygons, ring_tracks)
+        candidates.extend(bent)
+        additions = Counter(row["bridge"] for row in bent)
+        for row in audit:
+            row["accepted_bent_named"] = additions[row["bridge"]]
+            row["accepted"] += row["accepted_bent_named"]
     return candidates, audit
 
 

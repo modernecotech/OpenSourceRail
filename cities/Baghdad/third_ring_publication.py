@@ -19,14 +19,14 @@ MAP = Path("maps/baghdad-three-ring-comparison.png")
 GEOJSON = Path("maps/baghdad-three-ring-trial.geojson")
 NAMES = {"published": "Two-ring reference", "custom-layout": "Edited network",
          "retained-spaced": "Retained spaced core", "retained-named": "Retained trunks with named connections",
-         "retained-named-gap": "Retained trunks with named connections and urban gap line"}
+         "retained-named-gap": "Outer-ring transfer case"}
 
 
 def name(code):
     if code in NAMES:
         return NAMES[code]
     if code.endswith("-gap"):
-        return "Named suburbs and urban gap line"
+        return "Cross-city trunk and urban gap trial"
     if code.endswith("-regional"):
         return "Three rings with regional connections"
     if code.endswith("-extended"):
@@ -64,7 +64,7 @@ def report(record):
              "[Current proposal](PROPOSAL.md) · [Two-ring reference](STRAIGHT-THROUGH-NETWORK.md) · "
              "[Editable trial GIS](maps/baghdad-three-ring-trial.geojson) · [Machine results](three-ring-study.json.gz)", "",
              "## Network and access", "",
-             "| Layout | Rings | Services | Short services | Cross-city trunks | Route-km | Station sites | Shared sites | Pairs of sites within 750 m | Parallel pair-km |",
+             "| Layout | Rings | Services | Short standalone services | Cross-city trunks | Route-km | Station sites | Shared sites | Pairs of sites within 750 m | Parallel pair-km |",
              "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|"]
     for code, row in record["summary"].items():
         station_screen = row["station_screen"]
@@ -97,10 +97,42 @@ def report(record):
                 f"{walks[site]:,.0f} m" if walks[site] is not None else "—"
                 for site in record["destinations"]) + " |")
         text.append("")
-    if "retained-spaced" in record["layouts"]:
-        text += ["The comparison tests two ways to reach the named suburbs. One redraws through trunks around "
-                 "the destinations. The other keeps the previous spaced trunks and adds screened connections. "
-                 "Both test one additional line for urban coverage.", ""]
+    if named := record.get("named_suburban_journeys"):
+        text += ["## Continuing suburban trains through Baghdad", "",
+                 "The outer-ring transfer case used a separate train from each named suburb to the outer ring. "
+                 "It led the previous walking-coverage comparison. The through-route search moves suburban "
+                 "destinations onto cross-Tigris trains where geometry and station access permit. It tests "
+                 "additional mapped terminal sites and a limited bank approach bend when the straight route "
+                 "misses a named suburb.", "",
+                 "The journey test uses the same fixed central destinations and total scheduled train-km for every "
+                 "layout. The three counts show how many destinations are reachable without a change, within one "
+                 "change and within two changes. Both walks must fit within 1.3 km. The trunk column identifies "
+                 "cross-Tigris services within walking distance of the suburban origin.", "",
+                 "| Layout | Suburb | Walkable cross-Tigris trunks | Direct on those trunks | 0 / ≤1 / ≤2 changes |",
+                 "|---|---|---|---:|---:|"]
+        samples = dict.fromkeys(("published", "retained-named-gap", selected))
+        for code in samples:
+            if code not in named["variants"]:
+                continue
+            for suburb, result in named["variants"][code]["origins"].items():
+                counts = " / ".join(str(value) for value in result["destination_count_by_max_transfers"].values())
+                routes = ", ".join(result["walkable_through_routes"]) or "—"
+                text.append(f"| {name(code)} | {suburb} | {routes} | {result['direct_through_destination_count']} | {counts} |")
+        text.append("")
+        if selected in named["variants"]:
+            origins = named["variants"][selected]["origins"]
+            needs_change = [suburb for suburb, row in origins.items()
+                            if row["walkable_through_routes"] and not row["direct_through_destination_count"]]
+            if needs_change:
+                text += [f"Passengers from {', '.join(needs_change)} can stay aboard across the Tigris. "
+                         "The route's stations fall outside the 1.3 km walks to the tested central destinations. "
+                         "Reachable trips to those destinations still require changing trains.", ""]
+        if selected and selected != "retained-named-gap" and "retained-named-gap" in record["summary"]:
+            prior = record["summary"]["retained-named-gap"]
+            text += [f"The illustrated through-route trial reaches **{chosen['worldpop_1300_pct']:.2f}%** of WorldPop "
+                     f"and **{chosen['ghsl_1300_pct']:.2f}%** of GHSL residents within 1.3 km. The outer-ring transfer "
+                     f"case reaches **{prior['worldpop_1300_pct']:.2f}%** and **{prior['ghsl_1300_pct']:.2f}%**, "
+                     "respectively. The cost table below prices each route set against the same service offer.", ""]
     if selected:
         regional = record["layout_trials"].get(selected, {}).get("regional_access", {})
         if regional.get("selected"):
@@ -128,13 +160,10 @@ def report(record):
         trunk_search = record["layout_trials"][core]["trunk_search"]
         cap = trunk_search["screen"]["ordinary_terminal_reach_beyond_outer_ring_m"][1] / 1000
         spacing = record["summary"][extended]["suburban"]["minimum_departure_spacing_m"]
-        reach = max(distance for row in trunk_search["trunks"] for stop, distance in
-                    zip(row["terminal_ids"], row["terminal_distance_beyond_outer_ring_m"], strict=True)
-                    if stop != "Airport-00") / 1000
         text += ["", "## Suburban extensions on the through services", "",
-                 f"The core search chose new termini within a {cap:g} km band beyond the outer ring. It also "
-                 "discounted the approach score as length increased. The illustrated core's ordinary ends "
-                 f"finished within {reach:.2f} km of the ring, leaving much of the suburban catchment unserved.", "",
+                 f"The core search limits ordinary termini to {cap:g} km beyond the outer ring. "
+                 "The named suburbs and Airport can anchor services farther out. The comparison tests additional "
+                 "extensions into neighbourhoods outside the core's walking catchment.", "",
                  f"The continuation search tests up to **{extension['maximum_km_per_end']:g} km per trunk end**. "
                  "It keeps the original stations and through services, screens new alignments for heading, "
                  "water, station spacing and parallel duplication, and ranks the options by additional "
@@ -203,9 +232,9 @@ def report(record):
             text += [f"The deterministic search generated {len(record['rings']['generated_orbital_shapes'])} nested "
                      f"orbital combinations and built {len(record['rings']['examined_layouts'])} complete-layout trials. "
                      f"For the illustrated fit, {search['pool_candidates']} cross-city alignments passed the geometric "
-                     "pool screens. The planner prioritised the Airport, then added coverage while checking station "
-                     "separation and parallel running. The full layouts are ranked on 1.3 km walking reach across "
-                     "both population grids.", ""]
+                     "pool screens. The planner prioritised the Airport and named suburb termini, then added coverage "
+                     "while checking station separation and parallel running. The illustration prioritises direct "
+                     "cross-city access across the three named suburbs. The budget replacement criteria still apply.", ""]
         text += ["| Trunk | Route-km | Route ÷ chord | Shared stations on the three rings |",
                  "|---|---:|---:|---|"]
         for code, row in sorted(chosen["through_lines"].items()):
@@ -277,7 +306,9 @@ def draw(record, context):
     selected = record["selection"]["illustrated_trial"] or "published"
     details = record["layout_trials"].get(selected, {})
     core = details.get("core_layout")
-    keys = (core or "published", selected) if selected != "published" else ("published",)
+    transfer_case = "retained-named-gap"
+    comparison_case = transfer_case if transfer_case in record["layouts"] and selected != transfer_case else core
+    keys = (comparison_case or "published", selected) if selected != "published" else ("published",)
     water, rivers, roads = central_service_map.source_geometry(context)
     extent = np.concatenate([
         *(line["geometry"] for key in keys for line in record["layouts"][key]["lines"].values()),
@@ -290,7 +321,8 @@ def draw(record, context):
                                 gridspec_kw={"left": .04, "right": .975, "bottom": .17, "top": .84, "wspace": .08})
     figure.patch.set_facecolor(paper)
     figure.text(.047, .946, "Baghdad’s rings and cross-city routes", color=ink, fontsize=26, weight="bold")
-    subtitle = ("Core and extended network · filled triangles are named places within a 1.3 km street walk" if core else
+    subtitle = ("Outer-ring transfers and cross-city service · same scale and walking limit"
+                if comparison_case == transfer_case else "Core and extended network · same scale" if core else
                 "Published layout and coverage-led trial on the same scale" if comparison else
                 "Passenger services and shared interchanges in the published layout")
     figure.text(.047, .899, subtitle, color="#465e68", fontsize=12)
@@ -378,9 +410,13 @@ def draw(record, context):
                  aspect=holistic_network.LOCAL_METRES[1] / holistic_network.LOCAL_METRES[0])
         axis.apply_aspect()
         axis.set_title(name(key), loc="left", fontsize=12, weight="bold", color=ink, pad=17)
-        counts = f"{len(net['lines'])} services · {row['short_count']} short lines"
+        counts = f"{len(net['lines'])} services · {row['through_count']} cross-city trunks"
         if row.get("worldpop_1300_pct") is not None:
             counts += f" · {row['worldpop_1300_pct']:.1f}% within a 1.3 km walk"
+        if named := record.get("named_suburban_journeys"):
+            served = sum(bool(origin["walkable_through_routes"])
+                         for origin in named["variants"][key]["origins"].values())
+            counts += f" · {served} named suburbs on through trains"
         axis.text(0, 1.015, counts,
                   transform=axis.transAxes, color="#465e68", fontsize=9, va="bottom")
         _label_routes(axis, terminals, paper)
@@ -406,7 +442,7 @@ def draw(record, context):
     figure.legend(handles=legend, loc="lower center", bbox_to_anchor=(.5, .077), frameon=False,
                   ncol=7 if comparison else 4,
                   labelcolor=ink, fontsize=10)
-    figure.text(.047, .042, ("Orange dots mark spacing points. The dotted contour is 2.5 km beyond the outer ring. The star marks the Airport."
+    figure.text(.047, .042, ("Orange dots mark spacing points. The dotted contour is 2.5 km beyond the outer ring. Filled triangles mark named places within a 1.3 km walk."
                              if core else "Open circles mark shared stations, squares mark through-route terminals and the star marks the Airport."),
                 color="#465e68", fontsize=8.5)
     figure.text(.047, .022, "Basemap © OpenStreetMap contributors.", color="#465e68", fontsize=8.5)
