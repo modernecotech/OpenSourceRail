@@ -66,7 +66,7 @@ def _roads(streets, window):
     return roads, bridges
 
 
-def _road_assisted(boundary, outer, road_paths):
+def _road_assisted(boundary, outer, road_paths, *, guide_window_m=ROAD_GUIDE_WINDOW_M):
     """Use retained road edges where they improve a split, buffered alignment."""
     clearance = prep(outer.buffer(MIN_SEPARATION_M))
     half = boundary.length / 2
@@ -78,8 +78,8 @@ def _road_assisted(boundary, outer, road_paths):
         stations = sorted(set(np.r_[np.arange(0., guide.length, 200.), guide.length,
                                     [guide.project(Point(xy)) for xy in guide.coords]]))
         scaffold = [tuple(guide.interpolate(km).coords[0]) for km in stations]
-        corridor = prep(guide.buffer(ROAD_GUIDE_WINDOW_M))
-        nearby = distance(geometry_points(coords), guide) <= ROAD_GUIDE_WINDOW_M
+        corridor = prep(guide.buffer(guide_window_m))
+        nearby = distance(geometry_points(coords), guide) <= guide_window_m
         nearby_coords = set(map(tuple, coords[nearby]))
         edges = {}
 

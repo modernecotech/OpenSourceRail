@@ -115,11 +115,11 @@ def two_column_figure(path, points):
         y = point(633, y, 282, title, text) + 18
 
 
-start('Railway proposals', 'A railway an operator can inspect',
-      'Review the train, the station and the organisation that will build, fund and run them.')
+start('Baghdad', 'Review Baghdad’s railway',
+      'Follow the proposed passenger routes, then examine the trains, infrastructure and delivery plan.')
 picture('../assets/assembly-animations/viaduct-placement.jpg', 33, 145, 584, 350)
-point(643, 158, 267, 'Core reference', 'A 30 km elevated example joins vehicle, track, stations, manufacturing and operating cost on one design.')
-point(643, 273, 267, 'Baghdad', 'A connected elevated network with Airport service, orbital routes and direct Tigris crossings. Civil and operating accounts use the mapped route.')
+point(643, 158, 267, 'Passenger journeys', 'Follow Airport trains, the rings and cross-Tigris services. Check street access and where passengers change trains.')
+point(643, 273, 267, 'Delivery', 'Review the train and station interfaces, recurring civil stock, casting yards and erection shifts. The cost model uses the mapped route.')
 point(643, 388, 267, 'Decision for the owner', 'Choose a service to investigate, an interface to prototype and a local package to quote.')
 link('Open the operator guide','README.md')
 link('Download the offline kit and open START.html','https://raw.githubusercontent.com/modernecotech/OpenSourceRail/main/docs/operator-review/OpenSourceRail-Operator-Kit.zip',315)

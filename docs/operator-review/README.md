@@ -1,6 +1,6 @@
 # OpenSourceRail for railway operators
 
-Use the illustrated briefing, editable maps, train and station interfaces, factory tasks and software replays to review a railway with operators, local builders and purchasing teams. [Illustrated briefing PDF](OpenSourceRail-Operator-Brief.pdf) · [Offline workshop ZIP](OpenSourceRail-Operator-Kit.zip) · [Delivery workplan](WORKPLAN.md)
+Start with Baghdad’s current route, station access, service and delivery costs. Use the train and station interfaces, factory tasks and control-room replay to review the proposal with operators, local builders and purchasing teams. [Delivery workplan](WORKPLAN.md)
 
 ## Run a 30-minute operator review
 
@@ -19,4 +19,4 @@ The metropolitan package prices its mapped route and construction scope. The **1
 
 The [editable route study](../../cities/Baghdad/THREE-RING-STUDY.md) compares changed routes and quantities. The [Standards evidence](../certification/README.md) and [live coherence check](../DESIGN-DECISIONS.md#maintain-the-design-record) tie published claims to controlled sources.
 
-Extract the offline ZIP and open **START.html** in a browser to use the included material. Open the engineering repository for linked design evidence. [Operating screens](screens/README.md)
+The workshop materials include a synthetic 30 km case for reproducing software calculations. Open **START.html** after extracting the ZIP to use the included models and replays. [Illustrated briefing PDF](OpenSourceRail-Operator-Brief.pdf) · [Offline workshop ZIP](OpenSourceRail-Operator-Kit.zip) · [Operating screens](screens/README.md)

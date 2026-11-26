@@ -25,12 +25,13 @@ a{color:#00675e}nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(26
 nav a{background:white;border:1px solid #b8cbc3;border-radius:6px;padding:16px 19px;text-decoration:none}
 a:hover,a:focus{text-decoration:underline}nav strong,small{display:block}small{color:#38585a;font-size:14px;margin-top:4px}
 </style><header>OpenSourceRail &nbsp; / &nbsp; Operator workshop</header><main>
-<h1>Design, build and operate the railway</h1><p>Start with the illustrated briefing, then use the models and calculators to review the core railway and Baghdad's network planning. Extract the whole kit before opening these files.</p>
+<h1>Design, build and operate the railway</h1><p>Start with the illustrated briefing, then use the models and calculators to review Baghdad's passenger network, engineering and delivery. Extract the whole kit before opening these files.</p>
 <nav>
 <a href="docs/operator-review/OpenSourceRail-Operator-Brief.pdf"><strong>Operator briefing</strong><small>The current service, design and delivery basis.</small></a>
 <a href="docs/operator-review/PARTNERSHIP-PLAN.md"><strong>Host a partner trial</strong><small>Choose a local question, review the budget and agree when to decide.</small></a>
 <a href="cities/Baghdad/TRAIN-AND-STATION.md"><strong>Train and station interfaces</strong><small>Review the active vehicle, platform and conductor design.</small></a>
 <a href="cities/Baghdad/maps/baghdad-straight-through-network.png"><strong>Baghdad metropolitan rail network</strong><small>See the connected passenger routes, interchanges and remaining walking gaps.</small></a>
+<a href="cities/Baghdad/THREE-RING-STUDY.md"><strong>Suburban ring trial</strong><small>Compare short-route replacements, shared stations and passenger access.</small></a>
 <a href="cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md"><strong>Current Baghdad delivery estimate</strong><small>Review the selected layout’s track, construction shifts, fleet and cost.</small></a>
 <a href="docs/operator-review/screens/supervision.html"><strong>Control room</strong><small>Replay equipment trips, a stale signal and restoration.</small></a>
 <a href="docs/operator-review/finance/index.html"><strong>Funding and fares</strong><small>Compare debt payments and test the public funding requirement.</small></a>
@@ -116,6 +117,9 @@ def workshop_files():
                  'cities/Baghdad/CENTRAL-ACCESS.md', 'cities/Baghdad/central-access.json',
                  'cities/Baghdad/maps/central-access.geojson', 'cities/Baghdad/maps/baghdad-central-access.png',
                   'cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md', 'cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md',
+                 'cities/Baghdad/THREE-RING-STUDY.md', 'cities/Baghdad/three-ring-study.json.gz',
+                 'cities/Baghdad/maps/baghdad-three-ring-comparison.png',
+                 'cities/Baghdad/maps/baghdad-three-ring-trial.geojson',
                  'cities/Baghdad/TRAIN-AND-STATION.md', 'cities/Baghdad/train-operation.toml',
                  'cities/Baghdad/station-interface.svg', 'cities/Baghdad/vehicle-layout.svg',
                  'docs/assets/assembly-animations/train-terminal.jpg',

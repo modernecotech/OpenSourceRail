@@ -158,16 +158,58 @@
           <a href="../../../cities/Baghdad/engineering/simulation/index.html">Operating and factory simulation</a> ·
           <a href="../../../cities/Baghdad/airport-integration.html">Opening engineering</a> ·
           <a href="../../../cities/Baghdad/engineering/prototype/review.html">Prototype drawings and trials</a></p>
+      <section class="panel" id="baghdad-system" aria-labelledby="baghdad-system-heading"
+        data-candidate-id="osr-baghdad-zero-tunnel-offwire-20261117">
+        <p class="eyebrow">Baghdad · current construction planning</p>
+        <h2>Build the viaduct from both ends</h2>
+        <p>The current delivery plan prices 20 m shared-pier U-girders, two terminal yards per
+          open main line, phased reuse of launching gantries, work shifts and traffic occupation.</p>
+        <nav aria-label="Current Baghdad civil planning">
+          <a href="../../../cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md">Current quantities, costs and programme</a>
+          <a href="../../../cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md">Live stock, terminal yards and erection design</a>
+        </nav>
+        <details><summary>Open the separate scenario comparison</summary>
+        <h2 id="baghdad-system-heading">Compare independent Baghdad railways</h2>
+        <p>Both network concepts have zero tunnels and elevated revenue guideway. Compare
+          the same 700-place service with station batteries, protected conductor rail,
+          short powered sections or overhead supply. Each change updates train mass,
+          guideway quantities, electrical equipment and 30-year cost.</p>
+        <form id="baghdad-system-edit">
+          <div class="outline-inputs">
+            <label>Network<select name="network"><option value="first">148.2 km first programme</option><option value="metropolitan">605.652 km independent citywide network</option></select></label>
+            <label>Power supply<select name="supply"><option value="protected_conductor">Protected conductor rail</option><option value="station_battery">Station-charged battery</option><option value="limited_conductor_battery">Battery with short powered sections</option><option value="overhead">Overhead comparator</option></select></label>
+            <label>Viaduct span<select name="span_m"><option value="20" selected>20 m planning comparison</option><option value="25">25 m planning alternative</option><option value="30">30 m planning alternative</option></select></label>
+            <label>Pier arrangement<select name="common_pier"><option value="false">Separate track supports</option><option value="true" selected>Shared support comparison</option></select></label>
+          </div>
+          <button type="submit">Recalculate retained Baghdad comparison</button>
+          <p id="baghdad-system-status" role="status" aria-live="polite">The 148.2 km and 605.652 km lengths are schematic planning controls.</p>
+        </form>
+        <div id="baghdad-system-results" hidden>
+          <dl id="baghdad-system-identities"></dl>
+          <div class="table-scroll"><table><caption>Joined design and cost</caption>
+            <thead><tr><th>Measure</th><th>Recalculated value</th></tr></thead>
+            <tbody id="baghdad-system-measures"></tbody>
+          </table></div>
+        </div>
+        <nav aria-label="Baghdad source and cost package">
+          <a href="../../../cities/Baghdad/PROPOSAL.md">Baghdad proposal</a>
+          <a href="../../../cities/Baghdad/COST-AND-DELIVERY.md">Cost and delivery</a>
+          <a href="../../../cities/Baghdad/system.toml">Scenario input</a>
+          <a href="../../../cities/Baghdad/system-results.json">Four power and eight civil comparisons</a>
+        </nav>
+        <p class="note">Schematic maps establish no vertical clearance, ground strength or airport entrance.
+          Longer beams and protected contact require their own detailed engineering before construction.</p>
+        </details>
+      </section>
       <section class="panel" id="v07-reference" aria-labelledby="v07-reference-heading"
         data-physical-candidate-id="osr-v07-joined-civil-518dad57a3af5046f40c8f4f"
         data-parent-joined-id="osr-v07-joined-prototype-20261117"
         data-evaluation-id="osr-v07-digital-interface-20261117"
         data-selection-id="osr-v07-digital-design-20261117">
-        <p class="eyebrow">v0.7 reference railway · synthetic 30 km corridor</p>
-        <h2 id="v07-reference-heading">Selected joined digital design</h2>
-        <p>One six-car powered-wheel train, two conventional rail tracks on joint-free
-          10 m precast beams with 13 prestress strands, twelve island stations and protected 1.5 kV DC overhead.
-          This configuration is separate from the editable city studies above.</p>
+        <p class="eyebrow">Retained v0.7 example</p>
+        <h2 id="v07-reference-heading">Synthetic corridor regression</h2>
+        <p>Change the route length or station count to reproduce how the software updates quantities
+          and costs for the synthetic 30 km case. <a href="../../reference-v07/README.md">Original case and reproduction commands</a></p>
         <dl>
           <dt>Selected physical candidate</dt><dd><code>osr-v07-joined-civil-518dad57a3af5046f40c8f4f</code></dd>
           <dt>Installed capital estimate</dt><dd>US$1,025.2272 million · 2026 dollars</dd>
@@ -218,49 +260,6 @@
         <p class="note">The joined evaluation covers dimensions, analytical loads and quantities.
           Supplier drawings, measured fit, braking, ground tests and independent approval are required
           before fabrication or passenger operation.</p>
-      </section>
-      <section class="panel" id="baghdad-system" aria-labelledby="baghdad-system-heading"
-        data-candidate-id="osr-baghdad-zero-tunnel-offwire-20261117">
-        <p class="eyebrow">Baghdad · current construction planning</p>
-        <h2>Build the viaduct from both ends</h2>
-        <p>The current delivery plan prices 20 m shared-pier U-girders, two terminal yards per
-          open main line, phased reuse of launching gantries, work shifts and traffic occupation.</p>
-        <nav aria-label="Current Baghdad civil planning">
-          <a href="../../../cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md">Current quantities, costs and programme</a>
-          <a href="../../../cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md">Live stock, terminal yards and erection design</a>
-        </nav>
-        <details><summary>Open the separate scenario comparison</summary>
-        <h2 id="baghdad-system-heading">Compare independent Baghdad railways</h2>
-        <p>Both network concepts have zero tunnels and elevated revenue guideway. Compare
-          the same 700-place service with station batteries, protected conductor rail,
-          short powered sections or overhead supply. Each change updates train mass,
-          guideway quantities, electrical equipment and 30-year cost.</p>
-        <form id="baghdad-system-edit">
-          <div class="outline-inputs">
-            <label>Network<select name="network"><option value="first">148.2 km first programme</option><option value="metropolitan">605.652 km independent citywide network</option></select></label>
-            <label>Power supply<select name="supply"><option value="protected_conductor">Protected conductor rail</option><option value="station_battery">Station-charged battery</option><option value="limited_conductor_battery">Battery with short powered sections</option><option value="overhead">Overhead comparator</option></select></label>
-            <label>Viaduct span<select name="span_m"><option value="20" selected>20 m planning comparison</option><option value="25">25 m planning alternative</option><option value="30">30 m planning alternative</option></select></label>
-            <label>Pier arrangement<select name="common_pier"><option value="false">Separate track supports</option><option value="true" selected>Shared support comparison</option></select></label>
-          </div>
-          <button type="submit">Recalculate retained Baghdad comparison</button>
-          <p id="baghdad-system-status" role="status" aria-live="polite">The 148.2 km and 605.652 km lengths are schematic planning controls.</p>
-        </form>
-        <div id="baghdad-system-results" hidden>
-          <dl id="baghdad-system-identities"></dl>
-          <div class="table-scroll"><table><caption>Joined design and cost</caption>
-            <thead><tr><th>Measure</th><th>Recalculated value</th></tr></thead>
-            <tbody id="baghdad-system-measures"></tbody>
-          </table></div>
-        </div>
-        <nav aria-label="Baghdad source and cost package">
-          <a href="../../../cities/Baghdad/PROPOSAL.md">Baghdad proposal</a>
-          <a href="../../../cities/Baghdad/COST-AND-DELIVERY.md">Cost and delivery</a>
-          <a href="../../../cities/Baghdad/system.toml">Scenario input</a>
-          <a href="../../../cities/Baghdad/system-results.json">Four power and eight civil comparisons</a>
-        </nav>
-        <p class="note">Schematic maps establish no vertical clearance, ground strength or airport entrance.
-          Longer beams and protected contact require their own detailed engineering before construction.</p>
-        </details>
       </section>
       </details>
       <details id="research-archive"><summary>Reference engineering and research</summary>

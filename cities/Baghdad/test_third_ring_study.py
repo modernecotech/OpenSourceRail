@@ -5,14 +5,16 @@ from hashlib import sha256
 import json
 
 import numpy as np
+import pytest
 from scipy.sparse import csr_matrix
 from scipy.spatial import cKDTree
+from shapely.geometry import Polygon
 
 from cities.Baghdad import central_access, holistic_access, holistic_network, ring_corridors, third_ring_portfolio
 from cities.Baghdad import third_ring_publication as publication, third_ring_study as study
 
 
-def test_published_trial_preserves_ring_shape_station_evidence_and_matching_train_km():
+def test_published_trial_reconciles_ring_contacts_station_evidence_and_matching_train_km():
     with gzip.open(study.CITY / publication.DATA, "rt", encoding="utf-8") as stream:
         record = json.load(stream)
     identity = record.pop("publication_id")
@@ -24,7 +26,14 @@ def test_published_trial_preserves_ring_shape_station_evidence_and_matching_trai
         row = record["summary"][key]
         polygons = study.validate_layout(network)
         if "M16" in polygons and "M09" in polygons:
-            assert polygons["M16"].boundary.distance(polygons["M09"].boundary) >= 500
+            metrics = study._orbital_metrics(network, context)
+            assert metrics == row["orbital_metrics"]
+            assert 1.75 <= metrics["middle_outer_gap_km"]["median"] <= 3.25
+            assert sorted(contact["bank"] for contact in metrics["inter_ring_contacts"]) == ["Karkh", "Rusafa"]
+            assert metrics["inner_foldback_km"] < record["summary"]["published"]["orbital_metrics"]["inner_foldback_km"]
+            assert row["short_lines"] == []
+            assert record["coverage"]["worldpop-2026"][key]["1300"]["short_route_catchments"][
+                "baseline_short_only_people"] > 0
         assert row["short_lines"] == study.short_lines(network)
         assert row["through_lines"] == study.classify_through(network, context)
         for assignment in (record["housing"], record["metropolitan"]):
@@ -38,6 +47,21 @@ def test_published_trial_preserves_ring_shape_station_evidence_and_matching_trai
     gis = central_access.read(study.CITY / publication.GEOJSON)
     assert gis["publication_id"] == identity
     assert gis["candidate_id"] == record["layouts"][main or "published"]["candidate_id"]
+
+
+def test_rings_can_touch_at_a_shared_station_but_cannot_share_running_track():
+    outer = Polygon([(0, 0), (10, 0), (10, 10), (0, 10)])
+    inner = Polygon([(2, 2), (5, 0), (8, 2), (6, 5), (4, 5)])
+    point = (np.array([5, 0]) / holistic_network.LOCAL_METRES).tolist()
+    network = {"lines": {"a": {"station_ids": ["junction"]}, "b": {"station_ids": ["junction"]}},
+               "stations": {"junction": {"coordinates": point}}}
+    assert study._ring_contacts(network, "a", "b", {"a": inner, "b": outer}) == ["junction"]
+    network["lines"]["a"]["station_ids"] = []
+    with pytest.raises(ValueError, match="exact shared station"):
+        study._ring_contacts(network, "a", "b", {"a": inner, "b": outer})
+    shared = Polygon([(2, 0), (4, 0), (6, 2), (4, 5)])
+    with pytest.raises(ValueError, match="share guideway"):
+        study._ring_contacts(network, "a", "b", {"a": shared, "b": outer})
 
 
 def test_edited_geojson_removes_a_line_and_reroutes_another(tmp_path):

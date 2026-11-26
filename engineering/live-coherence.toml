@@ -645,3 +645,23 @@ fixed = { "operation.permanent_driver_cabs" = 0 }
 path = "docs/assets/assembly-animations/workplan/summary.json"
 scope = "scope"
 external = { path = "docs/assets/assembly-animations/assembly-ledger.json", matches = { "candidate_ids.train" = "candidates.train.candidate_id" } }
+
+[[spec]]
+id = "baghdad-suburban-orbital-gap-target"
+source = "cities/Baghdad/third_ring_revision.py"
+symbol = "MIDDLE_TARGET_GAP_M"
+unit = "m"
+
+[[spec.record]]
+path = "cities/Baghdad/three-ring-study.json.gz"
+keys = ["rings.selected.middle_target_gap_m"]
+fixed = { "summary.suburban-orbital.short_count" = 0, "summary.suburban-interchanges.short_count" = 0 }
+provenance = ["source_sha256"]
+verify_all_sources = ["source_sha256"]
+dependencies = ["cities/Baghdad/third_ring_revision.py", "cities/Baghdad/third_ring_study.py", "cities/Baghdad/third_ring_geometry.py", "cities/Baghdad/third_ring_stations.py", "cities/Baghdad/third_ring_publication.py"]
+external = { path = "cities/Baghdad/maps/baghdad-three-ring-trial.geojson", matches = { "publication_id" = "publication_id", "selection.illustrated_trial" = "trial" } }
+
+[[spec.reader]]
+path = "cities/Baghdad/THREE-RING-STUDY.md"
+values = ['planning target is about (?P<value>\d+(?:\.\d+)?) km']
+scale = 1000

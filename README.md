@@ -258,7 +258,9 @@ Every comparison needs an identifiable route, vehicle, service and price boundar
 
 The 17.46 km Airport study contains 10.74 km of proposed connections and still needs a survey. On the paired supply the 30-minute service completes **72 of 72** booked trips. The 15-minute service completes **103 of 144**. The review shows the limiting cases, including traction-force and emergency-energy shortfalls, alongside what a supplier can price. The metropolitan plan uses a separate network and costing service. [Current Baghdad proposal](cities/Baghdad/README.md) · [Airport operating results and outstanding evidence](cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md)
 
-Two further references support development. The [synthetic digital corridor](docs/reference-v07/README.md) provides a repeatable software and design comparison. The [development vehicle selector](engineering/development-baseline.toml) describes a six-car passive-wheel research vehicle with 44 seats and two wheelchair places per car. Its engineering record carries its own load cases, equipment and service assumptions. [Current engineering record](docs/design-engine/current/README.md)
+The [development vehicle selector](engineering/development-baseline.toml) describes a six-car passive-wheel research vehicle with 44 seats and two wheelchair places per car. Its engineering record carries its own load cases, equipment and service assumptions. [Current engineering record](docs/design-engine/current/README.md)
+
+The synthetic 30 km case checks that a change to route length or station count flows through fleet sizing, construction quantities and costs. [Retained v0.7 regression example and evidence](docs/reference-v07/README.md)
 
 ## Run the Workbench
 
