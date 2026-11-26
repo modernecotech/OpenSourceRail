@@ -16,7 +16,7 @@ except ImportError:  # pragma: no cover - city worker resource limits are Unix-o
 from engineering.station_rail import ROOT
 from engineering.station_rail.common import digest,encoded,identity
 from . import coordinator,completion,city_inputs,city_alignment,city_service,city_project_cost
-from . import publication_cache
+from . import network_policy, publication_cache
 
 PRODUCER='engineering/outline/city_workflow.py'
 _SELF_SHA=digest(__file__)
@@ -124,10 +124,12 @@ def normalize(value):
 
 def _sources(root):
     if digest(Path(root)/PRODUCER)!=_SELF_SHA:raise ValueError('Loaded city workflow changed; restart its worker')
+    if any(digest(Path(root)/name)!=sha for name,sha in network_policy.SOURCE_SHA256.items()):
+        raise ValueError('Loaded network planning sources changed; restart its worker')
     names=(PRODUCER,'engineering/outline/planning_adapter.py','engineering/outline/planning_geometry.py',
         'engineering/outline/revision_service.py','engineering/outline/delivery_plan.py',
         'services/integration/osr_integration/city_outline.py','engineering/outline/city_worker.py')
-    return {n:digest(Path(root)/n) for n in names}
+    return {**{n:digest(Path(root)/n) for n in names},**network_policy.SOURCE_SHA256}
 
 
 def _rules(previous,request):
@@ -283,6 +285,7 @@ def evaluate(request,root=ROOT,*,study_store=None,parent=None):
         base=baseline
     parent,parent_base,trusted_base=resolve_parent(v,root=root,study_store=study_store,parent=parent)
     if parent_base is not None:base=parent_base
+    automatic = base is None and v['selection'] == 'auto'
     if base is not None:
         if base['city']!=v['city_slug']:raise ValueError('Planning base belongs to another city')
         planning_adapter.verify_base(base,root=root,trusted_base_sha256=trusted_base)
@@ -315,6 +318,9 @@ def evaluate(request,root=ROOT,*,study_store=None,parent=None):
         proposals=city_alignment.propose(inputs,root=root,policy=rules)['variants']
         if v['selection']!='auto':proposals=[p for p in proposals if p['kind']==v['selection']]
         if not proposals:raise ValueError('This city has no requested alignment family to evaluate')
+    if automatic:
+        original = proposals[0]['city_input']
+        network_context = network_policy.prepare(original, root)
     cases=[]
     for proposal in proposals:
         inputs=_civil_input(proposal['city_input'],rules['civil_policy'])
@@ -331,8 +337,12 @@ def evaluate(request,root=ROOT,*,study_store=None,parent=None):
         cases.append(dict(kind=proposal['kind'],alignment_id=proposal['alignment_id'],
             record=record,functional_screen=screen,
             selection_eligibility=proposal.get('selection_eligibility',{})))
+        if automatic:
+            cases[-1]['network_planning'] = network_policy.screen(original, inputs, network_context)
     passing=[i for i,c in enumerate(cases) if c['functional_screen']['pass_for_outline']]
-    chosen=min(passing or range(len(cases)),key=lambda i:(cases[i]['record']['cost']['whole_life_npv_usd']['base'],cases[i]['alignment_id']))
+    chosen, planning_status = network_policy.choose(cases, passing, automatic=automatic)
+    recommended = chosen in passing and planning_status != 'requires-revision'
+    network_planning = dict(status=planning_status, **cases[chosen].get('network_planning', {}))
     selected=deepcopy(cases[chosen]['record'])
     # Project configuration includes the actual fleet and platform/civil resource
     # quantities; prices and evidence identities remain separate.
@@ -367,9 +377,9 @@ def evaluate(request,root=ROOT,*,study_store=None,parent=None):
     value=completion.seal(dict(schema='osr-mapped-city-workflow/1',request=v,city=selected['city'],
         source_outline_evaluation_id=seed['source_outline_evaluation_id'],planning_seed_id=seed['seed_id'],
         planning_base=baseline,planning_revision=plan,city_outline=selected,
-        cases=cases,examined_alignment_id=cases[chosen]['alignment_id'],
-        recommended_alignment_id=cases[chosen]['alignment_id'] if passing else None,
-        outline_acceptance='accepted' if passing else 'requires-revision',
+        cases=cases,examined_alignment_id=cases[chosen]['alignment_id'],network_planning=network_planning,
+        recommended_alignment_id=cases[chosen]['alignment_id'] if recommended else None,
+        outline_acceptance='accepted' if recommended else 'requires-revision',
         calculation_complete=True,delivery_plan=delivery,business_drafts=business,
         source_sha256=sources,**parent_fields,**FLAGS))
     if any(digest(root/n)!=sha for n,sha in sources.items()):raise ValueError('City study inputs changed during execution')
@@ -391,6 +401,7 @@ def summary(value):
         research_configuration_id=city['research_configuration_id'],planning_seed_id=value['planning_seed_id'],
         planning_revision_sha256=value['planning_revision']['revision_sha256'],
         calculation_complete=value['calculation_complete'],outline_acceptance=value['outline_acceptance'],
+        **({'network_planning': value['network_planning']} if 'network_planning' in value else {}),
         **architecture,
         installed_capital_usd=cost['installed_capital_usd'],whole_life_npv_usd=cost['whole_life_npv_usd'],
         price_per_route_km_usd=cost['price_per_route_km_usd'],scope_totals_usd=cost['scope_totals_usd'],

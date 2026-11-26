@@ -2,17 +2,17 @@
 
 ## Current metropolitan rail network
 
-This is one connected planning network for Baghdad. It compares alternatives for the trunks and outer branches, and redirects route length toward densely populated areas beyond a 1.2 km street walk. It screens nearby stations for a shared site or a walking connection. The same housing-to-centre journeys with up to two changes test each layout. The Airport and central routes stay connected. Orange dots show the remaining access gaps.
+The current map combines two orbital routes, two near-straight Tigris through services, the Airport and local corridors in one connected network. Both through services start outside the outer ring, cross both rings at shared passenger stations and continue beyond the opposite side. Compare the map with the earlier central-ring case using a 1.3 km street walk and trips with up to two changes.
 
 <!-- current housing budget -->
 
-**Current metropolitan budget case.** 740.3 km of mapped guideway, 1,480.5 track-km counting both running tracks, and 656 station sites. The base installed allowance is **US$41.90bn**, with planning cases of US$29.40bn to US$63.81bn. Casting, haul and erection account for 6.43 million paid hours. The six-minute operating offer and the construction schedule use this same candidate. [Quantities, labour and costs](NETWORK-DELIVERY.md) · [Housing journeys and map](NETWORK.md)
+**Current metropolitan budget case.** 784.11 km of distinct mapped guideway, 1,568.22 running-track km and 641 station sites. The base installed planning allowance is **US$43.12bn**, with low and high cases of US$30.21bn and US$65.82bn. The standard casting, haul and erection envelope uses 6.26 million paid hours. [Quantities, labour and costs](STRAIGHT-THROUGH-DELIVERY.md) · [Network study and map](STRAIGHT-THROUGH-NETWORK.md)
 
 <!-- end current housing budget -->
 
-[![One connected map of Baghdad’s railway, station interchanges and walking-access gaps](maps/baghdad-network.png)](maps/baghdad-network.png)
+[![One Baghdad railway network with highlighted orbital and cross-Tigris services](maps/baghdad-straight-through-network.png)](maps/baghdad-straight-through-network.png)
 
-[Full-size network map](maps/baghdad-network.png) · [Route, station and transfer GIS](maps/baghdad-network.geojson) · [Network logic, coverage and line termini](NETWORK.md)
+[Full-size network map](maps/baghdad-straight-through-network.png) · [Route, station and transfer GIS](maps/baghdad-straight-through-network.geojson) · [Network logic, coverage and line termini](STRAIGHT-THROUGH-NETWORK.md)
 
 The wider dual-ring study tests a larger inner loop and keeps the same outer alignment with at least 5 km between the rings. [Wider-ring map](maps/baghdad-wider-ring.png) · [Journey and delivery comparison](WIDER-RING.md)
 
@@ -20,13 +20,13 @@ The wider-ring route redesign tests a new east–west line calling at both rings
 
 The central-ring study tests a new inner alignment around the main central destinations, shared junction sites and parallel-route cuts. [Central-ring map](maps/baghdad-central-ring-network.png) · [1.3 km access and service comparison](CENTRAL-RING-NETWORK.md)
 
-The generator compares shorter perimeter variants using the same housing origins, destinations and service offer. The selected design has a matching delivery workplan and installed, operating and renewal allowances. Earlier design and cost studies retain the geometry they priced.
+The through-route study compares new cross-river approaches and retained routes on the same passenger sample and train-km. It records the route cuts that would lose access. The [earlier connected housing network](NETWORK.md) retains its own geometry and prices.
 
-The current [delivery workplan](NETWORK-DELIVERY.md) prices 20 m shared-pier stock and two inward launching gantries on eligible open lines. The [earlier 20 m delivery studies](engineering/mechanical/civil/rail-fed/network-delivery.md) retain the seven-corridor and 605 km alternatives for comparison.
+The current [delivery workplan](STRAIGHT-THROUGH-DELIVERY.md) prices 20 m shared-pier stock and two inward launching gantries on eligible open lines. The [curved-beam work orders](engineering/mechanical/civil/CURVED-BEAM-PROGRAMME.md) identify inside and outside pieces, form changes, transport, materials and crew shifts by route. The [earlier 20 m delivery studies](engineering/mechanical/civil/rail-fed/network-delivery.md) retain the seven-corridor and 605 km alternatives for comparison.
 
 The assembly films follow both launch fronts and show the fitted train with its cab ends, gangways, passenger saloon and service connections. The part and shift schedules identify which geometry, masses, prices and labour allowances support the illustrations. [Assembly films, renders and workplans](../../docs/assets/assembly-animations/GUIDE.md) · [Illustrated proposal](Baghdad-Metro-Proposal.pdf)
 
-Use the **17.46 km Airport alignment study** to review the proposed route, service, power options and partial construction costs together. The 30-minute paired-supply trial completes all 72 booked trips. Survey, complete prices and physical acceptance remain open. The [metropolitan network](NETWORK.md) uses the corrected Airport approach in the citywide passenger graph.
+Use the **17.46 km Airport alignment study** to review the proposed route, service, power options and partial construction costs together. The 30-minute paired-supply trial completes all 72 booked trips. Survey, complete prices and physical acceptance remain open. The [metropolitan network](STRAIGHT-THROUGH-NETWORK.md) uses the corrected Airport approach in the citywide passenger graph.
 
 | Decision | Open |
 |---|---|
@@ -36,7 +36,7 @@ Use the **17.46 km Airport alignment study** to review the proposed route, servi
 | Trace the earlier timetable and central access calculations used in the network revision | [Central access inputs](CENTRAL-ACCESS.md) · [Fourteen-route clockface trial](CITYWIDE-SERVICE.md) |
 | Compare staged service, fares, debt and maintenance on the earlier seven corridors | [Phased funding schedule](../../docs/operator-review/finance/phased-first.html) |
 
-[Proposal for Amanat Baghdad](PROPOSAL.md) · [PDF proposal](Baghdad-Metro-Proposal.pdf) · [Current delivery and budget](NETWORK-DELIVERY.md) · [Earlier cost and cash schedule](COST-AND-DELIVERY.md) · [Train and station section](VEHICLE.md) · [Map layers and sources](maps/README.md)
+[Proposal for Amanat Baghdad](PROPOSAL.md) · [PDF proposal](Baghdad-Metro-Proposal.pdf) · [Current delivery and budget](STRAIGHT-THROUGH-DELIVERY.md) · [Earlier cost and cash schedule](COST-AND-DELIVERY.md) · [Train and station section](VEHICLE.md) · [Map layers and sources](maps/README.md)
 
 Baghdad is preparing fresh investment opportunities after the earlier offers failed to meet government requirements. OpenSourceRail is preparing for a late-2026 to early-2027 invitation for ideas. The timetable awaits an official notice. [Al-Mada interview with Amanat Baghdad, 25 October 2026](https://almadapaper.net/458226/) · [NINA interview with the National Investment Commission, 27 October 2026](https://ninanews.com/website/News/Details?key=1322248)
 
@@ -62,7 +62,7 @@ Each row compares the two programmes at the same price basis. The routes, statio
 
 The 148.2 km estimate uses the National Investment Commission’s February 2024 seven-corridor brief. The 605.652 km case priced a separate earlier scheme, including 50.099 km of reserved guideway. Both are retained as cost comparators for the revised map. [NIC investment plate and source](maps/README.md#how-to-read-the-seven-corridors) · [Earlier citywide route and service inputs](CITYWIDE-SERVICE.md) · [Original civil and operating estimates](COST-AND-DELIVERY.md)
 
-The earlier estimates retain their own Airport terminal access, Sadr City branches and Jadriya assumptions. The new map includes only complete rail paths that pass its connection check. The [route register](NETWORK.md#end-to-end-routes) lists each end-to-end service and the walking-coverage calculation identifies populated gaps for the next alignment work.
+The earlier estimates retain their own Airport terminal access, Sadr City branches and Jadriya assumptions. The new map includes only complete rail paths that pass its connection check. The [route register](STRAIGHT-THROUGH-DELIVERY.md#end-to-end-routes) lists each end-to-end service and the walking-coverage calculation identifies populated gaps for the next alignment work.
 
 ### From a named place to an accessible station
 

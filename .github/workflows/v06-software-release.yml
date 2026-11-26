@@ -58,6 +58,8 @@ on:
       - "tests/test_corridor_profile.py"
       - "engineering/outline/city_worker.py"
       - "engineering/outline/city_workflow.py"
+      - "engineering/outline/network_policy.py"
+      - "tests/test_outline_network_policy.py"
       - "engineering/outline/corridor_profile.py"
       - "engineering/vehicle_parts/door_module.py"
       - "engineering/v07_project.py"
@@ -177,6 +179,8 @@ on:
       - "tests/test_corridor_profile.py"
       - "engineering/outline/city_worker.py"
       - "engineering/outline/city_workflow.py"
+      - "engineering/outline/network_policy.py"
+      - "tests/test_outline_network_policy.py"
       - "engineering/outline/corridor_profile.py"
       - "engineering/vehicle_parts/door_module.py"
       - "engineering/v07_project.py"
@@ -300,6 +304,7 @@ jobs:
             /tests/test_city_dossier_analysis.py
             /docs/design-engine/city-atlas/cities/samawah.json.gz
             /tests/test_outline_city_jobs.py
+            /tests/test_outline_network_policy.py
             /tests/test_corridor_revision*.py
             /tests/test_v07_project.py
             /tests/test_city_parent_custody.py
@@ -404,7 +409,9 @@ jobs:
         run: |
           python -m pip install --disable-pip-version-check matplotlib==3.11.2 Pillow==13.0.0 shapely==2.2.0
           python -m pytest -q --import-mode=importlib cities/Baghdad/test_holistic_*.py cities/Baghdad/test_residential_*.py cities/Baghdad/test_rail_*.py cities/Baghdad/test_network_*.py
-          python -m cities.Baghdad.holistic_map --check
+          OPENBLAS_NUM_THREADS=1 python -m cities.Baghdad.straight_network_publication --legacy --check
+          OPENBLAS_NUM_THREADS=1 python -m cities.Baghdad.straight_network_publication --check
+          python -m pytest -q --import-mode=importlib cities/Baghdad/test_straight_through_layout.py cities/Baghdad/engineering/mechanical/civil/test_alignment_beams.py tests/test_outline_network_policy.py
       - name: Verify railway timetables, prototype prices and bench records
         run: |
           python -m unittest discover -s docs/reference-v07/integration -p test_timetable.py

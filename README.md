@@ -55,9 +55,11 @@ For a different planning question, compare how Amman’s terrain and Karachi’s
 
 A planning team can export route, stop, service and origin–destination edits, then compile and verify the proposal against its input revision. A separate city calculation carries the revised plan into fleet, section capacity, civil quantities and cost. Compare propulsion or construction assumptions while keeping demand and service fixed, or change the service and compare the fleet and capacity it requires. [Proposal and recalculation commands](docs/workbench/planning/README.md) · [City atlas and source data](docs/design-engine/city-atlas/README.md)
 
-Baghdad’s network compares trunk layouts, redesigns parallel routes and uses the freed route length to reach dense neighbourhoods beyond a 1.2 km street walk. It combines nearby calls on the same alignment or at mapped track crossings and tests real walking connections between separate platforms. Housing journeys to named centres allow up to two changes. The selected route and station register drives track quantities, construction shifts, fleet and costs. [Baghdad map and journey comparison](cities/Baghdad/NETWORK.md) · [Current delivery estimate](cities/Baghdad/NETWORK-DELIVERY.md)
+Baghdad’s active proposal joins a central ring and a metropolitan ring with two near-straight Tigris through services. Each new line crosses both rings and shares stations with each. The study compares 1.3 km street-walking access and trips from housing to named centres with up to two changes. The same route register drives the fleet, power, yards, construction, labour and costs. [Illustrated Baghdad study](cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md) · [Delivery and costs](cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md) · [Curved-girder drawings and work orders](cities/Baghdad/engineering/mechanical/civil/CURVED-BEAM-PROGRAMME.md)
 
-[![One connected Baghdad railway map with proposed station interchanges and walking-access gaps](cities/Baghdad/maps/baghdad-network.png)](cities/Baghdad/NETWORK.md)
+[![Current Baghdad metropolitan network with shared ring stations and two Tigris through services](cities/Baghdad/maps/baghdad-straight-through-network.png)](cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md)
+
+New automatic city studies check directness, river crossings and shared ring stations against available maps. The same policy runs in Workbench and under `./osr design railway city-study`. The study report identifies where the local data supports only a corridor revision.
 
 ## Timetables and train motion
 

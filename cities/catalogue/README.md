@@ -6,7 +6,7 @@ The figures use the exact selected calculated outline and explicit Class C estim
 
 [Baghdad city planning](../Baghdad/README.md) · [Samawah](west-asia/Iraq/Samawah/README.md) · [Interactive city atlas](../../docs/workbench/current/index.html?outlineCity=baghdad) · [Dossier methods](../../docs/design-engine/city-dossiers/README.md) · [Planning workspace](../../docs/workbench/planning/index.html) · [Project introduction](../../README.md)
 
-Station groups are operational line/platform groups; shared access sites and interchanges are reported separately inside each dossier. Baghdad’s reported 148.2 and 605.65 km figures are earlier comparison scopes with separate route, fleet and cost bases. The current connected network uses its own route geometry and station coverage calculation. Other rows use the selected calculated outline's base installed estimate. Programme totals do not assume shared factories or imply verified local prices.
+Station groups are line platform packages. Shared access sites and interchanges are reported separately inside each dossier. Baghdad uses the active rings and through-route proposal and its six-minute costing basis. The 148.2 and 605.65 km figures remain in the earlier comparison. Other rows use the selected calculated outline's base installed estimate. Programme totals do not assume shared factories or verified local prices.
 
 | Country | City dossier and map | Route km | Lines | Station groups | Trainsets incl. reserve | Base installed US$ | Physical evidence |
 |---|---|---:|---:|---:|---:|---:|---|
@@ -95,7 +95,7 @@ Station groups are operational line/platform groups; shared access sites and int
 | IN | [Vijayawada](south-asia/India/Vijayawada/README.md) | 206.2 | 6 | 63 | 219 | $3,370.7m | [Review](south-asia/India/Vijayawada/engineering/current/README.md) |
 | IN | [Visakhapatnam](south-asia/India/Visakhapatnam/README.md) | 245.0 | 6 | 74 | 253 | $4,013.8m | [Review](south-asia/India/Visakhapatnam/engineering/current/README.md) |
 | IQ | [Amarah](west-asia/Iraq/Amarah/README.md) | 53.5 | 5 | 21 | 71 | $1,516.5m | [Review](west-asia/Iraq/Amarah/engineering/current/README.md) |
-| IQ | [Baghdad city planning](../Baghdad/README.md) | 148.2 / 605.65 | 7 / 14 service groups | 64 / 280 | 242 / 934 | $7.866bn / $31.018bn | [Current connected network](../Baghdad/NETWORK.md) · [Earlier comparison costs](../Baghdad/COST-AND-DELIVERY.md) · [Research outline](west-asia/Iraq/Baghdad/engineering/current/README.md) |
+| IQ | [Baghdad city planning](../Baghdad/README.md) | 785.14 | 36 | 760 | 581 | $43.12bn | [Current connected network](../Baghdad/STRAIGHT-THROUGH-NETWORK.md) · [Earlier comparisons](../Baghdad/COST-AND-DELIVERY.md) · [Research outline](west-asia/Iraq/Baghdad/engineering/current/README.md) |
 | IQ | [Baqubah](west-asia/Iraq/Baqubah/README.md) | 74.0 | 5 | 28 | 87 | $1,220.1m | [Review](west-asia/Iraq/Baqubah/engineering/current/README.md) |
 | IQ | [Basra](west-asia/Iraq/Basra/README.md) | 341.4 | 11 | 120 | 369 | $6,821.8m | [Review](west-asia/Iraq/Basra/engineering/current/README.md) |
 | IQ | [Diwaniyah](west-asia/Iraq/Diwaniyah/README.md) | 61.7 | 5 | 27 | 84 | $1,031.0m | [Review](west-asia/Iraq/Diwaniyah/engineering/current/README.md) |

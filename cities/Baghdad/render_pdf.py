@@ -184,7 +184,7 @@ def render():
                 ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
             ]))
             story.extend((table, Spacer(1, 3 * mm)))
-            if current_section == "Capital, construction cash and delivery":
+            if current_section == "Earlier capital, construction cash and delivery":
                 story.append(cash_chart())
         elif kind == "list":
             for item in node["children"]:
@@ -210,7 +210,7 @@ def render():
         "project_allowance": "Project allowance",
     }
     story.append(PageBreak())
-    story.append(Paragraph("Appendix · Common bid-control prices by scope", styles["SectionOSR"]))
+    story.append(Paragraph("Appendix · Earlier bid-control prices by scope", styles["SectionOSR"]))
     rows = [["US$ million", "148.2 km", "605.652 km"]]
     for key, label in labels.items():
         rows.append([label, f"{first['selected_capital_scope_usd_m'][key]:,.3f}",

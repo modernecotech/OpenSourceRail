@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **258**.
+Indexed Markdown files: **261**.
 
 ## Sections
 
@@ -20,7 +20,7 @@ Indexed Markdown files: **258**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
-| [cities](#cities) | 85 |
+| [cities](#cities) | 88 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
 | [docs](#docs) | 140 |
@@ -72,6 +72,8 @@ Indexed Markdown files: **258**.
 | [`cities/Baghdad/RING-NETWORK.md`](../cities/Baghdad/RING-NETWORK.md) | Baghdad railway routes that serve both rings |
 | [`cities/Baghdad/SERVICE-DIAGRAMS.md`](../cities/Baghdad/SERVICE-DIAGRAMS.md) | Baghdad passenger service and train workings |
 | [`cities/Baghdad/SPACED-RINGS.md`](../cities/Baghdad/SPACED-RINGS.md) | Baghdad compact rings and through routes |
+| [`cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md`](../cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md) | Baghdad metropolitan railway · Quantities, work programme and costs |
+| [`cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md`](../cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md) | Baghdad metropolitan railway · Rings and Tigris through services |
 | [`cities/Baghdad/VEHICLE.md`](../cities/Baghdad/VEHICLE.md) | Baghdad 700-place train |
 | [`cities/Baghdad/WIDER-RING.md`](../cities/Baghdad/WIDER-RING.md) | Baghdad wider inner ring |
 | [`cities/Baghdad/engineering/commissioning/COMMISSIONING.md`](../cities/Baghdad/engineering/commissioning/COMMISSIONING.md) | Airport traction and station commissioning |
@@ -79,6 +81,7 @@ Indexed Markdown files: **258**.
 | [`cities/Baghdad/engineering/controls/README.md`](../cities/Baghdad/engineering/controls/README.md) | Baghdad train and station electrical interfaces |
 | [`cities/Baghdad/engineering/controls/STATION-BENCH.md`](../cities/Baghdad/engineering/controls/STATION-BENCH.md) | Baghdad station visit and fault trials |
 | [`cities/Baghdad/engineering/mechanical/README.md`](../cities/Baghdad/engineering/mechanical/README.md) | Baghdad mechanical first article |
+| [`cities/Baghdad/engineering/mechanical/civil/CURVED-BEAM-PROGRAMME.md`](../cities/Baghdad/engineering/mechanical/civil/CURVED-BEAM-PROGRAMME.md) | Baghdad · Curved and straight girder fabrication programme |
 | [`cities/Baghdad/engineering/mechanical/civil/RAIL-FED-ERECTION.md`](../cities/Baghdad/engineering/mechanical/civil/RAIL-FED-ERECTION.md) | Feed the launching gantries from the deck |
 | [`cities/Baghdad/engineering/mechanical/civil/README.md`](../cities/Baghdad/engineering/mechanical/civil/README.md) | Baghdad civil drawings and retained 10 m study |
 | [`cities/Baghdad/engineering/mechanical/civil/SPAN-COMPARISON.md`](../cities/Baghdad/engineering/mechanical/civil/SPAN-COMPARISON.md) | Baghdad viaduct span comparison |

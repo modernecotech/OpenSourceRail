@@ -1,11 +1,11 @@
 # OpenSourceRail Baghdad metropolitan railway
 
-**Proposal to Amanat Baghdad · 25 November 2026 · planning prices in 2026 US dollars**
+**Proposal to Amanat Baghdad · 26 November 2026 · planning prices in 2026 US dollars**
 
 
 <!-- current housing budget -->
 
-**Current metropolitan budget case.** 740.3 km of mapped guideway, 1,480.5 track-km counting both running tracks, and 656 station sites. The base installed allowance is **US$41.90bn**, with planning cases of US$29.40bn to US$63.81bn. Casting, haul and erection account for 6.43 million paid hours. The six-minute operating offer and the construction schedule use this same candidate. [Quantities, labour and costs](NETWORK-DELIVERY.md) · [Housing journeys and map](NETWORK.md)
+**Current metropolitan budget case.** 784.11 km of distinct mapped guideway, 1,568.22 running-track km and 641 station sites. The base installed planning allowance is **US$43.12bn**, with low and high cases of US$30.21bn and US$65.82bn. The standard casting, haul and erection envelope uses 6.26 million paid hours. [Quantities, labour and costs](STRAIGHT-THROUGH-DELIVERY.md) · [Network study and map](STRAIGHT-THROUGH-NETWORK.md)
 
 <!-- end current housing budget -->
 
@@ -24,7 +24,7 @@ The original planning work priced **two independent comparison cases**. The **14
 | Seven-corridor concept | 148.2 km | 64 | 242 six-car trains | **US$8.37bn** | 2031 |
 | Independent citywide concept | 605.652 km | 280 | 934 six-car trains | **US$33.00bn** | 2035 |
 
-The 2027 capital draws and 2031/2035 completion years apply to the earlier scenario calendars. Each estimate records its original track, fleet and station allowances. The [updated estimate](NETWORK-DELIVERY.md) prices the current routes, stations, service and work orders. The [earlier cost schedules](COST-AND-DELIVERY.md) retain their original quantities and renewals.
+The 2027 capital draws and 2031/2035 completion years apply to the earlier scenario calendars. Each estimate records its original track, fleet and station allowances. The [updated estimate](STRAIGHT-THROUGH-DELIVERY.md) prices the current routes, stations, service and work orders. The [earlier cost schedules](COST-AND-DELIVERY.md) retain their original quantities and renewals.
 
 ## Earlier idea and present planning design
 
@@ -36,7 +36,7 @@ OpenSourceRail began with a light, wheel-supported train accelerated at stations
 | Line power | Local launch equipment and service power; powered length depends on each stop | Guarded, sectionalised conductor on both tracks; no overhead wires |
 | Train equipment | Passive bogies, independent service battery and brakes | 24 driven axles, converters and contact shoes; separate 65 kWh service battery and brakes |
 | Civil and stations | Track, launch/braking equipment, power and interfaces sized for the selected route | Elevated double track, wayside protection, grid sites and accessible stations |
-| Cost and status | Research option; no matched Baghdad installed cost or service timetable | [Current housing-network planning estimate](NETWORK-DELIVERY.md) |
+| Cost and status | Research option; no matched Baghdad installed cost or service timetable | [Current through-route planning estimate](STRAIGHT-THROUGH-DELIVERY.md) |
 
 The earlier coast calculation cannot carry a crowded train through every long or uphill Baghdad section at the desired speed. A cheaper station-launch design would need a route-specific mix of shorter gaps, booster sections or small onboard motors and storage, plus a full stopping and recovery case. The **station-charged battery** row later in this proposal is a *powered-bogie train*, not that passive station-launch idea. It must not be presented as its cost.
 
@@ -46,15 +46,31 @@ The present plan also changes the older tunnel and overhead assumptions: **zero 
 
 ### Current metropolitan rail network
 
-The metropolitan design compares alternatives for the trunks, tests merging nearby stations and reallocates route length toward densely populated areas with poor rail access. Its street and rail model limits trips from housing to named centres to two changes, with a walk of up to 1.2 km at each end. The Airport route remains part of the same network. [Route and journey comparison](NETWORK.md) · [Connected network GIS](maps/baghdad-network.geojson)
+The preferred planning map uses an inner ring around the main central districts and an outer ring to distribute journeys between radial corridors. Two direct services cross the Tigris and link both rings. The Airport stays connected. The passenger comparison uses up to two changes and a street walk of up to 1.3 km at each end. [Full network study and development path](STRAIGHT-THROUGH-NETWORK.md) · [Earlier and active layouts at the same scale](maps/baghdad-straight-through-comparison.png) · [Connected network GIS](maps/baghdad-straight-through-network.geojson)
 
-![One metropolitan Baghdad railway map with end-to-end lines, interchanges and walking coverage](maps/baghdad-network.png)
+![Active Baghdad railway map with the two through routes and their ring interchanges](maps/baghdad-straight-through-network.png)
 
-*One proposed Baghdad passenger network. Stars mark the six journey test destinations. Station rings mark proposed interchanges. Street crossings, platforms, operating intervals and physical alignment require design.*
+*The current through-route proposal. Diamonds locate the two Tigris crossings. Open circles mark shared ring interchanges. Stars show the six journey test destinations.*
+
+### Current programme and operating offer
+
+<!-- current route programme -->
+
+The two screened through services cross the Tigris and run from beyond one side of the outer ring to beyond the other. Both connect to the inner and outer rings at shared passenger stations. The new railway bridges follow mapped road bridge approaches and require their own designs. The two-track geometry inventory identifies **2,382 candidate curved girder pieces** and 269.27 service-route km of station, water, turnout, shared running or bend and closure interfaces needing further geometry.
+
+| 2026 planning scope | Low | Base | High |
+|---|---:|---:|---:|
+| Installed allowance | US$30.21bn | US$43.12bn | US$65.82bn |
+| Annual operation | US$1.03bn | US$1.16bn | US$1.28bn |
+| 30-year present cost | US$50.11bn | US$65.94bn | US$92.05bn |
+
+The six-minute operating allowance needs 581 trainsets including reserves, 241 nominal supply sites and 2,192.9 GWh per year. The standard erection, special beam and full operating schedules show their own included work. The project opening date remains open pending the complete route and construction programme. [Delivery programme](STRAIGHT-THROUGH-DELIVERY.md) · [Beam designs and work orders](engineering/mechanical/civil/CURVED-BEAM-PROGRAMME.md)
+
+<!-- end current route programme -->
 
 ### Basis of the earlier cost comparisons
 
-The Iraqi National Investment Commission’s February 2024 proposal provides the seven original corridors, with the published line lengths summing to 148.2 km. OpenSourceRail’s separate 605.652 km estimate used its own network geometry and included 50.099 km of reserve. Those earlier estimates preserve their original station, route, fleet and capital quantities. The connected map in this proposal requires a revised service and cost calculation. [NIC original investment brief and map](maps/README.md#how-to-read-the-seven-corridors) · [Original guideway and cost basis](COST-AND-DELIVERY.md#reserved-citywide-guideway)
+The Iraqi National Investment Commission’s February 2024 proposal provides the seven original corridors, with the published line lengths summing to 148.2 km. OpenSourceRail’s separate 605.652 km estimate used its own network geometry and included 50.099 km of reserve. Those earlier estimates preserve their original station, route, fleet and capital quantities. The current proposal uses its own connected map, service allowance, delivery programme and costs. [NIC original investment brief and map](maps/README.md#how-to-read-the-seven-corridors) · [Original guideway and cost basis](COST-AND-DELIVERY.md#reserved-citywide-guideway)
 
 ### From a map point to an accessible entrance
 
@@ -66,9 +82,9 @@ Keep the entrance, platform centre and passenger walking route as separate surve
 
 The Baghdad train has **six 17 m cars**, a coupled length of about 104.5 m and a **125 m clear platform**. Each car has four 1.3 m clear double-leaf door openings on each side, 20 fixed seats and two wheelchair places. The train carries about **700 people** at its normal urban-service cap, including planned standing. Step-free access, platform gaps, evacuation width and independent stopping are design duties, not cost-saving options.
 
-Powered wheel bogies give the train sustained traction between stations. The protected conductor design has **24 driven axles**, a **201.092 t** crowd-load train mass and a **5.004 MW** input sizing request at the stated uphill acceleration duty. It does not carry a traction battery or a roof collector. Each train's independent 65 kWh nominal service battery supplies controls, lighting, braking and egress duty for the declared two-hour outage case; its mass, recharge power and price are included in the existing train allowances. Baghdad summer cooling is included in the vehicle and energy allowances. The [vehicle and station section](VEHICLE.md) gives the car layout, platform gap, protected conductor position and replacement interfaces.
+Powered wheel bogies give the train sustained traction between stations. The protected conductor design has **24 driven axles**, a **201.092 t** crowd-load train mass and a **5.004 MW** input sizing request at the stated uphill acceleration duty. It does not carry a traction battery or a roof collector. The earlier equipment allowance carries a 65 kWh nominal service battery for controls, lighting, braking and egress. The corrected Airport audit found insufficient usable energy at end of life. The vehicle team must reconcile essential load and hot-weather endurance with battery mass, recharge power and price. Baghdad summer cooling is included in the vehicle and energy allowances. The [vehicle and station section](VEHICLE.md) gives the car layout, platform gap, protected conductor position and replacement interfaces.
 
-A **150-second peak interval** offers **16,800 places per hour per direction on one service**. The declared 06:00–24:00 offer uses four hours at 24 trains/hour/direction, eight hours at 12 and six hours at 6 on each assigned passenger path. That is 228 departures per service and direction daily, about **2.234 million offered places/day** across the seven corridors and **4.469 million** across the independent citywide plan. These are offered places, not forecast passengers. The plans cost **24.666 million** and **92.466 million train-km/year**, respectively. A three-minute layover at each terminal gives peak cycle requirements of **208 and 742** trainsets; the fleet budgets retain **210 active/242 total** and **812 active/934 total**. The reserved citywide sections have no train service.
+In the earlier seven-corridor and 605.652 km service cases, a **150-second peak interval** offered **16,800 places per hour per direction on one service**. The declared 06:00–24:00 offer uses four hours at 24 trains/hour/direction, eight hours at 12 and six hours at 6 on each assigned passenger path. That is 228 departures per service and direction daily, about **2.234 million offered places/day** across the seven corridors and **4.469 million** across the independent citywide plan. These are offered places, not forecast passengers. The plans cost **24.666 million** and **92.466 million train-km/year**, respectively. A three-minute layover at each terminal gives peak cycle requirements of **208 and 742** trainsets; the fleet budgets retain **210 active/242 total** and **812 active/934 total**. The reserved citywide sections have no train service.
 
 The passenger offer includes step-free entry, wheelchair spaces, clear door signs, audible and visible next-stop information, Arabic and English wayfinding, line maps, disruption displays and staffed assistance. Station equipment needs a local information feed so a power or communications interruption cannot silently leave misleading departure or evacuation messages. Platform crowd handling, transfer walking distances, individual stop dwell and junction capacity need a location-specific service design; no daily ridership or fare revenue is assumed in the financial totals.
 
@@ -138,11 +154,19 @@ For one paired repeat bay and its attributed shared support, the geometry and so
 
 The [bogie, body, station and viaduct study](engineering/mechanical/README.md) gives lifting and removal interfaces, door positions, bearing reactions and a dimensioned bogie drawing. On a hypothetical 250 m inner curve the straight-platform setting would overlap the body by 6.9 mm before suspension movement. Confirm station curvature and swept clearance before fixing the platform edge.
 
+### Curved beams and the two-end delivery programme
+
+![Inside and outside curved U-girder dimensions and reference cross section](engineering/mechanical/civil/curved-beam-families.svg)
+
+*The two track pieces follow different radii through a common turn. The current chainage register records the mould set-out, concrete, reinforcement allowances, crew shifts and delivery assumptions. River spans, station interfaces and sharper bends require individual design.*
+
+[Curved-girder programme and editable drawings](engineering/mechanical/civil/CURVED-BEAM-PROGRAMME.md) · [Yard and erection resource schedule](STRAIGHT-THROUGH-DELIVERY.md)
+
 ### A station bay, from rail seat to street
 
 ![Baghdad island station, six-car train and twin elevated tracks in the assembly viewer](../../docs/operator-review/twins/baghdad-station.png)
 
-*Straight-station digital twin. The island is 125 m long and 8 m wide. Platform panels and track beams have separate supports. Relative movement between them changes the boarding gap.*
+*Straight-station digital twin from the earlier 148.2 km comparison. The island is 125 m long and 8 m wide. Platform panels and track beams have separate supports. Relative movement between them changes the boarding gap.*
 
 ![Baghdad platform-edge drawing with the train, track and guarded conductor](station-interface.svg)
 
@@ -261,7 +285,7 @@ A maintainer replacing a door operator needs its car position, assembly revision
 
 *Earlier ERPNext pilot illustrating the required equipment history. Baghdad will need its own installed serials, approved tasks, staff permissions and warranty terms.*
 
-## Capital, construction cash and delivery
+## Earlier capital, construction cash and delivery
 
 The **US$7.866bn** seven-corridor estimate and the **US$31.018bn** independent citywide estimate each cover viaducts, stations, track, signalling, protection, power, trains, depots, land and utilities, tooling, design, commissioning and one 20% project allowance. Neither is an increment to the other. The [fourteen-scope ledger](COST-AND-DELIVERY.md#fourteen-installed-capital-scopes) reconciles each estimate separately.
 
@@ -356,9 +380,9 @@ Issue a typical elevated kilometre, a difficult crossing and an accessible stati
 
 ## Delivery, governance and procurement sequence
 
-The two alternatives have different scale and different funding decisions. For either one, the first contract package should produce a controlled corridor, station and utility register from the public maps; a service plan for every built section; the selected vehicle and power interfaces; and a bill of quantities that a factory and contractor can price. The city can then let repeatable civil, train, station, electrical and software packages against one configuration. Changes in train mass or power supply must flow to piers, energy, fleet, maintenance and annual cash before an option is compared.
+The earlier seven-corridor and 605.652 km alternatives have different scales and funding decisions. For any proposal, the first contract package should produce a controlled corridor, station and utility register from the public maps; a service plan for every built section; the selected vehicle and power interfaces; and a bill of quantities that a factory and contractor can price. The city can then let repeatable civil, train, station, electrical and software packages against one configuration. Changes in train mass or power supply must flow to piers, energy, fleet, maintenance and annual cash before an option is compared.
 
-The dates and yard counts below reproduce the earlier priced comparison. The 20 m deck-fed estimates have their own phased workloads, yard counts, assembly crews and cash flows. [Current deck-fed construction programme](engineering/mechanical/civil/rail-fed/network-delivery.md)
+The dates and yard counts below reproduce the earlier priced comparisons. The active proposal uses its own quantities, terminal yards, gantry fronts and crew shifts. [Current through-route delivery programme](STRAIGHT-THROUGH-DELIVERY.md) · [Earlier deck-fed alternatives](engineering/mechanical/civil/rail-fed/network-delivery.md)
 
 | Period | Seven-corridor work | Independent citywide work |
 |---|---|---|

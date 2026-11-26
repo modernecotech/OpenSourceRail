@@ -32,6 +32,12 @@ def bundle(base,edits):
 def test_complete_study_has_exact_child_bindings_and_source_verified_exports(study):
     _,folder,value=study;m=workflow.verify(folder)
     assert m['evaluation_id']==value['evaluation_id'] and value['outline_acceptance']=='accepted'
+    network=value['network_planning']
+    assert network['status']=='bounded-retained-corridor-fallback'
+    assert network['applicability']['river_name']=='الفرات'
+    assert network['applicability']['ring_status']=='no-linked-ring'
+    assert network['retained_station_access']
+    assert workflow.read_json(folder,'summary.json')['network_planning']==network
     city=value['city_outline'];plan=value['delivery_plan'];base=value['planning_revision']
     assert base['source_cost_evaluation_id']==city['cost']['evaluation_id']
     assert base['outline_context']['city_input_template']==city['geometry_and_service']
@@ -114,6 +120,9 @@ def test_baghdad_service_comparison_replays_and_reprices_same_published_network(
     assert original_manifest['source_sha256']==alternative_manifest['source_sha256']
     assert original['source_outline_evaluation_id']==alternative['source_outline_evaluation_id']
     assert original['city']['slug']==alternative['city']['slug']=='baghdad'
+    assert original['network_planning']['applicability']['ring_ids']==['line-9']
+    assert original['network_planning']['status']=='bounded-retained-corridor-fallback'
+    assert alternative['network_planning']['status']=='explicit-scenario'
     assert original['evaluation_id']!=alternative['evaluation_id']
     assert len(original['city_outline']['cost']['scope_totals_usd'])==14
     assert len(alternative['city_outline']['cost']['scope_totals_usd'])==14

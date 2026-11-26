@@ -68,7 +68,9 @@ Worked cases for reproducing estimates and supplier packages
   design railway baghdad-options  Compare supply, span and piers for the seven-line network
   design railway site-study       Model and price the Airport corridor with public GIS layers
   design railway central-access   Check central Baghdad station access and connected service
-  design railway baghdad-network   Generate or verify Baghdad's connected network and walking coverage
+  design railway baghdad-network   Publish or verify the active Baghdad rings and through-route study
+  design railway baghdad-network-legacy  Reproduce the earlier Baghdad connected housing-network case
+  design railway city-study --city SLUG --output DIR  Run the shared city network planning study
 
 The default is a development selection. Physical and operating acceptance remain
 open. Source-bound outputs remain tied to their declared candidate and inputs.
@@ -114,7 +116,9 @@ if [[ "${1:-}" == design && "${2:-}" == railway ]]; then
         site-study:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.simulation.site_study "$@" ;;
         project-reference:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.simulation.reference_project "$@" ;;
         central-access:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.central_access "$@" ;;
-        baghdad-network:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.holistic_map "$@" ;;
+        baghdad-network:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.straight_network_publication "$@" ;;
+        baghdad-network-legacy:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.straight_network_publication --legacy "$@" ;;
+        city-study:*) shift 3; exec tools/automation/osr-python -m engineering.outline city "$@" ;;
         feeder:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.simulation.feeder_options "$@" ;;
         baghdad-delivery:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.mechanical.civil.network_delivery "$@" ;;
         rail-fed:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.mechanical.civil.rail_fed_erection "$@" ;;

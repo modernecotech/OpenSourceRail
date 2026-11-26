@@ -54,6 +54,14 @@ pattern supports them.
 *Calculated Baghdad route outline. Alignment and access are unsurveyed;
 the interchange symbols do not approve station construction.*
 
+The current metropolitan proposal uses an inner ring, an outer ring and
+two almost straight services across the Tigris. Each through service
+connects to both rings at shared passenger stations. A 1.3 km street walk
+and housing trips with up to two changes provide the access comparison.
+The same route and station register drives the capital, operating and
+delivery allowances, including curved-girder fabrication and both-end
+launching work orders. [Current Baghdad study and map](../../cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md)
+
 The size of the Baghdad proposal multiplies uncertainty. A model can
 calculate line times, fleet and cost for its declared network, but a city
 decision would need observed travel patterns, river and bridge options,

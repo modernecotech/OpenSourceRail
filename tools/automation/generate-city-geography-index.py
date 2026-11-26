@@ -10,7 +10,7 @@ from urllib.parse import quote
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "docs/design-engine/current/cities.json"
 OUTPUT = ROOT / "cities/catalogue/README.md"
-BAGHDAD_SYSTEM = ROOT / "cities/Baghdad/system-results.json"
+BAGHDAD_NETWORK = ROOT / "cities/Baghdad/straight-through-network.json"
 
 
 def generate() -> str:
@@ -22,15 +22,12 @@ def generate() -> str:
     if register.get("city_count") != len(register.get("cities", [])):
         raise ValueError("city register count is inconsistent")
 
-    baghdad = json.loads(BAGHDAD_SYSTEM.read_text(encoding="utf-8"))
-    if baghdad.get("schema") != "opensourcerail.baghdad.public-cost-comparison.1":
-        raise ValueError("current Baghdad system result required")
-    first, metro = (baghdad["networks"][name] for name in ("first", "metropolitan"))
-    if (first["route_km"] != 148.2 or metro["route_km"] != 605.652
-            or first["stations_planning_allowance"] != 64
-            or metro["stations_planning_allowance"] != 280
-            or len(metro["service_groups"]) != 14):
-        raise ValueError("Baghdad index requires the selected independent network results")
+    baghdad = json.loads(BAGHDAD_NETWORK.read_text(encoding="utf-8"))
+    if baghdad.get("schema") != "osr-baghdad-straight-through/1":
+        raise ValueError("Current Baghdad through-route study is required")
+    physical, civil, economics = (baghdad[key] for key in ("network", "civil", "cost"))
+    if len({row["candidate_id"] for row in (physical, civil, economics)}) != 1:
+        raise ValueError("Baghdad map and prices refer to different candidates")
 
     import hashlib
     report_index = ROOT / "docs/design-engine/city-dossiers/index.json"
@@ -53,9 +50,13 @@ def generate() -> str:
         hold = quote(f"{path}/engineering/current/README.md", safe="/-._")
         r = reports.get(city["slug"])
         if city["slug"] == "baghdad":
-            first_capital = first["power_cases"]["protected_conductor"]["installed_capital_usd_m"] / 1000
-            metro_capital = metro["power_cases"]["protected_conductor"]["installed_capital_usd_m"] / 1000
-            rows.append(f"| {city['country']} | [Baghdad city planning](../Baghdad/README.md) | 148.2 / 605.65 | 7 / 14 service groups | 64 / 280 | 242 / 934 | ${first_capital:.3f}bn / ${metro_capital:.3f}bn | [Current connected network](../Baghdad/NETWORK.md) · [Earlier comparison costs](../Baghdad/COST-AND-DELIVERY.md) · [Research outline]({hold}) |")
+            quantities = civil["quantities"]
+            capital = economics["cost_cases"]["base"]["installed_planning_usd_m"] / 1000
+            rows.append(f"| {city['country']} | [Baghdad city planning](../Baghdad/README.md) | "
+                        f"{quantities['service_route_km']:.2f} | {len(physical['lines'])} | "
+                        f"{quantities['station_line_platform_packages']} | {economics['service']['fleet_trainsets']:,} | "
+                        f"${capital:.2f}bn | [Current connected network](../Baghdad/STRAIGHT-THROUGH-NETWORK.md) · "
+                        f"[Earlier comparisons](../Baghdad/COST-AND-DELIVERY.md) · [Research outline]({hold}) |")
             continue
         if r:
             capital = r["installed_capital_usd"]["base"] / 1e6
@@ -67,7 +68,7 @@ def generate() -> str:
         f"Explore **{register['city_count']} city network outlines**. Each city dossier brings together its visible network map, line and station tables, service and fleet, civil and factory quantities, workforce, energy accounting, capital and whole-life costs, finance scenarios, site requirements and downloads.", "",
         "The figures use the exact selected calculated outline and explicit Class C estimates. A complete outline supports comparison and development; engineering verification and manufacturing or operating approval remain separate.", "",
         "[Baghdad city planning](../Baghdad/README.md) · [Samawah](west-asia/Iraq/Samawah/README.md) · [Interactive city atlas](../../docs/workbench/current/index.html?outlineCity=baghdad) · [Dossier methods](../../docs/design-engine/city-dossiers/README.md) · [Planning workspace](../../docs/workbench/planning/index.html) · [Project introduction](../../README.md)", "",
-        "Station groups are operational line/platform groups; shared access sites and interchanges are reported separately inside each dossier. Baghdad’s reported 148.2 and 605.65 km figures are earlier comparison scopes with separate route, fleet and cost bases. The current connected network uses its own route geometry and station coverage calculation. Other rows use the selected calculated outline's base installed estimate. Programme totals do not assume shared factories or imply verified local prices.", "",
+        "Station groups are line platform packages. Shared access sites and interchanges are reported separately inside each dossier. Baghdad uses the active rings and through-route proposal and its six-minute costing basis. The 148.2 and 605.65 km figures remain in the earlier comparison. Other rows use the selected calculated outline's base installed estimate. Programme totals do not assume shared factories or verified local prices.", "",
         "| Country | City dossier and map | Route km | Lines | Station groups | Trainsets incl. reserve | Base installed US$ | Physical evidence |",
         "|---|---|---:|---:|---:|---:|---:|---|", *rows, "",
     ])
