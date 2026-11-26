@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **257**.
+Indexed Markdown files: **258**.
 
 ## Sections
 
@@ -20,7 +20,7 @@ Indexed Markdown files: **257**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
-| [cities](#cities) | 84 |
+| [cities](#cities) | 85 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
 | [docs](#docs) | 140 |
@@ -57,6 +57,7 @@ Indexed Markdown files: **257**.
 | [`cities/Baghdad/AIRPORT-OPENING.md`](../cities/Baghdad/AIRPORT-OPENING.md) | Opening the Baghdad Airport corridor |
 | [`cities/Baghdad/BUYER-COMPARISON.md`](../cities/Baghdad/BUYER-COMPARISON.md) | Buying a railway using an open reference |
 | [`cities/Baghdad/CENTRAL-ACCESS.md`](../cities/Baghdad/CENTRAL-ACCESS.md) | Central Baghdad passenger access review |
+| [`cities/Baghdad/CENTRAL-RING-NETWORK.md`](../cities/Baghdad/CENTRAL-RING-NETWORK.md) | Baghdad central ring, junctions and parallel routes |
 | [`cities/Baghdad/CITYWIDE-SERVICE.md`](../cities/Baghdad/CITYWIDE-SERVICE.md) | Baghdad 14-route clockface trial |
 | [`cities/Baghdad/COST-AND-DELIVERY.md`](../cities/Baghdad/COST-AND-DELIVERY.md) | Baghdad system cost and delivery |
 | [`cities/Baghdad/IRAQ-CAPITAL.md`](../cities/Baghdad/IRAQ-CAPITAL.md) | What the Baghdad networks could cost to build |

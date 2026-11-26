@@ -10,6 +10,8 @@ The wider ring follows a larger central footprint while retaining the 5 km minim
 
 The route redesign joins both wider rings to a new east–west service and tests alternatives for the G09 terminus and other interchanges. [Reworked routes and stations](baghdad-ring-network.png) · [GIS](baghdad-ring-network.geojson) · [Service and costs](../RING-NETWORK.md)
 
+The central-ring study compares inner-ring access to six destinations, junction consolidation and deeper parallel-route cuts using a 1.3 km walking threshold. [Central-ring map](baghdad-central-ring-network.png) · [GIS](baghdad-central-ring-network.geojson) · [Access, service and costs](../CENTRAL-RING-NETWORK.md)
+
 ## Retained map sources
 
 The maps below record the original comparison geometry underlying earlier studies and estimates.
