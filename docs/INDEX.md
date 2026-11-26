@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **254**.
+Indexed Markdown files: **255**.
 
 ## Sections
 
@@ -20,7 +20,7 @@ Indexed Markdown files: **254**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
-| [cities](#cities) | 81 |
+| [cities](#cities) | 82 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
 | [docs](#docs) | 140 |
@@ -69,6 +69,7 @@ Indexed Markdown files: **254**.
 | [`cities/Baghdad/README.md`](../cities/Baghdad/README.md) | Baghdad metropolitan railway |
 | [`cities/Baghdad/RING-GRID.md`](../cities/Baghdad/RING-GRID.md) | Baghdad ring-and-grid network comparison |
 | [`cities/Baghdad/SERVICE-DIAGRAMS.md`](../cities/Baghdad/SERVICE-DIAGRAMS.md) | Baghdad passenger service and train workings |
+| [`cities/Baghdad/SPACED-RINGS.md`](../cities/Baghdad/SPACED-RINGS.md) | Baghdad compact rings and through routes |
 | [`cities/Baghdad/VEHICLE.md`](../cities/Baghdad/VEHICLE.md) | Baghdad 700-place train |
 | [`cities/Baghdad/engineering/commissioning/COMMISSIONING.md`](../cities/Baghdad/engineering/commissioning/COMMISSIONING.md) | Airport traction and station commissioning |
 | [`cities/Baghdad/engineering/controls/AIRPORT-ATP.md`](../cities/Baghdad/engineering/controls/AIRPORT-ATP.md) | Authority and stopping sensitivity on the corrected Airport alignment |

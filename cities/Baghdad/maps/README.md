@@ -4,6 +4,8 @@ The current metropolitan map shows one connected passenger network and the desti
 
 The ring-and-grid study compares the published network with closed inner and outer rings, near-straight cross-city routes and an inner-ring-only option. [Comparison map](baghdad-ring-grid.png) · [Journey, construction and cost comparison](../RING-GRID.md)
 
+The compact-ring study sets a 5 km minimum horizontal clearance between the two alignments. It tests a smaller inner loop, fewer parallel routes and consolidated station sites against the published network. [Comparison map](baghdad-spaced-rings.png) · [GIS](baghdad-spaced-rings.geojson) · [Journey, construction and cost results](../SPACED-RINGS.md)
+
 ## Retained map sources
 
 The maps below record the original comparison geometry underlying earlier studies and estimates.
