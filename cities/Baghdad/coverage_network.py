@@ -10,7 +10,7 @@ from scipy.spatial import cKDTree
 from shapely import LineString, Point
 from shapely.ops import substring
 
-from . import central_access, coverage_orbitals, coverage_trunks, holistic_access, holistic_network as rail
+from . import central_access, coverage_extensions, coverage_orbitals, coverage_trunks, holistic_access, holistic_network as rail
 from .coverage_orbitals import WALK_M
 
 RINGS = coverage_trunks.RINGS
@@ -18,7 +18,6 @@ RING_NAMES = ("Central ring", "Residential middle ring", "Outer ring")
 MIN_SITE_DISTANCE_M = coverage_trunks.STATION_SPACING_M
 MAX_TRUNKS = 14
 MAX_ORBITAL_LAYOUTS = 3
-MAX_PUBLISHED_TRIALS = 2
 INFILL_SAMPLE_M = 250
 MAX_INFILL_SITES = 120
 
@@ -207,14 +206,27 @@ def designs(reference, graph, context, populations):
         print(f"{trial_id}: {audit['lines']} lines, {audit['walking']} reachable", flush=True)
         layouts.append((assembly, audit))
 
-    ranked = sorted(layouts, key=lambda item: _portfolio_rank(item[1]))
     networks, trials = {"published": reference}, {}
-    for assembly, audit in ranked[:MAX_PUBLISHED_TRIALS]:
-        code = "coverage-" + audit["id"].removeprefix("population-orbitals-")
-        networks[code] = assembly
-        trials[code] = audit
+    if layouts:
+        core, core_audit = min(layouts, key=lambda item: _portfolio_rank(item[1]))
+        code = "coverage-" + core_audit["id"].removeprefix("population-orbitals-")
+        networks[code], trials[code] = core, core_audit
+        print(f"Testing suburban extensions to {code}", flush=True)
+        extended, extension_audit = coverage_extensions.extend(core, graph, context, populations)
+        if extension_audit["extensions"]:
+            extended_code = f"{code}-extended"
+            networks[extended_code] = extended
+            trials[extended_code] = core_audit | {
+                "id": extended_code, "core_layout": code, "suburban_extensions": extension_audit,
+                "walking": _coverage(extended, graph, populations), "station_screen": station_audit(extended),
+                "route_km": extended["topology"]["route_km"],
+                "candidate_id": extended["candidate_id"], "evaluation_id": extended["evaluation_id"],
+            }
+        else:
+            trials[code] = core_audit | {"suburban_extensions": extension_audit}
     return networks, trials, {
         "walk_limit_m": WALK_M, "trunk_limit": MAX_TRUNKS,
+        "maximum_extension_km_per_end": coverage_extensions.MAX_EXTENSION_KM,
         "generated_orbital_shapes": [{"id": row["id"], "audit": row["audit"]} for row in fitted],
         "examined_layouts": examined,
     }

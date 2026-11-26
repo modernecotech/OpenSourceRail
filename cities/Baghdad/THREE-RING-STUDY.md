@@ -13,16 +13,52 @@ The two-ring reference still supplies the proposal’s budget. The three-ring co
 | Layout | Rings | Services | Short services | Cross-city trunks | Route-km | Station sites | Shared sites | Pairs of sites within 750 m | Parallel pair-km |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | Two-ring reference | 2 | 36 | 8 | 2 | 785.14 | 641 | 115 | 379 | 24.98 |
-| Three rings · M1 / O4 | 3 | 11 | 0 | 8 | 362.29 | 259 | 38 | 3 | 12.35 |
-| Three rings · M3 / O4 | 3 | 9 | 0 | 6 | 317.23 | 242 | 31 | 2 | 0.00 |
+| Three-ring core · M1 / O4 | 3 | 11 | 0 | 8 | 362.29 | 259 | 38 | 3 | 12.35 |
+| Three rings with suburban extensions | 3 | 11 | 0 | 8 | 456.63 | 311 | 38 | 3 | 12.35 |
 
 The passenger comparisons hold running supply at **282,650 train-km/day**. The housing test searches journeys with up to two changes. The wider metropolitan test assigns least-generalised-cost trips, then reports the share using up to two changes. Both population layers use the same retained street graph and a 1.3 km maximum walk.
 
 | Layout | WorldPop within 1.3 km | GHSL within 1.3 km | WorldPop reached only via middle-ring sites | Housing ≤2 changes | Wider journeys ≤2 changes | Headway |
 |---|---:|---:|---:|---:|---:|---:|
 | Two-ring reference | 76.72% | 77.37% | 0 | 77.63% | 57.67% | 6.00 min |
-| Three rings · M1 / O4 | 57.76% | 58.23% | 555,687 | 39.39% | 39.60% | 2.77 min |
-| Three rings · M3 / O4 | 56.12% | 56.23% | 771,335 | 29.33% | 37.24% | 2.42 min |
+| Three-ring core · M1 / O4 | 57.76% | 58.23% | 555,687 | 39.39% | 39.60% | 2.77 min |
+| Three rings with suburban extensions | 60.03% | 61.68% | 555,687 | 40.92% | 40.90% | 3.49 min |
+
+## Suburban extensions on the through services
+
+The core search chose new termini within a 11 km band beyond the outer ring. It also discounted the approach score as length increased. The illustrated core's ordinary ends finished within 4.45 km of the ring, leaving much of the suburban catchment unserved.
+
+The continuation search tests up to **20 km per trunk end**. It keeps the original stations and through services, screens new alignments for heading, water, station spacing and parallel duplication, and ranks the options by additional residents within a 1.3 km street walk on both population grids.
+
+The resulting package extends **14 trunk ends** by **94.34 route-km** and adds **52 station sites**. It reaches **195,608 more WorldPop residents** and **253,643 more GHSL residents** than the same core. Passengers stay on the same service to cross the river and reach the rings.
+
+The suburban shares below use the same territory outside the three-ring outer alignment for every case.
+
+| Layout | WorldPop suburban walk reach | GHSL suburban walk reach |
+|---|---:|---:|
+| Two-ring reference | 53.78% | 56.02% |
+| Three-ring core · M1 / O4 | 33.41% | 35.95% |
+| Three rings with suburban extensions | 39.33% | 45.46% |
+
+| Trunk | From former terminus | New terminus (nearby mapped place) | Added km | New sites | New WorldPop reach |
+|---|---|---|---:|---:|---:|
+| T01 | T01-S14 | T01-X2-04 (الشاعورة) | 7.54 | 4 | 35,831 |
+| T05 | T05-S10 | T05-X2-07 (Nahrawan) | 15.66 | 7 | 53,608 |
+| T08 | T08-S01 | T08-X1-05 (الكرامة) | 8.78 | 5 | 22,062 |
+| T04 | T04-S14 | T04-X2-01 (قرية ۱ حزيران) | 2.00 | 1 | 8,905 |
+| T04 | T04-S01 | T04-X1-03 (داود عيسى) | 4.31 | 3 | 10,558 |
+| T06 | T06-S01 | T06-X1-10 (Hay Al-Mortada) | 18.10 | 10 | 17,153 |
+| T07 | T07-S11 | T07-X2-05 (الكرامة) | 8.86 | 5 | 11,761 |
+| T08 | T08-S12 | T08-X2-03 | 5.48 | 3 | 6,980 |
+| T06 | T06-S15 | T06-X2-02 | 2.70 | 2 | 3,552 |
+| T05 | T05-S01 | T05-X1-02 | 3.58 | 2 | 4,437 |
+| T07 | T07-S01 | T07-X1-02 | 3.73 | 2 | 3,773 |
+| T03 | T03-S11 | T03-X2-04 | 7.26 | 4 | 11,272 |
+| T03 | T03-S01 | T03-X1-02 (As Salmaniyat) | 3.34 | 2 | 4,296 |
+| T02 | T02-S10 | T02-X2-02 | 3.02 | 2 | 1,418 |
+
+Per-extension gains are counted in selection order. The reported residents are unique across the package.
+
 
 A resident is counted in the middle-ring-only column if they lose their 1.3 km access when stations exclusive to that ring are removed. Shared stations stay available in this test.
 
@@ -32,10 +68,10 @@ A resident is counted in the middle-ring-only column if they lose their 1.3 km a
 |---|---|---:|---:|---:|---:|
 | Two-ring reference | worldpop-2026 | 272,311 | 272,311 | 0 | 0 |
 | Two-ring reference | ghsl-2025 | 216,037 | 216,037 | 0 | 0 |
-| Three rings · M1 / O4 | worldpop-2026 | 272,311 | 218,618 | 28,571 | 53,693 |
-| Three rings · M1 / O4 | ghsl-2025 | 216,037 | 166,957 | 19,734 | 49,080 |
-| Three rings · M3 / O4 | worldpop-2026 | 272,311 | 191,869 | 26,632 | 80,442 |
-| Three rings · M3 / O4 | ghsl-2025 | 216,037 | 137,750 | 17,558 | 78,287 |
+| Three-ring core · M1 / O4 | worldpop-2026 | 272,311 | 218,618 | 28,571 | 53,693 |
+| Three-ring core · M1 / O4 | ghsl-2025 | 216,037 | 166,957 | 19,734 | 49,080 |
+| Three rings with suburban extensions | worldpop-2026 | 272,311 | 219,475 | 28,571 | 52,836 |
+| Three rings with suburban extensions | ghsl-2025 | 216,037 | 167,252 | 19,734 | 48,785 |
 
 The map marks the largest areas where the trial loses existing walking access. The machine record also contains overall access gains and losses, named destinations and the 1.2 km walking sensitivity.
 
@@ -54,14 +90,14 @@ The deterministic search generated 12 nested orbital combinations and built 3 co
 
 | Trunk | Route-km | Route ÷ chord | Shared stations on the three rings |
 |---|---:|---:|---|
-| T01 | 32.08 | 1.004 | M15 (2), M09 (2), M16 (2) |
-| T02 | 26.48 | 1.006 | M15 (2), M09 (2), M16 (2) |
-| T03 | 26.29 | 1.017 | M15 (2), M09 (2), M16 (2) |
-| T04 | 26.38 | 1.018 | M15 (1), M09 (2), M16 (1) |
-| T05 | 25.21 | 1.005 | M15 (1), M09 (2), M16 (2) |
-| T06 | 28.32 | 1.011 | M15 (1), M09 (2), M16 (1) |
-| T07 | 25.56 | 1.052 | M15 (1), M09 (1), M16 (2) |
-| T08 | 24.42 | 1.015 | M15 (1), M09 (1), M16 (1) |
+| T01 | 39.61 | 1.027 | M15 (2), M09 (2), M16 (2) |
+| T02 | 29.50 | 1.013 | M15 (2), M09 (2), M16 (2) |
+| T03 | 36.89 | 1.024 | M15 (2), M09 (2), M16 (2) |
+| T04 | 32.69 | 1.026 | M15 (1), M09 (2), M16 (1) |
+| T05 | 44.45 | 1.020 | M15 (1), M09 (2), M16 (2) |
+| T06 | 49.12 | 1.033 | M15 (1), M09 (2), M16 (1) |
+| T07 | 38.15 | 1.039 | M15 (1), M09 (1), M16 (2) |
+| T08 | 38.68 | 1.033 | M15 (1), M09 (1), M16 (1) |
 
 Trunks serve both sides of the outer ring with one Tigris crossing each. Shared station sites are retained before adding local stops. Dedicated railway bridges, grades, junctions, accessible station entrances and operating headways require site and engineering work.
 
@@ -77,22 +113,22 @@ The priced cases use the same six-minute budget offer, unit rates and curved-sto
 | Layout | Running-track km | Fleet | Standard casting, haul and erection hours | Base installed US$bn | Annual operation US$bn | 30-year present US$bn |
 |---|---:|---:|---:|---:|---:|---:|
 | Two-ring reference | 1,568.22 | 581 | 6,259,184 | 43.12 | 1.16 | 65.94 |
-| Three rings · M1 / O4 | 724.58 | 242 | 2,581,192 | 18.54 | 0.50 | 28.37 |
-| Three rings · M3 / O4 | 634.46 | 216 | 2,167,192 | 16.45 | 0.45 | 25.33 |
+| Three-ring core · M1 / O4 | 724.58 | 242 | 2,581,192 | 18.54 | 0.50 | 28.37 |
+| Three rings with suburban extensions | 913.27 | 293 | 3,827,328 | 22.56 | 0.61 | 34.65 |
 
 | Layout | Concurrent yards | Last standard-stock day | Curved girder pieces | Route-km on unresolved beam or crossing forms |
 |---|---:|---:|---:|---:|
 | Two-ring reference | 8 | 3,202 | 2,382 | 269.27 |
-| Three rings · M1 / O4 | 8 | 2,548 | 1,612 | 37.80 |
-| Three rings · M3 / O4 | 8 | 2,612 | 1,618 | 34.49 |
+| Three-ring core · M1 / O4 | 8 | 2,548 | 1,612 | 37.80 |
+| Three rings with suburban extensions | 8 | 2,548 | 1,612 | 44.67 |
 
 These allowances include the counted recurring stock and curved-piece premium. New bridges, station interfaces and other held structures need separate design and prices. The model leaves the project opening date open.
 
 ## Decision checks
 
-- **Three rings · M1 / O4** · WorldPop walk coverage is below the two-ring reference. GHSL walk coverage is below the two-ring reference. Housing reach with up to two changes falls below the existing tolerance. At least one named central destination loses too much access. Wide outer-district journeys with up to two changes fall below the service tolerance.
-- **Three rings · M3 / O4** · WorldPop walk coverage is below the two-ring reference. GHSL walk coverage is below the two-ring reference. Housing reach with up to two changes falls below the existing tolerance. At least one named central destination loses too much access. Wide outer-district journeys with up to two changes fall below the service tolerance.
+- **Three-ring core · M1 / O4** · WorldPop walk coverage is below the two-ring reference. GHSL walk coverage is below the two-ring reference. Housing reach with up to two changes falls below the existing tolerance. At least one named central destination loses too much access. Wide outer-district journeys with up to two changes fall below the service tolerance.
+- **Three rings with suburban extensions** · WorldPop walk coverage is below the two-ring reference. GHSL walk coverage is below the two-ring reference. Housing reach with up to two changes falls below the existing tolerance. At least one named central destination loses too much access. Wide outer-district journeys with up to two changes fall below the service tolerance.
 
 Reproduce with `OPENBLAS_NUM_THREADS=1 ./osr design railway baghdad-three-rings --check`.
 
-Publication `c01580f48b4e01b1677c658c32a80438db85d9f014624161cdc53f3df4c6da4a`.
+Publication `506410ff16e35ca0db1f1299491e02dfdf075f034abe39ffcffde91d3951d23f`.

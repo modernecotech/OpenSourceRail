@@ -68,6 +68,36 @@ def test_published_trial_reconciles_ring_contacts_station_evidence_and_matching_
             assert properties["stroke"] == colors[properties["line_id"]]
 
 
+def test_published_suburban_improvement_uses_the_same_through_services_and_boundary():
+    with gzip.open(study.CITY / publication.DATA, "rt", encoding="utf-8") as stream:
+        record = json.load(stream)
+    key, trial = next((key, row) for key, row in record["layout_trials"].items() if "core_layout" in row)
+    core_key = trial["core_layout"]
+    before, after = (record["layouts"][case] for case in (core_key, key))
+    audit = trial["suburban_extensions"]
+    assert record["selection"]["illustrated_trial"] == key
+    assert audit["base_candidate_id"] == before["candidate_id"]
+    assert set(before["lines"]) == set(after["lines"])
+    assert before["transfers"] == after["transfers"]
+    assert all(after["stations"][stop] == row for stop, row in before["stations"].items())
+    assert all(before["lines"][code] == after["lines"][code] for code in study.RINGS)
+    assert len(after["stations"]) - len(before["stations"]) == audit["new_station_sites"]
+    assert record["summary"][key]["route_km"] - record["summary"][core_key]["route_km"] == pytest.approx(
+        audit["route_km_added"], abs=.02)
+    assert "Airport-00" in {after["lines"]["T01"]["station_ids"][i] for i in (0, -1)}
+    for row in audit["extensions"]:
+        code = row["route"]
+        assert row["former_terminal"] in after["lines"][code]["station_ids"]
+        assert row["new_terminal"] == after["lines"][code]["station_ids"][0 if row["end"] == 0 else -1]
+        assert 0 < row["route_km"] <= audit["maximum_km_per_end"]
+    for grid, cases in record["coverage"].items():
+        compact, expanded = (cases[case]["1300"] for case in (core_key, key))
+        assert expanded["access_people"] - compact["access_people"] == pytest.approx(audit["newly_reached"][grid], abs=1)
+        outer = [cases[case]["1300"]["outside_trial_outer_ring"] for case in ("published", core_key, key)]
+        assert len({row["population"] for row in outer}) == 1
+        assert outer[2]["served"] > outer[1]["served"]
+
+
 def test_rings_can_touch_at_a_shared_station_but_cannot_share_running_track():
     outer = Polygon([(0, 0), (10, 0), (10, 10), (0, 10)])
     inner = Polygon([(2, 2), (5, 0), (8, 2), (6, 5), (4, 5)])

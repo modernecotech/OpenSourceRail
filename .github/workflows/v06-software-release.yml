@@ -413,7 +413,7 @@ jobs:
           OPENBLAS_NUM_THREADS=1 python -m cities.Baghdad.straight_network_publication --check
           python -m pytest -q --import-mode=importlib \
             cities/Baghdad/test_straight_through_layout.py cities/Baghdad/test_third_ring_study.py \
-            cities/Baghdad/test_coverage_orbitals.py cities/Baghdad/test_coverage_trunks.py \
+            cities/Baghdad/test_coverage_orbitals.py cities/Baghdad/test_coverage_trunks.py cities/Baghdad/test_coverage_extensions.py \
             cities/Baghdad/engineering/mechanical/civil/test_alignment_beams.py tests/test_outline_network_policy.py
       - name: Verify railway timetables, prototype prices and bench records
         run: |

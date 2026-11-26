@@ -21,9 +21,11 @@ NAMES = {"published": "Two-ring reference", "custom-layout": "Edited network"}
 
 
 def name(code):
+    if code.endswith("-extended"):
+        return "Three rings with suburban extensions"
     if code.startswith("coverage-"):
         middle, outer = code.removeprefix("coverage-").split("-")
-        return f"Three rings · {middle.upper()} / {outer.upper()}"
+        return f"Three-ring core · {middle.upper()} / {outer.upper()}"
     return NAMES.get(code, code.replace("-", " ").capitalize())
 
 
@@ -73,6 +75,42 @@ def report(record):
         text.append(f"| {name(code)} | {_pct(row['worldpop_1300_pct'])} | {_pct(row['ghsl_1300_pct'])} | "
                     f"{reach['middle_only_people']:,} | {_pct(row['housing_two_changes_pct'])} | "
                     f"{_pct(row['wide_two_changes_pct'])} | {row['headway_s']/60:.2f} min |")
+    extended = next((key for key, row in record["layout_trials"].items() if "core_layout" in row), None)
+    if extended:
+        extension = record["layout_trials"][extended]["suburban_extensions"]
+        core = record["layout_trials"][extended]["core_layout"]
+        trunk_search = record["layout_trials"][core]["trunk_search"]
+        cap = trunk_search["screen"]["ordinary_terminal_reach_beyond_outer_ring_m"][1] / 1000
+        reach = max(distance for row in trunk_search["trunks"] for stop, distance in
+                    zip(row["terminal_ids"], row["terminal_distance_beyond_outer_ring_m"], strict=True)
+                    if stop != "Airport-00") / 1000
+        text += ["", "## Suburban extensions on the through services", "",
+                 f"The core search chose new termini within a {cap:g} km band beyond the outer ring. It also "
+                 "discounted the approach score as length increased. The illustrated core's ordinary ends "
+                 f"finished within {reach:.2f} km of the ring, leaving much of the suburban catchment unserved.", "",
+                 f"The continuation search tests up to **{extension['maximum_km_per_end']:g} km per trunk end**. "
+                 "It keeps the original stations and through services, screens new alignments for heading, "
+                 "water, station spacing and parallel duplication, and ranks the options by additional "
+                 "residents within a 1.3 km street walk on both population grids.", "",
+                 f"The resulting package extends **{len(extension['extensions'])} trunk ends** by "
+                 f"**{extension['route_km_added']:.2f} route-km** and adds **{extension['new_station_sites']} station sites**. "
+                 f"It reaches **{extension['newly_reached']['worldpop-2026']:,} more WorldPop residents** and "
+                 f"**{extension['newly_reached']['ghsl-2025']:,} more GHSL residents** than the same core. "
+                 "Passengers stay on the same service to cross the river and reach the rings.", "",
+                 "The suburban shares below use the same territory outside the three-ring outer alignment for every case.", "",
+                 "| Layout | WorldPop suburban walk reach | GHSL suburban walk reach |",
+                 "|---|---:|---:|"]
+        for key in ("published", core, extended):
+            shares = [record["coverage"][grid][key]["1300"]["outside_trial_outer_ring"]["access_pct"]
+                      for grid in ("worldpop-2026", "ghsl-2025")]
+            text.append(f"| {name(key)} | {_pct(shares[0])} | {_pct(shares[1])} |")
+        text += ["", "| Trunk | From former terminus | New terminus (nearby mapped place) | Added km | New sites | New WorldPop reach |",
+                 "|---|---|---|---:|---:|---:|"]
+        for tail in extension["extensions"]:
+            place = f" ({tail['nearby_place']})" if tail["nearby_place"] else ""
+            text.append(f"| {tail['route']} | {tail['former_terminal']} | {tail['new_terminal']}{place} | "
+                        f"{tail['route_km']:.2f} | {tail['new_sites']} | {tail['additional_reach']['worldpop-2026']:,} |")
+        text += ["", "Per-extension gains are counted in selection order. The reported residents are unique across the package.", ""]
     text += ["", "A resident is counted in the middle-ring-only column if they lose their 1.3 km access when "
              "stations exclusive to that ring are removed. Shared stations stay available in this test.", "",
              "### Neighbourhoods previously served only by short routes", "",
@@ -172,7 +210,9 @@ def draw(record, context):
     from matplotlib.patches import Polygon
 
     selected = record["selection"]["illustrated_trial"] or "published"
-    keys = ("published", selected) if selected != "published" else ("published",)
+    details = record["layout_trials"].get(selected, {})
+    core = details.get("core_layout")
+    keys = (core or "published", selected) if selected != "published" else ("published",)
     water, rivers, roads = central_service_map.source_geometry(context)
     extent = np.concatenate([
         line["geometry"] for key in keys for line in record["layouts"][key]["lines"].values()
@@ -184,8 +224,9 @@ def draw(record, context):
                                 gridspec_kw={"left": .04, "right": .975, "bottom": .17, "top": .84, "wspace": .08})
     figure.patch.set_facecolor(paper)
     figure.text(.047, .946, "Baghdad’s rings and cross-city routes", color=ink, fontsize=26, weight="bold")
-    subtitle = ("Published layout and coverage-led trial on the same scale" if comparison
-                else "Passenger services and shared interchanges in the published layout")
+    subtitle = ("Same three-ring core before and after extending through services into the suburbs" if core else
+                "Published layout and coverage-led trial on the same scale" if comparison else
+                "Passenger services and shared interchanges in the published layout")
     figure.text(.047, .899, subtitle, color="#465e68", fontsize=12)
     for axis, key in zip(axes[0], keys, strict=True):
         net, row = record["layouts"][key], record["summary"][key]
@@ -217,6 +258,13 @@ def draw(record, context):
                              s=22, linewidths=.8, zorder=5.4)
             if code in cross_river or (code not in rings and len(net["lines"]) <= 13):
                 terminals.append((code, shade, points[[0, -1]]))
+        if core and key == selected:
+            for tail in details["suburban_extensions"]["extensions"]:
+                coords = np.asarray(tail["geometry"])
+                axis.plot(*coords.T, color=paper, lw=4.6, zorder=4.85)
+                axis.plot(*coords.T, color=colors[tail["route"]], lw=3.3, zorder=4.9)
+                axis.scatter(*coords[0], marker="D", facecolor=paper, edgecolor=ink,
+                             s=24, linewidths=.85, zorder=6.5)
         interchange = {site for site, station in net["stations"].items() if len(station["lines"]) > 1}
         if key != "published":
             local_sites = np.array([site["coordinates"] for stop, site in sorted(net["stations"].items())
@@ -257,7 +305,12 @@ def draw(record, context):
         ring_styles.insert(1, (MIDDLE_COLOR, "Middle ring"))
     legend = [Line2D([], [], color=shade, lw=2.5, label=label) for shade, label in ring_styles]
     legend.append(Line2D([], [], color=TRUNK_COLORS[0], lw=2.35, label="Cross-Tigris trunk"))
-    legend.append(Line2D([], [], color=TRUNK_COLORS[1], lw=1.55, label="Other passenger service"))
+    if core:
+        legend.append(Line2D([], [], color=TRUNK_COLORS[1], lw=3.3, label="Suburban extension"))
+        legend.append(Line2D([], [], color=ink, marker="D", markerfacecolor=paper,
+                             linestyle="none", label="Former terminus"))
+    else:
+        legend.append(Line2D([], [], color=TRUNK_COLORS[1], lw=1.55, label="Other passenger service"))
     if any(record["summary"][key]["short_count"] for key in keys):
         legend.append(Line2D([], [], color=SHORT_COLOR, lw=1.4, linestyle="--", label=f"Short route ≤{study.SHORT_KM:g} km"))
     if comparison:
@@ -302,10 +355,17 @@ def outputs(record, context):
     short_routes = set(record["summary"][selected]["short_lines"])
     colors = route_colors(layout, short_routes)
     data = holistic_network.geojson(layout)
+    extensions = record["layout_trials"].get(selected, {}).get("suburban_extensions", {}).get("extensions", [])
+    by_route = {}
+    for tail in extensions:
+        by_route.setdefault(tail["route"], []).append(tail["former_terminal"])
     for feature in data["features"]:
         props = feature["properties"]
         if props["kind"] == "line":
-            props.update(stroke=colors[props["line_id"]], **{"stroke-opacity": 1, "stroke-width": 3})
+            code = props["line_id"]
+            props.update(stroke=colors[code], **{"stroke-opacity": 1, "stroke-width": 3})
+            if code in by_route:
+                props["former_suburban_terminals"] = by_route[code]
     data.update(publication_id=record["publication_id"], trial=selected, study_status=record["study_status"])
     return {REPORT: report(record).encode(), DATA: gzip.compress(central_access.encode(record), mtime=0),
             MAP: draw(record, context), GEOJSON: central_access.encode(data)}

@@ -239,7 +239,7 @@ def _equal_scope_cost(network, context, policy):
             "source_sha256": civil["source_sha256"]}
 
 
-def _compare_access(networks, graph, population, baseline):
+def _compare_access(networks, graph, population, baseline, suburban_boundary=None):
     stations = {key: {stop: row["coordinates"] for stop, row in net["stations"].items()}
                 for key, net in networks.items()}
     walks = {key: holistic_access.walk_to_station(sites, graph, population)[0] for key, sites in stations.items()}
@@ -247,6 +247,7 @@ def _compare_access(networks, graph, population, baseline):
     x, y = (population.coordinates * holistic_network.LOCAL_METRES).T
     outside = ~contains_xy(outer, x, y)
     centre = contains_xy(inner, x, y)
+    suburban = ~contains_xy(suburban_boundary, x, y) if suburban_boundary is not None else None
     sectors = {"inside_inner_ring": centre, "between_existing_rings": ~(centre | outside), "outside_existing_outer_ring": outside}
     short = set(short_lines(networks[baseline]))
     regular_sites = {site: coords for site, coords in stations[baseline].items()
@@ -280,6 +281,13 @@ def _compare_access(networks, graph, population, baseline):
             row[str(limit)]["district_access_pct"] = {name: round(float(population.counts[present & mask].sum()
                                                                         / population.counts[mask].sum() * 100), 4)
                                                        for name, mask in sectors.items() if mask.any()}
+            if suburban is not None:
+                total_fringe = float(population.counts[suburban].sum())
+                fringe_people = float(population.counts[suburban & present].sum())
+                row[str(limit)]["outside_trial_outer_ring"] = {
+                    "population": round(total_fringe), "served": round(fringe_people),
+                    "access_pct": round(100 * fringe_people / total_fringe, 4) if total_fringe else None,
+                }
             short_only = old & (regular_walk > limit)
             row[str(limit)]["short_route_catchments"] = {
                 "baseline_short_only_people": round(float(population.counts[short_only].sum())),
@@ -392,7 +400,9 @@ def evaluate(layout=None):
         validate_layout(custom)
         networks, metadata, examined = {"published": reference, "custom-layout": custom}, {"custom-layout": changes}, {"selected": None}
     assumptions = replace(residential_systems.service_assumptions(policy["planning_service"]), walk_limit_m=WALK_M)
-    coverage = {key: _compare_access(networks, graph, population, "published")
+    core = next((details["core_layout"] for details in metadata.values() if "core_layout" in details), None)
+    suburban_boundary = _rings(networks[core])[RINGS[-1]] if core else None
+    coverage = {key: _compare_access(networks, graph, population, "published", suburban_boundary)
                 for key, population in populations.items()}
     print(f"Evaluating {len(networks)} distinct passenger layouts", flush=True)
     housing = holistic_pathways.compare(networks, graph=graph, assumptions=assumptions, origins=origins,
@@ -408,6 +418,8 @@ def evaluate(layout=None):
     for key, net in networks.items():
         summary[key]["airport_walk_m"] = _airport_walk(net, reference, graph)
     selection = _decision(summary, [key for key in networks if key != "published"], policy, metadata)
+    if core and selection["eligible_replacement"] is None:
+        selection["illustrated_trial"] = next(key for key, details in metadata.items() if "core_layout" in details)
     if layout is not None:
         selection["illustrated_trial"] = "custom-layout"
     priced = list(networks)
@@ -418,7 +430,7 @@ def evaluate(layout=None):
     for net in networks.values():
         sources.update(net.get("source_sha256", {}))
     for path in (REFERENCE, residential_planning.POLICY, Path(__file__), *(CITY / f"{name}.py" for name in
-                  ("coverage_network", "coverage_orbitals", "coverage_trunks", "third_ring_through",
+                  ("coverage_network", "coverage_orbitals", "coverage_trunks", "coverage_extensions", "third_ring_through",
                    "third_ring_publication"))):
         sources[path.relative_to(central_access.ROOT).as_posix()] = central_access.digest(path)
     record = {"schema": "osr-baghdad-three-ring-comparison/1", "reference": published["publication_id"],

@@ -657,10 +657,26 @@ path = "cities/Baghdad/three-ring-study.json.gz"
 keys = ["rings.walk_limit_m"]
 provenance = ["source_sha256"]
 verify_all_sources = ["source_sha256"]
-dependencies = ["cities/Baghdad/coverage_network.py", "cities/Baghdad/coverage_orbitals.py", "cities/Baghdad/coverage_trunks.py", "cities/Baghdad/third_ring_study.py", "cities/Baghdad/third_ring_publication.py"]
+dependencies = ["cities/Baghdad/coverage_network.py", "cities/Baghdad/coverage_extensions.py", "cities/Baghdad/coverage_orbitals.py", "cities/Baghdad/coverage_trunks.py", "cities/Baghdad/third_ring_study.py", "cities/Baghdad/third_ring_publication.py"]
 external = { path = "cities/Baghdad/maps/baghdad-three-ring-trial.geojson", matches = { "publication_id" = "publication_id", "selection.illustrated_trial" = "trial" } }
 
 [[spec.reader]]
 path = "cities/Baghdad/THREE-RING-STUDY.md"
 values = ['a (?P<value>\d+(?:\.\d+)?) km maximum walk']
 scale = 1000
+
+[[spec]]
+id = "baghdad-suburban-extension-search-distance"
+source = "cities/Baghdad/coverage_extensions.py"
+symbol = "MAX_EXTENSION_KM"
+unit = "km"
+
+[[spec.record]]
+path = "cities/Baghdad/three-ring-study.json.gz"
+keys = ["rings.maximum_extension_km_per_end"]
+provenance = ["source_sha256"]
+dependencies = ["cities/Baghdad/coverage_extensions.py"]
+
+[[spec.reader]]
+path = "cities/Baghdad/THREE-RING-STUDY.md"
+values = ['up to \*\*(?P<value>\d+(?:\.\d+)?) km per trunk end']

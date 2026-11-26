@@ -132,6 +132,11 @@ active entry points. Preserve exact published evidence in its original scope.
   across the Tigris that connect all three rings in the Baghdad trial.
   Preserve separate alignments at direct ring contacts. Route identities,
   alignments and station locations are revisable inputs.
+- Evaluate suburban reach on the same outer-ring boundary across all cases.
+  Test extensions of existing through services against their unextended core.
+  Preserve river crossings, shared ring stations and established Airport access
+  when isolating the effect of the extensions. Recalculate service,
+  construction quantities, labour and costs for the complete extended network.
 
 ## Repository workflow and readers
 

@@ -57,9 +57,9 @@ A planning team can export route, stop, service and origin–destination edits, 
 
 Baghdad’s active proposal joins a central ring and a metropolitan ring with two near-straight Tigris through services. Each new line crosses both rings and shares stations with each. The study compares 1.3 km street-walking access and trips from housing to named centres with up to two changes. The same route register drives the fleet, power, yards, construction, labour and costs. [Illustrated Baghdad study](cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md) · [Delivery and costs](cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md) · [Curved-girder drawings and work orders](cities/Baghdad/engineering/mechanical/civil/CURVED-BEAM-PROGRAMME.md)
 
-Baghdad’s latest comparison fits three independent rings to population and streets. It tests a simpler network of full-length cross-Tigris trunks, shared stations and a 1.3 km walking catchment. View the coverage and cost results beside the two-ring budget reference. [Population-led network study](cities/Baghdad/THREE-RING-STUDY.md)
+Baghdad’s three-ring study fits the rings to population and streets. It compares the same cross-Tigris services before and after adding suburban extensions, so residents can reach the rings and cross the city on one service. The study measures the 1.3 km walking catchment, journeys and delivery costs against both the compact core and the two-ring budget reference. [Population-led network study](cities/Baghdad/THREE-RING-STUDY.md)
 
-[![Baghdad’s two-ring budget reference and three-ring trial with all passenger lines in colour](cities/Baghdad/maps/baghdad-three-ring-comparison.png)](cities/Baghdad/THREE-RING-STUDY.md)
+[![Baghdad’s three-ring layout before and after extending the through services into the suburbs](cities/Baghdad/maps/baghdad-three-ring-comparison.png)](cities/Baghdad/THREE-RING-STUDY.md)
 
 New automatic city studies check directness, river crossings and shared ring stations against available maps. The same policy runs in Workbench and under `./osr design railway city-study`. The study report identifies where the local data supports only a corridor revision.
 

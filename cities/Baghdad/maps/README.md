@@ -4,7 +4,7 @@ The current metropolitan map joins Baghdad’s inner and outer rings with two Ti
 
 The earlier connected housing network remains the source for previous studies. [Earlier map](baghdad-network.png) · [GIS](baghdad-network.geojson) · [Earlier access and delivery study](../NETWORK.md)
 
-The latest trial fits three rings to mapped destinations and residential catchments. Near-straight trunks cross the Tigris and share stations with the rings. The comparison uses the same scale in both panels and draws all passenger services in solid colours. [Side-by-side map](baghdad-three-ring-comparison.png) · [Editable trial GIS](baghdad-three-ring-trial.geojson) · [Study, passenger access and costs](../THREE-RING-STUDY.md)
+The latest trial compares the same three rings and cross-Tigris services with and without suburban extensions. The right panel highlights the extensions in each service’s own colour and uses diamonds for former termini. Both panels use the same scale. The study compares both layouts with the two-ring budget reference. [Side-by-side map](baghdad-three-ring-comparison.png) · [Editable trial GIS](baghdad-three-ring-trial.geojson) · [Study, passenger access and costs](../THREE-RING-STUDY.md)
 
 The ring-and-grid study compares the published network with closed inner and outer rings, near-straight cross-city routes and an inner-ring-only option. [Comparison map](baghdad-ring-grid.png) · [Journey, construction and cost comparison](../RING-GRID.md)
 
