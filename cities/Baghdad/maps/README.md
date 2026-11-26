@@ -8,6 +8,8 @@ The compact-ring study sets a 5 km minimum horizontal clearance between the two 
 
 The wider ring follows a larger central footprint while retaining the 5 km minimum clearance and the same outer alignment. [Side-by-side map](baghdad-wider-ring.png) · [GIS](baghdad-wider-ring.geojson) · [Access and cost comparison](../WIDER-RING.md)
 
+The route redesign joins both wider rings to a new east–west service and tests alternatives for the G09 terminus and other interchanges. [Reworked routes and stations](baghdad-ring-network.png) · [GIS](baghdad-ring-network.geojson) · [Service and costs](../RING-NETWORK.md)
+
 ## Retained map sources
 
 The maps below record the original comparison geometry underlying earlier studies and estimates.

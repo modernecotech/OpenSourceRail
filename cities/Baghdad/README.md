@@ -16,6 +16,8 @@ This is one connected planning network for Baghdad. It compares alternatives for
 
 The wider dual-ring study tests a larger inner loop and keeps the same outer alignment with at least 5 km between the rings. [Wider-ring map](maps/baghdad-wider-ring.png) · [Journey and delivery comparison](WIDER-RING.md)
 
+The wider-ring route redesign tests a new east–west line calling at both rings and a G09 terminus at the inner ring. [Reworked network map](maps/baghdad-ring-network.png) · [Travel, coverage and cost comparison](RING-NETWORK.md)
+
 The generator compares shorter perimeter variants using the same housing origins, destinations and service offer. The selected design has a matching delivery workplan and installed, operating and renewal allowances. Earlier design and cost studies retain the geometry they priced.
 
 The current [delivery workplan](NETWORK-DELIVERY.md) prices 20 m shared-pier stock and two inward launching gantries on eligible open lines. The [earlier 20 m delivery studies](engineering/mechanical/civil/rail-fed/network-delivery.md) retain the seven-corridor and 605 km alternatives for comparison.

@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **256**.
+Indexed Markdown files: **257**.
 
 ## Sections
 
@@ -20,7 +20,7 @@ Indexed Markdown files: **256**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
-| [cities](#cities) | 83 |
+| [cities](#cities) | 84 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
 | [docs](#docs) | 140 |
@@ -68,6 +68,7 @@ Indexed Markdown files: **256**.
 | [`cities/Baghdad/PROPOSAL.md`](../cities/Baghdad/PROPOSAL.md) | OpenSourceRail Baghdad metropolitan railway |
 | [`cities/Baghdad/README.md`](../cities/Baghdad/README.md) | Baghdad metropolitan railway |
 | [`cities/Baghdad/RING-GRID.md`](../cities/Baghdad/RING-GRID.md) | Baghdad ring-and-grid network comparison |
+| [`cities/Baghdad/RING-NETWORK.md`](../cities/Baghdad/RING-NETWORK.md) | Baghdad railway routes that serve both rings |
 | [`cities/Baghdad/SERVICE-DIAGRAMS.md`](../cities/Baghdad/SERVICE-DIAGRAMS.md) | Baghdad passenger service and train workings |
 | [`cities/Baghdad/SPACED-RINGS.md`](../cities/Baghdad/SPACED-RINGS.md) | Baghdad compact rings and through routes |
 | [`cities/Baghdad/VEHICLE.md`](../cities/Baghdad/VEHICLE.md) | Baghdad 700-place train |
