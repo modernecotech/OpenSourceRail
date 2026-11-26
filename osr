@@ -10,7 +10,8 @@ if [[ "${1:-}" == -h || "${1:-}" == --help || "${1:-}" == help ]]; then
     cat <<'EOF'
 Usage: ./osr [COMMAND] [arguments]
 
-  (no command)      Show the v0.6 passive-wheel vehicle reference and open propulsion selection
+  (no command)      Show the development vehicle reference and propulsion status
+  coherence        Verify the live specs, code, reader claims and published evidence
   workplan [...]    Cost and simulate repeated workforce shifts; export CSV and Arrow/Parquet
   workbench [...]   Serve the read-only current Workbench on 127.0.0.1:8090
   plan [...]        Serve, compile and verify a GIS proposal bound to v0.6
@@ -19,7 +20,6 @@ Usage: ./osr [COMMAND] [arguments]
   design railway spans --route-km KM  Compare viaduct and erection options using Iraqi planning rates
   design railway baghdad-delivery    Show current 20 m Baghdad civil programme, yards, costs and workforce
   design railway rail-fed --help     Compare road-fed cranes with two terminal-fed launching gantries
-  design railway yard --beams N      Compare casting output, shifts, mould cycles, deadlines and offers
   design railway feeder --help      Test moving electrical loads or a supply-spacing hypothesis
   status/readiness  Show current candidate identities, evidence and open gates
   build [--force]   Regenerate reference engineering; preserve city evaluation holds
@@ -90,6 +90,10 @@ if [[ "${1:-}" == workplan ]]; then
     shift
     exec tools/automation/osr-python -m engineering.outline.workforce_workplan "$@"
 fi
+if [[ "${1:-}" == coherence ]]; then
+    shift
+    exec tools/automation/osr-python -m engineering.live_coherence "$@"
+fi
 case "${1:-}" in
     build|cycle|test|workbench|book)
         if [[ -z "$NODE_BINARY" ]] || ! osr_verify_receipt_binary "$TOOL_ROOT" node >/dev/null; then
@@ -98,6 +102,9 @@ case "${1:-}" in
         fi
         ;;
 esac
+if [[ "${1:-}" == test ]]; then
+    tools/automation/osr-python -m engineering.live_coherence
+fi
 if [[ "${1:-}" == release && "${2:-}" == software && "${3:-}" == readiness ]]; then
     shift 3
     exec tools/automation/osr-python -m engineering.v06_software_release readiness "$@"
@@ -122,7 +129,16 @@ if [[ "${1:-}" == design && "${2:-}" == railway ]]; then
         baghdad-three-rings:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.third_ring_publication "$@" ;;
         city-study:*) shift 3; exec tools/automation/osr-python -m engineering.outline city "$@" ;;
         feeder:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.simulation.feeder_options "$@" ;;
-        baghdad-delivery:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.mechanical.civil.network_delivery "$@" ;;
+        baghdad-delivery:*)
+            shift 3
+            case "$*" in
+                '') exec cat cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md ;;
+                --json) exec cat cities/Baghdad/straight-through-network.json ;;
+                --check) exec tools/automation/osr-python -m engineering.live_coherence ;;
+                --help|-h) printf '%s\n' 'Usage: ./osr design railway baghdad-delivery [--json|--check]'; exit 0 ;;
+                *) printf '%s\n' 'Use --json or --check with the live Baghdad delivery record.' >&2; exit 2 ;;
+            esac ;;
+        baghdad-delivery-legacy:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.mechanical.civil.network_delivery "$@" ;;
         rail-fed:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.mechanical.civil.rail_fed_erection "$@" ;;
         spans:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.mechanical.civil.family_comparison "$@" ;;
         simulation:--compare) shift 4; exec tools/automation/osr-python -m cities.Baghdad.engineering.simulation.decision_comparison "$@" ;;

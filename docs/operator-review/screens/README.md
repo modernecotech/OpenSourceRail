@@ -30,11 +30,7 @@ The repository also retains a native FUXA screen from the earlier business pilot
 
 ![Annual paid trips and average fare entered in the working fare calculator](fare-scenario.png)
 
-**Baghdad design and cost.** The two screens show the same Workbench run. Selecting the 148.2 km schematic first programme, protected conductor rail, separate supports and 10 m spans gives 64 stations and a planning allowance of US$7.866 billion installed capital. The quantity table also shows conductor length, erection fronts, annual energy and 30-year present cost. Alignment, ground conditions and supplier prices require validation. [Baghdad options and cost basis](../../../cities/Baghdad/COST-AND-DELIVERY.md)
-
-![Four editable Baghdad network, supply, span and pier options](baghdad-options.png)
-
-![Calculated Baghdad equipment quantities, capital and whole-life cost for the selected inputs](baghdad-system.png)
+**Baghdad design and cost.** Use the current projected track, fleet, working hours and costs on the selected mapped route. The standard recurring form is **20 m U-girders on shared piers**. The civil record shows curved and closure pieces and the holds for individual works. [Metropolitan delivery estimates](../../../cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md) · [Stock and erection basis](../../../cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md)
 
 ## Workshops and maintenance
 

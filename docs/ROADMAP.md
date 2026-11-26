@@ -1,6 +1,6 @@
 # OpenSourceRail delivery roadmap
 
-The [Baghdad Airport audit](../cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md) links the revised route, service and budgetary enquiry. The [prototype review](../cities/Baghdad/engineering/prototype/README.md) retains the earlier first-article drawings and records the outstanding physical decisions. The [metropolitan timetable](../cities/Baghdad/CITYWIDE-SERVICE.md) prices a connected service with deferred access sections explicit.
+The [Baghdad Airport audit](../cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md) links the revised route, service and budgetary enquiry. The [prototype review](../cities/Baghdad/engineering/prototype/README.md) retains the earlier first-article drawings and records the outstanding physical decisions.
 
 OpenSourceRail connects three products: city planning and service, railway engineering and manufacturing, and controls and maintenance. Local design, fabrication, repair and open knowledge are the governing economic aims. The [project introduction](../README.md) explains the full platform; the [architecture](ARCHITECTURE.md), [engineering status](ENGINEERING-STATUS.md), [cost baseline](COST-BASELINE.md) and [v0.7 release record](RELEASE-v0.7.md) are the current decision documents.
 
@@ -8,7 +8,7 @@ Start with the [stakeholder partnership plan](operator-review/PARTNERSHIP-PLAN.m
 
 The [railway delivery workplan](operator-review/WORKPLAN.md) assigns the first twelve weeks of core and Baghdad work to operators, engineers, local manufacturers and sponsors. Use the [operator briefing and design twins](operator-review/README.md) to review the proposals with them.
 
-The [Baghdad metropolitan network](../cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md) connects the Airport, central ring and outer ring through explicit shared interchanges and two direct Tigris routes. Its planning prices, shift schedules and curved-beam takeoffs use the same mapped network. Detailed service, site and construction checks are the next development stage.
+The [Baghdad metropolitan network](../cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md) connects the Airport, central ring and outer ring through explicit shared interchanges and two direct Tigris routes. Its planning prices, shift schedules and curved-beam takeoffs use the same mapped network. [Current quantities and delivery](../cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md) Detailed service, site and construction checks are the next development stage.
 
 The [Airport GIS simulation](../cities/Baghdad/engineering/simulation/GIS-SIMULATION.md) shows how public terrain, soil and water layers can replace uniform desktop inputs and drive simulated construction quantities, operating cases and whole-life costs.
 

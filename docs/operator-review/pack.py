@@ -27,21 +27,19 @@ a:hover,a:focus{text-decoration:underline}nav strong,small{display:block}small{c
 </style><header>OpenSourceRail &nbsp; / &nbsp; Operator workshop</header><main>
 <h1>Design, build and operate the railway</h1><p>Start with the illustrated briefing, then use the models and calculators to review the core railway and Baghdad's network planning. Extract the whole kit before opening these files.</p>
 <nav>
-<a href="docs/operator-review/OpenSourceRail-Operator-Brief.pdf"><strong>Operator briefing</strong><small>Fourteen illustrated pages for the meeting.</small></a>
+<a href="docs/operator-review/OpenSourceRail-Operator-Brief.pdf"><strong>Operator briefing</strong><small>The current service, design and delivery basis.</small></a>
 <a href="docs/operator-review/PARTNERSHIP-PLAN.md"><strong>Host a partner trial</strong><small>Choose a local question, review the budget and agree when to decide.</small></a>
-<a href="docs/operator-review/twins/index.html"><strong>Train and station models</strong><small>Inspect the bogie, carbody, platform, viaduct and controls. Export either IFC4 model.</small></a>
-<a href="cities/Baghdad/maps/baghdad-network.png"><strong>Baghdad metropolitan rail network</strong><small>See the connected passenger routes, interchanges and remaining walking gaps.</small></a>
-<a href="cities/Baghdad/NETWORK-DELIVERY.md"><strong>Current Baghdad delivery estimate</strong><small>Review the selected layout’s track, construction shifts, fleet and cost.</small></a>
-<a href="cities/Baghdad/service-diagrams.html"><strong>Earlier Baghdad train diagrams</strong><small>Follow a set through its stops and terminal turn on the original citywide study routes.</small></a>
+<a href="cities/Baghdad/TRAIN-AND-STATION.md"><strong>Train and station interfaces</strong><small>Review the active vehicle, platform and conductor design.</small></a>
+<a href="cities/Baghdad/maps/baghdad-straight-through-network.png"><strong>Baghdad metropolitan rail network</strong><small>See the connected passenger routes, interchanges and remaining walking gaps.</small></a>
+<a href="cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md"><strong>Current Baghdad delivery estimate</strong><small>Review the selected layout’s track, construction shifts, fleet and cost.</small></a>
 <a href="docs/operator-review/screens/supervision.html"><strong>Control room</strong><small>Replay equipment trips, a stale signal and restoration.</small></a>
-<a href="cities/Baghdad/engineering/prototype/review.html"><strong>Historical Airport prototype</strong><small>Inspect stock drawings, train movements and field-trial forms for the 12 km schematic.</small></a>
 <a href="docs/operator-review/finance/index.html"><strong>Funding and fares</strong><small>Compare debt payments and test the public funding requirement.</small></a>
 <a href="docs/operator-review/finance/purchasing.html"><strong>Supplier enquiries</strong><small>Review the corrected Airport scope or compare first-article prices and local value for the other references.</small></a>
 <a href="cities/Baghdad/engineering/simulation/audited-enquiry.zip" download><strong>Corrected Airport budgetary enquiry</strong><small>Download the paired supply comparison, scoped price lots and return forms for the 17.46 km study.</small></a>
-<a href="docs/operator-review/delivery/index.html"><strong>Workforce and training</strong><small>Inspect shift coverage, hiring and training provision.</small></a>
+<a href="docs/operator-review/delivery/README.md"><strong>Workforce and training</strong><small>Inspect shift coverage, hiring and training provision.</small></a>
 <a href="cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md"><strong>Corridor assumption audit</strong><small>Review service delivered, electrical outages, civil quantities and the priced scope.</small></a>
 <a href="cities/Baghdad/Baghdad-Metro-Proposal.pdf"><strong>Baghdad investment proposal</strong><small>Read the routes, local delivery options and the purchasing case.</small></a>
-</nav><p><a href="docs/operator-review/delivery/vehicle-works.svg">Vehicle works plan</a> · <a href="docs/reference-v07/integration/TIMETABLE.md">Core train workings</a> · <a href="cities/Baghdad/airport-integration.html">Historical Airport working plan</a> · <a href="cities/Baghdad/engineering/prototype/airport-enquiries.zip" download>Historical Airport drawings and ERP schedules</a> · <a href="cities/Baghdad/maps/STATION-PRICING.md">Station sites and prices</a> · <a href="docs/operator-review/delivery/precast-yard.svg">Precast yard plan</a> · <a href="cities/Baghdad/NETWORK.md">Baghdad network logic and walking coverage</a></p>
+</nav><p><a href="docs/operator-review/delivery/vehicle-works.svg">Vehicle works plan</a> · <a href="cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md">Live viaduct stock</a> · <a href="cities/Baghdad/engineering/mechanical/civil/rail-fed/terminal-yard.png">Terminal yard plan</a> · <a href="cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md">Baghdad network logic and walking coverage</a></p>
 <p>Use the included documents for design review and indicative quotations. References to the wider engineering repository open with an internet connection. <a href="https://github.com/modernecotech/OpenSourceRail/tree/main/docs/operator-review">Full workplan, screens and sources</a></p></main></html>"""
 
 
@@ -117,7 +115,13 @@ def workshop_files():
                  'cities/Baghdad/CITYWIDE-SERVICE.md', 'cities/Baghdad/citywide-service.json',
                  'cities/Baghdad/CENTRAL-ACCESS.md', 'cities/Baghdad/central-access.json',
                  'cities/Baghdad/maps/central-access.geojson', 'cities/Baghdad/maps/baghdad-central-access.png',
-                 'cities/Baghdad/NETWORK.md', 'cities/Baghdad/NETWORK-DELIVERY.md', 'cities/Baghdad/baghdad-network.json',
+                  'cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md', 'cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md',
+                 'cities/Baghdad/TRAIN-AND-STATION.md', 'cities/Baghdad/station-interface.svg', 'cities/Baghdad/vehicle-layout.svg',
+                 'cities/Baghdad/maps/baghdad-straight-through-network.png',
+                 'cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md',
+                 'cities/Baghdad/engineering/mechanical/civil/CURVED-BEAM-PROGRAMME.md',
+                 'cities/Baghdad/engineering/mechanical/civil/rail-fed/terminal-yard.png',
+                 'cities/Baghdad/engineering/mechanical/civil/curved-beam-families.svg',
                  'cities/Baghdad/residential-access.toml',
                  'cities/Baghdad/maps/baghdad-network.geojson', 'cities/Baghdad/maps/baghdad-network.png',
                  'cities/Baghdad/maps/central-service.geojson', 'cities/Baghdad/maps/baghdad-central-service.png',
@@ -132,7 +136,7 @@ def workshop_files():
                  'cities/Baghdad/engineering/mechanical/civil/SPAN-COMPARISON.md',
                  'cities/Baghdad/engineering/mechanical/vehicle/SECTION-POWER.md', 'cities/Baghdad/service-diagrams.html',
                  'cities/Baghdad/service-diagrams.js', 'cities/Baghdad/service-diagrams.css',
-                 'cities/Baghdad/COST-AND-DELIVERY.md', 'cities/Baghdad/BUYER-COMPARISON.md',
+                 'cities/Baghdad/COST-AND-DELIVERY.md', 'cities/Baghdad/BUYER-COMPARISON.md', 'cities/Baghdad/PROCUREMENT.md',
                  'cities/Baghdad/maps/Baghdad-148km.png', 'cities/Baghdad/maps/Baghdad-606km.png',
                  'docs/reference-v07/cost/README.md', 'docs/reference-v07/integration/TIMETABLE.md'))
     files.update((ROOT / 'cities/Baghdad/engineering/prototype').glob('*-guide.md'))

@@ -1,0 +1,16 @@
+name: Live specifications and publications
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  live-coherence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compare live specs, implementations and published figures
+        run: python3 -m engineering.live_coherence
+      - name: Test rejection of obsolete or mismatched claims
+        run: python3 -m unittest discover -s tests -p test_live_coherence.py

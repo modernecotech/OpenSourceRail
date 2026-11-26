@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **262**.
+Indexed Markdown files: **265**.
 
 ## Sections
 
@@ -20,7 +20,7 @@ Indexed Markdown files: **262**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
-| [cities](#cities) | 89 |
+| [cities](#cities) | 92 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
 | [docs](#docs) | 140 |
@@ -55,7 +55,7 @@ Indexed Markdown files: **262**.
 | File | Title |
 |---|---|
 | [`cities/Baghdad/AIRPORT-OPENING.md`](../cities/Baghdad/AIRPORT-OPENING.md) | Opening the Baghdad Airport corridor |
-| [`cities/Baghdad/BUYER-COMPARISON.md`](../cities/Baghdad/BUYER-COMPARISON.md) | Buying a railway using an open reference |
+| [`cities/Baghdad/BUYER-COMPARISON.md`](../cities/Baghdad/BUYER-COMPARISON.md) | Baghdad bidder comparison for the seven-corridor estimate |
 | [`cities/Baghdad/CENTRAL-ACCESS.md`](../cities/Baghdad/CENTRAL-ACCESS.md) | Central Baghdad passenger access review |
 | [`cities/Baghdad/CENTRAL-RING-NETWORK.md`](../cities/Baghdad/CENTRAL-RING-NETWORK.md) | Baghdad central ring, junctions and parallel routes |
 | [`cities/Baghdad/CITYWIDE-SERVICE.md`](../cities/Baghdad/CITYWIDE-SERVICE.md) | Baghdad 14-route clockface trial |
@@ -66,6 +66,7 @@ Indexed Markdown files: **262**.
 | [`cities/Baghdad/NETWORK-DELIVERY.md`](../cities/Baghdad/NETWORK-DELIVERY.md) | Baghdad housing network delivery and cost |
 | [`cities/Baghdad/NETWORK.md`](../cities/Baghdad/NETWORK.md) | Baghdad metropolitan rail network |
 | [`cities/Baghdad/OPERATING-ALTERNATIVES.md`](../cities/Baghdad/OPERATING-ALTERNATIVES.md) | Baghdad opening operating alternatives |
+| [`cities/Baghdad/PROCUREMENT.md`](../cities/Baghdad/PROCUREMENT.md) | Baghdad metropolitan procurement |
 | [`cities/Baghdad/PROPOSAL.md`](../cities/Baghdad/PROPOSAL.md) | OpenSourceRail Baghdad metropolitan railway |
 | [`cities/Baghdad/README.md`](../cities/Baghdad/README.md) | Baghdad metropolitan railway |
 | [`cities/Baghdad/RING-GRID.md`](../cities/Baghdad/RING-GRID.md) | Baghdad ring-and-grid network comparison |
@@ -75,6 +76,7 @@ Indexed Markdown files: **262**.
 | [`cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md`](../cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md) | Baghdad metropolitan railway · Quantities, work programme and costs |
 | [`cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md`](../cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md) | Baghdad metropolitan railway · Rings and Tigris through services |
 | [`cities/Baghdad/THREE-RING-STUDY.md`](../cities/Baghdad/THREE-RING-STUDY.md) | Baghdad · Three rings and through routes |
+| [`cities/Baghdad/TRAIN-AND-STATION.md`](../cities/Baghdad/TRAIN-AND-STATION.md) | Baghdad 700-place train |
 | [`cities/Baghdad/VEHICLE.md`](../cities/Baghdad/VEHICLE.md) | Baghdad 700-place train |
 | [`cities/Baghdad/WIDER-RING.md`](../cities/Baghdad/WIDER-RING.md) | Baghdad wider inner ring |
 | [`cities/Baghdad/engineering/commissioning/COMMISSIONING.md`](../cities/Baghdad/engineering/commissioning/COMMISSIONING.md) | Airport traction and station commissioning |
@@ -83,6 +85,7 @@ Indexed Markdown files: **262**.
 | [`cities/Baghdad/engineering/controls/STATION-BENCH.md`](../cities/Baghdad/engineering/controls/STATION-BENCH.md) | Baghdad station visit and fault trials |
 | [`cities/Baghdad/engineering/mechanical/README.md`](../cities/Baghdad/engineering/mechanical/README.md) | Baghdad mechanical first article |
 | [`cities/Baghdad/engineering/mechanical/civil/CURVED-BEAM-PROGRAMME.md`](../cities/Baghdad/engineering/mechanical/civil/CURVED-BEAM-PROGRAMME.md) | Baghdad · Curved and straight girder fabrication programme |
+| [`cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md`](../cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md) | Baghdad metropolitan viaduct stock and delivery |
 | [`cities/Baghdad/engineering/mechanical/civil/RAIL-FED-ERECTION.md`](../cities/Baghdad/engineering/mechanical/civil/RAIL-FED-ERECTION.md) | Feed the launching gantries from the deck |
 | [`cities/Baghdad/engineering/mechanical/civil/README.md`](../cities/Baghdad/engineering/mechanical/civil/README.md) | Baghdad civil drawings and retained 10 m study |
 | [`cities/Baghdad/engineering/mechanical/civil/SPAN-COMPARISON.md`](../cities/Baghdad/engineering/mechanical/civil/SPAN-COMPARISON.md) | Baghdad viaduct span comparison |
@@ -166,7 +169,7 @@ Indexed Markdown files: **262**.
 | [`docs/ARCHITECTURE.md`](../docs/ARCHITECTURE.md) | OpenSourceRail architecture |
 | [`docs/BOOK.md`](../docs/BOOK.md) | OpenSourceRail: a railway designed in the open |
 | [`docs/COST-BASELINE.md`](../docs/COST-BASELINE.md) | v0.7 cost and delivery baseline |
-| [`docs/DESIGN-DECISIONS.md`](../docs/DESIGN-DECISIONS.md) | Choosing a railway for a corridor |
+| [`docs/DESIGN-DECISIONS.md`](../docs/DESIGN-DECISIONS.md) | Current railway design decisions |
 | [`docs/ENGINEERING-STATUS.md`](../docs/ENGINEERING-STATUS.md) | Railway engineering status |
 | [`docs/INDEX.md`](../docs/INDEX.md) | Maintained Documentation Index |
 | [`docs/PROJECT-REVIEW-2026-11-23.md`](../docs/PROJECT-REVIEW-2026-11-23.md) | Project review, 23 November 2026 |
@@ -273,7 +276,7 @@ Indexed Markdown files: **262**.
 | [`docs/operator-review/PARTNERSHIP-PLAN.md`](../docs/operator-review/PARTNERSHIP-PLAN.md) | How to secure a first operating partner and sponsor |
 | [`docs/operator-review/README.md`](../docs/operator-review/README.md) | OpenSourceRail for railway operators |
 | [`docs/operator-review/WORKPLAN.md`](../docs/operator-review/WORKPLAN.md) | From design review to railway opening |
-| [`docs/operator-review/delivery/README.md`](../docs/operator-review/delivery/README.md) | Building the fleet and staffing the railway |
+| [`docs/operator-review/delivery/README.md`](../docs/operator-review/delivery/README.md) | Building and staffing the Baghdad railway |
 | [`docs/operator-review/delivery/WORKFORCE-RUST.md`](../docs/operator-review/delivery/WORKFORCE-RUST.md) | Rust efficiency review for workforce and delivery planning |
 | [`docs/operator-review/delivery/WORKFORCE-SIMULATION.md`](../docs/operator-review/delivery/WORKFORCE-SIMULATION.md) | Costed shift workplan and workload simulation |
 | [`docs/operator-review/delivery/workplan/summary.md`](../docs/operator-review/delivery/workplan/summary.md) | Costed workforce and shift workplan |

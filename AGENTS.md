@@ -40,6 +40,11 @@ evidence and review ownership. Update values and decisions in their own sources.
    records. Record the candidate and evaluation, commands, results, assumptions
    and limits. Verify the published revision against the reviewed changes.
 
+Run `./osr coherence` before publication. Register the governing source, code
+consumer, published outputs and live readers for each new decision-driving spec
+in `engineering/live-coherence.toml`. Remove superseded claims and links from
+active entry points. Preserve exact published evidence in its original scope.
+
 ## Requirements and assumptions
 
 - In greenfield network redesign, treat the published routes as a comparison and

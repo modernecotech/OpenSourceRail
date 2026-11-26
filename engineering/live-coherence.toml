@@ -1,0 +1,528 @@
+# A claim is scoped to its named candidate and interface. Readers can mix
+# current and retained evidence, so checks target the wording of each claim.
+[[spec]]
+id = "baghdad-recurring-viaduct-span"
+source = "cities/Baghdad/engineering/mechanical/civil/rail_fed_erection.py"
+symbol = "SPAN_M"
+unit = "m"
+
+[[spec.code]]
+path = "cities/Baghdad/engineering/mechanical/civil/alignment_beams.py"
+symbol = "SPAN_M"
+reference = "erection.SPAN_M"
+import_alias = "erection"
+import_module = "cities.Baghdad.engineering.mechanical.civil.rail_fed_erection"
+
+[[spec.code]]
+path = "cities/Baghdad/engineering/mechanical/civil/alignment_beams.py"
+dict_key = "stock_bay_m"
+reference = "SPAN_M"
+
+[[spec.code]]
+path = "cities/Baghdad/residential_delivery.py"
+import_alias = "erection"
+import_module = "cities.Baghdad.engineering.mechanical.civil.rail_fed_erection"
+keyword = "span_m"
+reference = "erection.SPAN_M"
+
+[[spec.code]]
+path = "cities/Baghdad/engineering/mechanical/civil/network_delivery.py"
+import_alias = "erection"
+import_module = "cities.Baghdad.engineering.mechanical.civil.rail_fed_erection"
+uses = ["erection.evaluate"]
+keyword = "span_m"
+
+[[spec.record]]
+path = "cities/Baghdad/straight-through-network.json"
+keys = ["civil.assumptions.span_m", "beam_schedule.assumptions.stock_bay_m"]
+matches = { "civil.candidate_id" = "network.candidate_id", "beam_schedule.candidate_id" = "network.candidate_id" }
+provenance = ["civil.source_sha256", "beam_schedule.source_sha256", "source_sha256"]
+verify_all_sources = ["source_sha256"]
+dependencies = ["cities/Baghdad/engineering/mechanical/civil/rail_fed_erection.py", "cities/Baghdad/engineering/mechanical/civil/alignment_beams.py"]
+path_key = "beam_register_path"
+target_path = "engineering/mechanical/civil/curved-beam-register.json.gz"
+external = { path = "cities/Baghdad/engineering/mechanical/civil/curved-beam-register.json.gz", matches = { "network.candidate_id" = "candidate_id", "civil.beam_evaluation_id" = "evaluation_id" } }
+
+[[spec.record]]
+path = "cities/Baghdad/engineering/mechanical/civil/curved-beam-register.json.gz"
+keys = ["assumptions.stock_bay_m"]
+provenance = ["source_sha256"]
+dependencies = ["cities/Baghdad/engineering/mechanical/civil/rail_fed_erection.py", "cities/Baghdad/engineering/mechanical/civil/alignment_beams.py"]
+
+# The housing network and seven/605 km delivery studies are retained across
+# their own routes. Only fields sharing the recurring-stock authority enter here.
+[[spec.record]]
+path = "cities/Baghdad/baghdad-network.json"
+scope = "walking_access.through_route_selection.residential.delivery.*.construction"
+keys = ["assumptions.span_m"]
+provenance = ["source_sha256"]
+
+[[spec.record]]
+path = "cities/Baghdad/engineering/mechanical/civil/rail-fed/network-delivery.json"
+keys = ["span_m"]
+fixed = { pier_family = "shared-crosshead", erection = "two terminal gantries per open main line" }
+provenance = ["source_sha256"]
+dependencies = ["cities/Baghdad/engineering/mechanical/civil/rail_fed_erection.py", "cities/Baghdad/engineering/mechanical/civil/network_delivery.py"]
+
+[[spec.record]]
+path = "cities/Baghdad/engineering/mechanical/civil/rail-fed/comparison.json"
+keys = ["geometry.span_m"]
+provenance = ["source_sha256"]
+dependencies = ["cities/Baghdad/engineering/mechanical/civil/rail_fed_erection.py", "cities/Baghdad/VEHICLE.md"]
+
+[[spec.reader]]
+path = "README.md"
+values = ['current Baghdad delivery plan uses \*\*(?P<value>\d+(?:\.\d+)?) m U-girders on shared piers\*\*']
+required = ['\]\(cities/Baghdad/STRAIGHT-THROUGH-DELIVERY\.md\)', '\]\(cities/Baghdad/engineering/mechanical/civil/CURVED-BEAM-PROGRAMME\.md\)']
+
+[[spec.reader]]
+path = "cities/Baghdad/README.md"
+values = ['Viaduct and street works \| Recurring \*\*(?P<value>\d+(?:\.\d+)?) m U-girders on shared piers\*\*']
+required = ['\]\(engineering/mechanical/civil/LIVE-STOCK\.md\)']
+
+[[spec.reader]]
+path = "cities/Baghdad/PROPOSAL.md"
+values = ['Recurring bays use \*\*(?P<value>\d+(?:\.\d+)?) m U-girders on shared piers\*\*']
+
+[[spec.reader]]
+path = "cities/Baghdad/NETWORK-DELIVERY.md"
+required = ['Standard girders / support locations']
+
+[[spec.reader]]
+path = "cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md"
+required = ['The standard-stock comparison uses']
+
+[[spec.reader]]
+path = "cities/Baghdad/engineering/mechanical/civil/CURVED-BEAM-PROGRAMME.md"
+values = ['into recurring (?P<value>\d+(?:\.\d+)?) m straight U-girders', 'reference paired bay is \*\*(?P<value>\d+(?:\.\d+)?) m\*\*', '\| Route \| Straight (?P<value>\d+(?:\.\d+)?) m \|']
+
+[[spec.reader]]
+path = "cities/Baghdad/engineering/mechanical/civil/rail-fed/network-delivery.md"
+values = ['delivery case uses \*\*(?P<value>\d+(?:\.\d+)?) m U-girders on shared piers\*\*', '\| Standard (?P<value>\d+(?:\.\d+)?) m girders / shared supports / bearings \|', 'matched (?P<value>\d+(?:\.\d+)?) m road']
+
+[[spec.reader]]
+path = "engineering/development_baseline/web/index.html"
+values = ['current delivery plan prices (?P<value>\d+(?:\.\d+)?) m shared-pier U-girders']
+required = [
+    'href="[^"]*/cities/Baghdad/STRAIGHT-THROUGH-DELIVERY\.md"',
+    'href="[^"]*/cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK\.md"',
+    'name="span_m">\s*<option value="{value}" selected>',
+    'name="common_pier">[^<]*(?:<option[^>]*>[^<]*</option>\s*)*<option value="true" selected>',
+]
+forbidden = ['name="span_m">[^<]*(?:<option[^>]*>[^<]*</option>\s*)*<option value="10"']
+
+[[spec.reader]]
+path = "docs/workbench/current/index.html"
+same_as = "engineering/development_baseline/web/index.html"
+values = ['current delivery plan prices (?P<value>\d+(?:\.\d+)?) m shared-pier U-girders']
+required = [
+    'href="[^"]*/cities/Baghdad/STRAIGHT-THROUGH-DELIVERY\.md"',
+    'href="[^"]*/cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK\.md"',
+    'name="span_m">\s*<option value="{value}" selected>',
+    'name="common_pier">[^<]*(?:<option[^>]*>[^<]*</option>\s*)*<option value="true" selected>',
+]
+forbidden = ['name="span_m">[^<]*(?:<option[^>]*>[^<]*</option>\s*)*<option value="10"']
+
+[[spec.reader]]
+path = "cities/Baghdad/PROCUREMENT.md"
+values = ['current civil enquiry use the \[(?P<value>\d+(?:\.\d+)?) m shared-pier delivery programme\]']
+required = ['\]\(STRAIGHT-THROUGH-DELIVERY\.md\)']
+
+[[spec.reader]]
+path = "cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md"
+required = ['\]\(STRAIGHT-THROUGH-DELIVERY\.md\)']
+
+[[spec.reader]]
+path = "cities/Baghdad/TRAIN-AND-STATION.md"
+values = ['current delivery study uses paired (?P<value>\d+(?:\.\d+)?) m U-girders on shared piers']
+required = ['\]\(STRAIGHT-THROUGH-DELIVERY\.md\)']
+
+[[spec.reader]]
+path = "cities/Baghdad/maps/README.md"
+required = ['\]\(\.\./STRAIGHT-THROUGH-DELIVERY\.md\)']
+
+[[spec.reader]]
+path = "cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md"
+values = ['uses two \*\*(?P<value>\d+(?:\.\d+)?) m precast concrete U-girders\*\*', 'One girder envelope \| (?P<value>\d+(?:\.\d+)?) m long']
+required = ['shared pier crossheads', '\]\(CURVED-BEAM-PROGRAMME\.md\)', '\]\(curved-beam-register\.json\.gz\)', '\]\(\.\./\.\./\.\./STRAIGHT-THROUGH-DELIVERY\.md\)']
+
+[[spec.reader]]
+path = "docs/DESIGN-DECISIONS.md"
+values = ['Viaduct and logistics \| Recurring \*\*(?P<value>\d+(?:\.\d+)?) m U-girders on shared piers\*\*']
+required = ['\]\(\.\./cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK\.md\)']
+
+[[spec.reader]]
+path = "docs/ROADMAP.md"
+values = ['one car, one bogie, one station and the (?P<value>\d+(?:\.\d+)?) m repeat bay']
+required = ['\]\(\.\./cities/Baghdad/STRAIGHT-THROUGH-DELIVERY\.md\)']
+forbidden = ['\]\(\.\./cities/Baghdad/CITYWIDE-SERVICE\.md\)']
+
+[[spec.reader]]
+path = "docs/operator-review/README.md"
+values = ['Price recurring (?P<value>\d+(?:\.\d+)?) m U-girders on shared piers']
+required = ['\]\(\.\./\.\./cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK\.md\)']
+
+[[spec.reader]]
+path = "docs/operator-review/WORKPLAN.md"
+values = ['current (?P<value>\d+(?:\.\d+)?) m Baghdad delivery programme']
+required = ['\]\(\.\./\.\./cities/Baghdad/STRAIGHT-THROUGH-DELIVERY\.md\)']
+
+[[spec.reader]]
+path = "docs/operator-review/screens/README.md"
+values = ['standard recurring form is \*\*(?P<value>\d+(?:\.\d+)?) m U-girders on shared piers\*\*']
+
+[[spec.reader]]
+path = "docs/operator-review/delivery/README.md"
+values = ['six-minute costing offer and recurring \*\*(?P<value>\d+(?:\.\d+)?) m U-girders on shared piers\*\*']
+required = ['\]\(\.\./\.\./\.\./cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK\.md\)']
+
+[[spec.reader]]
+path = "docs/operator-review/render_brief.py"
+values = ['[Rr]ecurring (?:guideway uses )?(?P<value>\d+(?:\.\d+)?) m U-girders on shared piers']
+
+[[spec.reader]]
+path = "osr"
+required = ['baghdad-delivery:\*\)\s+shift 3\s+case[^\n]*\n\s*\x27\x27\) exec cat cities/Baghdad/STRAIGHT-THROUGH-DELIVERY\.md', 'exec cat cities/Baghdad/straight-through-network\.json']
+forbidden = ['baghdad-delivery:\*\)[^\n]*network_delivery']
+
+[[spec.artifact]]
+path = "cities/Baghdad/Baghdad-Metro-Proposal.pdf"
+receipt = "cities/Baghdad/proposal-pdf.receipt.json"
+sources = ["cities/Baghdad/PROPOSAL.md", "cities/Baghdad/render_pdf.py", "cities/Baghdad/straight-through-network.json"]
+
+[[spec.artifact]]
+path = "docs/operator-review/OpenSourceRail-Operator-Brief.pdf"
+receipt = "docs/operator-review/operator-brief.receipt.json"
+sources = ["docs/operator-review/render_brief.py", "cities/Baghdad/straight-through-network.json"]
+
+# The inventory checks live pointers as well as identified live prose. Historic
+# benchmark and prototype texts may still refer to their own 10 m geometry.
+[spec.inventory]
+globs = ["README.md", "cities/Baghdad/**/*.md", "docs/ROADMAP.md", "docs/DESIGN-DECISIONS.md", "docs/RELEASE-*.md", "docs/workbench/**/*.md", "docs/workbench/current/index.html", "docs/operator-review/**/*.md", "docs/book/*.md", "engineering/development_baseline/web/index.html"]
+targets = [
+    "cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md",
+    "cities/Baghdad/engineering/mechanical/civil/CURVED-BEAM-PROGRAMME.md",
+    "cities/Baghdad/engineering/mechanical/civil/curved-beam-register.json.gz",
+    "cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md",
+]
+markers = ['(?:(?:current|active) (?:Baghdad )?(?:civil|delivery|viaduct|deck)|recurring (?:Baghdad )?(?:viaduct|deck|stock)).{0,72}\b(?P<value>\d+(?:\.\d+)?)[ -]m(?:etre[s]?)?\b.{0,40}\b(?:stock|pier|girder|beam|span)s?\b']
+strict_readers = [
+    "README.md", "cities/Baghdad/README.md", "cities/Baghdad/PROPOSAL.md", "cities/Baghdad/TRAIN-AND-STATION.md",
+    "cities/Baghdad/PROCUREMENT.md",
+    "cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md", "docs/DESIGN-DECISIONS.md",
+    "docs/operator-review/README.md", "docs/operator-review/WORKPLAN.md",
+    "docs/operator-review/screens/README.md", "docs/operator-review/delivery/README.md",
+]
+obsolete_claims = ['(?<![\w.])(?:10(?:\.0+)?[ -]?m(?:et(?:re|er)s?)?|ten[ -]met(?:re|er)s?)\b\s+(?:[a-z-]+\s+){0,2}(?:beams?|girders?|spans?|box(?:es)?)\b']
+
+# The development vehicle and its service control belong to the v0.6 reference.
+# They are separate from Baghdad's 700-place formation and metropolitan service.
+[[spec]]
+id = "development-reference-formation"
+source = "engineering/development-baseline.toml"
+key = "vehicle.cars"
+unit = "cars"
+
+[[spec.record]]
+path = "engineering/station_rail/brief.toml"
+keys = ["vehicle.cars"]
+
+[[spec.record]]
+path = "docs/design-engine/current/summary.json"
+keys = ["vehicle.cars", "service.cars"]
+
+[[spec.record]]
+path = "docs/design-engine/current/evaluation.json.gz"
+keys = ["selection.vehicle.cars"]
+provenance = ["source_sha256"]
+dependencies = ["engineering/development-baseline.toml", "engineering/station_rail/brief.toml"]
+
+[[spec.reader]]
+path = "docs/design-engine/current/README.md"
+values = ['Formation and comfort \| (?P<value>\w+) \d+(?:\.\d+)? m cars']
+words = { six = 6 }
+
+[[spec.reader]]
+path = "README.md"
+values = ['development vehicle selector\]\(engineering/development-baseline\.toml\) describes a (?P<value>\w+)-car passive-wheel']
+words = { six = 6 }
+
+[[spec.reader]]
+path = "engineering/development_baseline/web/index.html"
+values = ['vehicle reference retains (?P<value>\w+) \d+(?:\.\d+)? m cars']
+words = { six = 6 }
+
+[[spec]]
+id = "development-reference-car-length"
+source = "engineering/development-baseline.toml"
+key = "vehicle.body_length_m"
+unit = "m"
+
+[[spec.record]]
+path = "engineering/station_rail/brief.toml"
+keys = ["vehicle.body_length_m"]
+
+[[spec.record]]
+path = "docs/design-engine/current/summary.json"
+keys = ["vehicle.body_length_m"]
+
+[[spec.reader]]
+path = "docs/design-engine/current/README.md"
+values = ['Formation and comfort \| \w+ (?P<value>\d+(?:\.\d+)?) m cars']
+
+[[spec.reader]]
+path = "engineering/development_baseline/web/index.html"
+values = ['vehicle reference retains \w+ (?P<value>\d+(?:\.\d+)?) m cars']
+
+[[spec]]
+id = "development-reference-fixed-seats"
+source = "engineering/development-baseline.toml"
+key = "vehicle.fixed_seats_per_car"
+unit = "seats/car"
+
+[[spec.record]]
+path = "engineering/station_rail/brief.toml"
+keys = ["vehicle.fixed_seats_per_car"]
+
+[[spec.record]]
+path = "docs/design-engine/current/summary.json"
+keys = ["vehicle.fixed_seats_per_car"]
+
+[[spec.reader]]
+path = "README.md"
+values = ['passive-wheel research vehicle with (?P<value>\d+) seats']
+
+[[spec.reader]]
+path = "docs/design-engine/current/README.md"
+values = ['Formation and comfort [^\n]+? (?P<value>\d+) seats']
+
+[[spec.reader]]
+path = "engineering/development_baseline/web/index.html"
+values = ['<strong>(?P<value>\d+) \+ \d+</strong><span>seats \+ wheelchair places / car']
+
+[[spec]]
+id = "development-reference-wheelchair-places"
+source = "engineering/development-baseline.toml"
+key = "vehicle.wheelchair_places_per_car"
+unit = "places/car"
+
+[[spec.record]]
+path = "engineering/station_rail/brief.toml"
+keys = ["vehicle.wheelchair_places_per_car"]
+
+[[spec.record]]
+path = "docs/design-engine/current/summary.json"
+keys = ["vehicle.wheelchair_places_per_car"]
+
+[[spec.reader]]
+path = "docs/design-engine/current/README.md"
+values = ['Formation and comfort [^\n]+? seats \+ (?P<value>\w+) wheelchair places/car']
+words = { two = 2 }
+
+[[spec.reader]]
+path = "engineering/development_baseline/web/index.html"
+values = ['<strong>\d+ \+ (?P<value>\d+)</strong><span>seats \+ wheelchair places / car']
+
+[[spec]]
+id = "development-reference-headway-control"
+source = "engineering/development-baseline.toml"
+key = "service.headway_s"
+unit = "s"
+
+[[spec.record]]
+path = "engineering/station_rail/brief.toml"
+keys = ["service.headway_s"]
+
+[[spec.record]]
+path = "docs/design-engine/current/summary.json"
+keys = ["service.headway_s"]
+
+[[spec.reader]]
+path = "docs/design-engine/current/README.md"
+values = ['Reference service case [^\n]+? (?P<value>\d+(?:\.\d+)?) s target headway']
+
+[[spec]]
+id = "development-reference-capacity-control"
+source = "engineering/development-baseline.toml"
+key = "service.normal_capacity_pphpd_arithmetic"
+unit = "places/hour/direction"
+
+[[spec.record]]
+path = "docs/design-engine/current/summary.json"
+keys = ["service.capacity_pphpd"]
+
+[[spec.reader]]
+path = "docs/design-engine/current/README.md"
+values = ['Reference service case [^\n]+? (?P<value>[\d,]+) pphpd arithmetic']
+
+[[spec]]
+id = "baghdad-metropolitan-normal-places"
+source = "cities/Baghdad/system.toml"
+key = "vehicle.normal_places_per_train"
+unit = "places/train"
+
+[[spec.record]]
+path = "cities/Baghdad/straight-through-network.json"
+scope = "cost.service"
+ratio = { numerator = "nominal_places_per_hour_direction", multiply = "directional_headway_s", denominator = 3600 }
+
+[[spec.reader]]
+path = "cities/Baghdad/TRAIN-AND-STATION.md"
+values = ['^# Baghdad (?P<value>[\d,]+)-place train', 'Baghdad planning train carries (?P<value>[\d,]+) people']
+
+[[spec.reader]]
+path = "cities/Baghdad/PROPOSAL.md"
+values = ['a (?P<value>[\d,]+)-place normal load']
+
+[[spec]]
+id = "baghdad-metropolitan-formation"
+source = "cities/Baghdad/system.toml"
+key = "vehicle.cars_per_train"
+unit = "cars"
+
+[[spec.record]]
+path = "cities/Baghdad/straight-through-network.json"
+scope = "cost.service"
+ratio = { numerator = "cars", denominator = "fleet_trainsets" }
+
+[[spec.reader]]
+path = "cities/Baghdad/TRAIN-AND-STATION.md"
+values = ['Baghdad planning train carries [\d,]+ people in (?P<value>\w+) cars']
+words = { six = 6 }
+
+[[spec.reader]]
+path = "cities/Baghdad/PROPOSAL.md"
+values = ['Baghdad pricing reference uses a \w+-car powered-wheel train with (?P<value>\w+) \d+(?:\.\d+)? m cars']
+words = { six = 6 }
+
+[[spec]]
+id = "baghdad-metropolitan-track-centres"
+source = "cities/Baghdad/engineering/mechanical/civil/family_comparison.py"
+symbol = "TRIALS"
+key = "track_pitch_m"
+unit = "m"
+
+[[spec.code]]
+path = "cities/Baghdad/engineering/mechanical/civil/alignment_beams.py"
+symbol = "PITCH_M"
+reference = "family.TRIALS['track_pitch_m']"
+import_alias = "family"
+import_module = "cities.Baghdad.engineering.mechanical.civil.family_comparison"
+
+[[spec.record]]
+path = "cities/Baghdad/engineering/mechanical/civil/curved-beam-register.json.gz"
+keys = ["assumptions.track_pitch_m"]
+provenance = ["source_sha256"]
+
+[[spec.record]]
+path = "cities/Baghdad/straight-through-network.json"
+keys = ["beam_schedule.assumptions.track_pitch_m"]
+provenance = ["beam_schedule.source_sha256"]
+
+[[spec.reader]]
+path = "cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md"
+values = ['(?P<value>\d+(?:\.\d+)?) m track centres']
+
+[[spec.reader]]
+path = "cities/Baghdad/engineering/mechanical/civil/CURVED-BEAM-PROGRAMME.md"
+values = ['(?P<value>\d+(?:\.\d+)?) m track pitch']
+
+[[spec]]
+id = "baghdad-metropolitan-headway-costing-control"
+source = "cities/Baghdad/residential-access.toml"
+key = "planning_service.headway_s"
+unit = "s"
+
+[[spec.record]]
+path = "cities/Baghdad/straight-through-network.json"
+keys = ["cost.service.directional_headway_s"]
+provenance = ["source_sha256"]
+
+[[spec.reader]]
+path = "cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md"
+values = ['fixed (?P<value>\d+(?:\.\d+)?)-minute offer']
+scale = 60
+
+[[spec.reader]]
+path = "cities/Baghdad/README.md"
+values = ['network estimate uses a (?P<value>\w+)-minute costing offer']
+words = { six = 6 }
+scale = 60
+
+[[spec]]
+id = "baghdad-terminal-yard-mould-cycle"
+source = "cities/Baghdad/engineering/mechanical/civil/rail_fed_assumptions.toml"
+key = "delivery.mould_cycle_h"
+unit = "hours"
+
+[[spec.record]]
+path = "cities/Baghdad/straight-through-network.json"
+keys = ["civil.assumptions.source_yard_layout.mould_cycle_hours"]
+provenance = ["civil.source_sha256"]
+
+[[spec.reader]]
+path = "cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md"
+values = ['(?P<value>\d+(?:\.\d+)?) hours per planning mould cycle']
+
+[[spec]]
+id = "baghdad-straight-stock-girders-per-bay"
+source = "cities/Baghdad/engineering/mechanical/civil/rail_fed_erection.py"
+symbol = "GIRDERS_PER_BAY"
+unit = "girders/bay"
+
+[[spec.record]]
+path = "cities/Baghdad/engineering/mechanical/civil/curved-beam-register.json.gz"
+scope = "by_family.straight_20m"
+ratio = { numerator = "girders", denominator = "bays_or_hold_intervals" }
+
+[[spec.record]]
+path = "cities/Baghdad/engineering/mechanical/civil/rail-fed/comparison.json"
+scope = "geometry"
+ratio = { numerator = "standard_girders", denominator = "standard_bays" }
+
+[[spec.reader]]
+path = "cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md"
+values = ['recurring main-line bay uses (?P<value>\w+) \*\*\d+(?:\.\d+)? m precast concrete U-girders']
+words = { two = 2 }
+
+[[spec]]
+id = "baghdad-mapped-recurring-straight-bays"
+source = "cities/Baghdad/engineering/mechanical/civil/curved-beam-register.json.gz"
+key = "by_family.straight_20m.bays_or_hold_intervals"
+unit = "bays"
+
+[[spec.reader]]
+path = "cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md"
+values = ['Quantified recurring straight stock in the chainage register \| (?P<value>[\d,]+) paired bays']
+
+[[spec.reader]]
+path = "cities/Baghdad/engineering/mechanical/civil/CURVED-BEAM-PROGRAMME.md"
+values = ['^\| straight \d+m \| (?P<value>[\d,]+) \| [\d,]+ \| 0 / 0']
+
+[[spec]]
+id = "baghdad-mapped-recurring-straight-girders"
+source = "cities/Baghdad/engineering/mechanical/civil/curved-beam-register.json.gz"
+key = "by_family.straight_20m.girders"
+unit = "girders"
+
+[[spec.reader]]
+path = "cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md"
+values = ['Quantified recurring straight stock in the chainage register \| [\d,]+ paired bays / (?P<value>[\d,]+) girders']
+
+[[spec.reader]]
+path = "cities/Baghdad/engineering/mechanical/civil/CURVED-BEAM-PROGRAMME.md"
+values = ['^\| straight \d+m \| [\d,]+ \| (?P<value>[\d,]+) \| 0 / 0']
+
+[[spec]]
+id = "baghdad-mapped-recurring-straight-bearings"
+source = "cities/Baghdad/engineering/mechanical/civil/curved-beam-register.json.gz"
+key = "by_family.straight_20m.bearings"
+unit = "bearings"
+
+[[spec.reader]]
+path = "cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md"
+values = ['Quantified recurring straight stock in the chainage register \| [\d,]+ paired bays / [\d,]+ girders / (?P<value>[\d,]+) bearings']
+
+[[spec.reader]]
+path = "cities/Baghdad/engineering/mechanical/civil/CURVED-BEAM-PROGRAMME.md"
+values = ['^\| straight \d+m \| [\d,]+ \| [\d,]+ \| 0 / 0 \| [\d.,]+ \| [\d,]+ \| [\d,]+ \| (?P<value>[\d,]+) \|']

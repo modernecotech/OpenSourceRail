@@ -51,27 +51,6 @@ def read_data_js(path):
     return json.loads(source.split("=", 1)[1].strip().removesuffix(";"))
 
 
-def span_chart():
-    text = (ROOT / "cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md").read_text()
-    pattern = r"\| (\d+)m U [\d.]+m / shared \| ([\d,]+) \| ([\d.]+) t at 12 m \| \$([\d,.]+)m \|"
-    rows = re.findall(pattern, text)
-    spans, placements, tonnes, costs = zip(*rows, strict=True)
-    x = list(map(int, spans))
-    fig, ax = figure(
-        "Longer girders change the erection job",
-        "Shared-pier U-girders · identical double-track scope in the Baghdad Airport audit",
-        "Loads are at 12 m working radius. Closure bays and site works need separate pricing.",
-    )
-    ax.bar(x, list(map(float, costs)), width=2.8, color=[BLUE, BLUE, TEAL])
-    ax.set(xticks=x, xticklabels=[f"{s} m span" for s in spans], ylim=(0, 246),
-           ylabel="30-year present value (US$ million)")
-    for span, count, hook, cost in rows:
-        ax.annotate(f"${cost}m\n{count} placements\n{hook} t at hook",
-                    (int(span), float(cost)), xytext=(0, 5), textcoords="offset points",
-                    ha="center", va="bottom", fontsize=9, color=INK)
-    save_chart(fig, "span-erection.png")
-
-
 def finance_chart():
     data = read_data_js("docs/operator-review/finance/schedules.js")["core"]["cases"]["mixed_debt"]
     rows = data["annual"]
@@ -180,7 +159,6 @@ def alarm_animation():
 
 
 if __name__ == "__main__":
-    span_chart()
     finance_chart()
     trip_chart_and_animation()
     alarm_animation()

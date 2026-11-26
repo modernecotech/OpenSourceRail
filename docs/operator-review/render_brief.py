@@ -1,5 +1,6 @@
 """Render the illustrated operator briefing from the checked-in drawings and screen captures."""
 import json
+from hashlib import sha256
 from io import BytesIO
 from pathlib import Path
 
@@ -15,11 +16,18 @@ from reportlab.platypus import Paragraph
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 URL = "https://github.com/modernecotech/OpenSourceRail/blob/main/"
+NETWORK = ROOT / "cities/Baghdad/straight-through-network.json"
+OUTPUT = HERE / "OpenSourceRail-Operator-Brief.pdf"
+sources = {Path(__file__).resolve(), NETWORK}
+baghdad = json.loads(NETWORK.read_text())
+civil, service = baghdad["civil"], baghdad["cost"]["service"]
+quantities, crews, programme = civil["quantities"], civil["workforce"], civil["programme"]
+base_cost = baghdad["cost"]["cost_cases"]["base"]
 W, H = 960, 600
 TEAL, INK, GRAY, PAPER, LINE, GOLD = "#00695F", "#143739", "#425B5E", "#FAF9F3", "#CAD6CF", "#A45522"
 for family, file in [('Regular', 'DejaVuSans.ttf'), ('Bold', 'DejaVuSans-Bold.ttf')]:
     pdfmetrics.registerFont(TTFont(family, file))
-c = Canvas(str(HERE / "OpenSourceRail-Operator-Brief.pdf"), pagesize=(W, H), invariant=True,
+c = Canvas(str(OUTPUT), pagesize=(W, H), invariant=True,
            pageCompression=1)
 c.setTitle("OpenSourceRail | Railway design and delivery for operators")
 c.setAuthor("OpenSourceRail")
@@ -59,12 +67,13 @@ def start(section, title, subtitle):
     line(35, 92, title, 32, 'Bold')
     para(36, 106, 883, subtitle, 13)
     rect(35, 560, 890, 1, LINE)
-    line(35, 580, 'Railway design and delivery     /     Operator review     /     20 November 2026', 9, colour=GRAY)
+    line(35, 580, 'Railway design and delivery     /     Operator review     /     26 November 2026', 9, colour=GRAY)
     line(893, 580, f'{page:02d}', 10, 'Bold', TEAL)
 
 
 def picture(path, x, top, w, h):
-    image = HERE / path
+    image = (HERE / path).resolve()
+    sources.add(image)
     if image.suffix == '.svg':
         image = BytesIO(cairosvg.svg2png(url=str(image), scale=1.5))
     reader = ImageReader(image)
@@ -108,35 +117,33 @@ def two_column_figure(path, points):
 
 start('Railway proposals', 'A railway an operator can inspect',
       'Review the train, the station and the organisation that will build, fund and run them.')
-picture('twins/baghdad-station.png', 33, 145, 584, 350)
+picture('../assets/assembly-animations/viaduct-placement.jpg', 33, 145, 584, 350)
 point(643, 158, 267, 'Core reference', 'A 30 km elevated example joins vehicle, track, stations, manufacturing and operating cost on one design.')
-point(643, 273, 267, 'Baghdad', 'Seven historical corridors and an independent citywide proposal can each be priced by local and international teams.')
+point(643, 273, 267, 'Baghdad', 'A connected elevated network with Airport service, orbital routes and direct Tigris crossings. Civil and operating accounts use the mapped route.')
 point(643, 388, 267, 'Decision for the owner', 'Choose a service to investigate, an interface to prototype and a local package to quote.')
 link('Open the operator guide','README.md')
 link('Download the offline kit and open START.html','https://raw.githubusercontent.com/modernecotech/OpenSourceRail/main/docs/operator-review/OpenSourceRail-Operator-Kit.zip',315)
 para(35,497,881,'Run the interactive screens in the offline kit or the local Workbench under Operator review. Other links open design records on GitHub.',11.0)
-start('Service offer', 'Three railway choices',
-      'Peak capacity is the number of places offered per hour in one direction. Paid journeys require a separate demand and fares study.')
-table(35,160,[298,168,208,216],['Planning quantity','Core reference','Baghdad / seven corridors','Baghdad / citywide'],[
-    ['Elevated route / budgeted stations','30 km / 12','148.2 km / 64','605.652 km / 280'],
-    ['Normal places per train','276','700','700'],
-    ['Peak interval / places per hour¹','120 s / 8,280','150 s / 16,800','150 s / 16,800'],
-    ['Fleet including reserves','51 sets','242 sets','934 sets'],
-    ['Power collection','1.5 kV DC overhead','Protected conductor','Protected conductor'],
-    ['Installed capital / Iraq central case','1.025 billion','8.369 billion','32.995 billion'],
-    ['Annual operations / Iraq central case','30.5 million','185.7 million','738.7 million']],35)
-para(37,457,862,'¹ Per modelled service. Baghdad’s citywide plan assigns passenger paths to 555.553 km and reserves a further 50.099 km. The two Baghdad options are independent investment decisions.',12.4)
-para(37,503,862,'The earlier v0.6 station-powered, passive-wheel train remains a separate development reference with its own tests.',11.5)
-link('Core service and cost','../reference-v07/cost/README.md')
-link('Baghdad service and cost','../../cities/Baghdad/COST-AND-DELIVERY.md',298)
-start('Baghdad / location', 'Baghdad’s original seven corridors',
-      'The Iraqi National Investment Commission published this map in February 2024. Its seven route lengths total 148.2 km.')
-picture('../../cities/Baghdad/maps/Baghdad-148km.png',35,141,477,390)
-point(535,152,375,'Read the original routes','Trace the pale pink airport approach from the west and the blue corridor towards Al Zafraniya in the southeast. The investment brief allows 64 stations. Entrances and platform sites require surveys.')
-point(535,279,375,'What to survey first','Confirm the airport terminal entrance, accessible walks to Sadr City and Jadriya, disputed place names and river crossings. Agree a survey datum and chainage with the authority.')
-point(535,397,375,'Procurement context','October Arabic interviews describe unsuccessful earlier offers and a new study. Late 2026 to early 2027 is a preparation window. The invitation date awaits an official notice.')
-link('Original NIC map and table, page 4','https://mofa.gov.iq/paris/wp-content/uploads/sites/55/2024/02/Baghdad-PDF.pdf#page=4')
-link('Arabic ministry workshop record','https://mop.gov.iq/archives/40342',541)
+start('Service offer', 'Baghdad service and cost allowances',
+      'The six-minute costing offer gives the fleet and grid budget. Local demand and verified train workings determine the operating plan.')
+table(35,160,[490,400],['Planning quantity','Baghdad metropolitan'],[
+    ['Distinct guideway and station sites', f"{quantities['unique_guideway_km']:,.2f} km / {quantities['station_sites']:,}"],
+    ['Normal places per train','700'],
+    ['Direction interval / offered places per hour', f"{service['directional_headway_s']/60:g} min / {service['nominal_places_per_hour_direction']:,.0f}"],
+    ['Fleet including reserves', f"{service['fleet_trainsets']:,} sets"],
+    ['Power collection','Protected conductor'],
+    ['Base installed planning allowance', f"US${base_cost['installed_planning_usd_m']/1000:.2f} billion"],
+    ['Base annual operation', f"US${base_cost['annual_operations_total_usd_m']/1000:.2f} billion"]],39)
+para(37,492,862,'Confirm route geometry, accessibility, safe separation and peak power. Obtain contractor prices for river structures and special interfaces.',12.4)
+link('Service, works and lifecycle costs','../../cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md')
+start('Baghdad / location', 'One connected route and station plan',
+      'The network joins two rings with cross-Tigris corridors and an Airport service.')
+picture('../../cities/Baghdad/maps/baghdad-straight-through-network.png', 35, 138, 510, 401)
+point(564,152,344,'Passenger access','Check housing-to-centre journeys, the Airport entrance and shared platforms. Survey street approaches, step-free transfer routes and egress.')
+point(564,279,344,'Delivery packages','Set the working zones and access routes for support construction, terminal yards, station work, special crossings and the finished deck.')
+point(564,403,344,'Network changes','Test rerouted or withdrawn lines against the same walk threshold, origin and destination samples, and scheduled train-km.')
+link('Metropolitan alignment and passenger evidence','../../cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md')
+link('Alternative networks','../../cities/Baghdad/THREE-RING-STUDY.md',610)
 start('Design / rolling stock','Inspect the bogie and carbody',
       'The design viewer links each selected component to the drawing or schedule behind it. Inspect a train at the station, then switch to a single assembly.')
 picture('twins/core-bogie.png',35,150,430,224)
@@ -147,11 +154,11 @@ link('Core brake and clearance rigs','../../engineering/interface_studies/REFERE
 link('Baghdad mechanical drawings','../../cities/Baghdad/engineering/mechanical/vehicle/README.md',489)
 start('Design / station and control', 'From the viaduct to the platform edge',
       'The Baghdad trial places the station deck on its own supports beside the track. Movement between these structures affects boarding.')
-two_column_figure('twins/baghdad-boarding.png',[
-    ('Inspect the civil interface','The trial island is 125 m by 8 m. The single-track beam is 10 m long. The design team must survey bearing seats, footing pressures and the platform edge under load.'),
+two_column_figure('../../cities/Baghdad/station-interface.svg',[
+    ('Inspect the civil interface','The trial island is 125 m by 8 m. Recurring guideway uses 20 m U-girders on shared piers. Survey bearing seats, footing pressures and the platform edge under load.'),
     ('Exercise the boarding sequence','With the train at rest and both brake holds proved, the replay releases 24 platform-side doors. The other side stays locked. Loss of a holding proof trips protection.'),
     ('Before dispatch','The replay closes and proves all 48 doors, then checks drive take-up. The brake supplier and operator still need to demonstrate the handover and measure rollback under load on a gradient.')])
-link('Station and viaduct sections','../../cities/Baghdad/engineering/mechanical/civil/README.md')
+link('Station and viaduct sections','../../cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md')
 link('Wiring and boarding replay','../../cities/Baghdad/engineering/controls/README.md',633)
 start('Operate / control room','An equipment alarm during service',
       'This screen replays the project gateway with fixture inputs. Staff can inspect observations, timestamps and alarms without sending commands to train equipment.')
@@ -163,58 +170,47 @@ link('Screen gallery and provenance','screens/README.md')
 link('Gateway replay and setup guide','screens/README.md',633)
 start('Operate / workshop', 'Passenger planning and repair history',
       'Use the passenger journey screen to inspect a proposed service and the workshop record to trace what happened to a part.')
-picture('screens/baghdad-service.png',34,152,433,206)
+picture('screens/passenger-journey.png',34,152,433,206)
 picture('screens/erp-serial-history.png',487,149,438,225)
-point(36,377,415,'A train through its working day','Use the Baghdad diagram to follow a set through stops and a terminal turn. Inspect the platform and block conflicts at peak headway. The citywide mainline option diagrams all 14 routes by deferring five access sections.')
+point(36,377,415,'A train through its working day','Use the journey display to inspect waiting, running, walking and interchange time. This screen demonstrates the controls on a mapped city. Baghdad has its own matched service runs.')
 point(490,377,417,'A native ERPNext serial record','The existing historical pilot shows a repair and inspection trail. The new railway still needs its own asset register, installed serials, warranty records, staff permissions and signed maintenance tasks.')
 link('Open the gallery and workshop screens','screens/README.md')
 link('ERPNext and Frappe HR setup','../../deployment/erpnext/README.md',489)
-start('Finance / public budget','How much cash does the operator need?',
-      'The seven-corridor case below assumes 50% borrowing at 4% real, repaid over 20 years. Figures use constant 2026 US dollars.')
-two_column_figure('finance/baghdad-funding.png',[
-    ('Construction','The city borrows about $4.18bn. Construction interest of $343.1m is paid from budget. The largest annual buyer draw during works is $1.364bn.'),
-    ('First full service year','At Iraqi central pay and power rates, operations need $185.7m. A posted IQD 750 fare on 188.4m paid journeys yields $79.5m net. Including debt payments, the city needs another $414.1m.'),
-    ('A different term sheet','At 7% real over 12 years, the same network needs $712.6m before fares in its first full service year. Check fees, FX exposure and guarantees alongside the cash price.')])
-link('How to use the funding calculator','README.md')
-link('Annual debt and renewal schedules','../../cities/Baghdad/COST-AND-DELIVERY.md',634)
+start('Finance / public budget','Price the works and annual operation',
+      'Use equal service and construction scope. The project cash profile depends on approved phasing, access, renewals and actual rates.')
+table(35,160,[360,175,175,180],['US$ billion','Low','Base','High'],[
+    [label, *(f"{baghdad['cost']['cost_cases'][case][key]/1000:.2f}" for case in ('low','base','high'))]
+    for key,label in [('installed_planning_usd_m','Installed planning allowance'),
+                      ('annual_operations_total_usd_m','Annual operation'),
+                      ('whole_life_present_usd_m','30-year present cost')]],62)
+point(36,429,416,'Funding needs','Build annual draws from the purchasable scope and dated opening phases. Model fare receipts, borrowing fees, currency and public-service obligations with dated local inputs.')
+point(491,429,416,'Scope still open','Obtain prices for river crossings, special structures and site-specific access before relying on a total construction cash requirement.')
+link('Matched base scope and lifecycle quantities','../../cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md')
 start('Build / vehicle works','Lay out the assembly and repair shops',
       'Price a repeatable factory module against the modelled fleet orders. Frame fixtures, inspection points, bogie access and a separate repair road need space before the first car arrives.')
 two_column_figure('delivery/vehicle-works.svg',[
     ('Core order','Five proposed lines complete 306 cars in the allotted production window. The first-car assembly allowance is 720 direct hours.'),
-    ('Baghdad seven corridors','Twelve lines at the trial rate have capacity for 1,464 cars against an order of 1,452. Losing one five-day production cycle across all twelve uses the margin.'),
+    ('Baghdad fleet',f'The metro costing offer covers {service["cars"]:,} cars. Set production rate, phased orders and test output from the agreed service opening sequence.'),
     ('Bidder return','Quote buildings, line equipment, test road, wheelset handling, QA, staffing and the right to repair. Witness a first car, a repeat car and a bogie exchange.')])
 link('Dimensioned vehicle works plan','delivery/vehicle-works.svg')
 link('Production and shift assumptions','delivery/README.md',633)
-start('Build / viaduct','A casting yard needs room to store beams',
-      'Coordinate casting, release inspection, haulage and erection. Giving each activity a daily rate can obscure the space required between them.')
-two_column_figure('delivery/precast-yard.svg',[
-    ('Core reference','Two yards supply 6,000 beams. Each needs at least 440 pre-erection stock positions under the proposed dates. The illustrated 180-place yard needs at least 260 additional places per yard.'),
-    ('Baghdad seven corridors','Six yards supply 29,640 beams. Balanced peak month-end stock needs 164 places per yard. Daily arrivals, blocked roads and rejected beams can raise that figure.'),
-    ('Release to site','Identify each casting batch and bearing seat, approve lift and traffic plans, and confirm pier readiness before dispatch. Price overflow land and extra handling.')])
-link('Dimensioned precast yard plan','delivery/precast-yard.svg')
-link('Yard and workforce quantities','delivery/quantities.json',633)
-start('People / training','Who will build and run the railway?',
-      'Illustrative establishments cover the duties listed in the workforce plan. Agree wages, shifts, relief, contracted services and training costs with the employing operator.')
-staff = json.loads((HERE/'delivery/quantities.json').read_text())['studies']
-networks = ('core', 'first', 'metropolitan')
-rosters = [staff[k]['workforce_scenarios']['goa4']['posts_fte'] for k in networks]
-rows = [[label,*(f'{s[key]:,}' for s in rosters)] for label,key in [
-    ('Scheduled staff onboard / GoA4','scheduled onboard staff'), ('Station duty and passenger assistance','station duty and passenger assistance'),
-    ('Control centre','OCC control, traction, incidents and information'),('Rolling-stock technicians','depot rolling-stock technicians')]]
-rows += [['GoA4 / all listed operating duties, FTE',*(f'{staff[k]["workforce_scenarios"]["goa4"]["total_fte"]:,}' for k in ('core','first','metropolitan'))],
-         ['Peak day-shift build posts¹',*(f'{staff[k]["production_day_posts"]:,}' for k in ('core','first','metropolitan'))]]
-table(35,154,[320,145,212,213],['Workforce measure','Core','Baghdad / seven corridors','Baghdad / citywide'],rows,31)
-para(36,380,884,'¹ Positions across the listed vehicle, yard and erection activities. Build jobs overlap by package. Operating FTE use 1,720 rosterable hours per person-year, including relief in the establishment.',11.5)
-point(36,424,420,'Recruit and teach','Start with local instructors, pilot crews and independent assessors. Budget classroom, simulator and mentored work before shadow rosters.')
-point(490,424,420,'Authorise by demonstrated task','Witness assisted boarding, isolation and restoration, train recovery, welding and lifting. Record restrictions and renewal dates in the HR skills register.')
-link('Roles, wages to quote and competence assessments','delivery/README.md')
-start('People / shift coverage','Test a staffing and training budget',
-      'Choose unattended service, supervised commissioning or onboard assistance. Price the duties and reconcile existing payroll before taking a scenario to the funding calculator.')
-two_column_figure('delivery/workforce.png',[
-    ('Staff the working day','The seven-corridor GoA4 case has 1,526 FTE. The central Iraqi wage estimate is $12.27m a year. After crediting $10.67m already allowed in service contracts, the net payroll adjustment is $1.60m.'),
-    ('Prepare local instructors','At 80 classroom and 80 supervised hours each, plan for 128 classes of up to 12 and 122,080 supervised learner-hours. Quote instructors, assessors and roster relief separately.'),
-    ('Record qualification','The employing operator records signed role, equipment, restrictions and expiry against each employee. Link training and assessment to the duties allowed on the shift.')])
-link('Workforce planner, inputs and hiring plan','delivery/README.md')
+start('Build / viaduct','A terminal yard feeds each advancing front',
+      'The open-line study uses two terminal yards, rail flatbeds and launching gantries. Ground and structural interfaces define which sites can use the method.')
+two_column_figure('../../cities/Baghdad/engineering/mechanical/civil/rail-fed/terminal-yard.png',[
+    ('Stock and storage','Recurring 20 m U-girders on shared piers. Each yard provides 16 moulds and 24 released-stock positions within a 216 × 164 m trial footprint.'),
+    ('Yard and front availability',f"The network allowance uses {programme['active_launcher_pairs']} paired launcher crews, {programme['active_road_day_teams']} road teams and {programme['concurrent_yard_sites']} concurrent yards."),
+    ('Release to site','Inspect each casting batch and bearing seat. Prove trailer, pick and temporary deck loads. Schedule starter and closure lifts and bridge works separately.')])
+link('Current fabrication and erection basis','../../cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md')
+start('People / shift coverage','Staff production and operating duties',
+      'The delivery record counts civil casting, haul and erection by route and role. Validate staff availability, qualification and pay against the programme.')
+table(35,155,[550,335],['Construction resource','Paid hours'],[
+    ['Casting, haul and erection', f"{crews['paid_deck_and_casting_hours']:,.0f}"],
+    ['Rail-fed erection', f"{crews['paid_rail_fed_erection_hours']:,.0f}"],
+    ['Road erection and haul', f"{crews['paid_road_erection_and_haul_hours']:,.0f}"],
+    ['Casting yard', f"{crews['paid_casting_hours']:,.0f}"]],46)
+point(36,421,420,'Roster the service','Test relief, maintenance, passenger assistance and emergency duties in the shift model. Reconcile any payroll counted in other cost accounts.')
+point(490,421,420,'Verify competence','Witness lifting, inspection, welding, isolation and passenger protection. Record role, equipment, restrictions and renewal dates.')
+link('Factory, shift and competence plan','delivery/README.md')
 start('Delivery / buying terms','Use the design to improve competing offers',
       'Baghdad can buy from another supplier and still use the open railway to negotiate prices, domestic production, long-term repair rights and financing.')
 picture('finance/supplier-returns.png',35,145,552,372)
@@ -237,4 +233,11 @@ for i,(when,who,what) in enumerate(steps):
 para(36,498,880,'Passenger opening depends on as-built records, emergency and accessible-travel exercises, trained rosters and independent acceptance of measured performance.',11.8)
 link('Full delivery plan and handover evidence','WORKPLAN.md')
 c.save()
+receipt = {
+    "artifact": OUTPUT.relative_to(ROOT).as_posix(),
+    "sha256": sha256(OUTPUT.read_bytes()).hexdigest(),
+    "source_sha256": {path.relative_to(ROOT).as_posix(): sha256(path.read_bytes()).hexdigest()
+                      for path in sorted(sources)},
+}
+(HERE / "operator-brief.receipt.json").write_text(json.dumps(receipt, sort_keys=True, indent=2) + "\n")
 print(f'{page} pages')

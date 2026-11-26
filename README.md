@@ -104,9 +104,9 @@ The fitted-train exercise connects seating, wheelchair places, door approaches a
 
 The coordinated design search carries a change in structure, installed mass or propulsion through braking, civil loading, production and cost, while keeping each candidate's results together. Compare body arrangements and joints, inspect stress and displacement, and review where independent solver results apply to a particular load or geometry. [Coordinated railway design](docs/design-engine/coupled-railway/README.md) · [CAD and solver comparison](docs/design-engine/craft-backends/README.md) · [Viaduct model comparison](docs/design-engine/viaduct-backends/README.md)
 
-[![Baghdad audit comparison of shared-pier girder stock at 10, 15 and 20 metres. Placements fall from 3,492 to 1,746 while hook demand at the assumed radius rises from 37.74 to 89.85 tonnes.](docs/assets/front-page/span-erection.png)](docs/assets/front-page/span-erection.png)
+[![Dimensioned Baghdad U-girder cross-section and inside and outside pieces for a curved bay](cities/Baghdad/engineering/mechanical/civil/curved-beam-families.svg)](cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md)
 
-In this study the longer standard span needs fewer placements and a higher hook load. Read the audited cost scope, break-even erection prices and outstanding ground and lift checks before using the result to prepare an enquiry. [Cost and erection cases](cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md#what-changes-the-vehicle-and-civil-enquiry)
+The metropolitan beam register follows each route through standard stock, short closures, inside and outside curved pieces and interfaces that need their own designs. It connects quantities, concrete, bar and strand, mould changes, flatbed runs and crew shifts to the same map. [Viaduct specification and checks](cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md)
 
 ### Build the viaduct from both ends
 
@@ -124,14 +124,14 @@ an open main line. Each yard has **16 moulds**, **24 released-beam positions**
 and a proposed **216 × 164 m** footprint. Each line can start independently,
 or share gantries with later lines. The citywide ring, short branches and
 reserved connections carry their own access and delivery assumptions.
-[Network quantities, workplan, costs and cash](cities/Baghdad/engineering/mechanical/civil/rail-fed/network-delivery.md)
+[Metropolitan quantities, shifts and lifecycle costs](cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md)
 
-For the seven-corridor programme, the model counts **14,820 girders**,
-**7,417 shared support positions** and **14 terminal yards**. Deck feed
-reduces base direct civil scope from **$1.406bn to $1.350bn** against road
-erection of the same 20 m stock. The earlier 10 m planning allowance was
-**$1.331bn**. The workplan prices the heavier handling and terminal yards
-and shows how available gantries change the delivery sequence.
+The standard-stock comparison allocates **three paired launcher crews and
+two road teams** across **eight concurrent yards**. Deck feed reduces
+modelled loaded girder trips on public roads from **78,440 to 22,934** and
+booked erection lane-hours from **314,304 to 93,568**. Ground works,
+starter and closure lifts, and special structures carry separate access
+and design duties. [Civil stock and construction scope](cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md)
 
 | Deliver beams behind the advancing fronts | Lay out each terminal yard |
 |---|---|
@@ -256,7 +256,7 @@ The design engine lets engineers change a body structure or propulsion arrangeme
 
 Every comparison needs an identifiable route, vehicle, service and price boundary. Baghdad’s elevated, zero-tunnel studies examine catenary-free supply. Span, propulsion, train length and frequency remain choices to test against demand, accessibility, protection, local manufacturing and whole-life cost. A published drawing, a numerical screen, a supplier return and a measured first article answer different questions.
 
-The Airport study illustrates how to read a result. The release’s 12 km schematic was shorter than the 15.09 km geographic minimum through five named places. The revised 17.46 km horizontal study contains 10.74 km of proposed connections and still needs a survey. On the paired supply the 30-minute service completes **72 of 72** booked trips. The 15-minute service completes **103 of 144**. The review shows the limiting cases, including traction-force and emergency-energy shortfalls, alongside what a supplier can price. The [citywide comparison](cities/Baghdad/README.md) has its own route and price assumptions. [Operating results and outstanding evidence](cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md)
+The 17.46 km Airport study contains 10.74 km of proposed connections and still needs a survey. On the paired supply the 30-minute service completes **72 of 72** booked trips. The 15-minute service completes **103 of 144**. The review shows the limiting cases, including traction-force and emergency-energy shortfalls, alongside what a supplier can price. The metropolitan plan uses a separate network and costing service. [Current Baghdad proposal](cities/Baghdad/README.md) · [Airport operating results and outstanding evidence](cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md)
 
 Two further references support development. The [synthetic digital corridor](docs/reference-v07/README.md) provides a repeatable software and design comparison. The [development vehicle selector](engineering/development-baseline.toml) describes a six-car passive-wheel research vehicle with 44 seats and two wheelchair places per car. Its engineering record carries its own load cases, equipment and service assumptions. [Current engineering record](docs/design-engine/current/README.md)
 
@@ -283,15 +283,15 @@ Other useful entry points from the repository root include these commands.
 | Command | What you get |
 |---|---|
 | `./osr plan verify build/my-plan` | Check a compiled planning proposal against its source revision. [Planning workflow](docs/workbench/planning/README.md) |
+| `./osr coherence` | Check live specs, code, output records and reader claims without a full simulation. |
 | `./osr twin export` | Inspect the selected candidate's linked geometry, BOM, civil, purchasing and controls outputs. [Export index](docs/design-engine/current/exports/manifest.json) |
 | `./osr design railway spans --route-km 20` | Compare installed civil and erection assumptions for a 20 km example. [Span-family basis](cities/Baghdad/engineering/mechanical/civil/SPAN-FAMILIES.md) |
 | `./osr workplan --output build/workforce` | Price role-by-shift workloads, test coverage and export a CSV and Arrow-compatible Parquet table. [Workforce and delivery plan](docs/operator-review/delivery/WORKFORCE-SIMULATION.md) |
-| `./osr design railway baghdad-delivery` | Recalculate the two Baghdad delivery programmes, civil quantities, resource plan, and buyer cash. [Current programme](cities/Baghdad/engineering/mechanical/civil/rail-fed/network-delivery.md) |
+| `./osr design railway baghdad-delivery` | Read the live metropolitan plan, quantities, shifts, fleet and costs. Add `--json` for the machine record. [Current programme](cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md) |
 | `./osr design railway rail-fed --route-km 20` | Compare road delivery with deck-fed gantries, including costs, shift hours and street occupation. [Erection comparison](cities/Baghdad/engineering/mechanical/civil/RAIL-FED-ERECTION.md) |
-| `./osr design railway yard --beams 120` | Compare moulds, crews, production hours and delivery constraints for a specified order. [Factory specification](cities/Baghdad/engineering/prototype/FACTORY-SPECIFICATION.md) |
 | `python3 -m engineering.assurance.standards --impact` | Identify controls affected by changes since the published standards evidence report. [Evidence review](docs/certification/README.md) |
 
-The [chart and animation generator](docs/assets/front-page/render.py) reads the published station-pair trace, span comparison, finance schedule and supervision replay. Run it with Python, Matplotlib and Pillow to reproduce the figures.
+The [chart and animation generator](docs/assets/front-page/render.py) reads published inputs for the station-pair and supervision demonstrations. Run it with Python, Matplotlib and Pillow to reproduce the figures.
 
 ## Find the right files
 

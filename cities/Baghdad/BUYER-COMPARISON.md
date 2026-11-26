@@ -1,4 +1,4 @@
-# Buying a railway using an open reference
+# Baghdad bidder comparison for the seven-corridor estimate
 
 Amanat Baghdad can use OpenSourceRail to write a specification, estimate quantities and negotiate the right to build and repair locally, whether an Iraqi consortium, an international supplier or a combination delivers the railway. The working estimate is a negotiating reference. A credible fallback to a vendor offer requires priced local packages, a capable integrator, financed tooling and an acceptance programme.
 
@@ -7,12 +7,6 @@ The earlier investment process did not secure a contractor to deliver the metro.
 OpenSourceRail is preparing for new ideas in **late 2026 to early 2027**. The authority has yet to publish a submission date in the sources reviewed. The seven corridors provide a historical comparison while Baghdad revisits its routes, service and financing. Use this period to prepare quantities, specify local repair rights and gather indicative prices. When the new brief is issued, reconcile route, service and financing requirements before asking for comparable firm offers.
 
 ## Issue the same scope to every bidder
-
-For the current civil enquiry use the [20 m shared-pier delivery programme](engineering/mechanical/civil/rail-fed/network-delivery.md)
-and ask for both deck-fed and road erection against identical stock and site
-conditions. Request separate prices for yard works, launchers, deck haul,
-night shifts and special crossings. Use the 10 m quantities and local-content
-examples below to reproduce the earlier common estimate.
 
 Request three returns for one network at a time. Invite a turnkey offer, a vendor-led offer with specified transfers of production and repair, and a locally integrated offer using open interfaces. Allow vendors to quote all three. Provide the same train capacity, accessibility, hourly service, route assumptions, construction dates, excavation exclusions, summer duty, spares and 30-year maintenance horizon. Require a priced departures register against the open bill. Require each supplier to identify interface responsibility through commissioning and warranty. The sponsor carries any scope it retains in a split award.
 
