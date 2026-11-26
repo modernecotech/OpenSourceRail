@@ -81,6 +81,7 @@ def report(record):
         core = record["layout_trials"][extended]["core_layout"]
         trunk_search = record["layout_trials"][core]["trunk_search"]
         cap = trunk_search["screen"]["ordinary_terminal_reach_beyond_outer_ring_m"][1] / 1000
+        spacing = record["summary"][extended]["suburban"]["minimum_departure_spacing_m"]
         reach = max(distance for row in trunk_search["trunks"] for stop, distance in
                     zip(row["terminal_ids"], row["terminal_distance_beyond_outer_ring_m"], strict=True)
                     if stop != "Airport-00") / 1000
@@ -92,6 +93,16 @@ def report(record):
                  "It keeps the original stations and through services, screens new alignments for heading, "
                  "water, station spacing and parallel duplication, and ranks the options by additional "
                  "residents within a 1.3 km street walk on both population grids.", "",
+                 "The diamonds mark former termini, which remain intermediate stops. "
+                 f"The suburban screen checks routes running alongside each other within "
+                 f"{record['rings']['suburban_parallel_separation_m']/1000:g} km outside the outer ring "
+                 f"for at least {record['rings']['minimum_suburban_parallel_run_m']/1000:g} continuous km. "
+                 "It checks the original approaches and added extensions together. "
+                 f"Each trunk also crosses a contour {record['rings']['suburban_gate_offset_m']/1000:g} km beyond the ring "
+                 f"at sites at least {record['rings']['suburban_parallel_separation_m']/1000:g} km from those of every other trunk. "
+                 "This separates routes that fan out too late. The dense-city spacing checks still apply inside the ring.", "",
+                 (f"The closest pair of suburban contour crossings in the extended trial is **{spacing/1000:.2f} km apart**."
+                  if spacing is not None else "The trial needs at least two trunks to compare suburban departure spacing."), "",
                  f"The resulting package extends **{len(extension['extensions'])} trunk ends** by "
                  f"**{extension['route_km_added']:.2f} route-km** and adds **{extension['new_station_sites']} station sites**. "
                  f"It reaches **{extension['newly_reached']['worldpop-2026']:,} more WorldPop residents** and "
@@ -235,6 +246,14 @@ def draw(record, context):
                                              edgecolor="none", zorder=1))
         axis.add_collection(LineCollection(rivers, colors="#80afbb", linewidths=1, zorder=1.2))
         axis.add_collection(LineCollection(roads, colors="#b2aa9a", linewidths=.30, alpha=.35, zorder=2))
+        if departures := row.get("suburban", {}).get("departures"):
+            from shapely import Polygon as RingPolygon
+            outer = holistic_network.Track(net["lines"][study.RINGS[-1]]["geometry"])
+            contour = RingPolygon(outer.points).buffer(study.coverage_trunks.SUBURBAN_GATE_OFFSET_M)
+            axis.plot(*(np.asarray(contour.exterior.coords) / holistic_network.LOCAL_METRES).T,
+                      color="#9b8265", lw=.8, linestyle="--", zorder=2.2)
+            gates = np.concatenate(list(departures.values()))
+            axis.scatter(*gates.T, marker="o", s=17, color="#bd651b", edgecolor=paper, linewidth=.6, zorder=6.3)
         through = set(row["through_lines"])
         cross_river = through | set(row.get("middle_ring_through_lines", {}))
         rings = set(study.RINGS)
@@ -318,7 +337,8 @@ def draw(record, context):
     figure.legend(handles=legend, loc="lower center", bbox_to_anchor=(.5, .077), frameon=False,
                   ncol=7 if comparison else 4,
                   labelcolor=ink, fontsize=10)
-    figure.text(.047, .042, "Open circles mark shared stations, squares mark through-route terminals and the star marks the Airport.",
+    figure.text(.047, .042, ("Orange dots mark suburban departures on the dashed contour. Squares mark terminals and the star marks the Airport."
+                             if core else "Open circles mark shared stations, squares mark through-route terminals and the star marks the Airport."),
                 color="#465e68", fontsize=8.5)
     figure.text(.047, .022, "Basemap © OpenStreetMap contributors.", color="#465e68", fontsize=8.5)
     buffer = BytesIO()

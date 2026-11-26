@@ -3,7 +3,7 @@
 from dataclasses import replace
 from hashlib import sha256
 from math import isclose
-from itertools import pairwise
+from itertools import combinations, pairwise
 from pathlib import Path
 import tomllib
 
@@ -301,6 +301,30 @@ def _compare_access(networks, graph, population, baseline, suburban_boundary=Non
     return result
 
 
+def _suburban_metrics(network):
+    polygons = _rings(network)
+    if set(polygons) != set(RINGS):
+        return {}
+    outer = polygons[RINGS[-1]]
+    contour = outer.buffer(coverage_trunks.SUBURBAN_GATE_OFFSET_M)
+    tracks = {code: holistic_network.Track(line["geometry"]) for code, line in sorted(network["lines"].items())
+              if not line["loop"]}
+    gates = {code: coverage_trunks.suburban_departures(track, contour) for code, track in tracks.items()}
+    arms = {code: coverage_trunks.suburban_arms(track, outer) for code, track in tracks.items()}
+    distances = [(first, second, coverage_trunks.suburban_departure_distance(gates[first], gates[second]))
+                 for first, second in combinations(tracks, 2) if gates[first] is not None and gates[second] is not None]
+    return {
+        "departures": {code: (points / holistic_network.LOCAL_METRES).tolist()
+                       for code, points in gates.items() if points is not None},
+        "missing_contour_crossings": [code for code, points in gates.items() if points is None],
+        "minimum_departure_spacing_m": round(min(row[2] for row in distances), 2) if distances else None,
+        "close_departures": [[a, b] for a, b, distance in distances
+                             if distance < coverage_trunks.SUBURBAN_PARALLEL_SEPARATION_M],
+        "parallel_suburban_corridors": [[a, b] for a, b in combinations(tracks, 2)
+                                       if coverage_trunks.suburban_parallel(arms[a], arms[b])],
+    }
+
+
 def _decision(summary, available, policy, metadata):
     reference = summary["published"]
     assessments = {}
@@ -317,6 +341,9 @@ def _decision(summary, available, policy, metadata):
             reasons.append("The Airport terminal lacks a replacement station within the street catchment")
         if option["through_count"] < 2 or option["through_count"] != option["lines"] - len(option["rings"]):
             reasons.append("Every open line must cross the Tigris once and share a station with each ring")
+        if any(option["suburban"].get(key) for key in (
+                "missing_contour_crossings", "close_departures", "parallel_suburban_corridors")):
+            reasons.append("The suburban departures or parallel corridors fail the outside-ring screen")
         if option["lines"] >= reference["lines"] or option["stations"] >= reference["stations"]:
             reasons.append("The layout must use fewer routes and station sites")
         if option["station_screen"]["pairs_closer_than_750_m"] >= reference["station_screen"]["pairs_closer_than_750_m"]:
@@ -365,6 +392,7 @@ def _summary(networks, cover, housing, metro, geometry, context):
                    for label, value in reach.items())
         summary[code].update(station_screen=coverage_network.station_audit(net), candidate_id=net["candidate_id"], short_count=len(short), short_lines=short,
                              orbital_metrics=_orbital_metrics(net, context),
+                             suburban=_suburban_metrics(net),
                              through_count=len(direct), through_lines=direct,
                              middle_ring_through_count=len(suburban), middle_ring_through_lines=suburban,
                              housing_two_changes_pct=housing_case["journeys"][

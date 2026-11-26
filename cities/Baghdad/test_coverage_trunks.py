@@ -5,6 +5,7 @@ from types import SimpleNamespace
 
 import numpy as np
 from scipy.spatial import cKDTree
+from shapely import box
 
 from cities.Baghdad import coverage_trunks as trunks, holistic_network as rail
 from cities.Baghdad import holistic_through as through
@@ -87,3 +88,37 @@ def test_dedicated_tigris_reach_requires_two_actual_banks_and_bounded_wet_width(
 
     assert crossing(300) == [{"chainage_km": .7, "mapped_wet_width_m": 300}]
     assert crossing(900) is None
+
+def test_suburban_parallel_is_a_continuous_run_with_a_five_kilometre_width():
+    first = _track([(0, 0), (10_000, 0)])
+    overlapping = _track([(8_401, 1_000), (18_401, 1_000)])
+    separated = _track([(0, 5_000), (10_000, 5_000)])
+    short_overlap = _track([(8_501, 1_000), (18_501, 1_000)])
+    near_width = _track([(0, 4_999), (10_000, 4_999)])
+    crossing = _track([(5_000, -5_000), (5_000, 5_000)])
+    assert trunks.suburban_parallel((first,), (overlapping,))
+    assert trunks.suburban_parallel((first,), (near_width,))
+    assert not trunks.suburban_parallel((first,), (separated,))
+    assert not trunks.suburban_parallel((first,), (short_overlap,))
+    assert not trunks.suburban_parallel((first,), (crossing,))
+
+
+def test_suburban_parallel_clips_off_inner_sections_and_ignores_disjoint_end_caps():
+    boundary = box(0, 0, 10_000, 10_000)
+    inside = _track([(1_000, 1_000), (9_000, 1_000)])
+    first = _track([(-5_000, 0), (-1_000, 0)])
+    second = _track([(0, 1_000), (4_000, 1_000)])
+    assert trunks.suburban_arms(inside, boundary) == ()
+    assert not trunks.suburban_parallel((first,), (second,))
+
+
+def test_suburban_contour_checks_departure_spacing_and_ignores_tangent_touch():
+    contour = box(0, 0, 10_000, 10_000)
+    touches_then_enters = _track([(-3_000, 2_000), (0, 0), (-600, 600), (600, 3_000), (11_000, 3_500)])
+    other = _track([(-4_000, 2_500), (14_000, 6_500)])
+    ends_short = _track([(-5_000, 5_000), (1_000, 5_000)])
+    first = trunks.suburban_departures(touches_then_enters, contour)
+    second = trunks.suburban_departures(other, contour)
+    assert np.allclose(first[0], [0, 1_800])
+    assert trunks.suburban_departure_distance(first, second) < 5_000
+    assert trunks.suburban_departures(ends_short, contour) is None

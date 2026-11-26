@@ -85,6 +85,13 @@ def test_published_suburban_improvement_uses_the_same_through_services_and_bound
     assert record["summary"][key]["route_km"] - record["summary"][core_key]["route_km"] == pytest.approx(
         audit["route_km_added"], abs=.02)
     assert "Airport-00" in {after["lines"]["T01"]["station_ids"][i] for i in (0, -1)}
+    for case, network in ((core_key, before), (key, after)):
+        suburban = study._suburban_metrics(network)
+        assert suburban == record["summary"][case]["suburban"]
+        assert suburban["missing_contour_crossings"] == []
+        assert suburban["close_departures"] == []
+        assert suburban["parallel_suburban_corridors"] == []
+        assert suburban["minimum_departure_spacing_m"] >= 5000
     for row in audit["extensions"]:
         code = row["route"]
         assert row["former_terminal"] in after["lines"][code]["station_ids"]

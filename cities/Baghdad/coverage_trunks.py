@@ -7,7 +7,7 @@ from math import cos, radians
 
 import numpy as np
 from scipy.spatial import cKDTree
-from shapely import LineString, Point, Polygon, distance, intersects_xy, points
+from shapely import LineString, Point, Polygon, distance, get_parts, intersects_xy, points
 
 from . import holistic_grid, holistic_network as rail, holistic_through as through
 from . import straight_through_layout, third_ring_through
@@ -26,10 +26,13 @@ DEDICATED_CROSSING_INTERVAL_M = 850
 DEDICATED_REACH_HALF_M = 550
 MAX_DEDICATED_LANDING_STREET_M = 330
 PARALLEL_LIMIT_M = 1_100
+SUBURBAN_PARALLEL_SEPARATION_M = 5_000
+SUBURBAN_GATE_OFFSET_M = 2_500
+MIN_SUBURBAN_PARALLEL_RUN_M = 1_500
 PARALLEL_DIRECTION_DEG = 15
 MAX_PARALLEL_SHARE = .24
 MAX_MINOR_WATER_SPAN_M = 150
-MIN_OUTER_TERMINAL_REACH_M = 350
+MIN_OUTER_TERMINAL_REACH_M = SUBURBAN_GATE_OFFSET_M
 MAX_OUTER_TERMINAL_REACH_M = 11_000
 MAX_APPROACHES_PER_SIDE = 30
 MAX_PAIRS_PER_BRIDGE = 220
@@ -323,23 +326,104 @@ def _pool(terminals, demand, weights, airport, graph, context, polygons, ring_tr
     return candidates, audit
 
 
-def _parallel_share(first, second):
-    def directional(source, comparison):
-        samples = np.linspace(0, source.km, round(source.km * 5) + 1)
-        positions = np.asarray([source.at(float(km)) for km in samples])
-        positions *= rail.LOCAL_METRES
-        segments = np.clip(np.searchsorted(source.chainage, samples * 1000, side="right") - 1,
-                           0, len(source.delta) - 1)
-        directions = source.delta[segments] / source.lengths[segments, None]
-        vectors = comparison.delta
-        relative = positions[:, None, :] - comparison.points[:-1]
-        projections = np.clip(np.sum(relative * vectors, axis=2) / comparison.lengths**2, 0, 1)
-        offset = np.linalg.norm(relative - projections[:, :, None] * vectors, axis=2)
-        alignment = abs(directions @ (vectors / comparison.lengths[:, None]).T)
-        close = (offset < PARALLEL_LIMIT_M) & (alignment >= cos(radians(PARALLEL_DIRECTION_DEG)))
-        return float(np.mean(close.any(axis=1)))
+def _parallel_samples(source, comparison, distance_m):
+    samples = np.linspace(0, source.km, max(2, round(source.km * 5) + 1))
+    positions = np.asarray([source.at(float(km)) for km in samples]) * rail.LOCAL_METRES
+    segments = np.clip(np.searchsorted(source.chainage, samples * 1000, side="right") - 1,
+                       0, len(source.delta) - 1)
+    directions = source.delta[segments] / source.lengths[segments, None]
+    vectors = comparison.delta
+    relative = positions[:, None, :] - comparison.points[:-1]
+    fraction = np.sum(relative * vectors, axis=2) / comparison.lengths**2
+    projection = np.clip(fraction, 0, 1)
+    offset = np.linalg.norm(relative - projection[:, :, None] * vectors, axis=2)
+    alignment = abs(directions @ (vectors / comparison.lengths[:, None]).T)
+    close = (offset < distance_m) & (alignment >= cos(radians(PARALLEL_DIRECTION_DEG)))
+    return close.any(axis=1)
 
-    return max(directional(first, second), directional(second, first))
+
+def _parallel_share(first, second):
+    return max(float(_parallel_samples(a, b, PARALLEL_LIMIT_M).mean())
+               for a, b in ((first, second), (second, first)))
+
+
+def suburban_arms(track, outer_ring):
+    """Return only the alignment outside the outer orbital."""
+    clipped = LineString(track.points).difference(outer_ring)
+    return tuple(rail.Track(np.asarray(part.coords) / rail.LOCAL_METRES) for part in get_parts(clipped)
+                 if part.geom_type == "LineString" and part.length >= MIN_SUBURBAN_PARALLEL_RUN_M)
+
+
+def suburban_departures(track, suburban_contour):
+    """Find the outermost crossing of the suburban contour at each end."""
+    if any(suburban_contour.covers(Point(point)) for point in track.points[[0, -1]]):
+        return None
+    line = LineString(track.points)
+    contacts = get_parts(line.intersection(suburban_contour.boundary))
+    crossings = [p for p in contacts if p.geom_type == "Point"]
+    if len(crossings) < 2 or len(crossings) != len(contacts):
+        return None
+    chainages = sorted({line.project(point) for point in crossings})
+    bounds = [0., *chainages, line.length]
+    intervals = [suburban_contour.contains(line.interpolate((a + b) / 2)) for a, b in zip(bounds, bounds[1:])]
+    exits = [km for km, before, after in zip(chainages, intervals[:-1], intervals[1:], strict=True)
+             if before != after]
+    if len(exits) < 2:
+        return None
+    return np.array([line.interpolate(km).coords[0] for km in (exits[0], exits[-1])])
+
+
+def suburban_departure_distance(first, second):
+    return float(np.linalg.norm(first[:, None, :] - second[None, :, :], axis=2).min())
+
+
+def _affine_interval(value, slope, lower, upper, *, open_bounds=False):
+    if abs(slope) < 1e-12:
+        inside = lower + 1e-7 < value < upper - 1e-7 if open_bounds else lower <= value <= upper
+        return (-np.inf, np.inf) if inside else (1., 0.)
+    return sorted(((lower - value) / slope, (upper - value) / slope))
+
+
+def _continuous_parallel_m(source, comparison):
+    """Union exact qualifying intervals on the source chainage."""
+    intervals = []
+    cosine = cos(radians(PARALLEL_DIRECTION_DEG))
+    for a, direction_a, length_a, at in zip(
+            source.points[:-1], source.delta / source.lengths[:, None], source.lengths, source.chainage[:-1], strict=True):
+        for b, direction_b, length_b in zip(
+                comparison.points[:-1], comparison.delta / comparison.lengths[:, None], comparison.lengths, strict=True):
+            if abs(direction_a @ direction_b) < cosine:
+                continue
+            offset = a - b
+            normal = np.array([-direction_b[1], direction_b[0]])
+            along = _affine_interval(offset @ direction_b, direction_a @ direction_b, 0., length_b)
+            width = _affine_interval(offset @ normal, direction_a @ normal, -SUBURBAN_PARALLEL_SEPARATION_M,
+                                     SUBURBAN_PARALLEL_SEPARATION_M, open_bounds=True)
+            start, end = max(0., along[0], width[0]), min(length_a, along[1], width[1])
+            if end > start:
+                intervals.append((start + at, end + at))
+    longest = 0.
+    first, last = 0., -np.inf
+    for start, end in sorted(intervals):
+        if start > last + 1e-7:
+            first, last = start, end
+        else:
+            last = max(last, end)
+        longest = max(longest, last - first)
+    return longest
+
+
+def suburban_parallel(first_arms, second_arms):
+    """Detect a sustained side-by-side run on either suburban alignment."""
+    for first, second in product(first_arms, second_arms):
+        gap = np.maximum(first.points.min(axis=0) - second.points.max(axis=0),
+                         second.points.min(axis=0) - first.points.max(axis=0))
+        if np.linalg.norm(np.maximum(gap, 0)) >= SUBURBAN_PARALLEL_SEPARATION_M:
+            continue
+        if max(_continuous_parallel_m(first, second), _continuous_parallel_m(second, first)) >= (
+                MIN_SUBURBAN_PARALLEL_RUN_M - 1e-7):
+            return True
+    return False
 
 
 def _append(network, candidate, code, calls, ordinary, airport):
@@ -397,13 +481,26 @@ def assemble(reference, ring_network, graph, context, population, *, max_trunks=
     demand_tree = cKDTree(demand)
     terminals = _terminal_sites(demand, counts, graph, context, polygons[RINGS[-1]], airport)
     pool, bridge_audit = _pool(terminals, demand, counts, airport, graph, context, polygons, ring_tracks)
+    outer = polygons[RINGS[-1]]
+    suburban_contour = outer.buffer(SUBURBAN_GATE_OFFSET_M)
+    failures = Counter()
+    admitted = []
+    for candidate in pool:
+        gates = suburban_departures(candidate["track"], suburban_contour)
+        if gates is None:
+            failures["trunk ends before the suburban contour"] += 1
+            continue
+        candidate["suburban_gates"] = gates
+        candidate["suburban"] = suburban_arms(candidate["track"], outer)
+        admitted.append(candidate)
+    pool = admitted
     positions = [row["coordinates"] for row in network["stations"].values()]
     positions.extend(coverage_sites)
     fixed = np.asarray(positions) * rail.LOCAL_METRES
     served = cKDTree(fixed).query(demand)[0] <= WALK_M
     selected = []
-    failures = Counter()
     parallel = {}
+    suburban_overlap = {}
     for _ in range(max_trunks):
         options = []
         stations = np.asarray([row["coordinates"] for row in network["stations"].values()]) * rail.LOCAL_METRES
@@ -425,6 +522,16 @@ def assemble(reference, ring_network, graph, context, population, *, max_trunks=
                     parallel[pair] = _parallel_share(track, old["track"])
                 if parallel[pair] > MAX_PARALLEL_SHARE:
                     failures["too much close parallel alignment"] += 1
+                    close = True
+                    break
+                if suburban_departure_distance(candidate["suburban_gates"], old["suburban_gates"]) < SUBURBAN_PARALLEL_SEPARATION_M:
+                    failures["suburban departure corridors too close"] += 1
+                    close = True
+                    break
+                if pair not in suburban_overlap:
+                    suburban_overlap[pair] = suburban_parallel(candidate["suburban"], old["suburban"])
+                if suburban_overlap[pair]:
+                    failures["sustained parallel running outside the outer ring"] += 1
                     close = True
                     break
             if close:
@@ -498,7 +605,10 @@ def assemble(reference, ring_network, graph, context, population, *, max_trunks=
                      "evaluation_id": network.get("evaluation_id"),
                      "screen": {"walk_proxy_m": WALK_M, "maximum_detour": MAX_DETOUR,
                                 "maximum_bend_deg": MAX_TURN_DEG, "minimum_station_spacing_m": STATION_SPACING_M,
-                                "parallel_limit_m": PARALLEL_LIMIT_M, "maximum_parallel_share": MAX_PARALLEL_SHARE,
+                                "parallel_limit_m": PARALLEL_LIMIT_M,
+                                "suburban_parallel_separation_m": SUBURBAN_PARALLEL_SEPARATION_M,
+                                "minimum_suburban_parallel_run_m": MIN_SUBURBAN_PARALLEL_RUN_M,
+                                "suburban_gate_offset_m": SUBURBAN_GATE_OFFSET_M, "maximum_parallel_share": MAX_PARALLEL_SHARE,
                                 "parallel_direction_tolerance_deg": PARALLEL_DIRECTION_DEG,
                                 "ordinary_terminal_reach_beyond_outer_ring_m": [
                                     MIN_OUTER_TERMINAL_REACH_M, MAX_OUTER_TERMINAL_REACH_M],

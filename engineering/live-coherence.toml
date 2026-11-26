@@ -680,3 +680,48 @@ dependencies = ["cities/Baghdad/coverage_extensions.py"]
 [[spec.reader]]
 path = "cities/Baghdad/THREE-RING-STUDY.md"
 values = ['up to \*\*(?P<value>\d+(?:\.\d+)?) km per trunk end']
+
+[[spec]]
+id = "baghdad-suburban-corridor-separation"
+source = "cities/Baghdad/coverage_trunks.py"
+symbol = "SUBURBAN_PARALLEL_SEPARATION_M"
+unit = "m"
+
+[[spec.record]]
+path = "cities/Baghdad/three-ring-study.json.gz"
+keys = ["rings.suburban_parallel_separation_m"]
+
+[[spec.reader]]
+path = "cities/Baghdad/THREE-RING-STUDY.md"
+values = ['alongside each other within (?P<value>\d+(?:\.\d+)?) km']
+scale = 1000
+
+[[spec]]
+id = "baghdad-suburban-departure-contour"
+source = "cities/Baghdad/coverage_trunks.py"
+symbol = "SUBURBAN_GATE_OFFSET_M"
+unit = "m"
+
+[[spec.record]]
+path = "cities/Baghdad/three-ring-study.json.gz"
+keys = ["rings.suburban_gate_offset_m"]
+
+[[spec.reader]]
+path = "cities/Baghdad/THREE-RING-STUDY.md"
+values = ['contour (?P<value>\d+(?:\.\d+)?) km beyond the ring']
+scale = 1000
+
+[[spec]]
+id = "baghdad-suburban-parallel-run"
+source = "cities/Baghdad/coverage_trunks.py"
+symbol = "MIN_SUBURBAN_PARALLEL_RUN_M"
+unit = "m"
+
+[[spec.record]]
+path = "cities/Baghdad/three-ring-study.json.gz"
+keys = ["rings.minimum_suburban_parallel_run_m"]
+
+[[spec.reader]]
+path = "cities/Baghdad/THREE-RING-STUDY.md"
+values = ['at least (?P<value>\d+(?:\.\d+)?) continuous km']
+scale = 1000

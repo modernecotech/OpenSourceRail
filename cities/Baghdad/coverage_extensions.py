@@ -160,6 +160,7 @@ def extend(core, graph, context, populations):
     tracks = {route: rail.Track(line["geometry"]) for route, line in sorted(core["lines"].items())
               if not line["loop"]}
     outer = Polygon(rail.Track(core["lines"][trunks.RINGS[-1]]["geometry"]).points)
+    suburban_contour = outer.buffer(trunks.SUBURBAN_GATE_OFFSET_M)
     sites = {code: row["coordinates"] for code, row in core["stations"].items()}
     station_tree = cKDTree(central_access._points(sites.values()))
     water = holistic_through.WaterGeometry.from_context(context)
@@ -198,6 +199,7 @@ def extend(core, graph, context, populations):
     reached = {name: mask.copy() for name, (_, mask) in walking.items()}
     totals = {name: population.counts.sum() for name, population in populations.items()}
     stops, accepted, ends = [], [], set()
+    suburban = {route: trunks.suburban_arms(track, outer) for route, track in tracks.items()}
 
     def gain(option):
         return {name: float(populations[name].counts[pixels[~reached[name][pixels]]].sum())
@@ -215,6 +217,9 @@ def extend(core, graph, context, populations):
         if min(added.values()) / option.track.km < MIN_NEW_RESIDENTS_PER_KM:
             rejected["low incremental street-access gain"] += 1
             continue
+        if LineString(option.track.points).intersects(suburban_contour):
+            rejected["re-enters the suburban departure contour"] += 1
+            continue
         other = [track for route, track in tracks.items() if route != option.route]
         if any(trunks._parallel_share(option.track, track) > trunks.MAX_PARALLEL_SHARE for track in other):
             rejected["duplicates an existing trunk corridor"] += 1
@@ -228,8 +233,13 @@ def extend(core, graph, context, populations):
         if third_ring_through._detour(full) > trunks.MAX_DETOUR or not LineString(full.points).is_simple:
             rejected["combined ends exceed line directness or simplicity limits"] += 1
             continue
+        arms = trunks.suburban_arms(full, outer)
+        if any(trunks.suburban_parallel(arms, others) for route, others in suburban.items() if route != option.route):
+            rejected["sustained parallel running outside the outer ring"] += 1
+            continue
         _install(revised, option)
         tracks[option.route] = full
+        suburban[option.route] = arms
         stops.extend(xy)
         ends.add((option.route, option.end))
         for name, pixels in option.reach.items():

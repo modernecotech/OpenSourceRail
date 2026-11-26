@@ -135,8 +135,11 @@ active entry points. Preserve exact published evidence in its original scope.
 - Evaluate suburban reach on the same outer-ring boundary across all cases.
   Test extensions of existing through services against their unextended core.
   Preserve river crossings, shared ring stations and established Airport access
-  when isolating the effect of the extensions. Recalculate service,
-  construction quantities, labour and costs for the complete extended network.
+  when isolating the effect of the extensions. Check approach spacing at a
+  common suburban contour and compare sustained parallel running only on
+  the parts outside the outer ring. Use separate spacing checks inside the
+  ring. Recalculate service, construction quantities, labour and costs for
+  the complete extended network.
 
 ## Repository workflow and readers
 

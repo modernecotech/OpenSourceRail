@@ -227,6 +227,9 @@ def designs(reference, graph, context, populations):
     return networks, trials, {
         "walk_limit_m": WALK_M, "trunk_limit": MAX_TRUNKS,
         "maximum_extension_km_per_end": coverage_extensions.MAX_EXTENSION_KM,
+        "suburban_parallel_separation_m": coverage_trunks.SUBURBAN_PARALLEL_SEPARATION_M,
+        "minimum_suburban_parallel_run_m": coverage_trunks.MIN_SUBURBAN_PARALLEL_RUN_M,
+        "suburban_gate_offset_m": coverage_trunks.SUBURBAN_GATE_OFFSET_M,
         "generated_orbital_shapes": [{"id": row["id"], "audit": row["audit"]} for row in fitted],
         "examined_layouts": examined,
     }
