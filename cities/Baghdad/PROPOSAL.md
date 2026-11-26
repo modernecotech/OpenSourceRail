@@ -14,7 +14,7 @@ The elevated route joins the central districts, outer ring and Airport in one ne
 
 ![The three-ring core and the same through routes extended into the suburbs](maps/baghdad-three-ring-comparison.png)
 
-*The left map shows the compact three-ring core. The right map adds suburban extensions to the same through services. The budget uses the two-ring route set linked above. Compare the walking access, transfers and costs of all three layouts in the study.*
+*The left map shows the compact three-ring core. The right map adds suburban coverage and a line through urban access gaps. The budget uses the two-ring route set linked above. The study compares walking access, transfers and costs across the reference and trial layouts.*
 
 ## Programme, service and lifecycle costs
 

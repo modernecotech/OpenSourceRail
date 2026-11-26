@@ -140,6 +140,12 @@ active entry points. Preserve exact published evidence in its original scope.
   the parts outside the outer ring. Use separate spacing checks inside the
   ring. Recalculate service, construction quantities, labour and costs for
   the complete extended network.
+- In large-city studies with retained walkable streets, population and mapped
+  destinations, compare linked orbitals, through trunks, named suburban
+  connections and targeted urban gap service in the shared metropolitan
+  method. Allow corridor retention and rerouting. Rank whole-life costs at
+  matched scope only after applicable coverage, connectivity and engineering
+  requirements pass.
 
 ## Repository workflow and readers
 

@@ -7,12 +7,15 @@ from itertools import combinations, pairwise
 from pathlib import Path
 import tomllib
 
+from engineering.outline import metro_network
+
 import numpy as np
 from scipy.spatial import cKDTree
 from shapely import contains_xy, distance, line_interpolate_point
 from shapely.geometry import LineString, Point, Polygon
 
-from . import (central_access, coverage_network, coverage_trunks, holistic_access, holistic_network, holistic_pathways, ring_corridors,
+from . import (central_access, coverage_destinations, coverage_gap, coverage_network, coverage_regional,
+               coverage_trunks, holistic_access, holistic_network, holistic_pathways, ring_corridors,
                residential_layouts, residential_planning, residential_systems, ring_grid_comparison, ring_grid_journeys,
                straight_network_study)
 from .coverage_orbitals import WALK_M
@@ -128,6 +131,10 @@ def _cross_ring_stations(network, code, polygons):
     return shares
 
 
+def _local_service(line):
+    return line.get("service_role") in {"urban-gap", "regional-connector"}
+
+
 def classify_through(network, context, *, middle_access_only=False):
     """Count straight cross-river trunks and verify their ring interchanges."""
     from .straight_through_layout import _tigris
@@ -137,7 +144,7 @@ def classify_through(network, context, *, middle_access_only=False):
     beyond = polygons[next(reversed(polygons))] if polygons else None
     results = {}
     for code, line in network["lines"].items():
-        if line["loop"] or line["one_way_km"] < coverage_trunks.MIN_LENGTH_KM:
+        if line["loop"] or _local_service(line) or line["one_way_km"] < coverage_trunks.MIN_LENGTH_KM:
             continue
         track = holistic_network.Track(line["geometry"])
         chord = float(np.linalg.norm(track.points[-1] - track.points[0]))
@@ -159,7 +166,7 @@ def classify_through(network, context, *, middle_access_only=False):
 
 def short_lines(network):
     return sorted(code for code, line in network["lines"].items()
-                  if not line["loop"] and code != "C1" and line["one_way_km"] <= SHORT_KM)
+                  if not line["loop"] and not _local_service(line) and code != "C1" and line["one_way_km"] <= SHORT_KM)
 
 
 def import_layout(path, reference):
@@ -182,10 +189,14 @@ def import_layout(path, reference):
             code = props["line_id"]
             if code in paths or geometry["type"] != "LineString" or type(props.get("loop")) is not bool:
                 raise ValueError(f"Provide one mapped LineString with a loop flag for {code}")
-            paths[code] = (coords, props["station_ids"], props["loop"], props.get("name", code))
+            role = props.get("service_role")
+            if role not in {None, "urban-gap", "regional-connector"}:
+                raise ValueError(f"{code} has an unsupported service role")
+            paths[code] = (coords, props["station_ids"], props["loop"], props.get("name", code), role,
+                           props.get("destination"))
     if not paths:
         raise ValueError("An edited network needs at least one route")
-    for code, (coords, calls, loop, name) in sorted(paths.items()):
+    for code, (coords, calls, loop, name, role, destination) in sorted(paths.items()):
         if len(calls) < 2 or len(set(calls)) != len(calls) or set(calls) - stations.keys():
             raise ValueError(f"Provide at least two distinct mapped station calls on {code}")
         raw = np.asarray([*coords, *(stations[stop]["coordinates"] for stop in calls)], dtype=float)
@@ -196,6 +207,12 @@ def import_layout(path, reference):
         for stop in calls:
             stations[stop]["lines"].append(code)
         lines[code] = line | {"name": name}
+        if role:
+            lines[code]["service_role"] = role
+        if destination is not None:
+            if not isinstance(destination, str) or role != "regional-connector":
+                raise ValueError(f"{code} has an unsupported named terminal")
+            lines[code]["destination"] = destination
     stations = {key: station for key, station in stations.items() if station["lines"]}
     record = {"lines": lines, "stations": stations, "transfers": [], "physical_accepted": False,
               "operating_timetable_validated": False, "parent_candidate_id": reference["candidate_id"],
@@ -308,8 +325,14 @@ def _suburban_metrics(network):
     outer = polygons[RINGS[-1]]
     contour = outer.buffer(coverage_trunks.SUBURBAN_GATE_OFFSET_M)
     tracks = {code: holistic_network.Track(line["geometry"]) for code, line in sorted(network["lines"].items())
-              if not line["loop"]}
-    gates = {code: coverage_trunks.suburban_departures(track, contour) for code, track in tracks.items()}
+              if not line["loop"] and line.get("service_role") != "urban-gap"}
+    gates = {}
+    for code, track in tracks.items():
+        if network["lines"][code].get("service_role") == "regional-connector":
+            result = coverage_regional.departure(track, outer, contour)
+            gates[code] = result[0] if result else None
+        else:
+            gates[code] = coverage_trunks.suburban_departures(track, contour)
     arms = {code: coverage_trunks.suburban_arms(track, outer) for code, track in tracks.items()}
     distances = [(first, second, coverage_trunks.suburban_departure_distance(gates[first], gates[second]))
                  for first, second in combinations(tracks, 2) if gates[first] is not None and gates[second] is not None]
@@ -325,7 +348,7 @@ def _suburban_metrics(network):
     }
 
 
-def _decision(summary, available, policy, metadata):
+def _decision_holds(summary, available, policy, metadata):
     reference = summary["published"]
     assessments = {}
     for code in available:
@@ -339,8 +362,12 @@ def _decision(summary, available, policy, metadata):
             reasons.append("A short standalone route remains")
         if option["airport_walk_m"] is None or option["airport_walk_m"] > WALK_M:
             reasons.append("The Airport terminal lacks a replacement station within the street catchment")
-        if option["through_count"] < 2 or option["through_count"] != option["lines"] - len(option["rings"]):
-            reasons.append("Every open line must cross the Tigris once and share a station with each ring")
+        if option["through_count"] < 2 or option["through_count"] != (
+                option["lines"] - len(option["rings"]) - len(option["local_services"])):
+            reasons.append("Every cross-city trunk must cross the Tigris once and share a station with each ring")
+        missing = [name for name, walk in option["destination_walk_m"].items() if walk is None or walk > WALK_M]
+        if missing:
+            reasons.append("Named suburban destinations outside street walking catchment: " + ", ".join(missing))
         if any(option["suburban"].get(key) for key in (
                 "missing_contour_crossings", "close_departures", "parallel_suburban_corridors")):
             reasons.append("The suburban departures or parallel corridors fail the outside-ring screen")
@@ -362,16 +389,7 @@ def _decision(summary, available, policy, metadata):
             reasons.append("The layout increases sustained close parallel running")
         assessments[code] = reasons
 
-    def order(key):
-        row = summary[key]
-        gain_floor = min(row[grid] - reference[grid] for grid in ("worldpop_1300_pct", "ghsl_1300_pct"))
-        return (-gain_floor, -row["housing_two_changes_pct"], row["lines"], row["stations"], key)
-
-    eligible = [key for key, holds in assessments.items() if not holds]
-    best = min(eligible, key=order, default=None)
-    three_rings = [key for key in available if set(summary[key]["rings"]) == set(RINGS)]
-    strongest = min(three_rings, key=lambda key: (len(assessments[key]), order(key)), default=None)
-    return {"eligible_replacement": best, "illustrated_trial": best or strongest, "holds": assessments}
+    return assessments
 
 
 def _summary(networks, cover, housing, metro, geometry, context):
@@ -393,6 +411,8 @@ def _summary(networks, cover, housing, metro, geometry, context):
         summary[code].update(station_screen=coverage_network.station_audit(net), candidate_id=net["candidate_id"], short_count=len(short), short_lines=short,
                              orbital_metrics=_orbital_metrics(net, context),
                              suburban=_suburban_metrics(net),
+                             local_services={line_id: line["service_role"] for line_id, line in net["lines"].items()
+                                             if _local_service(line)},
                              through_count=len(direct), through_lines=direct,
                              middle_ring_through_count=len(suburban), middle_ring_through_lines=suburban,
                              housing_two_changes_pct=housing_case["journeys"][
@@ -427,6 +447,15 @@ def evaluate(layout=None):
         custom, changes = import_layout(layout, reference)
         validate_layout(custom)
         networks, metadata, examined = {"published": reference, "custom-layout": custom}, {"custom-layout": changes}, {"selected": None}
+    for network in networks.values():
+        urban = [line_id for line_id, line in network["lines"].items() if line.get("service_role") == "urban-gap"]
+        if urban and urban != [coverage_gap.GAP_LINE_ID]:
+            raise ValueError("Only one independently verified urban gap service can be exempt from the trunk screen")
+        if urban:
+            coverage_gap.validate_gap_line(network, graph, context)
+        for code, regional in coverage_regional.validate(network, context, graph).items():
+            if regional["failures"]:
+                raise ValueError(f"{code}: " + ", ".join(regional["failures"]))
     assumptions = replace(residential_systems.service_assumptions(policy["planning_service"]), walk_limit_m=WALK_M)
     core = next((details["core_layout"] for details in metadata.values() if "core_layout" in details), None)
     suburban_boundary = _rings(networks[core])[RINGS[-1]] if core else None
@@ -445,26 +474,46 @@ def evaluate(layout=None):
     summary = _summary(networks, coverage, housing, metro, geometry, context)
     for key, net in networks.items():
         summary[key]["airport_walk_m"] = _airport_walk(net, reference, graph)
-    selection = _decision(summary, [key for key in networks if key != "published"], policy, metadata)
-    if core and selection["eligible_replacement"] is None:
-        selection["illustrated_trial"] = next(key for key, details in metadata.items() if "core_layout" in details)
+        summary[key]["destination_walk_m"] = coverage_destinations.walking(net, graph)
+    holds = _decision_holds(summary, [key for key in networks if key != "published"], policy, metadata)
+    costs = {key: _equal_scope_cost(net, context, policy) for key, net in networks.items()}
+    scope = {"walking": f"Baghdad retained streets and population grids, {WALK_M} m",
+             "service": "Matched train-km passenger test and six-minute cost offer",
+             "cost": "Baghdad common 2026 scope and 30-year present cost"}
+    metro_cases = {key: {
+        "destination_walk_m": row["destination_walk_m"] | {"Airport": row["airport_walk_m"]},
+        "population_access_pct": {"worldpop-2026": row["worldpop_1300_pct"], "ghsl-2025": row["ghsl_1300_pct"]},
+        "installed_cost": costs[key]["cost_cases"]["base"]["installed_planning_usd_m"],
+        "whole_life_cost": costs[key]["cost_cases"]["base"]["whole_life_present_usd_m"],
+        "route_count": row["lines"], "station_count": row["stations"],
+        "holds": holds.get(key, []), "scope": scope,
+    } for key, row in summary.items()}
+    comparison = metro_network.compare(metro_cases, required_destinations=[*coverage_destinations.ANCHORS, "Airport"],
+                                       population_grids=populations, walk_limit_m=WALK_M, reference_id="published")
+    selection = {"holds": holds, "eligible_replacement": comparison["eligible_economic_lead"],
+                 "illustrated_trial": comparison["eligible_economic_lead"] or comparison["research_lead"]}
     if layout is not None:
         selection["illustrated_trial"] = "custom-layout"
-    priced = list(networks)
-    costs = {key: _equal_scope_cost(networks[key], context, policy) for key in priced}
     sources = dict(published["source_sha256"])
     for key, value in costs.items():
         sources.update(value.pop("source_sha256"))
-    for net in networks.values():
-        sources.update(net.get("source_sha256", {}))
-    for path in (REFERENCE, residential_planning.POLICY, Path(__file__), *(CITY / f"{name}.py" for name in
+    for key, net in networks.items():
+        if not key.startswith("retained-"):
+            sources.update(net.get("source_sha256", {}))
+    sources.update(metro_network.SOURCE_SHA256)
+    for path in (REFERENCE, coverage_destinations.REFERENCE_GIS, coverage_network.RETAINED_SEED,
+                 residential_planning.POLICY, Path(__file__), *(CITY / f"{name}.py" for name in
                   ("coverage_network", "coverage_orbitals", "coverage_trunks", "coverage_extensions", "third_ring_through",
-                   "third_ring_publication"))):
+                                      "third_ring_publication", "coverage_destinations", "coverage_gap", "coverage_regional"))):
         sources[path.relative_to(central_access.ROOT).as_posix()] = central_access.digest(path)
     record = {"schema": "osr-baghdad-three-ring-comparison/1", "reference": published["publication_id"],
               "study_status": "planning-comparison", "physical_acceptance": False, "selection": selection,
               "rings": examined, "layouts": networks, "layout_trials": metadata, "summary": summary,
               "geometry": geometry, "coverage": coverage, "housing": housing, "metropolitan": metro,
-              "costs": costs, "source_sha256": sources}
+              "costs": costs, "source_sha256": sources,
+              "destinations": coverage_destinations.locations(),
+              "metropolitan_comparison": comparison,
+              "metropolitan_patterns": metro_network.pattern_options(
+                  pedestrian_network=True, population_grids=populations, mapped_destinations=coverage_destinations.ANCHORS)}
     record["publication_id"] = sha256(central_access.encode(record)).hexdigest()
     return record, context

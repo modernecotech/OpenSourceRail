@@ -179,6 +179,8 @@ def extend(core, graph, context, populations):
     options, rejected = [], Counter()
 
     for route, track in tracks.items():
+        if core["lines"][route].get("service_role") == "regional-connector":
+            continue
         for end, start, delta, terminal in zip(
                 (0, 1), track.points[[0, -1]], (-track.delta[0], track.delta[-1]),
                 (core["lines"][route]["station_ids"][0], core["lines"][route]["station_ids"][-1]), strict=True):

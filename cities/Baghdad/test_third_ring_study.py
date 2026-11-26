@@ -36,7 +36,7 @@ def test_published_trial_reconciles_ring_contacts_station_evidence_and_matching_
             assert metrics["inner_foldback_km"] == 0
             assert row["lines"] < record["summary"]["published"]["lines"]
             assert row["stations"] < record["summary"]["published"]["stations"]
-            assert row["through_count"] == row["lines"] - 3
+            assert row["through_count"] == row["lines"] - 3 - len(row["local_services"])
             assert row["station_screen"]["pairs_closer_than_750_m"] < (
                 record["summary"]["published"]["station_screen"]["pairs_closer_than_750_m"])
             trial = record["layout_trials"][key]
@@ -71,19 +71,22 @@ def test_published_trial_reconciles_ring_contacts_station_evidence_and_matching_
 def test_published_suburban_improvement_uses_the_same_through_services_and_boundary():
     with gzip.open(study.CITY / publication.DATA, "rt", encoding="utf-8") as stream:
         record = json.load(stream)
-    key, trial = next((key, row) for key, row in record["layout_trials"].items() if "core_layout" in row)
+    key, trial = next((key, row) for key, row in record["layout_trials"].items() if key.endswith("-extended"))
     core_key = trial["core_layout"]
     before, after = (record["layouts"][case] for case in (core_key, key))
     audit = trial["suburban_extensions"]
-    assert record["selection"]["illustrated_trial"] == key
-    assert audit["base_candidate_id"] == before["candidate_id"]
-    assert set(before["lines"]) == set(after["lines"])
-    assert before["transfers"] == after["transfers"]
-    assert all(after["stations"][stop] == row for stop, row in before["stations"].items())
+    regional = trial["regional_access"]
+    assert regional["base_candidate_id"] == before["candidate_id"]
+    assert set(after["lines"]) - set(before["lines"]) == {row["route"] for row in regional["selected"].values()}
+    assert all(after["stations"][stop]["coordinates"] == row["coordinates"]
+               and set(row["lines"]) <= set(after["stations"][stop]["lines"])
+               for stop, row in before["stations"].items())
     assert all(before["lines"][code] == after["lines"][code] for code in study.RINGS)
-    assert len(after["stations"]) - len(before["stations"]) == audit["new_station_sites"]
+    assert len(after["stations"]) - len(before["stations"]) == (
+        audit["new_station_sites"] + sum(row["new_station_sites"] for row in regional["selected"].values()))
+    added_km = audit["route_km_added"] + sum(row["route_km"] for row in regional["selected"].values())
     assert record["summary"][key]["route_km"] - record["summary"][core_key]["route_km"] == pytest.approx(
-        audit["route_km_added"], abs=.02)
+        added_km, abs=.02)
     assert "Airport-00" in {after["lines"]["T01"]["station_ids"][i] for i in (0, -1)}
     for case, network in ((core_key, before), (key, after)):
         suburban = study._suburban_metrics(network)
@@ -99,10 +102,37 @@ def test_published_suburban_improvement_uses_the_same_through_services_and_bound
         assert 0 < row["route_km"] <= audit["maximum_km_per_end"]
     for grid, cases in record["coverage"].items():
         compact, expanded = (cases[case]["1300"] for case in (core_key, key))
-        assert expanded["access_people"] - compact["access_people"] == pytest.approx(audit["newly_reached"][grid], abs=1)
+        assert expanded["access_people"] - compact["access_people"] >= audit["newly_reached"][grid] - 1
         outer = [cases[case]["1300"]["outside_trial_outer_ring"] for case in ("published", core_key, key)]
         assert len({row["population"] for row in outer}) == 1
         assert outer[2]["served"] > outer[1]["served"]
+
+
+def test_published_named_places_and_one_urban_gap_are_connected_and_compared():
+    record = central_access.read(study.CITY / publication.DATA)
+    selected = record["selection"]["illustrated_trial"]
+    network = record["layouts"][selected]
+    metadata = record["layout_trials"][selected]
+    parent = metadata["urban_gap_parent"]
+    added = metadata["urban_gap"]["selected"]
+    assert added["line_id"] == "U01"
+    assert set(network["lines"]) - set(record["layouts"][parent]["lines"]) == {"U01"}
+    graph = central_access.walking_graph()
+    context = central_access.original_cases()[3]
+    assert study.coverage_gap.validate_gap_line(network, graph, context)["shared_station_ids"] == added["shared_station_ids"]
+    rows = study.coverage_regional.validate(network, context, graph)
+    assert all(not row["failures"] for row in rows.values())
+    for destination, walk in record["summary"][selected]["destination_walk_m"].items():
+        assert destination in {"Basmaya", "Nahrawan", "Tajiyat"}
+        assert 0 <= walk <= study.WALK_M
+    for grid, layouts in record["coverage"].items():
+        before, after = (layouts[key]["1300"]["access_people"] for key in (parent, selected))
+        assert after - before == pytest.approx(added["newly_reached"][grid], abs=1)
+    assert record["metropolitan_comparison"]["method"] == "metropolitan-network/1"
+    assert record["metropolitan_comparison"]["assessments"][selected]["destinations_without_walk_access"] == []
+    assert "retained-named-gap" in record["layouts"]
+    assert any(case.startswith("coverage-") and case.endswith("-gap") for case in record["layouts"])
+    assert selected in record["metropolitan_comparison"]["research_pareto"]
 
 
 def test_rings_can_touch_at_a_shared_station_but_cannot_share_running_track():

@@ -725,3 +725,14 @@ keys = ["rings.minimum_suburban_parallel_run_m"]
 path = "cities/Baghdad/THREE-RING-STUDY.md"
 values = ['at least (?P<value>\d+(?:\.\d+)?) continuous km']
 scale = 1000
+
+[[spec]]
+id = "metropolitan-network-comparison-method"
+source = "engineering/outline/metro_network.py"
+symbol = "METHOD"
+
+[[spec.record]]
+path = "cities/Baghdad/three-ring-study.json.gz"
+keys = ["metropolitan_comparison.method", "metropolitan_patterns.method"]
+provenance = ["source_sha256"]
+dependencies = ["engineering/outline/metro_network.py", "cities/Baghdad/coverage_destinations.py", "cities/Baghdad/coverage_regional.py", "cities/Baghdad/coverage_gap.py"]

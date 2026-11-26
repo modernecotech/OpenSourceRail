@@ -3,6 +3,7 @@
 
 from functools import lru_cache
 from heapq import heapify, heappop, heappush
+from pathlib import Path
 
 import numpy as np
 from scipy.sparse.csgraph import dijkstra
@@ -10,7 +11,8 @@ from scipy.spatial import cKDTree
 from shapely import LineString, Point
 from shapely.ops import substring
 
-from . import central_access, coverage_extensions, coverage_orbitals, coverage_trunks, holistic_access, holistic_network as rail
+from . import (central_access, coverage_destinations, coverage_extensions, coverage_gap, coverage_orbitals,
+               coverage_regional, coverage_trunks, holistic_access, holistic_network as rail)
 from .coverage_orbitals import WALK_M
 
 RINGS = coverage_trunks.RINGS
@@ -20,6 +22,7 @@ MAX_TRUNKS = 14
 MAX_ORBITAL_LAYOUTS = 3
 INFILL_SAMPLE_M = 250
 MAX_INFILL_SITES = 120
+RETAINED_SEED = Path(__file__).with_name("metropolitan-retained-seed.json.gz")
 
 
 def _ring_seed(reference, layout):
@@ -171,14 +174,57 @@ def station_audit(network):
 
 
 def _portfolio_rank(trial):
-    return (-min(trial["walking"].values()), -sum(trial["walking"].values()),
+    return (-sum(walk is not None and walk <= WALK_M for walk in trial["destination_walk_m"].values()),
+            -min(trial["walking"].values()), -sum(trial["walking"].values()),
             trial["station_screen"]["physical_sites"], trial["route_km"], trial["id"])
+
+
+def _add_retained_case(networks, trials, graph, context, populations):
+    """Test keeping the last spaced network and adding targeted local services."""
+    retained = central_access.read(RETAINED_SEED)
+    core = retained["layout"]
+    if rail._identity(dict(core))["evaluation_id"] != core["evaluation_id"]:
+        raise ValueError("Retained metropolitan seed geometry and identity disagree")
+    code = "retained-spaced"
+    networks[code] = core
+    trials[code] = _trial_evidence(code, core, graph, populations) | {
+        "prior_publication_id": retained["publication_id"], "original_commit": retained["original_commit"]}
+    print("Testing named coverage while retaining the previous spaced network", flush=True)
+    connected, regional = coverage_regional.add_missing(core, graph, context, populations)
+    named = "retained-named"
+    networks[named] = connected
+    trials[named] = _trial_evidence(named, connected, graph, populations) | {
+        "core_layout": code, "regional_access": regional,
+        "suburban_extensions": retained["suburban_extensions"],
+    }
+    _add_urban_case(networks, trials, named, graph, context, populations)
+
+
+def _trial_evidence(code, network, graph, populations):
+    return {"id": code, "walking": _coverage(network, graph, populations),
+            "destination_walk_m": coverage_destinations.walking(network, graph),
+            "station_screen": station_audit(network), "route_km": network["topology"]["route_km"],
+            "candidate_id": network["candidate_id"], "evaluation_id": network["evaluation_id"]}
+
+
+def _add_urban_case(networks, trials, stage, graph, context, populations):
+    print(f"Testing urban gap coverage from {stage}", flush=True)
+    gap, audit = coverage_gap.add_gap_line(networks[stage], graph, context, populations)
+    if audit["selected"]:
+        code = f"{stage}-gap"
+        networks[code] = gap
+        trials[code] = trials[stage] | _trial_evidence(code, gap, graph, populations) | {
+            "urban_gap_parent": stage, "urban_gap": audit,
+        }
+    else:
+        trials[stage]["urban_gap"] = audit
 
 
 def designs(reference, graph, context, populations):
     """Fit shapes independently, then rank complete networks on both population grids."""
     primary = populations["worldpop-2026"]
     fitted = coverage_orbitals.fit_orbitals(graph, context, primary)
+    targets = coverage_destinations.terminal_candidates(graph, context)
     layouts, examined = [], {}
     best = fitted[0]
     alternate_outer = next((row for row in fitted if
@@ -192,7 +238,8 @@ def designs(reference, graph, context, populations):
         seeds = _ring_seed(reference, orbital)
         likely_stops = (site for stops in orbital["test_stations"].values() for site in stops)
         assembly, trunks = coverage_trunks.assemble(reference, seeds, graph, context, primary,
-                                                     max_trunks=MAX_TRUNKS, coverage_sites=likely_stops)
+                                                     max_trunks=MAX_TRUNKS, coverage_sites=likely_stops,
+                                                     destination_sites=targets)
         audit = {"id": trial_id, "orbitals": orbital["audit"], "trunk_search": trunks}
         examined[trial_id] = audit
         if not trunks["trunks"]:
@@ -200,10 +247,12 @@ def designs(reference, graph, context, populations):
         assembly = _ring_calls(assembly, orbital)
         assembly, added = _add_missing_access(assembly, graph, context, primary)
         audit.update(sites_added_for_walk_access=added, walking=_coverage(assembly, graph, populations),
+                     destination_walk_m=coverage_destinations.walking(assembly, graph),
                      station_screen=station_audit(assembly), route_km=assembly["topology"]["route_km"],
                      lines=len(assembly["lines"]), candidate_id=assembly["candidate_id"],
                      evaluation_id=assembly["evaluation_id"])
-        print(f"{trial_id}: {audit['lines']} lines, {audit['walking']} reachable", flush=True)
+        print(f"{trial_id}: {audit['lines']} lines, {audit['walking']} reachable, "
+              f"named walks {audit['destination_walk_m']}", flush=True)
         layouts.append((assembly, audit))
 
     networks, trials = {"published": reference}, {}
@@ -211,19 +260,25 @@ def designs(reference, graph, context, populations):
         core, core_audit = min(layouts, key=lambda item: _portfolio_rank(item[1]))
         code = "coverage-" + core_audit["id"].removeprefix("population-orbitals-")
         networks[code], trials[code] = core, core_audit
-        print(f"Testing suburban extensions to {code}", flush=True)
-        extended, extension_audit = coverage_extensions.extend(core, graph, context, populations)
-        if extension_audit["extensions"]:
-            extended_code = f"{code}-extended"
-            networks[extended_code] = extended
-            trials[extended_code] = core_audit | {
-                "id": extended_code, "core_layout": code, "suburban_extensions": extension_audit,
-                "walking": _coverage(extended, graph, populations), "station_screen": station_audit(extended),
-                "route_km": extended["topology"]["route_km"],
+        print(f"Testing named suburban connections and extensions to {code}", flush=True)
+        connected, regional_audit = coverage_regional.add_missing(core, graph, context, populations)
+        extended, extension_audit = coverage_extensions.extend(connected, graph, context, populations)
+        stage = code
+        local_audit = {"regional_access": regional_audit, "suburban_extensions": extension_audit}
+        if extended["candidate_id"] != core["candidate_id"]:
+            stage = f"{code}-extended"
+            networks[stage] = extended
+            trials[stage] = core_audit | local_audit | {
+                "id": stage, "core_layout": code,
+                "walking": _coverage(extended, graph, populations),
+                "destination_walk_m": coverage_destinations.walking(extended, graph),
+                "station_screen": station_audit(extended), "route_km": extended["topology"]["route_km"],
                 "candidate_id": extended["candidate_id"], "evaluation_id": extended["evaluation_id"],
             }
         else:
-            trials[code] = core_audit | {"suburban_extensions": extension_audit}
+            trials[stage] = core_audit | local_audit
+        _add_urban_case(networks, trials, stage, graph, context, populations)
+    _add_retained_case(networks, trials, graph, context, populations)
     return networks, trials, {
         "walk_limit_m": WALK_M, "trunk_limit": MAX_TRUNKS,
         "maximum_extension_km_per_end": coverage_extensions.MAX_EXTENSION_KM,

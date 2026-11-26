@@ -61,7 +61,7 @@ def _terminal_sites(demand, weights, graph, context, outer, airport):
     return coords[clear & rail.dry_points(coords / rail.LOCAL_METRES, context)]
 
 
-def _approaches(landing, direction, terminals, demand, weights, airport):
+def _approaches(landing, direction, terminals, demand, weights, airport, targets):
     delta = terminals - landing
     length = np.linalg.norm(delta, axis=1)
     accepted = np.flatnonzero((length >= 1_200) & (length < 39_000)
@@ -77,12 +77,12 @@ def _approaches(landing, direction, terminals, demand, weights, airport):
         score = float(np.dot(weights[support], np.maximum(0, 1 - offset[support] / WALK_M)))
         bearing = round(third_ring_through._bearing(np.asarray([landing, terminals[i]])) / 4)
         airport_site = airport is not None and np.linalg.norm(terminals[i] - airport) < 1
-        options.append((not airport_site, -score / (length[i] + 3_000), int(i), bearing))
+        options.append((not airport_site, not targets.get(int(i)), -score / (length[i] + 3_000), int(i), bearing))
     selected = []
-    for other, score, i, bearing in sorted(options):
-        if bins[bearing] >= 4:
+    for other, ordinary, score, i, bearing in sorted(options):
+        if ordinary and bins[bearing] >= 4:
             continue
-        bins[bearing] += 1
+        bins[bearing] += int(ordinary)
         selected.append((i, other, score))
         if len(selected) == MAX_APPROACHES_PER_SIDE:
             break
@@ -241,7 +241,8 @@ def _dedicated_reaches(context, water, river, graph, inner):
     return [reach for _, reach in reaches]
 
 
-def _pool(terminals, demand, weights, airport, graph, context, polygons, ring_tracks):
+def _pool(terminals, demand, weights, airport, graph, context, polygons, ring_tracks, *, targets=None):
+    targets = targets or {}
     _, bridges = through._street_layers(context)
     water = through.WaterGeometry.from_context(context)
     river = straight_through_layout._tigris(context)
@@ -268,7 +269,7 @@ def _pool(terminals, demand, weights, airport, graph, context, polygons, ring_tr
         bridge = [row | {"basis": basis} for row in bridge]
         delta = reach[1] - reach[0]
         direction = delta / np.linalg.norm(delta)
-        arms = [_approaches(landing, sign * direction, terminals, demand, weights, airport)
+        arms = [_approaches(landing, sign * direction, terminals, demand, weights, airport, targets)
                 for landing, sign in zip(reach, (-1, 1), strict=True)]
         west = {i: _dry_bank_arm(terminals[i], reach[0], context, water, river) for i, _, _ in arms[0]}
         east = {i: _dry_bank_arm(reach[1], terminals[i], context, water, river) for i, _, _ in arms[1]}
@@ -282,20 +283,26 @@ def _pool(terminals, demand, weights, airport, graph, context, polygons, ring_tr
             if MIN_LENGTH_KM * 1000 <= distance <= MAX_LENGTH_KM * 1000 and detour <= MAX_DETOUR:
                 start_angle = round(third_ring_through._bearing(path[:2]) / 6)
                 end_angle = round(third_ring_through._bearing(path[-2:]) / 6)
-                pairs.append((other_a and other_b, score_a + score_b, detour, a, b, path, (start_angle, end_angle)))
+                destinations = targets.get(a, frozenset()) | targets.get(b, frozenset())
+                pairs.append((other_a and other_b, -len(destinations), score_a + score_b, detour, a, b, path,
+                              (start_angle, end_angle), destinations))
         failures = Counter()
         tried_sector, accepted_sector = Counter(), Counter()
         accepted = 0
         screened = 0
         airport_pairs_passed = 0
-        for other, score, detour, a, b, path, sector in sorted(pairs, key=lambda row: row[:5]):
-            if (screened == (MAX_PAIRS_PER_BRIDGE if tagged_bridge else 50)
-                    or accepted == (MAX_POOL_PER_BRIDGE if tagged_bridge else 6)):
-                break
-            if other and (tried_sector[sector] >= 12 or accepted_sector[sector] >= 2):
+        group_counts = Counter()
+        group_screened = Counter()
+        for other, _, score, detour, a, b, path, sector, destinations in sorted(pairs, key=lambda row: row[:6]):
+            group = (other, tuple(sorted(destinations)))
+            if (group_screened[group] >= (MAX_PAIRS_PER_BRIDGE if tagged_bridge else 50)
+                    or group_counts[group] >= (MAX_POOL_PER_BRIDGE if tagged_bridge else 6)):
+                continue
+            if other and not destinations and (tried_sector[sector] >= 12 or accepted_sector[sector] >= 2):
                 continue
             tried_sector[sector] += 1
             screened += 1
+            group_screened[group] += 1
             if west[a] is None or east[b] is None:
                 failures["unsupported water crossing or repeated Tigris crossing"] += 1
                 continue
@@ -313,9 +320,11 @@ def _pool(terminals, demand, weights, airport, graph, context, polygons, ring_tr
                 wet.extend(row | {"chainage_km": round(offset / 1000 + row["chainage_km"], 3)} for row in rows)
             candidates.append({"track": track, "bridge": bridge_id, "reach": reach,
                                "wet": wet, "airport": not other, "ring_sites": matches, "tagged_bridge": tagged_bridge,
-                               "proxy": -score, "detour": detour, "terminals": (a, b)})
+                               "proxy": -score, "detour": detour, "terminals": (a, b),
+                               "destinations": destinations})
             accepted_sector[sector] += 1
             accepted += 1
+            group_counts[group] += 1
             airport_pairs_passed += int(not other)
         audit.append({"bridge": bridge_id, "mapped_bridge_approaches": (reach / rail.LOCAL_METRES).tolist(),
                       "uses_tagged_bridge_corridor": tagged_bridge,
@@ -468,7 +477,8 @@ def _connect_trunks(network, selected, graph, context):
             break
 
 
-def assemble(reference, ring_network, graph, context, population, *, max_trunks=8, coverage_sites=()):
+def assemble(reference, ring_network, graph, context, population, *, max_trunks=8, coverage_sites=(),
+             destination_sites=None):
     """Generate and select a bounded fresh pool. Preserve airport access as a gate."""
     if set(ring_network["lines"]) != set(RINGS):
         raise ValueError("Trunk search requires a ring-only starting network")
@@ -480,7 +490,19 @@ def assemble(reference, ring_network, graph, context, population, *, max_trunks=
     demand, counts = _demand_tiles(population)
     demand_tree = cKDTree(demand)
     terminals = _terminal_sites(demand, counts, graph, context, polygons[RINGS[-1]], airport)
-    pool, bridge_audit = _pool(terminals, demand, counts, airport, graph, context, polygons, ring_tracks)
+    target_rows = {}
+    if destination_sites:
+        names = {}
+        for name, sites in destination_sites.items():
+            for row in sites:
+                names.setdefault(tuple(row), set()).add(name)
+        existing = set(map(tuple, terminals))
+        extra = sorted(names.keys() - existing)
+        if extra:
+            terminals = np.vstack((terminals, extra))
+        target_rows = {i: frozenset(names[tuple(row)]) for i, row in enumerate(terminals) if tuple(row) in names}
+    options = {"targets": target_rows} if target_rows else {}
+    pool, bridge_audit = _pool(terminals, demand, counts, airport, graph, context, polygons, ring_tracks, **options)
     outer = polygons[RINGS[-1]]
     suburban_contour = outer.buffer(SUBURBAN_GATE_OFFSET_M)
     failures = Counter()
@@ -499,6 +521,7 @@ def assemble(reference, ring_network, graph, context, population, *, max_trunks=
     fixed = np.asarray(positions) * rail.LOCAL_METRES
     served = cKDTree(fixed).query(demand)[0] <= WALK_M
     selected = []
+    reached_destinations = set()
     parallel = {}
     suburban_overlap = {}
     for _ in range(max_trunks):
@@ -550,14 +573,16 @@ def assemble(reference, ring_network, graph, context, population, *, max_trunks=
             proxy = cKDTree(np.asarray([track.at(km) for km in chain]) * rail.LOCAL_METRES).query(demand)[0] <= WALK_M
             gained = float(counts[proxy & ~served].sum())
             prioritize_airport = airport is not None and not any(old["airport"] for _, old in selected)
-            options.append((prioritize_airport and not candidate["airport"], -gained, -gained / track.km,
-                            candidate["detour"], index, proxy, calls))
+            destinations = candidate.get("destinations", frozenset()) - reached_destinations
+            options.append((prioritize_airport and not candidate["airport"], -len(destinations), -gained,
+                            -gained / track.km, candidate["detour"], index, proxy, calls))
         if not options:
             break
-        _, neg_gained, _, _, index, proxy, (calls, ordinary) = min(options, key=lambda item: item[:5])
-        if selected and neg_gained >= 0:
+        _, neg_destinations, neg_gained, _, _, index, proxy, (calls, ordinary) = min(options, key=lambda item: item[:6])
+        if selected and neg_gained >= 0 and neg_destinations == 0:
             break
         candidate = pool.pop(index)
+        reached_destinations.update(candidate.get("destinations", ()))
         code = f"T{len(selected) + 1:02d}"
         _append(network, candidate, code, calls, ordinary, airport)
         candidate["incremental_proxy"] = round(-neg_gained)
@@ -588,6 +613,7 @@ def assemble(reference, ring_network, graph, context, population, *, max_trunks=
                            "maximum_bend_deg": round(max(third_ring_through._turn(a, b)
                                                         for a, b in zip(track.delta, track.delta[1:])), 2),
                            "serves_airport": candidate["airport"],
+                           "named_terminal_anchors": sorted(candidate.get("destinations", ())),
                            "terminal_distance_beyond_outer_ring_m": [
                                round(float(polygons[RINGS[-1]].distance(Point(point))), 1)
                                for point in track.points[[0, -1]]],
@@ -600,6 +626,7 @@ def assemble(reference, ring_network, graph, context, population, *, max_trunks=
                          "Design platforms, turnbacks and degraded operation for the proposed service.",
                      ],
                      "pool_candidates": sum(row["accepted"] for row in bridge_audit),
+                     "named_terminal_anchors": sorted(reached_destinations),
                      "selection_rejections": dict(sorted(failures.items())),
                      "population_source": population.source, "candidate_id": network.get("candidate_id"),
                      "evaluation_id": network.get("evaluation_id"),

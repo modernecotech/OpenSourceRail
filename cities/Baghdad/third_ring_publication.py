@@ -17,16 +17,24 @@ REPORT = Path("THREE-RING-STUDY.md")
 DATA = Path("three-ring-study.json.gz")
 MAP = Path("maps/baghdad-three-ring-comparison.png")
 GEOJSON = Path("maps/baghdad-three-ring-trial.geojson")
-NAMES = {"published": "Two-ring reference", "custom-layout": "Edited network"}
+NAMES = {"published": "Two-ring reference", "custom-layout": "Edited network",
+         "retained-spaced": "Retained spaced core", "retained-named": "Retained trunks with named connections",
+         "retained-named-gap": "Retained trunks with named connections and urban gap line"}
 
 
 def name(code):
+    if code in NAMES:
+        return NAMES[code]
+    if code.endswith("-gap"):
+        return "Named suburbs and urban gap line"
+    if code.endswith("-regional"):
+        return "Three rings with regional connections"
     if code.endswith("-extended"):
         return "Three rings with suburban extensions"
     if code.startswith("coverage-"):
         middle, outer = code.removeprefix("coverage-").split("-")
         return f"Three-ring core · {middle.upper()} / {outer.upper()}"
-    return NAMES.get(code, code.replace("-", " ").capitalize())
+    return code.replace("-", " ").capitalize()
 
 
 def _pct(value):
@@ -75,7 +83,45 @@ def report(record):
         text.append(f"| {name(code)} | {_pct(row['worldpop_1300_pct'])} | {_pct(row['ghsl_1300_pct'])} | "
                     f"{reach['middle_only_people']:,} | {_pct(row['housing_two_changes_pct'])} | "
                     f"{_pct(row['wide_two_changes_pct'])} | {row['headway_s']/60:.2f} min |")
-    extended = next((key for key, row in record["layout_trials"].items() if "core_layout" in row), None)
+    if record.get("destinations"):
+        text += ["", "## Named suburban destinations", "",
+                 "The table gives the shortest mapped street walk from each fixed anchor to a station. "
+                 "Nahrawan and Tajiyat use station locations retained from the earlier network. "
+                 "The Basmaya anchor is in the residential estate, east of the earlier M02 approach.",
+                 "An em dash means the mapped walking graph did not establish a path within its search distance.", "",
+                 "| Layout | Basmaya | Nahrawan | Tajiyat |",
+                 "|---|---:|---:|---:|"]
+        for code, row in record["summary"].items():
+            walks = row["destination_walk_m"]
+            text.append(f"| {name(code)} | " + " | ".join(
+                f"{walks[site]:,.0f} m" if walks[site] is not None else "—"
+                for site in record["destinations"]) + " |")
+        text.append("")
+    if "retained-spaced" in record["layouts"]:
+        text += ["The comparison tests two ways to reach the named suburbs. One redraws through trunks around "
+                 "the destinations. The other keeps the previous spaced trunks and adds screened connections. "
+                 "Both test one additional line for urban coverage.", ""]
+    if selected:
+        regional = record["layout_trials"].get(selected, {}).get("regional_access", {})
+        if regional.get("selected"):
+            text += ["The named connections share exact outer-ring stations. The 5 km check uses the end of a short connector if it finishes before the dotted measurement contour.", "",
+                     "| Destination | Service | Ring interchange | Added km | New station sites |",
+                     "|---|---|---|---:|---:|"]
+            for site, row in regional["selected"].items():
+                text.append(f"| {site} | {row['route']} | {row['ring_station']} | {row['route_km']:.2f} | "
+                            f"{row['new_station_sites']} |")
+            text.append("")
+        urban_gap = record["layout_trials"].get(selected, {}).get("urban_gap", {}).get("selected")
+        if urban_gap:
+            text += ["## One line through the largest urban gaps", "",
+                     f"**{urban_gap['line_id']}** adds **{urban_gap['route_km']:.2f} route-km** inside the outer ring and "
+                     f"{urban_gap['new_station_sites']} new station sites. It shares stations with "
+                     f"{', '.join(urban_gap['connected_route_ids'])} and adds 1.3 km walking access for "
+                     f"**{urban_gap['newly_reached_inside_outer_ring']['worldpop-2026']:,} WorldPop residents** and "
+                     f"**{urban_gap['newly_reached_inside_outer_ring']['ghsl-2025']:,} GHSL residents** inside the outer ring. "
+                     "The zero-additional-line case shows the effect of the change.", ""]
+    extended = next((key for key, row in record["layout_trials"].items()
+                     if key.endswith("-extended") and "core_layout" in row), None)
     if extended:
         extension = record["layout_trials"][extended]["suburban_extensions"]
         core = record["layout_trials"][extended]["core_layout"]
@@ -191,7 +237,13 @@ def report(record):
              "## Decision checks", ""]
     for code, holds in record["selection"]["holds"].items():
         text.append(f"- **{name(code)}** · " + (". ".join(holds) + "." if holds else "Clears the layout and matched-access screen."))
-    text += ["", "Reproduce with `OPENBLAS_NUM_THREADS=1 ./osr design railway baghdad-three-rings --check`.", "",
+    text += ["", "## Reuse in larger cities", "",
+             "The shared metropolitan comparison checks named destinations and walking coverage, then compares "
+             "installed and whole-life cost under matched service and price assumptions. It keeps research leads "
+             "visible while adoption depends on the same access and engineering requirements. A city needs its own "
+             "walkable streets, population grids, destinations and crossing constraints to run this search.", "",
+             "[Shared metropolitan method](../../docs/design-engine/current/METROPOLITAN-NETWORKS.md)", "",
+             "Reproduce with `OPENBLAS_NUM_THREADS=1 ./osr design railway baghdad-three-rings --check`.", "",
              f"Publication `{record['publication_id']}`.", ""]
     return "\n".join(text)
 
@@ -200,6 +252,7 @@ CENTRAL_COLOR = "#a33e23"
 MIDDLE_COLOR = "#087867"
 OUTER_COLOR = "#553b96"
 SHORT_COLOR = "#ab4900"
+GAP_COLOR = "#a91a59"
 TRUNK_COLORS = ("#1b4e99", "#8f2662", "#005e82", "#526a13", "#236449", "#6a2384", "#96305b",
                 "#265975", "#74452b", "#006777", "#782440", "#485691", "#27683d", "#612664")
 
@@ -209,6 +262,7 @@ def route_colors(layout, short_routes):
               "M16": OUTER_COLOR}
     for index, code in enumerate(sorted(layout["lines"].keys() - colors.keys())):
         colors[code] = SHORT_COLOR if code in short_routes else TRUNK_COLORS[index % len(TRUNK_COLORS)]
+    colors.update({code: GAP_COLOR for code, line in layout["lines"].items() if line.get("service_role") == "urban-gap"})
     return colors
 
 
@@ -226,7 +280,8 @@ def draw(record, context):
     keys = (core or "published", selected) if selected != "published" else ("published",)
     water, rivers, roads = central_service_map.source_geometry(context)
     extent = np.concatenate([
-        line["geometry"] for key in keys for line in record["layouts"][key]["lines"].values()
+        *(line["geometry"] for key in keys for line in record["layouts"][key]["lines"].values()),
+        *([list(record.get("destinations", {}).values())] if record.get("destinations") else []),
     ])
     lower, upper = extent.min(axis=0) - .008, extent.max(axis=0) + .008
     paper, ink = "#faf7ef", "#193742"
@@ -235,7 +290,7 @@ def draw(record, context):
                                 gridspec_kw={"left": .04, "right": .975, "bottom": .17, "top": .84, "wspace": .08})
     figure.patch.set_facecolor(paper)
     figure.text(.047, .946, "Baghdad’s rings and cross-city routes", color=ink, fontsize=26, weight="bold")
-    subtitle = ("Same three-ring core before and after extending through services into the suburbs" if core else
+    subtitle = ("Core and extended network · filled triangles are named places within a 1.3 km street walk" if core else
                 "Published layout and coverage-led trial on the same scale" if comparison else
                 "Passenger services and shared interchanges in the published layout")
     figure.text(.047, .899, subtitle, color="#465e68", fontsize=12)
@@ -268,6 +323,8 @@ def draw(record, context):
             else:
                 width, layer = (2.35, 4.6) if code in cross_river else (1.55, 3.4)
             shade = colors[code]
+            if line.get("service_role") == "urban-gap":
+                width, layer = 3.1, 5.1
             points = np.asarray(line["geometry"])
             axis.plot(*points.T, color=paper, linewidth=width + .8, zorder=layer)
             axis.plot(*points.T, color=shade, linewidth=width, zorder=layer + .1,
@@ -278,7 +335,10 @@ def draw(record, context):
             if code in cross_river or (code not in rings and len(net["lines"]) <= 13):
                 terminals.append((code, shade, points[[0, -1]]))
         if core and key == selected:
-            for tail in details["suburban_extensions"]["extensions"]:
+            tails = details.get("suburban_extensions", {}).get("extensions", [])
+            if key.startswith("retained-"):
+                tails = []
+            for tail in tails:
                 coords = np.asarray(tail["geometry"])
                 axis.plot(*coords.T, color=paper, lw=4.6, zorder=4.85)
                 axis.plot(*coords.T, color=colors[tail["route"]], lw=3.3, zorder=4.9)
@@ -303,6 +363,13 @@ def draw(record, context):
             axis.scatter(*xy, s=90, marker="D", facecolor="#fadc72", edgecolor=ink, linewidths=1.2, zorder=7)
             axis.annotate(contact["bank"], xy, xytext=(8, -10), textcoords="offset points", color=ink,
                           fontsize=9, bbox={"fc": paper, "ec": "none", "pad": .6}, zorder=8)
+        for label, point in record.get("destinations", {}).items():
+            walk = row["destination_walk_m"][label]
+            filled = walk is not None and walk <= study.WALK_M
+            axis.scatter(*point, s=32, marker="^", facecolor="#124143" if filled else paper,
+                         edgecolor="#124143", linewidths=.8, zorder=7)
+            axis.annotate(label, point, xytext=(-5, 7), textcoords="offset points", ha="right",
+                          color=ink, fontsize=8, bbox={"fc": paper, "ec": "none", "pad": .5}, zorder=8)
         cells = record["coverage"]["worldpop-2026"][key]["1300"].get("largest_formerly_served_cells", [])
         if cells:
             axis.scatter(*np.array([site["coordinates"] for site in cells]).T, s=38, color="#a12642",
@@ -324,7 +391,7 @@ def draw(record, context):
         ring_styles.insert(1, (MIDDLE_COLOR, "Middle ring"))
     legend = [Line2D([], [], color=shade, lw=2.5, label=label) for shade, label in ring_styles]
     legend.append(Line2D([], [], color=TRUNK_COLORS[0], lw=2.35, label="Cross-Tigris trunk"))
-    if core:
+    if core and not selected.startswith("retained-"):
         legend.append(Line2D([], [], color=TRUNK_COLORS[1], lw=3.3, label="Suburban extension"))
         legend.append(Line2D([], [], color=ink, marker="D", markerfacecolor=paper,
                              linestyle="none", label="Former terminus"))
@@ -332,12 +399,14 @@ def draw(record, context):
         legend.append(Line2D([], [], color=TRUNK_COLORS[1], lw=1.55, label="Other passenger service"))
     if any(record["summary"][key]["short_count"] for key in keys):
         legend.append(Line2D([], [], color=SHORT_COLOR, lw=1.4, linestyle="--", label=f"Short route ≤{study.SHORT_KM:g} km"))
+    if any(line.get("service_role") == "urban-gap" for line in record["layouts"][selected]["lines"].values()):
+        legend.append(Line2D([], [], color=GAP_COLOR, lw=3.1, label="Urban gap line"))
     if comparison:
         legend.append(Line2D([], [], color="#a12642", marker="x", linestyle="none", label="Largest gaps vs reference"))
     figure.legend(handles=legend, loc="lower center", bbox_to_anchor=(.5, .077), frameon=False,
                   ncol=7 if comparison else 4,
                   labelcolor=ink, fontsize=10)
-    figure.text(.047, .042, ("Orange dots mark suburban departures on the dashed contour. Squares mark terminals and the star marks the Airport."
+    figure.text(.047, .042, ("Orange dots mark spacing points. The dotted contour is 2.5 km beyond the outer ring. The star marks the Airport."
                              if core else "Open circles mark shared stations, squares mark through-route terminals and the star marks the Airport."),
                 color="#465e68", fontsize=8.5)
     figure.text(.047, .022, "Basemap © OpenStreetMap contributors.", color="#465e68", fontsize=8.5)
@@ -386,7 +455,10 @@ def outputs(record, context):
             props.update(stroke=colors[code], **{"stroke-opacity": 1, "stroke-width": 3})
             if code in by_route:
                 props["former_suburban_terminals"] = by_route[code]
-    data.update(publication_id=record["publication_id"], trial=selected, study_status=record["study_status"])
+    data.update(publication_id=record["publication_id"], trial=selected, study_status=record["study_status"],
+                named_destinations={name: {"coordinates": position,
+                    "walk_m": record["summary"][selected]["destination_walk_m"][name]}
+                    for name, position in record.get("destinations", {}).items()})
     return {REPORT: report(record).encode(), DATA: gzip.compress(central_access.encode(record), mtime=0),
             MAP: draw(record, context), GEOJSON: central_access.encode(data)}
 
