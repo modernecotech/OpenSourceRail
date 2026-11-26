@@ -75,13 +75,28 @@ try {
     return !!window.OSRCityJourneys;
   });assert(journey);
   await page.selectOption('#city-outline-select','baghdad');
-  await page.waitForFunction(()=>document.querySelector('.atlas-title')?.textContent?.includes('Baghdad') || document.querySelector('#city-atlas h3')?.textContent?.includes('Baghdad'),{timeout:60000});
+  const metropolitan=page.locator('#baghdad-metropolitan-default');
+  await metropolitan.waitFor({state:'visible'});
+  await page.waitForFunction(()=>document.querySelector('#baghdad-metropolitan-summary')?.textContent?.includes('cross-city trunks'));
+  const baghdadPacket=await (await page.request.get('http://127.0.0.1:8097/cities/Baghdad/metropolitan-network.json')).json();
+  assert.equal(baghdadPacket.schema,'osr-baghdad-metropolitan/1');
+  assert.match(await metropolitan.innerText(),new RegExp(baghdadPacket.summary.route_km+' route-km'));
+  assert.equal(await page.locator('#city-study-options').isVisible(),false);
+  assert(await metropolitan.locator('img').evaluate(img=>img.decode().then(()=>img.naturalWidth>0)));
+  await metropolitan.screenshot({path:out+'/baghdad.png'});
+  const active=await page.request.post('http://127.0.0.1:8097/api/city-studies',{
+    headers:{Origin:'http://127.0.0.1:8097'},data:{city_slug:'baghdad'}});
+  assert.equal(active.status(),200);
+  const activeStudy=await active.json();
+  assert.equal(activeStudy.state,'published');
+  assert.equal(activeStudy.links.record,'/cities/Baghdad/metropolitan-network.json');
+  await page.locator('#baghdad-catalogue-study').click();
   await page.waitForFunction(()=>document.querySelectorAll('.atlas-service-table tbody tr').length===14);
-  await page.locator('#city-atlas').screenshot({path:out+'/baghdad.png'});
+  assert.equal(await page.locator('#city-study-options select[name="selection"]').inputValue(),'original');
   // Two rapid selections must leave only the most recently requested city.
   await page.selectOption('#city-outline-select','samawah');await page.selectOption('#city-outline-select','baghdad');
-  await page.waitForFunction(()=>document.querySelectorAll('.atlas-service-table tbody tr').length===14);
-  assert((await page.locator('#city-atlas').innerText()).includes('Baghdad'));
+  await metropolitan.waitFor({state:'visible'});
+  assert.equal(await page.locator('#city-atlas').isVisible(),false);
   await page.selectOption('#city-outline-select','samawah');
   await page.waitForFunction(()=>document.querySelectorAll('.atlas-service-table tbody tr').length===5);
   await page.locator('.atlas-map-controls button').first().click();
@@ -156,6 +171,15 @@ try {
   await published.waitForFunction(()=>document.querySelector('#city-outline-status')?.textContent.includes('payload differs'),{timeout:60000});
   assert.equal(await published.locator('.atlas-service-table').count(),0);
   await published.close();
+  await page.goto('http://127.0.0.1:8097/docs/workbench/planning/');
+  await page.locator('#line').first().waitFor({state:'visible'});
+  await page.waitForFunction(()=>document.querySelector('#line').options.length>0);
+  assert.equal(await page.locator('#city').inputValue(),'samawah');
+  assert.equal(await page.getByRole('link',{name:'Current Baghdad metropolitan plan'}).count(),1);
+  await page.selectOption('#city','baghdad');
+  await page.waitForFunction(()=>document.querySelector('#line').options.length===14);
+  assert.match(await page.locator('#baghdad-catalogue-note').innerText(),/earlier Baghdad catalogue comparison/);
+  assert.equal(await page.locator('#import').isEnabled(),true);
   await writeFile(out+'/result.json',JSON.stringify({passed:true,cities:['samawah','baghdad'],recalculation_updates_map:true,static_publication_and_tamper_check:true,rapid_selection_guard:true,mobile_no_overflow:true,physical_accepted:false},null,2));
   console.log('Atlas browser checks passed');
 } finally {

@@ -46,6 +46,26 @@ def _complete_results_exist(output, cities):
         return False
 
 
+def _baghdad_study(output, root, *, verify):
+    """Use Baghdad's own route, vehicle, quantities and lifecycle calculator."""
+    from engineering.performance import disk_reservation
+    from cities.Baghdad import metropolitan_publication as publication
+    from .completion import _ordinary
+
+    output = Path(output)
+    target = _ordinary(output if output.is_absolute() else Path(root) / output)
+    if not verify and target.exists():
+        raise ValueError('Fresh immutable Baghdad metropolitan study output required')
+    with disk_reservation(root, target, 'Baghdad metropolitan city study', 160 << 20):
+        record, comparison, context = publication.evaluate()
+        publication.stock._compare_or_write(
+            publication.outputs(record, comparison, context), target, check=verify,
+            map_files={publication.MAP})
+    return dict(schema=record['schema'], publication_id=record['publication_id'],
+                candidate_id=record['network']['candidate_id'], physical_accepted=False,
+                operating_release=False, procurement_release=False)
+
+
 def main(argv=None,root=ROOT):
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('action',choices=('run','verify','approaches','supply','supply-verify',
@@ -81,7 +101,12 @@ def main(argv=None,root=ROOT):
             if 'city_slug' not in value:parser.error('--city or a city request is required')
             if _disk_reserve_hold(root,'outline-city'):
                 return 3
-            result=city_workflow.run(value,args.output,root=root)
+            if city_workflow.uses_active_baghdad(value):
+                city_workflow.active_baghdad_response(value)
+                result=_baghdad_study(args.output,root,verify=False)
+            else:result=city_workflow.run(value,args.output,root=root)
+        elif (Path(root)/args.output/Path(city_workflow.ACTIVE_BAGHDAD['record']).name).is_file():
+            result=_baghdad_study(args.output,root,verify=True)
         else:result=city_workflow.verify(args.output,root=root,replay=args.replay)
         print(json.dumps(result,sort_keys=True));return
     if args.action.startswith('complete'):

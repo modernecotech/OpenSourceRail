@@ -9,8 +9,11 @@ from pathlib import Path
 from cities.Baghdad.engineering.mechanical.civil import network_delivery as delivery
 
 
-def plan(network):
-    source = delivery.OUTPUT / "network-delivery.json"
+ACTIVE = delivery.ROOT / "cities/Baghdad/metropolitan-network.json"
+
+
+def plan(network="active"):
+    source = ACTIVE if network == "active" else delivery.OUTPUT / "network-delivery.json"
     data = source.read_bytes()
     study = json.loads(data)
     for path, expected in study["source_sha256"].items():
@@ -18,7 +21,15 @@ def plan(network):
             raise ValueError(f"Regenerate the current Baghdad delivery study. Changed source: {path}")
 
     rows = []
-    programme = study["networks"][network]
+    if network == "active":
+        programme = study["civil"]
+        network = study["planning_selection"]["candidate_id"]
+        if programme["candidate_id"] != network:
+            raise ValueError("The booked shifts and selected metropolitan layout differ")
+        expected_hours = programme["workforce"]["paid_deck_and_casting_hours"]
+    else:
+        programme = study["networks"][network]
+        expected_hours = programme["totals"]["paid_total_method_and_casting_hours"]
     for section in programme["orders"]:
         crews = [*section["crew_shifts"], *section["casting_shifts"]]
         for index, crew in enumerate(crews, 1):
@@ -38,13 +49,14 @@ def plan(network):
                 utilisation_bps=10_000, rates_cents_per_hour=rate,
                 rate_basis=crew["price_basis"], cost_account="Deck delivery and casting",
             ))
-    expected_minutes = round(programme["totals"]["paid_total_method_and_casting_hours"] * 60)
+    expected_minutes = round(expected_hours * 60)
     if sum(row["paid_minutes"] for row in rows) != expected_minutes:
         raise ValueError("The workforce plan must conserve the construction study's paid hours")
     sources = {**study["source_sha256"], str(source.relative_to(delivery.ROOT)): sha256(data).hexdigest(),
                str(Path(__file__).resolve().relative_to(delivery.ROOT)): sha256(Path(__file__).read_bytes()).hexdigest()}
     return dict(
-        schema="osr-workforce-plan/1", plan_id=f"{study['evaluation_id']}:{network}:deck-crews",
+        schema="osr-workforce-plan/1",
+        plan_id=f"{study.get('evaluation_id', programme.get('evaluation_id'))}:{network}:deck-crews",
         source_sha256=sources, rows=rows,
         scope=dict(network=network, label="20 m deck-fed construction and casting",
                    calendar_basis="Crew minutes across all fronts. The delivery report carries the gantry schedules.",
@@ -58,7 +70,7 @@ def plan(network):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("network", choices=delivery.NETWORKS)
+    parser.add_argument("network", nargs="?", choices=("active", *delivery.NETWORKS), default="active")
     args = parser.parse_args()
     print(json.dumps(plan(args.network), indent=2, sort_keys=True, allow_nan=False))
 

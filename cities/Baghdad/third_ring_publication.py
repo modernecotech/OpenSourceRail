@@ -58,10 +58,13 @@ def report(record):
     if eligible:
         text += [f"**{name(eligible)}** clears the digital replacement screen. Site and operating approval remain open.", ""]
     else:
-        text += ["The two-ring reference still supplies the proposal’s budget. The three-ring comparison shows the "
-                 "benefits of a simpler network and the districts where its access or journeys still fall short.", ""]
+        text += ["The two-ring layout is the comparison benchmark. The three-ring comparison shows the benefits of "
+                 "a simpler network and the districts where its access or journeys still fall short. The active "
+                 "proposal records the planning decision.", ""]
     text += ["![Two Baghdad networks with full-colour lines, shared stations and cross-Tigris trunks](maps/baghdad-three-ring-comparison.png)", "",
-             "[Current proposal](PROPOSAL.md) · [Two-ring reference](STRAIGHT-THROUGH-NETWORK.md) · "
+             "[Current proposal](PROPOSAL.md) · [Earlier two-ring benchmark]"
+             "(https://github.com/modernecotech/OpenSourceRail/blob/f2462e112648e7dd357f3f9f20e384414458c898/"
+             "cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md) · "
              "[Editable trial GIS](maps/baghdad-three-ring-trial.geojson) · [Machine results](three-ring-study.json.gz)", "",
              "## Network and access", "",
              "| Layout | Rings | Services | Short standalone services | Cross-city trunks | Route-km | Station sites | Shared sites | Pairs of sites within 750 m | Parallel pair-km |",
@@ -295,7 +298,7 @@ def route_colors(layout, short_routes):
     return colors
 
 
-def draw(record, context):
+def draw(record, context, *, only=None):
     import matplotlib
     matplotlib.use("Agg")
     from matplotlib import pyplot as plt
@@ -303,12 +306,12 @@ def draw(record, context):
     from matplotlib.lines import Line2D
     from matplotlib.patches import Polygon
 
-    selected = record["selection"]["illustrated_trial"] or "published"
+    selected = only or record["selection"]["illustrated_trial"] or "published"
     details = record["layout_trials"].get(selected, {})
     core = details.get("core_layout")
     transfer_case = "retained-named-gap"
     comparison_case = transfer_case if transfer_case in record["layouts"] and selected != transfer_case else core
-    keys = (comparison_case or "published", selected) if selected != "published" else ("published",)
+    keys = (selected,) if only or selected == "published" else (comparison_case or "published", selected)
     water, rivers, roads = central_service_map.source_geometry(context)
     extent = np.concatenate([
         *(line["geometry"] for key in keys for line in record["layouts"][key]["lines"].values()),
@@ -321,7 +324,8 @@ def draw(record, context):
                                 gridspec_kw={"left": .04, "right": .975, "bottom": .17, "top": .84, "wspace": .08})
     figure.patch.set_facecolor(paper)
     figure.text(.047, .946, "Baghdad’s rings and cross-city routes", color=ink, fontsize=26, weight="bold")
-    subtitle = ("Outer-ring transfers and cross-city service · same scale and walking limit"
+    subtitle = ("Metropolitan planning network · three rings and cross-Tigris suburban service" if only else
+                "Outer-ring transfers and cross-city service · same scale and walking limit"
                 if comparison_case == transfer_case else "Core and extended network · same scale" if core else
                 "Published layout and coverage-led trial on the same scale" if comparison else
                 "Passenger services and shared interchanges in the published layout")
@@ -403,13 +407,13 @@ def draw(record, context):
             axis.annotate(label, point, xytext=(-5, 7), textcoords="offset points", ha="right",
                           color=ink, fontsize=8, bbox={"fc": paper, "ec": "none", "pad": .5}, zorder=8)
         cells = record["coverage"]["worldpop-2026"][key]["1300"].get("largest_formerly_served_cells", [])
-        if cells:
+        if cells and not only:
             axis.scatter(*np.array([site["coordinates"] for site in cells]).T, s=38, color="#a12642",
                          marker="x", linewidths=1.5, zorder=8)
         axis.set(xlim=(lower[0], upper[0]), ylim=(lower[1], upper[1]), xticks=[], yticks=[],
                  aspect=holistic_network.LOCAL_METRES[1] / holistic_network.LOCAL_METRES[0])
         axis.apply_aspect()
-        axis.set_title(name(key), loc="left", fontsize=12, weight="bold", color=ink, pad=17)
+        axis.set_title("Active planning layout" if only else name(key), loc="left", fontsize=12, weight="bold", color=ink, pad=17)
         counts = f"{len(net['lines'])} services · {row['through_count']} cross-city trunks"
         if row.get("worldpop_1300_pct") is not None:
             counts += f" · {row['worldpop_1300_pct']:.1f}% within a 1.3 km walk"
@@ -474,8 +478,7 @@ def _label_routes(axis, routes, paper):
             break
 
 
-def outputs(record, context):
-    selected = record["selection"]["illustrated_trial"] or "published"
+def geojson(record, selected):
     layout = record["layouts"][selected]
     short_routes = set(record["summary"][selected]["short_lines"])
     colors = route_colors(layout, short_routes)
@@ -495,6 +498,12 @@ def outputs(record, context):
                 named_destinations={name: {"coordinates": position,
                     "walk_m": record["summary"][selected]["destination_walk_m"][name]}
                     for name, position in record.get("destinations", {}).items()})
+    return data
+
+
+def outputs(record, context):
+    selected = record["selection"]["illustrated_trial"] or "published"
+    data = geojson(record, selected)
     return {REPORT: report(record).encode(), DATA: gzip.compress(central_access.encode(record), mtime=0),
             MAP: draw(record, context), GEOJSON: central_access.encode(data)}
 

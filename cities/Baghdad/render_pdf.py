@@ -47,11 +47,11 @@ def inline(nodes):
 class ProposalFigure(Flowable):
     """Keep the illustration and its credit together at a readable printed size."""
 
-    def __init__(self, path, caption):
+    def __init__(self, path, caption, *, max_height_mm=164):
         super().__init__()
         source = (BytesIO(cairosvg.svg2png(url=str(path), output_width=1800))
                   if path.suffix == ".svg" else str(path))
-        self.picture = Image(source, width=174 * mm, height=164 * mm, kind="proportional")
+        self.picture = Image(source, width=174 * mm, height=max_height_mm * mm, kind="proportional")
         self.width_at_full_size = self.picture.drawWidth
         self.height_at_full_size = self.picture.drawHeight
         self.caption = caption
@@ -76,7 +76,7 @@ class ProposalFigure(Flowable):
 
 
 def render():
-    record = HERE / "straight-through-network.json"
+    record = HERE / "metropolitan-network.json"
     source = HERE / "PROPOSAL.md"
     inputs = {record, source, Path(__file__).resolve()}
     cost = json.loads(record.read_text())["cost"]["cost_cases"]
@@ -102,7 +102,8 @@ def render():
         if not path.is_relative_to(ROOT) or not path.is_file():
             raise ValueError(f"Missing local proposal figure {path.name}")
         inputs.add(path)
-        return ProposalFigure(path, Paragraph(caption, styles["FooterOSR"]))
+        height = 126 if path.name == "baghdad-metropolitan-network.png" else 164
+        return ProposalFigure(path, Paragraph(caption, styles["FooterOSR"]), max_height_mm=height)
 
     blocks = iter(node for node in ast if node["type"] != "blank_line")
     for node in blocks:

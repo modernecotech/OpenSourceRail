@@ -6,10 +6,10 @@ Start with Baghdad’s current route, station access, service and delivery costs
 
 | Time | Review | Operator task |
 |---|---|---|
-| 0–5 min | [Current Baghdad network and journeys](../../cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md) · [Proposal](../../cities/Baghdad/PROPOSAL.md) | Trace the Airport entrance and the city-centre and orbital connections. Review actual street walk, transfer distance, accessible crossings and which demand would determine opening service. |
+| 0–5 min | [Current Baghdad network and journeys](../../cities/Baghdad/METROPOLITAN-NETWORK.md) · [Proposal](../../cities/Baghdad/PROPOSAL.md) | Trace the Airport entrance and the city-centre and orbital connections. Review actual street walk, transfer distance, accessible crossings and which demand would determine opening service. |
 | 5–12 min | [Vehicle and platform interface](../../cities/Baghdad/TRAIN-AND-STATION.md) · [Live viaduct specification](../../cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md) | Check the platform gap under vehicle motion. Price recurring 20 m U-girders on shared piers, curved families, support transitions and lift conditions against the same alignment. |
 | 12–16 min | [Control-room replay](screens/supervision.html) · [Station bench](../../cities/Baghdad/engineering/controls/STATION-BENCH.md) | Compare live and stale alarms. Identify who can authorise isolation, what feedback must be proved and how to protect departure or rescue. |
-| 16–21 min | [Metropolitan capital and lifecycle costs](../../cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md) · [Supplier comparisons](finance/purchasing.html) | Match the costs, renewal scope and domestic content. Test a funding term with assumed demand and show the local evidence needed before relying on it. |
+| 16–21 min | [Metropolitan capital and lifecycle costs](../../cities/Baghdad/METROPOLITAN-DELIVERY.md) · [Supplier comparisons](finance/purchasing.html) | Match the costs, renewal scope and domestic content. Test a funding term with assumed demand and show the local evidence needed before relying on it. |
 | 21–26 min | [Factory and work plans](delivery/README.md) · [Manufacturing and repair](../../cities/Baghdad/engineering/prototype/rapid-production/README.md) | Walk one article from stock and fixture to inspection and site. Verify crew shifts, curing, yard storage, lift timing and local repair. |
 | 26–30 min | [Development plan](WORKPLAN.md) · [Partner trial](PARTNERSHIP-PLAN.md) | Agree the location to survey, interface to witness, scope to price and owner of each next decision. |
 

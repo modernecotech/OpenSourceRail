@@ -33,7 +33,7 @@ uses = ["erection.evaluate"]
 keyword = "span_m"
 
 [[spec.record]]
-path = "cities/Baghdad/straight-through-network.json"
+path = "cities/Baghdad/metropolitan-network.json"
 keys = ["civil.assumptions.span_m", "beam_schedule.assumptions.stock_bay_m"]
 matches = { "civil.candidate_id" = "network.candidate_id", "beam_schedule.candidate_id" = "network.candidate_id" }
 provenance = ["civil.source_sha256", "beam_schedule.source_sha256", "source_sha256"]
@@ -73,7 +73,7 @@ dependencies = ["cities/Baghdad/engineering/mechanical/civil/rail_fed_erection.p
 [[spec.reader]]
 path = "README.md"
 values = ['current Baghdad delivery plan uses \*\*(?P<value>\d+(?:\.\d+)?) m U-girders on shared piers\*\*']
-required = ['\]\(cities/Baghdad/STRAIGHT-THROUGH-DELIVERY\.md\)', '\]\(cities/Baghdad/engineering/mechanical/civil/CURVED-BEAM-PROGRAMME\.md\)']
+required = ['\]\(cities/Baghdad/METROPOLITAN-DELIVERY\.md\)', '\]\(cities/Baghdad/engineering/mechanical/civil/CURVED-BEAM-PROGRAMME\.md\)']
 
 [[spec.reader]]
 path = "cities/Baghdad/README.md"
@@ -89,8 +89,12 @@ path = "cities/Baghdad/NETWORK-DELIVERY.md"
 required = ['Standard girders / support locations']
 
 [[spec.reader]]
-path = "cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md"
+path = "cities/Baghdad/METROPOLITAN-DELIVERY.md"
 required = ['The standard-stock comparison uses']
+
+[[spec.reader]]
+path = "cities/Baghdad/METROPOLITAN-NETWORK.md"
+required = ['\]\(METROPOLITAN-DELIVERY\.md\)']
 
 [[spec.reader]]
 path = "cities/Baghdad/engineering/mechanical/civil/CURVED-BEAM-PROGRAMME.md"
@@ -104,7 +108,7 @@ values = ['delivery case uses \*\*(?P<value>\d+(?:\.\d+)?) m U-girders on shared
 path = "engineering/development_baseline/web/index.html"
 values = ['current delivery plan prices (?P<value>\d+(?:\.\d+)?) m shared-pier U-girders']
 required = [
-    'href="[^"]*/cities/Baghdad/STRAIGHT-THROUGH-DELIVERY\.md"',
+    'href="[^"]*/cities/Baghdad/METROPOLITAN-DELIVERY\.md"',
     'href="[^"]*/cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK\.md"',
     'name="span_m">\s*<option value="{value}" selected>',
     'name="common_pier">[^<]*(?:<option[^>]*>[^<]*</option>\s*)*<option value="true" selected>',
@@ -116,7 +120,7 @@ path = "docs/workbench/current/index.html"
 same_as = "engineering/development_baseline/web/index.html"
 values = ['current delivery plan prices (?P<value>\d+(?:\.\d+)?) m shared-pier U-girders']
 required = [
-    'href="[^"]*/cities/Baghdad/STRAIGHT-THROUGH-DELIVERY\.md"',
+    'href="[^"]*/cities/Baghdad/METROPOLITAN-DELIVERY\.md"',
     'href="[^"]*/cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK\.md"',
     'name="span_m">\s*<option value="{value}" selected>',
     'name="common_pier">[^<]*(?:<option[^>]*>[^<]*</option>\s*)*<option value="true" selected>',
@@ -126,25 +130,21 @@ forbidden = ['name="span_m">[^<]*(?:<option[^>]*>[^<]*</option>\s*)*<option valu
 [[spec.reader]]
 path = "cities/Baghdad/PROCUREMENT.md"
 values = ['current civil enquiry use the \[(?P<value>\d+(?:\.\d+)?) m shared-pier delivery programme\]']
-required = ['\]\(STRAIGHT-THROUGH-DELIVERY\.md\)']
-
-[[spec.reader]]
-path = "cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md"
-required = ['\]\(STRAIGHT-THROUGH-DELIVERY\.md\)']
+required = ['\]\(METROPOLITAN-DELIVERY\.md\)']
 
 [[spec.reader]]
 path = "cities/Baghdad/TRAIN-AND-STATION.md"
 values = ['current delivery study uses paired (?P<value>\d+(?:\.\d+)?) m U-girders on shared piers']
-required = ['\]\(STRAIGHT-THROUGH-DELIVERY\.md\)']
+required = ['\]\(METROPOLITAN-DELIVERY\.md\)']
 
 [[spec.reader]]
 path = "cities/Baghdad/maps/README.md"
-required = ['\]\(\.\./STRAIGHT-THROUGH-DELIVERY\.md\)']
+required = ['\]\(\.\./METROPOLITAN-DELIVERY\.md\)']
 
 [[spec.reader]]
 path = "cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md"
 values = ['uses two \*\*(?P<value>\d+(?:\.\d+)?) m precast concrete U-girders\*\*', 'One girder envelope \| (?P<value>\d+(?:\.\d+)?) m long']
-required = ['shared pier crossheads', '\]\(CURVED-BEAM-PROGRAMME\.md\)', '\]\(curved-beam-register\.json\.gz\)', '\]\(\.\./\.\./\.\./STRAIGHT-THROUGH-DELIVERY\.md\)']
+required = ['shared pier crossheads', '\]\(CURVED-BEAM-PROGRAMME\.md\)', '\]\(curved-beam-register\.json\.gz\)', '\]\(\.\./\.\./\.\./METROPOLITAN-DELIVERY\.md\)']
 
 [[spec.reader]]
 path = "docs/DESIGN-DECISIONS.md"
@@ -154,7 +154,7 @@ required = ['\]\(\.\./cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK\.md
 [[spec.reader]]
 path = "docs/ROADMAP.md"
 values = ['one car, one bogie, one station and the (?P<value>\d+(?:\.\d+)?) m repeat bay']
-required = ['\]\(\.\./cities/Baghdad/STRAIGHT-THROUGH-DELIVERY\.md\)']
+required = ['\]\(\.\./cities/Baghdad/METROPOLITAN-DELIVERY\.md\)']
 forbidden = ['\]\(\.\./cities/Baghdad/CITYWIDE-SERVICE\.md\)']
 
 [[spec.reader]]
@@ -165,7 +165,7 @@ required = ['\]\(\.\./\.\./cities/Baghdad/engineering/mechanical/civil/LIVE-STOC
 [[spec.reader]]
 path = "docs/operator-review/WORKPLAN.md"
 values = ['current (?P<value>\d+(?:\.\d+)?) m Baghdad delivery programme']
-required = ['\]\(\.\./\.\./cities/Baghdad/STRAIGHT-THROUGH-DELIVERY\.md\)']
+required = ['\]\(\.\./\.\./cities/Baghdad/METROPOLITAN-DELIVERY\.md\)']
 
 [[spec.reader]]
 path = "docs/operator-review/screens/README.md"
@@ -182,25 +182,25 @@ values = ['[Rr]ecurring (?:guideway uses )?(?P<value>\d+(?:\.\d+)?) m U-girders 
 
 [[spec.reader]]
 path = "osr"
-required = ['baghdad-delivery:\*\)\s+shift 3\s+case[^\n]*\n\s*\x27\x27\) exec cat cities/Baghdad/STRAIGHT-THROUGH-DELIVERY\.md', 'exec cat cities/Baghdad/straight-through-network\.json']
+required = ['baghdad-delivery:\*\)\s+shift 3\s+case[^\n]*\n\s*\x27\x27\) exec cat cities/Baghdad/METROPOLITAN-DELIVERY\.md', 'exec cat cities/Baghdad/metropolitan-network\.json']
 forbidden = ['baghdad-delivery:\*\)[^\n]*network_delivery']
 
 [[spec.artifact]]
 path = "cities/Baghdad/Baghdad-Metro-Proposal.pdf"
 receipt = "cities/Baghdad/proposal-pdf.receipt.json"
-sources = ["cities/Baghdad/PROPOSAL.md", "cities/Baghdad/render_pdf.py", "cities/Baghdad/straight-through-network.json"]
+sources = ["cities/Baghdad/PROPOSAL.md", "cities/Baghdad/render_pdf.py", "cities/Baghdad/metropolitan-network.json", "cities/Baghdad/maps/baghdad-metropolitan-network.png"]
 
 [[spec.artifact]]
 path = "docs/operator-review/OpenSourceRail-Operator-Brief.pdf"
 receipt = "docs/operator-review/operator-brief.receipt.json"
-sources = ["docs/operator-review/render_brief.py", "cities/Baghdad/straight-through-network.json"]
+sources = ["docs/operator-review/render_brief.py", "cities/Baghdad/metropolitan-network.json"]
 
 # The inventory checks live pointers as well as identified live prose. Historic
 # benchmark and prototype texts may still refer to their own 10 m geometry.
 [spec.inventory]
 globs = ["README.md", "cities/Baghdad/**/*.md", "docs/ROADMAP.md", "docs/DESIGN-DECISIONS.md", "docs/RELEASE-*.md", "docs/workbench/**/*.md", "docs/workbench/current/index.html", "docs/operator-review/**/*.md", "docs/book/*.md", "engineering/development_baseline/web/index.html"]
 targets = [
-    "cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md",
+    "cities/Baghdad/METROPOLITAN-DELIVERY.md",
     "cities/Baghdad/engineering/mechanical/civil/CURVED-BEAM-PROGRAMME.md",
     "cities/Baghdad/engineering/mechanical/civil/curved-beam-register.json.gz",
     "cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md",
@@ -362,7 +362,7 @@ key = "vehicle.normal_places_per_train"
 unit = "places/train"
 
 [[spec.record]]
-path = "cities/Baghdad/straight-through-network.json"
+path = "cities/Baghdad/metropolitan-network.json"
 scope = "cost.service"
 ratio = { numerator = "nominal_places_per_hour_direction", multiply = "directional_headway_s", denominator = 3600 }
 
@@ -381,7 +381,7 @@ key = "vehicle.cars_per_train"
 unit = "cars"
 
 [[spec.record]]
-path = "cities/Baghdad/straight-through-network.json"
+path = "cities/Baghdad/metropolitan-network.json"
 scope = "cost.service"
 ratio = { numerator = "cars", denominator = "fleet_trainsets" }
 
@@ -415,7 +415,7 @@ keys = ["assumptions.track_pitch_m"]
 provenance = ["source_sha256"]
 
 [[spec.record]]
-path = "cities/Baghdad/straight-through-network.json"
+path = "cities/Baghdad/metropolitan-network.json"
 keys = ["beam_schedule.assumptions.track_pitch_m"]
 provenance = ["beam_schedule.source_sha256"]
 
@@ -434,13 +434,14 @@ key = "planning_service.headway_s"
 unit = "s"
 
 [[spec.record]]
-path = "cities/Baghdad/straight-through-network.json"
+path = "cities/Baghdad/metropolitan-network.json"
 keys = ["cost.service.directional_headway_s"]
 provenance = ["source_sha256"]
 
 [[spec.reader]]
-path = "cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md"
-values = ['fixed (?P<value>\d+(?:\.\d+)?)-minute offer']
+path = "cities/Baghdad/METROPOLITAN-DELIVERY.md"
+values = ['(?P<value>six|\d+(?:\.\d+)?)-minute (?:costing )?offer']
+words = { six = 6 }
 scale = 60
 
 [[spec.reader]]
@@ -456,7 +457,7 @@ key = "delivery.mould_cycle_h"
 unit = "hours"
 
 [[spec.record]]
-path = "cities/Baghdad/straight-through-network.json"
+path = "cities/Baghdad/metropolitan-network.json"
 keys = ["civil.assumptions.source_yard_layout.mould_cycle_hours"]
 provenance = ["civil.source_sha256"]
 
@@ -647,6 +648,59 @@ scope = "scope"
 external = { path = "docs/assets/assembly-animations/assembly-ledger.json", matches = { "candidate_ids.train" = "candidates.train.candidate_id" } }
 
 [[spec]]
+id = "baghdad-metropolitan-planning-layout"
+source = "cities/Baghdad/metropolitan-default.toml"
+key = "layout"
+
+[[spec.code]]
+path = "cities/Baghdad/metropolitan_publication.py"
+symbol = "SELECTOR"
+reference = "CITY / 'metropolitan-default.toml'"
+
+[[spec.record]]
+path = "cities/Baghdad/metropolitan-network.json"
+keys = ["display_trial", "planning_selection.layout"]
+fixed = { schema = "osr-baghdad-metropolitan/1", "planning_selection.purpose" = "metropolitan-planning", "planning_selection.physical_acceptance" = false, "planning_selection.procurement_release" = false, "network.physical_accepted" = false, "network.operating_timetable_validated" = false, "civil.physical_accepted" = false, "beam_schedule.physical_acceptance" = false }
+matches = { "planning_selection.candidate_id" = "network.candidate_id", "summary.candidate_id" = "network.candidate_id", "cost.candidate_id" = "network.candidate_id", "civil.network_evaluation_id" = "network.evaluation_id", "civil.beam_evaluation_id" = "beam_schedule.evaluation_id" }
+external = { path = "cities/Baghdad/three-ring-study.json.gz", matches = { reference = "publication_id", "network.candidate_id" = "layouts.{value}.candidate_id", "network.evaluation_id" = "layouts.{value}.evaluation_id", "cost.cost_cases" = "costs.{value}.cost_cases", "civil.evaluation_id" = "costs.{value}.civil_evaluation_id", "beam_schedule.evaluation_id" = "costs.{value}.beam_evaluation_id", summary = "summary.{value}" } }
+provenance = ["source_sha256"]
+dependencies = ["cities/Baghdad/metropolitan-default.toml", "cities/Baghdad/metropolitan_publication.py", "cities/Baghdad/three-ring-study.json.gz"]
+
+[[spec.reader]]
+path = "osr"
+required = ['baghdad-network:\*\)[^\n]*cities\.Baghdad\.metropolitan_publication']
+
+[[spec.reader]]
+path = "README.md"
+required = ['\]\(cities/Baghdad/METROPOLITAN-NETWORK\.md\)']
+forbidden = ['\]\((?:cities/Baghdad/)?STRAIGHT-THROUGH-(?:NETWORK|DELIVERY)\.md\)']
+
+[[spec.reader]]
+path = "cities/Baghdad/README.md"
+required = ['\]\(METROPOLITAN-NETWORK\.md\)']
+forbidden = ['\]\(STRAIGHT-THROUGH-(?:NETWORK|DELIVERY)\.md\)']
+
+[[spec.reader]]
+path = "cities/Baghdad/PROPOSAL.md"
+required = ['\]\(METROPOLITAN-NETWORK\.md\)', '\]\(maps/baghdad-metropolitan-network\.png\)']
+forbidden = ['\]\(STRAIGHT-THROUGH-(?:NETWORK|DELIVERY)\.md\)']
+
+[[spec]]
+id = "baghdad-metropolitan-planning-candidate"
+source = "cities/Baghdad/metropolitan-default.toml"
+key = "candidate_id"
+
+[[spec.record]]
+path = "cities/Baghdad/metropolitan-network.json"
+keys = ["network.candidate_id"]
+
+[[spec.record]]
+path = "cities/Baghdad/maps/baghdad-metropolitan-network.geojson"
+keys = ["candidate_id"]
+fixed = { study_status = "active-metropolitan-planning" }
+external = { path = "cities/Baghdad/metropolitan-network.json", matches = { trial = "planning_selection.layout", publication_id = "publication_id", evaluation_id = "network.evaluation_id", candidate_id = "network.candidate_id" } }
+
+[[spec]]
 id = "baghdad-population-led-walking-limit"
 source = "cities/Baghdad/coverage_orbitals.py"
 symbol = "WALK_M"
@@ -736,3 +790,18 @@ path = "cities/Baghdad/three-ring-study.json.gz"
 keys = ["metropolitan_comparison.method", "metropolitan_patterns.method"]
 provenance = ["source_sha256"]
 dependencies = ["engineering/outline/metro_network.py", "cities/Baghdad/coverage_destinations.py", "cities/Baghdad/coverage_regional.py", "cities/Baghdad/coverage_gap.py"]
+
+[[spec]]
+id = "city-planning-metropolitan-search"
+source = "engineering/outline/city_metropolitan.py"
+symbol = "METHOD"
+
+[[spec.code]]
+path = "engineering/outline/city_workflow.py"
+import_alias = "city_metropolitan"
+import_module = "engineering.outline.city_metropolitan"
+uses = ["city_metropolitan.search"]
+
+[[spec.reader]]
+path = "docs/workbench/planning/README.md"
+required = ['\]\(\.\./\.\./design-engine/current/METROPOLITAN-NETWORKS\.md\)']

@@ -68,9 +68,10 @@ Worked cases for reproducing estimates and supplier packages
   design railway baghdad-options  Compare supply, span and piers for the seven-line network
   design railway site-study       Model and price the Airport corridor with public GIS layers
   design railway central-access   Check central Baghdad station access and connected service
-  design railway baghdad-network   Publish or verify the active Baghdad rings and through-route study
+  design railway baghdad-network   Publish or verify Baghdad’s active metropolitan network and delivery plan
+  design railway baghdad-two-ring-benchmark --output DIR  Reproduce the earlier two-ring cost comparison
   design railway baghdad-network-legacy  Reproduce the earlier Baghdad connected housing-network case
-  design railway baghdad-three-rings  Compare a third orbital, longer trunks and short-line withdrawals
+  design railway baghdad-three-rings  Compare or edit Baghdad’s metropolitan options
   design railway city-study --city SLUG --output DIR  Run the shared city network planning study
 
 The default is a development selection. Physical and operating acceptance remain
@@ -124,7 +125,18 @@ if [[ "${1:-}" == design && "${2:-}" == railway ]]; then
         site-study:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.simulation.site_study "$@" ;;
         project-reference:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.engineering.simulation.reference_project "$@" ;;
         central-access:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.central_access "$@" ;;
-        baghdad-network:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.straight_network_publication "$@" ;;
+        baghdad-network:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.metropolitan_publication "$@" ;;
+        baghdad-two-ring-benchmark:*)
+            shift 3
+            if [[ "${1:-}" != --output || -z "${2:-}" ]]; then
+                printf '%s\n' 'Usage: ./osr design railway baghdad-two-ring-benchmark --output build/baghdad-two-ring' >&2
+                exit 2
+            fi
+            if [[ "$(realpath -m -- "$2")" == "$ROOT/cities/Baghdad" ]]; then
+                printf '%s\n' 'Use a separate output directory for the two-ring benchmark.' >&2
+                exit 2
+            fi
+            exec tools/automation/osr-python -m cities.Baghdad.straight_network_publication "$@" ;;
         baghdad-network-legacy:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.straight_network_publication --legacy "$@" ;;
         baghdad-three-rings:*) shift 3; exec tools/automation/osr-python -m cities.Baghdad.third_ring_publication "$@" ;;
         city-study:*) shift 3; exec tools/automation/osr-python -m engineering.outline city "$@" ;;
@@ -132,8 +144,8 @@ if [[ "${1:-}" == design && "${2:-}" == railway ]]; then
         baghdad-delivery:*)
             shift 3
             case "$*" in
-                '') exec cat cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md ;;
-                --json) exec cat cities/Baghdad/straight-through-network.json ;;
+                '') exec cat cities/Baghdad/METROPOLITAN-DELIVERY.md ;;
+                --json) exec cat cities/Baghdad/metropolitan-network.json ;;
                 --check) exec tools/automation/osr-python -m engineering.live_coherence ;;
                 --help|-h) printf '%s\n' 'Usage: ./osr design railway baghdad-delivery [--json|--check]'; exit 0 ;;
                 *) printf '%s\n' 'Use --json or --check with the live Baghdad delivery record.' >&2; exit 2 ;;

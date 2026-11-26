@@ -58,6 +58,8 @@ on:
       - "tests/test_corridor_profile.py"
       - "engineering/outline/city_worker.py"
       - "engineering/outline/city_workflow.py"
+      - "engineering/outline/city_metropolitan.py"
+      - "engineering/outline/tests/test_city_metropolitan.py"
       - "engineering/outline/network_policy.py"
       - "tests/test_outline_network_policy.py"
       - "engineering/outline/corridor_profile.py"
@@ -179,6 +181,8 @@ on:
       - "tests/test_corridor_profile.py"
       - "engineering/outline/city_worker.py"
       - "engineering/outline/city_workflow.py"
+      - "engineering/outline/city_metropolitan.py"
+      - "engineering/outline/tests/test_city_metropolitan.py"
       - "engineering/outline/network_policy.py"
       - "tests/test_outline_network_policy.py"
       - "engineering/outline/corridor_profile.py"
@@ -410,12 +414,12 @@ jobs:
           python -m pip install --disable-pip-version-check matplotlib==3.11.2 Pillow==13.0.0 shapely==2.2.0
           python -m pytest -q --import-mode=importlib cities/Baghdad/test_holistic_*.py cities/Baghdad/test_residential_*.py cities/Baghdad/test_rail_*.py cities/Baghdad/test_network_*.py
           OPENBLAS_NUM_THREADS=1 python -m cities.Baghdad.straight_network_publication --legacy --check
-          OPENBLAS_NUM_THREADS=1 python -m cities.Baghdad.straight_network_publication --check
+          OPENBLAS_NUM_THREADS=1 python -m cities.Baghdad.metropolitan_publication --check
           python -m pytest -q --import-mode=importlib \
             cities/Baghdad/test_straight_through_layout.py cities/Baghdad/test_third_ring_study.py \
             cities/Baghdad/test_coverage_orbitals.py cities/Baghdad/test_coverage_trunks.py cities/Baghdad/test_coverage_extensions.py \
-            cities/Baghdad/test_coverage_gap.py cities/Baghdad/test_coverage_regional.py \
-            engineering/outline/tests/test_metro_network.py \
+            cities/Baghdad/test_coverage_gap.py cities/Baghdad/test_coverage_regional.py cities/Baghdad/test_coverage_through_journeys.py \
+            engineering/outline/tests/test_metro_network.py engineering/outline/tests/test_city_metropolitan.py \
             cities/Baghdad/engineering/mechanical/civil/test_alignment_beams.py tests/test_outline_network_policy.py
       - name: Verify railway timetables, prototype prices and bench records
         run: |

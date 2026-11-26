@@ -38,6 +38,12 @@ EXCLUDED_PREFIXES = (
 )
 
 EXCLUDED_DOCS = {
+    "cities/Baghdad/CENTRAL-RING-NETWORK.md",
+    "cities/Baghdad/NETWORK.md",
+    "cities/Baghdad/RING-GRID.md",
+    "cities/Baghdad/RING-NETWORK.md",
+    "cities/Baghdad/SPACED-RINGS.md",
+    "cities/Baghdad/WIDER-RING.md",
     "engineering/ferrite_maglev/README.md",
     "engineering/ferrite_maglev/city-index.md",
     "engineering/ferrite_maglev/observer-prototype/README.md",

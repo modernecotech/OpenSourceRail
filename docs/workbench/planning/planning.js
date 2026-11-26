@@ -376,6 +376,7 @@ function render() {
 }
 async function loadCity() {
   const current = ++epoch;
+  $("baghdad-catalogue-note").hidden = $("city").value !== "baghdad";
   status("Verifying current planning revision and source-bound map context…");
   original = null; plan = null; layers = null; edits = [];
   for (const id of ["map", "layers", "line", "stop", "issues"]) $(id).replaceChildren();
@@ -501,11 +502,13 @@ try {
   if (manifest.schema !== "osr-current-planning-inputs/1" || manifest.selection_id !== currentManifest.selection_id || ["engineering_accepted", "physical_accepted", "installed_mass_complete", "manufacturing_release", "operating_release"].some((key) => manifest[key] !== false)) throw Error("Current planning publication identity differs");
   index = await json("index.json");
   if (index.selection_id !== currentManifest.selection_id || index.city_count !== index.cities.length || ["candidate_id", "body_candidate_id", "support_component_id", "propulsion_component_id"].some((key) => index.selected_candidate?.[key] !== currentManifest[key])) throw Error("Current city index differs from selected candidate");
-  $("city").replaceChildren(); for (const city of index.cities) option($("city"), city.city, city.label);
+  $("city").replaceChildren();
+  for (const city of index.cities)
+    option($("city"), city.city, city.city === "baghdad" ? `${city.label} · catalogue comparison` : city.label);
   const requestedCity = new URLSearchParams(location.search).get("city");
   const defaultCity = index.cities.some((city) => city.city === requestedCity)
     ? requestedCity
-    : index.cities.some((city) => city.city === "baghdad") ? "baghdad" : index.cities[0].city;
+    : index.cities.some((city) => city.city === "samawah") ? "samawah" : index.cities[0].city;
   $("city").value = defaultCity;
   $("city").disabled = false; await loadCity();
 } catch (error) { status("Planning held: " + error.message, true); }

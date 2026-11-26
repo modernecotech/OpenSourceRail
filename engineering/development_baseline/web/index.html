@@ -116,13 +116,25 @@
               <label>Daily operating hours<input name="operating_hours_per_day" type="number" min="1" max="24" step="any" value="18" required /></label>
               <label>Maximum added walk · metres<input name="maximum_added_walk_m" type="number" min="50" max="5000" value="500" required /></label>
               <label>Construction scope<select name="civil_policy"><option value="elevated">Elevated guideway and bridge crossings</option><option value="mapped-mixed-comparison">Compare mapped civil sections</option></select></label>
-              <label>Alignment comparison<select name="selection"><option value="auto">Compare compatible alternatives</option><option value="original">Original alignment</option><option value="anchor-preserving-chord-research">Straighter corridors</option><option value="rounded-four-edge-ring-research">Rounded square-ring concept</option></select></label>
+              <label>Alignment comparison<select name="selection"><option value="auto">Local through routes and connected network</option><option value="original">Original catalogue alignment</option><option value="anchor-preserving-chord-research">Straighter corridors</option><option value="rounded-four-edge-ring-research">Rounded square-ring concept</option></select></label>
               <label>Purchasing basis<select name="pricing_scenario"><option value="project-make-buy">Project-scale make or buy</option><option value="china-bulk-buy">China-origin bulk purchasing</option></select></label>
             </div>
             <button id="city-study-start" type="submit">Calculate service, costs and delivery plan</button>
             <p id="city-study-status" role="status" aria-live="polite">Recalculation runs locally with bounded resources and preserves the published outline.</p>
             <div id="city-study-result" hidden><p id="city-study-outcome"></p><nav id="city-study-links"></nav></div>
           </form>
+          <section id="baghdad-metropolitan-default" hidden aria-labelledby="baghdad-metropolitan-title">
+            <h3 id="baghdad-metropolitan-title">Baghdad metropolitan railway</h3>
+            <p id="baghdad-metropolitan-summary"></p>
+            <p><a href="../../../cities/Baghdad/METROPOLITAN-NETWORK.md">Network and passenger journeys</a> ·
+              <a href="../../../cities/Baghdad/METROPOLITAN-DELIVERY.md">Delivery and planning costs</a> ·
+              <a href="../../../cities/Baghdad/maps/baghdad-metropolitan-network.geojson">Route and station data</a></p>
+            <a href="../../../cities/Baghdad/maps/baghdad-metropolitan-network.png">
+              <img src="../../../cities/Baghdad/maps/baghdad-metropolitan-network.png" width="800"
+                loading="lazy" alt="Baghdad’s three rings and four cross-Tigris routes" />
+            </a>
+            <p><button type="button" id="baghdad-catalogue-study">Open the older catalogue comparison</button></p>
+          </section>
           <section id="city-atlas" hidden aria-label="Source-bound city network and calculated results"></section>
           <div class="city-outline-legacy">
           <dl id="city-outline-facts"></dl>
@@ -165,7 +177,7 @@
         <p>The current delivery plan prices 20 m shared-pier U-girders, two terminal yards per
           open main line, phased reuse of launching gantries, work shifts and traffic occupation.</p>
         <nav aria-label="Current Baghdad civil planning">
-          <a href="../../../cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md">Current quantities, costs and programme</a>
+          <a href="../../../cities/Baghdad/METROPOLITAN-DELIVERY.md">Current quantities, costs and programme</a>
           <a href="../../../cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md">Live stock, terminal yards and erection design</a>
         </nav>
         <details><summary>Open the separate scenario comparison</summary>

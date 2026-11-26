@@ -1,6 +1,6 @@
 # Baghdad 700-place train
 
-The Baghdad planning train carries 700 people in six cars and draws power from a protected conductor beside the track. The current delivery study uses paired 20 m U-girders on shared piers for standard bays. [Current delivery plan](STRAIGHT-THROUGH-DELIVERY.md) · [Vehicle calculation inputs](system.toml)
+The Baghdad planning train carries 700 people in six cars and draws power from a protected conductor beside the track. The current delivery study uses paired 20 m U-girders on shared piers for standard bays. [Current delivery plan](METROPOLITAN-DELIVERY.md) · [Vehicle calculation inputs](system.toml)
 
 ![Six-car train planning layout and door positions](vehicle-layout.svg)
 

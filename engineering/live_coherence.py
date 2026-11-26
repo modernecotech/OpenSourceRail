@@ -172,7 +172,8 @@ def check(root=ROOT):
 
     def record(entry, expected):
         path = entry["path"]
-        rows = _lookup(document(path), entry.get("scope", ""))
+        scope = entry.get("scope", "").replace("{value}", str(expected))
+        rows = _lookup(document(path), scope)
         for prefix, row in rows:
             location = f"{path}:{prefix + '.' if prefix else ''}"
             for key in entry.get("keys", []):
@@ -193,6 +194,7 @@ def check(root=ROOT):
             if "external" in entry:
                 other = entry["external"]
                 for key, other_key in other["matches"].items():
+                    other_key = other_key.replace("{value}", str(expected))
                     require(_one(row, key) == _one(document(other["path"]), other_key), location + key,
                             f"does not match {other['path']}:{other_key}")
             if "path_key" in entry:
@@ -204,8 +206,7 @@ def check(root=ROOT):
                 if key in entry.get("verify_all_sources", []):
                     dependencies.update(hashes)
                 verify_hashes(hashes, dependencies, location + key, "regenerate this record")
-        require(bool(rows), path,
-                f"no records matched {entry.get('scope', '')!r}")
+        require(bool(rows), path, f"no records matched {scope!r}")
 
     def reader(entry, expected):
         path = entry["path"]

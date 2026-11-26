@@ -30,7 +30,7 @@ The repository also retains a native FUXA screen from the earlier business pilot
 
 ![Annual paid trips and average fare entered in the working fare calculator](fare-scenario.png)
 
-**Baghdad design and cost.** Use the current projected track, fleet, working hours and costs on the selected mapped route. The standard recurring form is **20 m U-girders on shared piers**. The civil record shows curved and closure pieces and the holds for individual works. [Metropolitan delivery estimates](../../../cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md) · [Stock and erection basis](../../../cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md)
+**Baghdad design and cost.** Use the current projected track, fleet, working hours and costs on the selected mapped route. The standard recurring form is **20 m U-girders on shared piers**. The civil record shows curved and closure pieces and the holds for individual works. [Metropolitan delivery estimates](../../../cities/Baghdad/METROPOLITAN-DELIVERY.md) · [Stock and erection basis](../../../cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md)
 
 ## Workshops and maintenance
 

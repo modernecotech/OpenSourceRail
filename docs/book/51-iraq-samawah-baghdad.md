@@ -49,18 +49,18 @@ visible: the apparent density of coloured routes is useful only if
 passengers can make practical, accessible connections and if the service
 pattern supports them.
 
-![Baghdad route planning outline](images/city-baghdad.webp)
+![Baghdad's active network with three rings and four cross-Tigris trunks](../../cities/Baghdad/maps/baghdad-metropolitan-network.png)
 
 *Calculated Baghdad route outline. Alignment and access are unsurveyed;
 the interchange symbols do not approve station construction.*
 
-The current metropolitan proposal uses an inner ring, an outer ring and
-two almost straight services across the Tigris. Each through service
-connects to both rings at shared passenger stations. A 1.3 km street walk
+The current metropolitan proposal uses three rings and four cross-Tigris
+trunks. Each trunk connects to all three rings at shared passenger stations.
+A 1.3 km street walk
 and housing trips with up to two changes provide the access comparison.
 The same route and station register drives the capital, operating and
 delivery allowances, including curved-girder fabrication and both-end
-launching work orders. [Current Baghdad study and map](../../cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md)
+launching work orders. [Current Baghdad study and map](../../cities/Baghdad/METROPOLITAN-NETWORK.md)
 
 The size of the Baghdad proposal multiplies uncertainty. A model can
 calculate line times, fleet and cost for its declared network, but a city

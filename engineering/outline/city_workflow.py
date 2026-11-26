@@ -16,7 +16,7 @@ except ImportError:  # pragma: no cover - city worker resource limits are Unix-o
 from engineering.station_rail import ROOT
 from engineering.station_rail.common import digest,encoded,identity
 from . import coordinator,completion,city_inputs,city_alignment,city_service,city_project_cost
-from . import network_policy, publication_cache
+from . import city_metropolitan, network_policy, publication_cache
 
 PRODUCER='engineering/outline/city_workflow.py'
 _SELF_SHA=digest(__file__)
@@ -35,6 +35,33 @@ ARTIFACTS={'request.json','result.json','summary.json','planning.json','delivery
            'business-drafts.json','alignments.geojson','performance.json','manifest.json'}
 MAX_PARENT_SNAPSHOT_BYTES=32*1024**2
 GZIP_ARTIFACTS={'result.json','delivery-plan.json','business-drafts.json'}
+
+ACTIVE_BAGHDAD = {
+    'record': '/cities/Baghdad/metropolitan-network.json',
+    'network': '/cities/Baghdad/METROPOLITAN-NETWORK.md',
+    'delivery': '/cities/Baghdad/METROPOLITAN-DELIVERY.md',
+    'geography': '/cities/Baghdad/maps/baghdad-metropolitan-network.geojson',
+}
+
+
+def uses_active_baghdad(request):
+    """Identify a fresh automatic request for the dedicated Baghdad project."""
+    return (isinstance(request, dict) and request.get('city_slug') == 'baghdad'
+            and request.get('selection', 'auto') == 'auto'
+            and not {'base_plan', 'base_study_id', 'base_seed_id'}.intersection(request))
+
+
+def active_baghdad_response(request):
+    """Select the project packet without inheriting catalogue train assumptions."""
+    request = normalize(request)
+    if (request['service'] or request['alignment'] or request['project']
+            or request.get('civil_policy') != 'elevated'
+            or request.get('expected_outline_evaluation_id')):
+        raise ValueError(
+            'Use the Baghdad metropolitan route study for project edits, or explicitly request '
+            'the original catalogue alignment for a separate outline comparison.')
+    return dict(schema='osr-city-study-project-publication/1', state='published',
+                city_slug='baghdad', links=ACTIVE_BAGHDAD, **FLAGS)
 
 
 def stored_name(name):
@@ -124,12 +151,13 @@ def normalize(value):
 
 def _sources(root):
     if digest(Path(root)/PRODUCER)!=_SELF_SHA:raise ValueError('Loaded city workflow changed; restart its worker')
-    if any(digest(Path(root)/name)!=sha for name,sha in network_policy.SOURCE_SHA256.items()):
+    planning_sources={**network_policy.SOURCE_SHA256, **city_metropolitan.SOURCE_SHA256}
+    if any(digest(Path(root)/name)!=sha for name,sha in planning_sources.items()):
         raise ValueError('Loaded network planning sources changed; restart its worker')
     names=(PRODUCER,'engineering/outline/planning_adapter.py','engineering/outline/planning_geometry.py',
         'engineering/outline/revision_service.py','engineering/outline/delivery_plan.py',
         'services/integration/osr_integration/city_outline.py','engineering/outline/city_worker.py')
-    return {**{n:digest(Path(root)/n) for n in names},**network_policy.SOURCE_SHA256}
+    return {**{n:digest(Path(root)/n) for n in names},**planning_sources}
 
 
 def _rules(previous,request):
@@ -321,6 +349,10 @@ def evaluate(request,root=ROOT,*,study_store=None,parent=None):
     if automatic:
         original = proposals[0]['city_input']
         network_context = network_policy.prepare(original, root)
+        alternatives, metropolitan_search = city_metropolitan.search(
+            original, network_context['applicability'],
+            allow_line_changes=not (rules.get('line_peak_demand_pphpd') or rules.get('propulsion_policy_by_line')))
+        proposals = [*proposals, *alternatives]
     cases=[]
     for proposal in proposals:
         inputs=_civil_input(proposal['city_input'],rules['civil_policy'])
@@ -343,6 +375,8 @@ def evaluate(request,root=ROOT,*,study_store=None,parent=None):
     chosen, planning_status = network_policy.choose(cases, passing, automatic=automatic)
     recommended = chosen in passing and planning_status != 'requires-revision'
     network_planning = dict(status=planning_status, **cases[chosen].get('network_planning', {}))
+    if automatic:
+        network_planning['metropolitan_search'] = metropolitan_search
     selected=deepcopy(cases[chosen]['record'])
     # Project configuration includes the actual fleet and platform/civil resource
     # quantities; prices and evidence identities remain separate.
@@ -409,6 +443,7 @@ def summary(value):
         service_lines=[dict(line_id=r['line_id'],headway_s=r['requirements']['headway_s'],
             trainsets=r['service']['total_trainsets'],propulsion=r['propulsion_hypothesis']['kind']) for r in services],
         cases=[dict(kind=c['kind'],alignment_id=c['alignment_id'],functional_screen=c['functional_screen'],
+            selection_eligibility=c['selection_eligibility'],
             installed_capital_usd=c['record']['cost']['installed_capital_usd'],
             whole_life_npv_usd=c['record']['cost']['whole_life_npv_usd']) for c in value['cases']],
         delivery_plan_id=value['delivery_plan']['plan_id'],business_draft_id=value['business_drafts']['draft_id'],

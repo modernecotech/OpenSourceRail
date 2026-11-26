@@ -4,31 +4,31 @@
 
 <!-- current housing budget -->
 
-**Current metropolitan budget case.** 784.11 km of distinct mapped guideway, 1,568.22 running-track km and 641 station sites. The base installed planning allowance is **US$43.12bn**, with low and high cases of US$30.21bn and US$65.82bn. The standard casting, haul and erection envelope uses 6.26 million paid hours. [Quantities, labour and costs](STRAIGHT-THROUGH-DELIVERY.md) · [Network study and map](STRAIGHT-THROUGH-NETWORK.md)
+**Current metropolitan planning case.** 350.25 km of distinct mapped guideway, 700.51 running-track km and 256 station sites. The base installed planning allowance is **US$17.53bn**. Standard casting, haul and erection account for 2.82 million paid hours. [Quantities, labour and costs](METROPOLITAN-DELIVERY.md) · [Network and map](METROPOLITAN-NETWORK.md)
 
 <!-- end current housing budget -->
 
 ## The railway and its passengers
 
-The elevated route joins the central districts, outer ring and Airport in one network. Two direct lines cross the Tigris and share stations with both rings. The access comparison tests a 1.3 km street walk at each end and a maximum of two changes for trips from housing to named centres. The route set can change when a tested layout improves access, connections or delivery. [Network, journeys and GIS](STRAIGHT-THROUGH-NETWORK.md) · [Three-ring suburban through journeys](THREE-RING-STUDY.md)
+The planning network joins three rings and four cross-Tigris trunks at shared passenger stations. It carries suburban passengers through the city from Basmaya, Nahrawan and Tajiyat. The access comparison tests a 1.3 km street walk at each end and up to two changes for trips to named centres. [Network, journeys and GIS](METROPOLITAN-NETWORK.md) · [Layout and access comparisons](THREE-RING-STUDY.md)
 
-![Outer-ring transfers and cross-city suburban services on the same scale](maps/baghdad-three-ring-comparison.png)
+![Baghdad's active three-ring and cross-Tigris metropolitan planning network](maps/baghdad-metropolitan-network.png)
 
-*The left map shows the suburb-to-ring transfer case. The right map shows services that bring suburban passengers through Baghdad. The study compares one-seat journeys, walking access, construction quantities and costs. The two-ring route set linked above supplies the budget.*
+*T01 runs between the Airport and Nahrawan. T02 serves Tajiyat and Basmaya. The three named suburbs are within a 1.3 km street walk of a through service. Coverage and access gaps remain in the planning study.*
 
 ## Programme, service and lifecycle costs
 
 <!-- current route programme -->
 
-The two screened through services cross the Tigris and run from beyond one side of the outer ring to beyond the other. Both connect to the inner and outer rings at shared passenger stations. The new railway bridges follow mapped road bridge approaches and require their own designs. The two-track geometry inventory identifies **2,382 candidate curved girder pieces** and 269.27 service-route km of station, water, turnout, shared running or bend and closure interfaces needing further geometry.
+The active layout has 4 cross-Tigris trunks and 3 rings. The planning inventory identifies **1,560 curved girder pieces** and **34.68 service-route km** of interfaces that need detailed geometry and engineering.
 
 | 2026 planning scope | Low | Base | High |
 |---|---:|---:|---:|
-| Installed allowance | US$30.21bn | US$43.12bn | US$65.82bn |
-| Annual operation | US$1.03bn | US$1.16bn | US$1.28bn |
-| 30-year present cost | US$50.11bn | US$65.94bn | US$92.05bn |
+| Installed allowance | US$12.28bn | US$17.53bn | US$26.82bn |
+| Annual operation | US$0.43bn | US$0.49bn | US$0.54bn |
+| 30-year present cost | US$20.56bn | US$27.11bn | US$37.88bn |
 
-The six-minute operating allowance needs 581 trainsets including reserves, 241 nominal supply sites and 2,192.9 GWh per year. The standard erection, special beam and full operating schedules show their own included work. The project opening date remains open pending the complete route and construction programme. [Delivery programme](STRAIGHT-THROUGH-DELIVERY.md) · [Beam designs and work orders](engineering/mechanical/civil/CURVED-BEAM-PROGRAMME.md)
+The six-minute costing offer uses 227 trainsets including reserves, 104 nominal supply sites and 978.3 GWh per year. The project opening date depends on the complete construction and commissioning programme. [Delivery programme](METROPOLITAN-DELIVERY.md) · [Beam designs and work orders](engineering/mechanical/civil/CURVED-BEAM-PROGRAMME.md)
 
 <!-- end current route programme -->
 
@@ -58,7 +58,7 @@ The Baghdad pricing reference uses a six-car powered-wheel train with six 17 m c
 
 ## Viaduct construction from both ends
 
-Recurring bays use **20 m U-girders on shared piers**. Two terminal yards feed two inward-moving gantries on an eligible open line. Each nominal yard needs **16 moulds**, **24 released-stock positions** and a **216 × 164 m** site. The works comparison allows **three paired launcher crews, two road teams and eight concurrent yards**. Foundation and column access, station works, bridges, starters and special lifts have separate scopes. [Live stock and yard specification](engineering/mechanical/civil/LIVE-STOCK.md) · [Route-level work orders](STRAIGHT-THROUGH-DELIVERY.md)
+Recurring bays use **20 m U-girders on shared piers**. Two terminal yards feed two inward-moving gantries on an eligible open line. Each nominal yard needs **16 moulds**, **24 released-stock positions** and a **216 × 164 m** site. The works comparison allows **three paired launcher crews, two road teams and eight concurrent yards**. Foundation and column access, station works, bridges, starters and special lifts have separate scopes. [Live stock and yard specification](engineering/mechanical/civil/LIVE-STOCK.md) · [Route-level work orders](METROPOLITAN-DELIVERY.md)
 
 ![A launcher places a deck-fed U-girder while the street runs below](../../docs/assets/assembly-animations/viaduct-placement.jpg)
 
@@ -90,7 +90,7 @@ Request local tenders for civil stock, carbody work, stations, installation, ins
 
 ### What the city would need to pay
 
-Use the installed, recurring and present-cost results above as planning allowances. Construction cash depends on land and utility release, route phasing, common equipment commitments, supplier payment terms, training and the safely deliverable opening sequence. Assess fare and public-service contributions using locally measured demand. [Current scope and price cases](STRAIGHT-THROUGH-DELIVERY.md)
+Use the installed, recurring and present-cost results above as planning allowances. Construction cash depends on land and utility release, route phasing, common equipment commitments, supplier payment terms, training and the safely deliverable opening sequence. Assess fare and public-service contributions using locally measured demand. [Current scope and price cases](METROPOLITAN-DELIVERY.md)
 
 Ask each bidder for a delivered cash price and a financed price against the same components, service, renewals, warranty, imported scope and domestic content. Require editable interfaces, tooling rights and a witnessed local repair trial where these are part of the offer. [Matching bidder returns](PROCUREMENT.md)
 

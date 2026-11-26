@@ -55,13 +55,13 @@ For a different planning question, compare how Amman’s terrain and Karachi’s
 
 A planning team can export route, stop, service and origin–destination edits, then compile and verify the proposal against its input revision. A separate city calculation carries the revised plan into fleet, section capacity, civil quantities and cost. Compare propulsion or construction assumptions while keeping demand and service fixed, or change the service and compare the fleet and capacity it requires. [Proposal and recalculation commands](docs/workbench/planning/README.md) · [City atlas and source data](docs/design-engine/city-atlas/README.md)
 
-Baghdad’s active proposal joins a central ring and a metropolitan ring with two near-straight Tigris through services. Each new line crosses both rings and shares stations with each. The study compares 1.3 km street-walking access and trips from housing to named centres with up to two changes. The same route register drives the fleet, power, yards, construction, labour and costs. [Illustrated Baghdad study](cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md) · [Delivery and costs](cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md) · [Curved-girder drawings and work orders](cities/Baghdad/engineering/mechanical/civil/CURVED-BEAM-PROGRAMME.md)
+Baghdad’s active proposal links three rings with four cross-Tigris trunks. Suburban passengers from Basmaya, Nahrawan and Tajiyat can stay aboard across the city. The same route register drives the fleet, power, yards, construction, labour and costs. [Illustrated Baghdad plan](cities/Baghdad/METROPOLITAN-NETWORK.md) · [Delivery and costs](cities/Baghdad/METROPOLITAN-DELIVERY.md) · [Curved-girder drawings and work orders](cities/Baghdad/engineering/mechanical/civil/CURVED-BEAM-PROGRAMME.md)
 
 Baghdad’s three-ring study fits the rings to population and streets. It compares separate suburb-to-ring services with routes that carry those passengers through Baghdad and across the Tigris. It shows which central destinations Basmaya, Nahrawan and Tajiyat can reach without changing trains, alongside 1.3 km walking coverage, construction quantities, labour and costs. [Population-led network study](cities/Baghdad/THREE-RING-STUDY.md) · [Shared metropolitan planning method](docs/design-engine/current/METROPOLITAN-NETWORKS.md)
 
-[![Baghdad’s outer-ring transfers and cross-city suburban services compared at the same scale](cities/Baghdad/maps/baghdad-three-ring-comparison.png)](cities/Baghdad/THREE-RING-STUDY.md)
+[![Baghdad’s active metropolitan plan with three rings and four cross-Tigris trunks](cities/Baghdad/maps/baghdad-metropolitan-network.png)](cities/Baghdad/METROPOLITAN-NETWORK.md)
 
-New automatic city studies check directness, river crossings and shared ring stations against available maps. The same policy runs in Workbench and under `./osr design railway city-study`. The study report identifies where the local data supports only a corridor revision.
+Automatic city studies test new through services and connected layouts using each city’s mapped corridors and transfer stations. Workbench and `./osr design railway city-study` use the same method. The study shows which proposals have enough local walking, population and destination evidence for a metropolitan comparison.
 
 ## Timetables and train motion
 
@@ -126,7 +126,7 @@ an open main line. Each yard has **16 moulds**, **24 released-beam positions**
 and a proposed **216 × 164 m** footprint. Each line can start independently,
 or share gantries with later lines. The citywide ring, short branches and
 reserved connections carry their own access and delivery assumptions.
-[Metropolitan quantities, shifts and lifecycle costs](cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md)
+[Metropolitan quantities, shifts and lifecycle costs](cities/Baghdad/METROPOLITAN-DELIVERY.md)
 
 The standard-stock comparison allocates **three paired launcher crews and
 two road teams** across **eight concurrent yards**. Deck feed reduces
@@ -291,7 +291,7 @@ Other useful entry points from the repository root include these commands.
 | `./osr twin export` | Inspect the selected candidate's linked geometry, BOM, civil, purchasing and controls outputs. [Export index](docs/design-engine/current/exports/manifest.json) |
 | `./osr design railway spans --route-km 20` | Compare installed civil and erection assumptions for a 20 km example. [Span-family basis](cities/Baghdad/engineering/mechanical/civil/SPAN-FAMILIES.md) |
 | `./osr workplan --output build/workforce` | Price role-by-shift workloads, test coverage and export a CSV and Arrow-compatible Parquet table. [Workforce and delivery plan](docs/operator-review/delivery/WORKFORCE-SIMULATION.md) |
-| `./osr design railway baghdad-delivery` | Read the live metropolitan plan, quantities, shifts, fleet and costs. Add `--json` for the machine record. [Current programme](cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md) |
+| `./osr design railway baghdad-delivery` | Read the live metropolitan plan, quantities, shifts, fleet and costs. Add `--json` for the machine record. [Current programme](cities/Baghdad/METROPOLITAN-DELIVERY.md) |
 | `./osr design railway rail-fed --route-km 20` | Compare road delivery with deck-fed gantries, including costs, shift hours and street occupation. [Erection comparison](cities/Baghdad/engineering/mechanical/civil/RAIL-FED-ERECTION.md) |
 | `python3 -m engineering.assurance.standards --impact` | Identify controls affected by changes since the published standards evidence report. [Evidence review](docs/certification/README.md) |
 

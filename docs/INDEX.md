@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **265**.
+Indexed Markdown files: **259**.
 
 ## Sections
 
@@ -20,7 +20,7 @@ Indexed Markdown files: **265**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
-| [cities](#cities) | 92 |
+| [cities](#cities) | 86 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
 | [docs](#docs) | 140 |
@@ -57,28 +57,22 @@ Indexed Markdown files: **265**.
 | [`cities/Baghdad/AIRPORT-OPENING.md`](../cities/Baghdad/AIRPORT-OPENING.md) | Opening the Baghdad Airport corridor |
 | [`cities/Baghdad/BUYER-COMPARISON.md`](../cities/Baghdad/BUYER-COMPARISON.md) | Baghdad bidder comparison for the seven-corridor estimate |
 | [`cities/Baghdad/CENTRAL-ACCESS.md`](../cities/Baghdad/CENTRAL-ACCESS.md) | Central Baghdad passenger access review |
-| [`cities/Baghdad/CENTRAL-RING-NETWORK.md`](../cities/Baghdad/CENTRAL-RING-NETWORK.md) | Baghdad central ring, junctions and parallel routes |
 | [`cities/Baghdad/CITYWIDE-SERVICE.md`](../cities/Baghdad/CITYWIDE-SERVICE.md) | Baghdad 14-route clockface trial |
 | [`cities/Baghdad/COST-AND-DELIVERY.md`](../cities/Baghdad/COST-AND-DELIVERY.md) | Baghdad system cost and delivery |
 | [`cities/Baghdad/IRAQ-CAPITAL.md`](../cities/Baghdad/IRAQ-CAPITAL.md) | What the Baghdad networks could cost to build |
 | [`cities/Baghdad/IRAQ-ESTIMATES.md`](../cities/Baghdad/IRAQ-ESTIMATES.md) | What Baghdad would pay to run the railway |
 | [`cities/Baghdad/IRAQ-POWER.md`](../cities/Baghdad/IRAQ-POWER.md) | Buying traction electricity and equipment in Iraq |
+| [`cities/Baghdad/METROPOLITAN-DELIVERY.md`](../cities/Baghdad/METROPOLITAN-DELIVERY.md) | Baghdad metropolitan railway · Quantities, work programme and costs |
+| [`cities/Baghdad/METROPOLITAN-NETWORK.md`](../cities/Baghdad/METROPOLITAN-NETWORK.md) | Baghdad metropolitan railway |
 | [`cities/Baghdad/NETWORK-DELIVERY.md`](../cities/Baghdad/NETWORK-DELIVERY.md) | Baghdad housing network delivery and cost |
-| [`cities/Baghdad/NETWORK.md`](../cities/Baghdad/NETWORK.md) | Baghdad metropolitan rail network |
 | [`cities/Baghdad/OPERATING-ALTERNATIVES.md`](../cities/Baghdad/OPERATING-ALTERNATIVES.md) | Baghdad opening operating alternatives |
 | [`cities/Baghdad/PROCUREMENT.md`](../cities/Baghdad/PROCUREMENT.md) | Baghdad metropolitan procurement |
 | [`cities/Baghdad/PROPOSAL.md`](../cities/Baghdad/PROPOSAL.md) | OpenSourceRail Baghdad metropolitan railway |
 | [`cities/Baghdad/README.md`](../cities/Baghdad/README.md) | Baghdad metropolitan railway |
-| [`cities/Baghdad/RING-GRID.md`](../cities/Baghdad/RING-GRID.md) | Baghdad ring-and-grid network comparison |
-| [`cities/Baghdad/RING-NETWORK.md`](../cities/Baghdad/RING-NETWORK.md) | Baghdad railway routes that serve both rings |
 | [`cities/Baghdad/SERVICE-DIAGRAMS.md`](../cities/Baghdad/SERVICE-DIAGRAMS.md) | Baghdad passenger service and train workings |
-| [`cities/Baghdad/SPACED-RINGS.md`](../cities/Baghdad/SPACED-RINGS.md) | Baghdad compact rings and through routes |
-| [`cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md`](../cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md) | Baghdad metropolitan railway · Quantities, work programme and costs |
-| [`cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md`](../cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md) | Baghdad metropolitan railway · Rings and Tigris through services |
 | [`cities/Baghdad/THREE-RING-STUDY.md`](../cities/Baghdad/THREE-RING-STUDY.md) | Baghdad · Population-led rings and cross-city trunks |
 | [`cities/Baghdad/TRAIN-AND-STATION.md`](../cities/Baghdad/TRAIN-AND-STATION.md) | Baghdad 700-place train |
 | [`cities/Baghdad/VEHICLE.md`](../cities/Baghdad/VEHICLE.md) | Baghdad 700-place train |
-| [`cities/Baghdad/WIDER-RING.md`](../cities/Baghdad/WIDER-RING.md) | Baghdad wider inner ring |
 | [`cities/Baghdad/engineering/commissioning/COMMISSIONING.md`](../cities/Baghdad/engineering/commissioning/COMMISSIONING.md) | Airport traction and station commissioning |
 | [`cities/Baghdad/engineering/controls/AIRPORT-ATP.md`](../cities/Baghdad/engineering/controls/AIRPORT-ATP.md) | Authority and stopping sensitivity on the corrected Airport alignment |
 | [`cities/Baghdad/engineering/controls/README.md`](../cities/Baghdad/engineering/controls/README.md) | Baghdad train and station electrical interfaces |

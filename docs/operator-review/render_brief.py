@@ -16,7 +16,7 @@ from reportlab.platypus import Paragraph
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 URL = "https://github.com/modernecotech/OpenSourceRail/blob/main/"
-NETWORK = ROOT / "cities/Baghdad/straight-through-network.json"
+NETWORK = ROOT / "cities/Baghdad/metropolitan-network.json"
 OUTPUT = HERE / "OpenSourceRail-Operator-Brief.pdf"
 sources = {Path(__file__).resolve(), NETWORK}
 baghdad = json.loads(NETWORK.read_text())
@@ -135,14 +135,14 @@ table(35,160,[490,400],['Planning quantity','Baghdad metropolitan'],[
     ['Base installed planning allowance', f"US${base_cost['installed_planning_usd_m']/1000:.2f} billion"],
     ['Base annual operation', f"US${base_cost['annual_operations_total_usd_m']/1000:.2f} billion"]],39)
 para(37,492,862,'Confirm route geometry, accessibility, safe separation and peak power. Obtain contractor prices for river structures and special interfaces.',12.4)
-link('Service, works and lifecycle costs','../../cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md')
+link('Service, works and lifecycle costs','../../cities/Baghdad/METROPOLITAN-DELIVERY.md')
 start('Baghdad / location', 'One connected route and station plan',
-      'The network joins two rings with cross-Tigris corridors and an Airport service.')
-picture('../../cities/Baghdad/maps/baghdad-straight-through-network.png', 35, 138, 510, 401)
+      'Three rings and four cross-Tigris trunks serve the Airport, Nahrawan, Tajiyat and Basmaya.')
+picture('../../cities/Baghdad/maps/baghdad-metropolitan-network.png', 35, 138, 510, 401)
 point(564,152,344,'Passenger access','Check housing-to-centre journeys, the Airport entrance and shared platforms. Survey street approaches, step-free transfer routes and egress.')
 point(564,279,344,'Delivery packages','Set the working zones and access routes for support construction, terminal yards, station work, special crossings and the finished deck.')
 point(564,403,344,'Network changes','Test rerouted or withdrawn lines against the same walk threshold, origin and destination samples, and scheduled train-km.')
-link('Metropolitan alignment and passenger evidence','../../cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md')
+link('Metropolitan alignment and passenger evidence','../../cities/Baghdad/METROPOLITAN-NETWORK.md')
 link('Alternative networks','../../cities/Baghdad/THREE-RING-STUDY.md',610)
 start('Design / rolling stock','Inspect the bogie and carbody',
       'The design viewer links each selected component to the drawing or schedule behind it. Inspect a train at the station, then switch to a single assembly.')
@@ -185,7 +185,7 @@ table(35,160,[360,175,175,180],['US$ billion','Low','Base','High'],[
                       ('whole_life_present_usd_m','30-year present cost')]],62)
 point(36,429,416,'Funding needs','Build annual draws from the purchasable scope and dated opening phases. Model fare receipts, borrowing fees, currency and public-service obligations with dated local inputs.')
 point(491,429,416,'Scope still open','Obtain prices for river crossings, special structures and site-specific access before relying on a total construction cash requirement.')
-link('Matched base scope and lifecycle quantities','../../cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md')
+link('Matched base scope and lifecycle quantities','../../cities/Baghdad/METROPOLITAN-DELIVERY.md')
 start('Build / vehicle works','Lay out the assembly and repair shops',
       'Price a repeatable factory module against the modelled fleet orders. Frame fixtures, inspection points, bogie access and a separate repair road need space before the first car arrives.')
 two_column_figure('delivery/vehicle-works.svg',[

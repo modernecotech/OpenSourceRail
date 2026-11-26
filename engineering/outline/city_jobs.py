@@ -508,7 +508,11 @@ def handle_api(handler):
             if (handler.headers.get('Content-Type','').split(';')[0]!='application/json'
                     or not length.isdecimal() or not 0<int(length)<=MAX_REQUEST):
                 raise ValueError('Bounded application/json city request required')
-            status=service.submit(_json(handler.rfile.read(int(length))))
+            request=_json(handler.rfile.read(int(length)))
+            if city_workflow.uses_active_baghdad(request):
+                handler.respond(200,city_workflow.active_baghdad_response(request))
+                return True
+            status=service.submit(request)
             handler.respond(429 if status.get('busy') else 200 if status['state']=='completed' else 202,status)
         elif path=='/api/city-studies':
             handler.respond(200,dict(schema='osr-city-study-options/1',selections=list(city_workflow.SELECTIONS),

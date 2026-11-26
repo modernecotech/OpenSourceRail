@@ -172,6 +172,37 @@ sources = ["civil/source.py"]
         self.write("published.html", "<p>10 m stock</p>\n")
         self.assertIn("published.html: differs from the maintained reader source.html", check(self.root).errors[0])
 
+    def test_planning_layout_controls_active_record_and_study_lookup(self):
+        self.write(REGISTER, (self.root / REGISTER).read_text() + """
+[[spec]]
+id = "planning-layout"
+source = "default.toml"
+key = "layout"
+
+[[spec.record]]
+path = "active.json"
+keys = ["layout"]
+fixed = { physical_acceptance = false }
+external = { path = "study.json", matches = { candidate_id = "layouts.{value}.candidate_id" } }
+
+[[spec.record]]
+path = "study.json"
+scope = "layouts.{value}"
+keys = ["layout"]
+""")
+        self.write("default.toml", 'layout = "through-trunks"\n')
+        self.write("study.json", json.dumps({
+            "layouts": {
+                "through-trunks": {"layout": "through-trunks", "candidate_id": "active-candidate"},
+                "ring-feed": {"layout": "ring-feed", "candidate_id": "comparison-candidate"},
+            },
+        }))
+        active = {"layout": "through-trunks", "candidate_id": "active-candidate", "physical_acceptance": False}
+        self.write("active.json", json.dumps(active))
+        self.assertEqual(check(self.root).errors, [])
+        self.write("active.json", json.dumps(active | {"candidate_id": "comparison-candidate"}))
+        self.assertIn("does not match study.json:layouts.through-trunks.candidate_id", check(self.root).errors[0])
+
 
 if __name__ == "__main__":
     unittest.main()

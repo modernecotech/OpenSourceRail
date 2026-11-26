@@ -3,10 +3,11 @@
 <title>OpenSourceRail city planning proposal</title><link rel="stylesheet" href="../current/app.css"><link rel="stylesheet" href="planning.css"></head>
 <body><header><p class="eyebrow">OpenSourceRail · city planning</p><h1>Plan, revise and hand off</h1>
 <p>Inspect source-bound city context, propose route, stop, service and OD changes, and export a revision for review against the selected v0.6 candidate. Mapped features are geographic references, not surveyed alignments or engineering results.</p>
-<nav><a href="../current/">v0.6 Engineering Workbench</a><a href="../../design-engine/current/README.md">Selected v0.6 candidate</a><a href="../../design-engine/current/exports/manifest.json">Candidate delivery exports</a></nav></header>
+<nav><a href="../current/">Engineering Workbench</a><a href="../current/?outlineCity=baghdad">Current Baghdad metropolitan plan</a><a href="../../design-engine/current/README.md">Selected v0.6 candidate</a><a href="../../design-engine/current/exports/manifest.json">Candidate delivery exports</a></nav></header>
 <main><p class="notice">Provisional planning. No construction release, purchasing authority, movement authority or physical handback.</p>
 <p id="status" role="status">Loading current source-bound city geography…</p>
 <section><h2>City and revision</h2><label for="city">City</label><select id="city" disabled></select><p id="revision"></p>
+<p id="baghdad-catalogue-note" hidden>This is the earlier Baghdad catalogue comparison under the v0.6 candidate. <a href="../../../cities/Baghdad/maps/baghdad-metropolitan-network.geojson">Download the current metropolitan routes and stations for the Baghdad study</a>.</p>
 <div class="planning-layout"><aside><h3>Geographic layers</h3><div id="layers"></div><p>Current city map layers are source-verified context for route review. Routes, stops, buildings, roads, water and places are not surveyed alignments, approved station sites or verified right-of-way.</p><div id="map-context-attribution" aria-label="Map data attribution"></div></aside>
 <figure><svg id="map" viewBox="0 0 1000 700" role="img" aria-label="Editable city planning geography"></svg><figcaption id="map-caption"></figcaption></figure></div></section>
 <section><h2>Station and service proposal</h2><div class="edit-grid"><label>Line<select id="line" disabled></select></label><label>Stop<select id="stop" disabled></select></label>

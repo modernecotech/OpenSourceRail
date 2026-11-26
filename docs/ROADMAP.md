@@ -8,7 +8,7 @@ Start with the [stakeholder partnership plan](operator-review/PARTNERSHIP-PLAN.m
 
 The [railway delivery workplan](operator-review/WORKPLAN.md) assigns the first twelve weeks of core and Baghdad work to operators, engineers, local manufacturers and sponsors. Use the [operator briefing and design twins](operator-review/README.md) to review the proposals with them.
 
-The [Baghdad metropolitan network](../cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md) connects the Airport, central ring and outer ring through explicit shared interchanges and two direct Tigris routes. Its planning prices, shift schedules and curved-beam takeoffs use the same mapped network. [Current quantities and delivery](../cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md) Detailed service, site and construction checks are the next development stage.
+The Baghdad metropolitan network joins the Airport and three named suburbs through shared interchanges, three rings and four cross-Tigris trunks. Its planning prices, shift schedules and curved-beam takeoffs use the same mapped network. Detailed service, site and construction checks remain open. [Network](../cities/Baghdad/METROPOLITAN-NETWORK.md) · [Current quantities and delivery](../cities/Baghdad/METROPOLITAN-DELIVERY.md)
 
 The [Airport GIS simulation](../cities/Baghdad/engineering/simulation/GIS-SIMULATION.md) shows how public terrain, soil and water layers can replace uniform desktop inputs and drive simulated construction quantities, operating cases and whole-life costs.
 

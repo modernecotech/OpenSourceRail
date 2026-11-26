@@ -1,6 +1,6 @@
 # Building and staffing the Baghdad railway
 
-The current work orders use the mapped metropolitan route, the six-minute costing offer and recurring **20 m U-girders on shared piers**. The standard-stock plan covers **6.26 million paid hours** for casting, haul and erection. Use the candidate’s machine record for route-specific cash allowances, mould occupation, civil quantities and crews by role and shift. [Delivery and costs](../../../cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md) · [Live stock and pricing basis](../../../cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md)
+The current work orders use the mapped metropolitan route, the six-minute costing offer and recurring **20 m U-girders on shared piers**. The standard-stock plan covers **2.82 million paid hours** for casting, haul and erection. Use the candidate’s machine record for route-specific cash allowances, mould occupation, civil quantities and crews by role and shift. [Delivery and costs](../../../cities/Baghdad/METROPOLITAN-DELIVERY.md) · [Live stock and pricing basis](../../../cities/Baghdad/engineering/mechanical/civil/LIVE-STOCK.md)
 
 ## Precast yard, stock and erection
 
@@ -12,7 +12,7 @@ Each terminal yard needs **16 moulds**, **24 released-stock positions** and **21
 
 ![Vehicle works with frame assembly, fitting, inspection and a separate repair road](vehicle-works.svg)
 
-Lay out fabrication, painting, fitout, wiring, weighing and final inspection, with a way to move a defective vehicle to the repair road. The cost envelope includes **581 trainsets with reserves**, or **3,486 cars**. Set delivery and ramp-up windows from the route opening sequence and price independent tooling, peak shared work, rework and supervision. Time one repeat car and a bogie exchange to check hours, staffing and lift access. [Vehicle workcells and technology survey](../../../cities/Baghdad/engineering/prototype/rapid-production/README.md)
+Lay out fabrication, painting, fitout, wiring, weighing and final inspection, with a way to move a defective vehicle to the repair road. The cost envelope includes **227 trainsets with reserves**, or **1,362 cars**. Set delivery and ramp-up windows from the route opening sequence and price independent tooling, peak shared work, rework and supervision. Time one repeat car and a bogie exchange to check hours, staffing and lift access. [Vehicle workcells and technology survey](../../../cities/Baghdad/engineering/prototype/rapid-production/README.md)
 
 ## Employment, training and release
 

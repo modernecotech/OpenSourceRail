@@ -2,11 +2,11 @@
 
 The central ring encloses the mapped central districts on a convex alignment. The middle and outer rings are each fitted to residential population and the mapped walking network. Their separation varies around the city. The trunk search compares direct cross-city alignments from opposite sides of the outer ring. It checks tagged bridge approaches and possible new crossings against mapped river geometry.
 
-The two-ring reference still supplies the proposal’s budget. The three-ring comparison shows the benefits of a simpler network and the districts where its access or journeys still fall short.
+The two-ring layout is the comparison benchmark. The three-ring comparison shows the benefits of a simpler network and the districts where its access or journeys still fall short. The active proposal records the planning decision.
 
 ![Two Baghdad networks with full-colour lines, shared stations and cross-Tigris trunks](maps/baghdad-three-ring-comparison.png)
 
-[Current proposal](PROPOSAL.md) · [Two-ring reference](STRAIGHT-THROUGH-NETWORK.md) · [Editable trial GIS](maps/baghdad-three-ring-trial.geojson) · [Machine results](three-ring-study.json.gz)
+[Current proposal](PROPOSAL.md) · [Earlier two-ring benchmark](https://github.com/modernecotech/OpenSourceRail/blob/f2462e112648e7dd357f3f9f20e384414458c898/cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md) · [Editable trial GIS](maps/baghdad-three-ring-trial.geojson) · [Machine results](three-ring-study.json.gz)
 
 ## Network and access
 
@@ -200,4 +200,4 @@ The shared metropolitan comparison checks named destinations and walking coverag
 
 Reproduce with `OPENBLAS_NUM_THREADS=1 ./osr design railway baghdad-three-rings --check`.
 
-Publication `6217b3f5e30d23715d7d1ac5ee76933941c9aad77ffeba949449673cf1e0921c`.
+Publication `ef6d8f8db15beb93c3c7b3119c81f93c721bef062bdb452fa0ffd524debabc05`.

@@ -37,6 +37,9 @@ def test_complete_study_has_exact_child_bindings_and_source_verified_exports(stu
     assert network['applicability']['river_name']=='الفرات'
     assert network['applicability']['ring_status']=='no-linked-ring'
     assert network['retained_station_access']
+    assert network['metropolitan_search']['assembly']=='from-empty-retained-corridor-library'
+    assert network['metropolitan_search']['applicable_river']=='الفرات'
+    assert network['metropolitan_search']['metropolitan_coverage_status'].endswith('evidence-required')
     assert workflow.read_json(folder,'summary.json')['network_planning']==network
     city=value['city_outline'];plan=value['delivery_plan'];base=value['planning_revision']
     assert base['source_cost_evaluation_id']==city['cost']['evaluation_id']
@@ -130,6 +133,29 @@ def test_baghdad_service_comparison_replays_and_reprices_same_published_network(
     assert alternative['outline_acceptance'] in ('accepted','requires-revision')
     assert all(alternative.get(flag) is False for flag in workflow.FLAGS)
     assert not alternative['business_drafts']['external_transactions_performed']
+
+
+def test_baghdad_cli_defaults_to_the_dedicated_project(tmp_path, monkeypatch, capsys):
+    from engineering.outline import __main__ as cli
+
+    folder = tmp_path / 'baghdad-metropolitan'
+    calls = []
+    def dedicated(output, root, *, verify):
+        calls.append((output, verify))
+        if not verify:
+            output.mkdir()
+            (output / 'metropolitan-network.json').write_text('{}')
+        return {'schema': 'osr-baghdad-metropolitan/1'}
+    monkeypatch.setattr(cli, '_baghdad_study', dedicated)
+    monkeypatch.setattr(cli, '_disk_reserve_hold', lambda *_: False)
+    cli.main(['city', '--city', 'baghdad', '--output', str(folder)])
+    cli.main(['city-verify', '--output', str(folder)])
+    assert calls == [(folder, False), (folder, True)]
+    assert all(json.loads(line)['schema']=='osr-baghdad-metropolitan/1'
+               for line in capsys.readouterr().out.splitlines())
+    with pytest.raises(ValueError, match='explicitly request the original catalogue alignment'):
+        workflow.active_baghdad_response({'city_slug': 'baghdad',
+                                         'service': {'peak_demand_pphpd': 2500}})
 
 
 def test_new_city_civil_default_prices_viaducts_and_retains_mapped_comparison():

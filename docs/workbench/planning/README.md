@@ -15,6 +15,10 @@ Missing unit prices can be covered in a separate candidate-specific low/base/hig
 
 The [calculated city atlas](../../design-engine/city-atlas/README.md) provides current outline service, fleet, civil quantities, complete estimated costs and delivery studies for all 266 cities. A completed local study can be opened here for candidate-bound editing and recalculation. The ordinary planning handoff remains a proposal, while the calculated study carries its own result identities and assumptions. Verified physical performance, procurement approval, construction release and movement authority remain separate.
 
+The automatic city study builds connected route combinations from an empty network using the city's mapped corridors and interchanges. It tests end-to-end services where two mapped termini meet and form a usable through alignment. It prices geometrically distinct proposals on the same scenario. Verified walking access, population coverage and journeys to named destinations are required for a metropolitan replacement. Where those inputs are missing, the study shows the local opportunities, holds and retained corridor comparison. [Shared metropolitan planning method](../../design-engine/current/METROPOLITAN-NETWORKS.md)
+
+Baghdad opens its dedicated three-ring planning network and cost record in Workbench. Run `./osr design railway city-study --city baghdad --output build/baghdad-city-study` to export the same project. The older catalogue outline is available as an explicit comparison and uses its own vehicle and price assumptions. [Baghdad metropolitan network](../../../cities/Baghdad/METROPOLITAN-NETWORK.md)
+
 For the connected candidate workflow, see the [coordinated railway design](../../design-engine/coupled-railway/README.md), [current platform capabilities](../../capabilities/README.md) and [current engineering dossier](../../design-engine/current/README.md).
 
 ## Civil scope for a fresh city calculation

@@ -1259,9 +1259,14 @@ async function displayCityAtlas(packet, epoch, downloadUrl) {
   }
   return true;
 }
-async function showCityOutline(slug) {
+async function showCityOutline(slug, catalogueComparison = false) {
   const epoch = ++cityViewEpoch,
     status = byId("city-outline-status");
+  const metropolitan = slug === "baghdad" && !catalogueComparison;
+  const form = byId("city-study-options");
+  form.hidden = metropolitan;
+  form.elements.selection.value = catalogueComparison ? "original" : "auto";
+  byId("baghdad-metropolitan-default").hidden = !metropolitan;
   cityAtlasView?.destroy();
   cityAtlasView = null;
   document.querySelector(".city-outline-legacy").hidden = true;
@@ -1270,6 +1275,25 @@ async function showCityOutline(slug) {
   status.textContent =
     "Loading the city's source-bound map, service, energy, quantities and whole-life costs…";
   try {
+    if (metropolitan) {
+      const packet = await request("../../../cities/Baghdad/metropolitan-network.json");
+      if (epoch !== cityViewEpoch) return;
+      if (
+        packet.schema !== "osr-baghdad-metropolitan/1" ||
+        packet.planning_selection.physical_acceptance !== false ||
+        packet.planning_selection.procurement_release !== false ||
+        packet.planning_selection.candidate_id !== packet.network.candidate_id ||
+        packet.summary.candidate_id !== packet.network.candidate_id
+      )
+        throw Error("Baghdad metropolitan planning evidence differs");
+      const summary = packet.summary;
+      byId("baghdad-metropolitan-summary").textContent =
+        `${format(summary.route_km)} route-km · ${summary.stations} station sites · ${summary.through_count} cross-city trunks. ` +
+        `The base installed planning allowance is US$${format(packet.cost.cost_cases.base.installed_planning_usd_m / 1000)}bn. ` +
+        `${format(summary.worldpop_1300_pct)}% of WorldPop residents are within a 1.3 km street walk.`;
+      status.textContent = "Current Baghdad planning design. Engineering, procurement and operating approvals remain open.";
+      return;
+    }
     const packet = await atlasPacket(slug);
     if (epoch !== cityViewEpoch) return;
     const published = completionCatalogue.cities.find(
@@ -1286,7 +1310,7 @@ async function showCityOutline(slug) {
     )
       return;
     byId("city-outline-download").href = atlasBase + `cities/${slug}.json.gz`;
-    status.textContent = `${packet.city.name}, ${packet.city.country} · Complete calculated outline with Class C estimates. Physical verification remains separate. Calculation ${packet.identity.outline_evaluation_id.slice(0, 12)}.`;
+    status.textContent = `${packet.city.name}, ${packet.city.country} · ${catalogueComparison ? "Older catalogue comparison" : "Complete calculated outline"} with Class C estimates. Physical verification remains separate. Calculation ${packet.identity.outline_evaluation_id.slice(0, 12)}.`;
   } catch (error) {
     if (epoch === cityViewEpoch)
       status.textContent = "City outline unavailable: " + error.message;
@@ -1328,6 +1352,7 @@ byId("city-outline-load").addEventListener("click", async () => {
 byId("city-outline-select").addEventListener("change", (event) =>
   showCityOutline(event.target.value),
 );
+byId("baghdad-catalogue-study").addEventListener("click", () => showCityOutline("baghdad", true));
 async function displayMappedCityStudy(job, slug, epoch) {
   const selection = byId("city-outline-select"),
     status = byId("city-study-status");
@@ -1356,7 +1381,11 @@ async function displayMappedCityStudy(job, slug, epoch) {
     (s.delivery.cases.base.target_met
       ? "within the planning target. "
       : "the planning target needs revised resources, methods or dates. ") +
-    "Production and civil works use two shifts. Actual calendar dates and physical releases remain subject to review.";
+    "Production and civil works use two shifts. Actual calendar dates and physical releases remain subject to review." +
+    (s.network_planning?.metropolitan_search
+      ? ` The local network search identified ${s.network_planning.metropolitan_search.potential_through_joins} potential through joins. ` +
+        "Verified pedestrian access, population and named journey evidence are required to advance a network beyond this corridor comparison."
+      : "");
   const links = byId("city-study-links");
   links.replaceChildren();
   for (const [file, label] of [

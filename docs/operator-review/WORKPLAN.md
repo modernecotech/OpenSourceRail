@@ -4,7 +4,7 @@ This is a work programme for a prospective railway owner and operator. It starts
 
 ## Cost and test the shift workplan
 
-For the current Baghdad through-route network, use the candidate’s route quantities, construction shift schedules and budget. [Current Baghdad delivery estimate](../../cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md)
+For the current Baghdad through-route network, use the candidate’s route quantities, construction shift schedules and budget. [Current Baghdad delivery estimate](../../cities/Baghdad/METROPOLITAN-DELIVERY.md)
 
 Use the [costed shift workplan](delivery/WORKFORCE-SIMULATION.md) alongside this
 programme. It prices designated workers, shift coverage and labour demand for
@@ -34,16 +34,16 @@ accounts. [First-programme example](delivery/workplan/summary.md)
 
 ## Opening a railway in Baghdad
 
-Select an opening corridor using observed demand, station access, operational resilience and available utilities. Verify the Airport terminal walk and interchange paths with local passengers. [Network and map](../../cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md)
+Select an opening corridor using observed demand, station access, operational resilience and available utilities. Verify the Airport terminal walk and interchange paths with local passengers. [Network and map](../../cities/Baghdad/METROPOLITAN-NETWORK.md)
 
 1. **Define the passenger and operator requirements.** Choose a service and terminal pair, test the capacity and degraded timetable, and agree stopping and accessibility evidence.
 2. **Price a self-sufficient opening.** The [17.46 km Airport study](../../cities/Baghdad/engineering/simulation/AUDIT-RESULTS.md) provides a route, service and supply comparison. Obtain corridor-specific prices for supports, special crossings, stations, safe isolation, recovery and power interfaces.
-3. **Agree construction cash and whole-life cost.** Replace planning rates with matched bids, renewal terms and a verified opening schedule. Compare financing terms, imported scope and local content on one basis. [Current cost and delivery](../../cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md) · [Bid return method](../../cities/Baghdad/BUYER-COMPARISON.md)
+3. **Agree construction cash and whole-life cost.** Replace planning rates with matched bids, renewal terms and a verified opening schedule. Compare financing terms, imported scope and local content on one basis. [Current cost and delivery](../../cities/Baghdad/METROPOLITAN-DELIVERY.md) · [Bid return method](../../cities/Baghdad/BUYER-COMPARISON.md)
 4. **Commission with the operator.** Exercise accessibility, rescue, heat, electrical isolation, degraded service and shift handover. Give the operator qualified staff, maintainable interfaces and an installed asset register. [Station bench](../../cities/Baghdad/engineering/controls/STATION-BENCH.md) · [Employment and training](delivery/README.md)
 
 ## Compare street access and deck-fed erection
 
-Use the [current 20 m Baghdad delivery programme](../../cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md) to book the yards,
+Use the [current 20 m Baghdad delivery programme](../../cities/Baghdad/METROPOLITAN-DELIVERY.md) to book the yards,
 paid shifts and gantry pairs. For a long run of standard spans, review two terminal precast yards and inward
 deck-fed erection beside the road/crane method. Appoint the precaster, temporary
 works designer, substructure contractor, traffic authority and erection
@@ -59,11 +59,10 @@ capacity. Casting and operated-road equipment labour are already included in
 the corresponding supplier rates.
 
 ```sh
-python3 -m cities.Baghdad.engineering.mechanical.civil.delivery_workforce first > build/deck-crew-plan.json
+python3 -m cities.Baghdad.engineering.mechanical.civil.delivery_workforce > build/deck-crew-plan.json
 ./osr workplan --plan build/deck-crew-plan.json --availability-bps 8500 --output build/deck-crew-review
 ```
 
-Use `metropolitan` to export the separate citywide programme.
 
 ## What to record after opening
 
