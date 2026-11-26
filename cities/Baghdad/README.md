@@ -14,6 +14,8 @@ The current map combines two orbital routes, two near-straight Tigris through se
 
 [Full-size network map](maps/baghdad-straight-through-network.png) · [Route, station and transfer GIS](maps/baghdad-straight-through-network.geojson) · [Network logic, coverage and line termini](STRAIGHT-THROUGH-NETWORK.md)
 
+The latest layout review compares a third ring outside M09, longer cross-city routes and the withdrawal of short lines. See the matched walking and passenger results, the provisional Tigris crossings and the recalculated construction allowances. [Three-ring study and side-by-side map](THREE-RING-STUDY.md)
+
 The wider dual-ring study tests a larger inner loop and keeps the same outer alignment with at least 5 km between the rings. [Wider-ring map](maps/baghdad-wider-ring.png) · [Journey and delivery comparison](WIDER-RING.md)
 
 The wider-ring route redesign tests a new east–west line calling at both rings and a G09 terminus at the inner ring. [Reworked network map](maps/baghdad-ring-network.png) · [Travel, coverage and cost comparison](RING-NETWORK.md)

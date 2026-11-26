@@ -4,6 +4,8 @@ The current metropolitan map joins Baghdad’s inner and outer rings with two Ti
 
 The earlier connected housing network remains the source for previous studies. [Earlier map](baghdad-network.png) · [GIS](baghdad-network.geojson) · [Earlier access and delivery study](../NETWORK.md)
 
+The three-ring review tests an orbital further out, extensions to the through routes and which short lines can be removed while preserving access. [Side-by-side map](baghdad-three-ring-comparison.png) · [Wider third ring with a 3.46 km minimum gap](baghdad-wider-third-ring.png) · [Trial GIS](baghdad-three-ring-trial.geojson) · [Study and costs](../THREE-RING-STUDY.md)
+
 The ring-and-grid study compares the published network with closed inner and outer rings, near-straight cross-city routes and an inner-ring-only option. [Comparison map](baghdad-ring-grid.png) · [Journey, construction and cost comparison](../RING-GRID.md)
 
 The compact-ring study sets a 5 km minimum horizontal clearance between the two alignments. It tests a smaller inner loop, fewer parallel routes and consolidated station sites against the published network. [Comparison map](baghdad-spaced-rings.png) · [GIS](baghdad-spaced-rings.geojson) · [Journey, construction and cost results](../SPACED-RINGS.md)

@@ -42,6 +42,12 @@ evidence and review ownership. Update values and decisions in their own sources.
 
 ## Requirements and assumptions
 
+- In greenfield network redesign, treat the published routes as a comparison and
+  a library of candidate alignments. Include a search that assembles services
+  from an empty network. Allow any route, including an orbital, to be removed,
+  shortened, replaced or rerouted. Carry forward documented destination access,
+  safety, interchange, service and constructability requirements. An existing
+  route or station ID needs a separately evidenced constraint to become mandatory.
 - Record the source, date or revision, units, applicable candidate, range or
   tolerance, downstream use and evidence maturity for a decision-driving input.
   Keep requirements, project preferences, provisional estimates, supplier data

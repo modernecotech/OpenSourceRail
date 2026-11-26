@@ -11,7 +11,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **261**.
+Indexed Markdown files: **262**.
 
 ## Sections
 
@@ -20,7 +20,7 @@ Indexed Markdown files: **261**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 6 |
-| [cities](#cities) | 88 |
+| [cities](#cities) | 89 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
 | [docs](#docs) | 140 |
@@ -74,6 +74,7 @@ Indexed Markdown files: **261**.
 | [`cities/Baghdad/SPACED-RINGS.md`](../cities/Baghdad/SPACED-RINGS.md) | Baghdad compact rings and through routes |
 | [`cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md`](../cities/Baghdad/STRAIGHT-THROUGH-DELIVERY.md) | Baghdad metropolitan railway · Quantities, work programme and costs |
 | [`cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md`](../cities/Baghdad/STRAIGHT-THROUGH-NETWORK.md) | Baghdad metropolitan railway · Rings and Tigris through services |
+| [`cities/Baghdad/THREE-RING-STUDY.md`](../cities/Baghdad/THREE-RING-STUDY.md) | Baghdad · Three rings and through routes |
 | [`cities/Baghdad/VEHICLE.md`](../cities/Baghdad/VEHICLE.md) | Baghdad 700-place train |
 | [`cities/Baghdad/WIDER-RING.md`](../cities/Baghdad/WIDER-RING.md) | Baghdad wider inner ring |
 | [`cities/Baghdad/engineering/commissioning/COMMISSIONING.md`](../cities/Baghdad/engineering/commissioning/COMMISSIONING.md) | Airport traction and station commissioning |
